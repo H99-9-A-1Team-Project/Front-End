@@ -46,65 +46,89 @@ export default function MyPageBody() {
   return (
     <StMyPageBodyWrap>
       <div className="body-header">
-        <div className="user-container">
-          <img src={default_profile} alt="profile-img" />
-          {/* 이미지 true/false */}
-          <div className="user-inner-container">
-            <div className="user-name-box">
-              <div>Username</div>
-              <button onClick={() => setModalVisibleNickname(true)}>편집버튼</button>
+        {true ? (
+          // 유저에따라서 true/false
+          <>
+            <div className="user-container">
+              <img src={default_profile} alt="profile-img" />
+              {/* 이미지 true/false */}
+              <div className="user-inner-container">
+                <div className="user-name-box">
+                  <div>Username</div>
+                  <button onClick={() => setModalVisibleNickname(true)}>편집버튼</button>
+                </div>
+                <div>email</div>
+              </div>
             </div>
-            <div>email</div>
+            <div className="intro-message-container">
+              <div className="intro-message-container-header">
+                <div>소개메세지</div>
+                <button onClick={() => setModalVisibleIntroMessage(true)}>편집버튼</button>
+              </div>
+              {showMessage ? (
+                <div className="intro-message-show">
+                  프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                  텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                  텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필
+                  텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필
+                  텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필
+                  텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다
+                  <div className="button-box">
+                    <button
+                      onClick={() => {
+                        setShowMessage(false);
+                      }}
+                    >
+                      닫기
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="intro-message-hide">
+                  <div className="intro-message-hide-container">
+                    프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                    텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필
+                    텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필
+                    텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필
+                    텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필
+                    텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                    텍스트입니다
+                  </div>
+                  <div className="button-box">
+                    <button
+                      onClick={() => {
+                        setShowMessage(true);
+                      }}
+                    >
+                      더보기
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="user-container">
+            <div className="user-inner-container">
+              <div className="user-name-box">
+                <div>Username</div>
+                <button onClick={() => setModalVisibleNickname(true)}>편집버튼</button>
+              </div>
+              <div>email</div>
+            </div>
           </div>
-        </div>
-        <div className="intro-message-container">
-          <div className="intro-message-container-header">
-            <div>소개메세지</div>
-            <button onClick={() => setModalVisibleIntroMessage(true)}>편집버튼</button>
-          </div>
-          {showMessage ? (
-            <div className="intro-message-show">
-              프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
-              텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
-              텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필
-              텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필
-              텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필
-              텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다
-              <div className="button-box">
-                <button
-                  onClick={() => {
-                    setShowMessage(false);
-                  }}
-                >
-                  닫기
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="intro-message-hide">
-              <div className="intro-message-hide-container">
-                프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
-                텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
-                텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필
-                텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필
-                텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필
-                텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다
-              </div>
-              <div className="button-box">
-                <button
-                  onClick={() => {
-                    setShowMessage(true);
-                  }}
-                >
-                  더보기
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
       <div className="body-body">
         <div className="body-name">상담</div>
+        {true ? (
+          <div className="body-content">
+            대기중인 상담
+            {true ? <div className="body-content-num">+23</div> : null}
+            {/* 진행중인상담 true/false */}
+          </div>
+        ) : null}
+        {/* 유저에따라서 true/false */}
         <div className="body-content">
           진행중인 상담
           {true ? <div className="body-content-num">+23</div> : null}
