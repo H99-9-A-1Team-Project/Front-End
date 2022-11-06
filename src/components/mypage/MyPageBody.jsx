@@ -5,16 +5,42 @@ import MyPageModal from './MyPageModal';
 
 export default function MyPageBody() {
   const [showMessage, setShowMessage] = useState(false);
-  const [showNicknameChange, setShowNicknameChange] = useState(false);
-  const [showProfileImgChange, setShowProfileImgChange] = useState(false);
-  const [showIntroMessageChange, setShowIntroMessageChange] = useState(false);
+  const [modalVisibleNickname, setModalVisibleNickname] = useState(false);
+  const [modalVisibleProfileImg, setModalVisibleProfileImg] = useState(false);
+  const [modalVisibleIntroMessage, setModalVisibleIntroMessage] = useState(false);
+  const [newNickname, setNewNickname] = useState({
+    nickname: 'nickname',
+  });
+  const [newIntroMessage, setNewIntroMessage] = useState({
+    intromessage: 'intromessage',
+  });
+  // const [newProfileImg, setNewProfileImg] = useState({
+  //   profile:"수정 필요"
+  // })
+  // const [newNickname, setNewNickname] = useState({
+  //   nickname:"수정 필요"
+  // })
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const openModal = () => {
-    setModalVisible(true);
+  const onChangeNicknameHandler = (e) => {
+    const { name, value } = e.target;
+    setNewNickname({
+      [name]: value,
+    });
   };
-  const closeModal = () => {
-    setModalVisible(false);
+  console.log(newNickname);
+  const onChangeIntroMessageHandler = (e) => {
+    const { name, value } = e.target;
+    setNewIntroMessage({
+      [name]: value,
+    });
+  };
+  console.log(newIntroMessage);
+
+  const onSubmitNicknameHandler = () => {
+    console.log('닉네임제출');
+  };
+  const onSubmitIntroMessageHandler = () => {
+    console.log('인트로메세지제출');
   };
 
   return (
@@ -26,7 +52,7 @@ export default function MyPageBody() {
           <div className="user-inner-container">
             <div className="user-name-box">
               <div>Username</div>
-              <button onClick={() => setShowNicknameChange(true)}>편집버튼</button>
+              <button onClick={() => setModalVisibleNickname(true)}>편집버튼</button>
             </div>
             <div>email</div>
           </div>
@@ -34,7 +60,7 @@ export default function MyPageBody() {
         <div className="intro-message-container">
           <div className="intro-message-container-header">
             <div>소개메세지</div>
-            <button>편집버튼</button>
+            <button onClick={() => setModalVisibleIntroMessage(true)}>편집버튼</button>
           </div>
           {showMessage ? (
             <div className="intro-message-show">
@@ -89,26 +115,39 @@ export default function MyPageBody() {
         <div className="body-content">회원탈퇴</div>
       </div>
 
-      {showNicknameChange ? (
-        <div className="update-profile">
-          <div className="update-buttons">
-            <button className="update-button-back" onClick={() => setShowNicknameChange(false)}>
-              취소
-            </button>
-            <button className="update-buttons-complete">수정완료</button>
-          </div>
-          <div className="update-nickname-header">닉네임</div>
-          <input className="update-nickname-input" type="text" name="nickname" />
-        </div>
-      ) : null}
+      <>
+        {modalVisibleNickname ? (
+          <MyPageModal
+            visible={modalVisibleNickname}
+            closable={true}
+            maskClosable={true}
+            setModalVisible={setModalVisibleNickname}
+            onSubmitHandler={onSubmitNicknameHandler}
+          >
+            <div className="update-title">닉네임 수정</div>
+            <input type="text" name="nickname" onChange={onChangeNicknameHandler} value={newNickname.nickname} />
+          </MyPageModal>
+        ) : null}
+      </>
 
       <>
-        <button onClick={openModal}>Open Modal</button>
-        {modalVisible && (
-          <MyPageModal visible={modalVisible} closable={true} maskClosable={true} onClose={closeModal}>
-            Hello
+        {modalVisibleIntroMessage ? (
+          <MyPageModal
+            visible={modalVisibleIntroMessage}
+            closable={true}
+            maskClosable={true}
+            setModalVisible={setModalVisibleIntroMessage}
+            onSubmitHandler={onSubmitIntroMessageHandler}
+          >
+            <div className="update-title">텍스트수정</div>
+            <textarea
+              type="text"
+              name="intromessage"
+              onChange={onChangeIntroMessageHandler}
+              value={newIntroMessage.intromessage}
+            />
           </MyPageModal>
-        )}
+        ) : null}
       </>
     </StMyPageBodyWrap>
   );
@@ -214,8 +253,8 @@ const StMyPageBodyWrap = styled.div`
     flex-direction: column;
     justify-content: center;
     z-index: 1;
-    left: 960px;
-    top: 470px;
+    left: 45%;
+    top: 20%;
     background-color: white;
   }
 `;

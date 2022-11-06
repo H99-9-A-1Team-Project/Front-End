@@ -2,27 +2,20 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-export default function MyPageModal({ className, onClose, maskClosable, closable, visible, children }) {
+export default function MyPageModal({
+  className,
+  setModalVisible,
+  maskClosable,
+  closable,
+  visible,
+  children,
+  onSubmitHandler,
+}) {
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
-      onClose(e);
+      setModalVisible(false);
     }
   };
-
-  const close = (e) => {
-    if (onClose) {
-      onClose(e);
-    }
-  };
-
-  useEffect(() => {
-    document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`;
-    return () => {
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = `position: ""; top: "";`;
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    };
-  }, []);
 
   return (
     <>
@@ -30,9 +23,14 @@ export default function MyPageModal({ className, onClose, maskClosable, closable
       <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
         <ModalInner tabIndex={0} className="modal-inner">
           {closable && (
-            <button className="modal-close" onClick={close}>
-              닫기버튼
-            </button>
+            <div className="buttons">
+              <button className="modal-close" onClick={() => setModalVisible(false)} type="button">
+                취소
+              </button>
+              <button className="modal-subit" type="button" onClick={onSubmitHandler}>
+                완료
+              </button>
+            </div>
           )}
           {children}
         </ModalInner>
@@ -53,8 +51,8 @@ MyPageModal.propTypes = {
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
-  display: ${(props) => (props.visible ? 'block' : 'none')};
-  position: absolute;
+  display: ${(props) => (props.visible ? 'flex' : 'none')};
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -78,14 +76,21 @@ const ModalOverlay = styled.div`
 
 const ModalInner = styled.div`
   box-sizing: border-box;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
-  width: 360px;
+  width: 480px;
   max-width: 480px;
-  top: 50%;
+  height: 300px;
   transform: translateY(-50%);
-  margin: 0 auto;
-  padding: 40px 20px;
+  margin: auto;
+  margin-top: 400px;
+  padding: 10px 20px;
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
