@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Container from './Container';
 
-export default function StandbyList() {
+export default function DoneList() {
   const navigate = useNavigate();
   const [listState, setListState] = useState(0);
   const [ansState, setAnsState] = useState(0, 1, 2);
-
   return (
     <StMyPageBodyWrap>
       <button className="back-button" onClick={() => navigate(-1)}>

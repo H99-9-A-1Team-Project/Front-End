@@ -1,12 +1,12 @@
-import ConsultingList from '../components/list/ConsultingListComponent';
 import MainPageHeader from '../components/main/MainPageHeader';
 import MyPageLayout from '../components/mypage/MyPageLayout';
+import DoneListComponent from '../components/list/DoneListComponent';
 
-export default function MyPageConsultingList() {
+export default function DoneList() {
   return (
     <MyPageLayout>
       <MainPageHeader />
-      <ConsultingList />
+      <DoneListComponent />
     </MyPageLayout>
   );
 }
