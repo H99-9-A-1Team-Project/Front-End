@@ -1,4 +1,4 @@
-import ConsultingList from '../components/consultinglist/ConsultingList';
+import ConsultingList from '../components/list/ConsultingList';
 import MainPageHeader from '../components/main/MainPageHeader';
 import MyPageLayout from '../components/mypage/MyPageLayout';
 
