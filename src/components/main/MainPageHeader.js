@@ -1,13 +1,36 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import SignUp from '../signup/SignUp';
+import SignUpModalLayout from '../signup/SignUpModalLayout';
 
 export default function MainPageHeader() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const onOpenModal = () => {
+    setModalOpen(true);
+  };
+  const onCloseModal = () => {
+    setModalOpen(false);
+    window.location.reload();
+  };
   return (
     <>
       <HeaderContainer>
         <HeaderLogo>등대지기</HeaderLogo>
         <HeaderMenuMyPage>마이페이지</HeaderMenuMyPage>
         <HeaderMenuChatting>채팅</HeaderMenuChatting>
-        <HeaderMenuSignUp>회원가입</HeaderMenuSignUp>
+        <HeaderMenuSignUp
+          type="button"
+          onClick={() => {
+            setModalOpen(!modalOpen);
+          }}
+        >
+          회원가입
+          {modalOpen && (
+            <SignUpModalLayout visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}>
+              <SignUp />
+            </SignUpModalLayout>
+          )}
+        </HeaderMenuSignUp>
       </HeaderContainer>
     </>
   );
