@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { NextTor, NextMem, ChoiceMem, GoLogIn } from '../../store/store';
-import SignUpModalLayout from '../signup/SignUpModalLayout';
+import { NextTor, NextMem, ChoiceMem, GoLogIn, CloseModal } from '../../store/store';
 import SignUpMember from './SignUpMember';
 import SignUpRealtor from './SignUpRealtor';
 import LogIn from './LogIn';
 
 function SignUp() {
-  const [modalOpen, setModalOpen] = useState(false);
+  // 모달 닫을때 필요한 recoilstate
+  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
+  // 초기로그인 모달 화면 열기 위한 state
   const [early, setEarly] = useState(false);
-  const [alreadysignin, setAlreadySignIn] = useState(false);
 
+  //로그인 모달 열때 필요한 state, 삼항연산자용
+  const [alreadysignin, setAlreadySignIn] = useState(false);
+  //일반회원 모달 다음으로 넘기기 위한 recoilstate
   const [nextmem, setNextMem] = useRecoilState(NextMem);
+  //공인중개사 회원 모달 다음으로 넘기기 위한 recoilstate
   const [nexttor, setNextTor] = useRecoilState(NextTor);
+
+  //모달 마지막 페이지에서 버튼 바꾸기 위한 recoilstate
   const [choiceBool, setChoiceBool] = useRecoilState(ChoiceMem);
+
+  //이미 가입된 회원 로그인 모달 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
 
-  const onOpenModal = () => {
-    setModalOpen(true);
-  };
-  const onCloseModal = () => {
+  // 모달 닫는 이벤트 핸들러
+  const onCloseModal = (e) => {
     setModalOpen(false);
     window.location.reload();
   };
 
+  // 일반회원 모달 다음으로 넘기는 버튼용 함수
   const onNextMemberModal = () => {
     setNextMem(nextmem + 2);
     setChoiceBool(true);
@@ -33,6 +40,7 @@ function SignUp() {
     console.log(nextmem);
   };
 
+  // 공인중개사회원 모달 다음으로 넘기는 버튼용 함수
   const onNextRealtorModal = () => {
     setNextTor(nexttor + 1);
     setChoiceBool(false);
@@ -41,11 +49,7 @@ function SignUp() {
     console.log(nexttor);
   };
 
-  // const onAlreadySignIn = () => {
-  //   setAlreadySignIn(false);
-  //   console.log(alreadysignin);
-  // };
-
+  // 이미 가입된 회원 모달 다음으로 넘기는 버튼용 함수
   const onGoingLogIn = () => {
     setGoingLogin(goinglogin + 1);
     setAlreadySignIn(true);
@@ -53,30 +57,12 @@ function SignUp() {
     console.log(goinglogin);
   };
 
-  //이미지 등록
-
-  //이메일 입력
-
-  //비밀번호 입력
-
-  //닉네임 입력
-
-  //전화번호 입력
-
   return (
     <div>
-      {/* <button
-        type="button"
-        onClick={() => {
-          setModalOpen(!modalOpen);
-        }}
-      >
-        모달팝업버튼
-        {modalOpen && (
-          <SignUpModalLayout visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}> */}
       <ModalContainer>
         {early === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
           <>
+            <PrograssbarContainer></PrograssbarContainer>
             <ModalInnerContainer>
               <HeadButtonsContainer>
                 <div onClick={onCloseModal}>닫기</div>
@@ -126,9 +112,6 @@ function SignUp() {
           </>
         )}
       </ModalContainer>
-      {/* </SignUpModalLayout>
-        )}
-      </button> */}
     </div>
   );
 }
@@ -143,6 +126,14 @@ const ModalContainer = styled.div`
   padding-right: 30px;
 `;
 
+const PrograssbarContainer = styled.div`
+  width: 480px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ModalInnerContainer = styled.div`
   width: 440px;
   height: 380px;
@@ -150,6 +141,7 @@ const ModalInnerContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
 const HeadButtonsContainer = styled.div`
   width: 440px;
   height: 40px;

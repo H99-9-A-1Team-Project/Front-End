@@ -1,20 +1,38 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { GoLogIn } from '../../store/store';
+import { CloseModal, GoLogIn } from '../../store/store';
 
 function LogIn() {
-  const [modalOpen, setModalOpen] = useState(false);
+  //모달 닫을 때 필요한 recoilstate
+  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
+  //로그인 모달 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+  //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
-  const onCloseModal = () => {
+
+  // 모달 닫는 이벤트 핸들러
+  const onCloseModal = (e) => {
     setModalOpen(false);
     window.location.reload();
   };
 
-  //미리보기
-  const onPreviewPW = () => {
+  //비밀번호 미리보기 이벤트 핸들러
+  const onPreviewPW = (e) => {
     setSecret(!secret);
+  };
+
+  //이메일 입력
+  //폼에 맞는 이메일 정보 입력 state
+  const [email, setEmail] = useState({ mailid: '', atsign: '@', domain: '' });
+  // 이메일 input별 id 구조분해 할당
+  const { mailid, domain } = email;
+
+  //이메일 입력 이벤트 핸들러
+  const onChangeContent = (e) => {
+    const { name, value } = e.target;
+    setEmail({ ...email, [name]: value });
+    console.log(email);
   };
 
   return (
@@ -30,12 +48,30 @@ function LogIn() {
           <LoginInputBox>
             <LoginMailInput>
               <EmailInput name="email" placeholder="이메일을 입력해주세요" />@
-              <EmailInput name="email" />
+              <select name="domain" className="box" value={domain} id="domain-list" onChange={onChangeContent}>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="kakao.com">kakao.com</option>
+                <option value="hanmail.net">hanmail.net</option>
+                <option value="nate.com">nate.com</option>
+                <option value="outlook.com">outlook.com</option>
+                <option value="yahoo.com">yahoo.com</option>
+                <option value="icloud.com">icloud.com</option>
+              </select>
             </LoginMailInput>
             {secret === true ? (
-              <PasswordInput name="password" type="password" placeholder="비밀번호를 입력해주세요" />
+              <form>
+                <PasswordInput
+                  name="password"
+                  type="password"
+                  placeholder="비밀번호를 입력해주세요"
+                  autoComplete="on"
+                />
+              </form>
             ) : (
-              <PasswordInput name="password" type="text" placeholder="비밀번호를 입력해주세요" />
+              <form>
+                <PasswordInput name="password" type="text" placeholder="비밀번호를 입력해주세요" />
+              </form>
             )}
           </LoginInputBox>
           <PreviewPassword>
