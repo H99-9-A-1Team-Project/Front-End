@@ -65,7 +65,7 @@ function SignUp() {
 
   return (
     <div>
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           setModalOpen(!modalOpen);
@@ -73,64 +73,62 @@ function SignUp() {
       >
         모달팝업버튼
         {modalOpen && (
-          <SignUpModalLayout visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}>
-            {/* <Register /> */}
-            <ModalContainer>
-              {early === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
-                <>
-                  <ModalInnerContainer>
-                    <HeadButtonsContainer>
-                      <div onClick={onCloseModal}>닫기</div>
-                    </HeadButtonsContainer>
-                    <QuestionContainer>
-                      <Questionbox>반가워요!</Questionbox>
-                      <Questionbox>어느 회원이신가요!</Questionbox>
-                    </QuestionContainer>
-                    <ChoiceButtonsContainer>
-                      <div>
-                        <ButtonBox onClick={onNextMemberModal}>일반 회원입니다</ButtonBox>
-                      </div>
-                      <div>
-                        <ButtonBox onClick={onNextRealtorModal}>공인중개사 입니다</ButtonBox>
-                      </div>
-                    </ChoiceButtonsContainer>
-                    <AlreadyJoinBox>
-                      <div onClick={onGoingLogIn}>이미 가입되어있습니다 </div>
-                    </AlreadyJoinBox>
-                  </ModalInnerContainer>
-                </>
-              ) : (
-                <>
-                  {alreadysignin === false ? (
-                    <>
-                      {choiceBool === true ? (
-                        <>
-                          <ModalContainer>
-                            <SignUpMember />
-                            {nextmem < 5 ? <div onClick={onNextMemberModal}>다음</div> : <div>시작하기</div>}
-                          </ModalContainer>
-                        </>
-                      ) : (
-                        <>
-                          <ModalContainer>
-                            <SignUpRealtor />
-                            {nexttor < 5 ? <div onClick={onNextRealtorModal}>다음</div> : <div>인증신청</div>}
-                          </ModalContainer>
-                        </>
-                      )}
-                    </>
-                  ) : (
+          <SignUpModalLayout visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}> */}
+      <ModalContainer>
+        {early === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
+          <>
+            <ModalInnerContainer>
+              <HeadButtonsContainer>
+                <div onClick={onCloseModal}>닫기</div>
+              </HeadButtonsContainer>
+              <QuestionContainer>
+                <Questionbox>반가워요!</Questionbox>
+                <Questionbox>어느 회원이신가요!</Questionbox>
+              </QuestionContainer>
+              <ChoiceButtonsContainer>
+                <div>
+                  <ButtonBox onClick={onNextMemberModal}>일반 회원입니다</ButtonBox>
+                </div>
+                <div>
+                  <ButtonBox onClick={onNextRealtorModal}>공인중개사 입니다</ButtonBox>
+                </div>
+              </ChoiceButtonsContainer>
+              <AlreadyJoinBox>
+                <div onClick={onGoingLogIn}>이미 가입되어있습니다 </div>
+              </AlreadyJoinBox>
+            </ModalInnerContainer>
+          </>
+        ) : (
+          <>
+            {alreadysignin === false ? (
+              <>
+                {choiceBool === true ? (
+                  <>
                     <ModalContainer>
-                      <LogIn />
-                      {/* {goinglogin === 8 ? <div>이렇게 쓸수가 있나?</div> : null} */}
+                      <SignUpMember />
+                      {nextmem < 5 ? <div onClick={onNextMemberModal}>다음</div> : <div>시작하기</div>}
                     </ModalContainer>
-                  )}
-                </>
-              )}
-            </ModalContainer>
-          </SignUpModalLayout>
+                  </>
+                ) : (
+                  <>
+                    <ModalContainer>
+                      <SignUpRealtor />
+                      {nexttor < 5 ? <div onClick={onNextRealtorModal}>다음</div> : <div>인증신청</div>}
+                    </ModalContainer>
+                  </>
+                )}
+              </>
+            ) : (
+              <ModalContainer>
+                <LogIn />
+              </ModalContainer>
+            )}
+          </>
         )}
-      </button>
+      </ModalContainer>
+      {/* </SignUpModalLayout>
+        )}
+      </button> */}
     </div>
   );
 }
@@ -140,7 +138,6 @@ const ModalContainer = styled.div`
   height: 480px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   padding-left: 30px;
   padding-right: 30px;
@@ -151,10 +148,7 @@ const ModalInnerContainer = styled.div`
   height: 380px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-
-  /* background-color: yellow; */
 `;
 const HeadButtonsContainer = styled.div`
   width: 440px;
@@ -164,7 +158,6 @@ const HeadButtonsContainer = styled.div`
   flex-direction: row;
   justify-content: right;
   align-items: center;
-  /* background-color: red; */
 `;
 const QuestionContainer = styled.div`
   width: 440px;
@@ -174,7 +167,6 @@ const QuestionContainer = styled.div`
   flex-direction: column;
   justify-content: left;
   align-items: left;
-  /* background-color: green; */
   font-size: x-large;
 `;
 
