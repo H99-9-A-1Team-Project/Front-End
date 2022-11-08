@@ -48,7 +48,7 @@ export default function MyPageBody() {
   return (
     <StMyPageBodyWrap>
       <div className="body-header">
-        {false ? (
+        {true ? (
           // 유저에따라서 true/false
           <>
             <div className="user-container">
@@ -123,21 +123,27 @@ export default function MyPageBody() {
       </div>
       <div className="body-body">
         <div className="body-name">상담</div>
-        {false ? (
-          <div className="body-content">
-            대기중인 상담
-            {true ? <div className="body-content-num">+23</div> : null}
-            {/* 진행중인상담 true/false */}
-          </div>
-        ) : null}
-        {/* 유저에따라서 true/false */}
-        <div className="body-content" onClick={() => navigate('/consultinglist')}>
-          진행한 상담
-          {true ? <div className="body-content-num">N</div> : null}
-          {/* 진행중인상담 true/false */}
-        </div>
-        <div className="body-name">발품 기록</div>
-        <div className="body-content">내 기록</div>
+        {true ? (
+          // 유저에따라서 true/false
+          <>
+            <div className="body-content" type="button" onClick={() => navigate('/stanbylist')}>
+              대기중인 상담
+              {true ? <div className="body-content-num">N</div> : null}
+              {/* 진행중인상담 true/false */}
+            </div>
+            <div className="body-content">답변한 상담</div>
+          </>
+        ) : (
+          <>
+            <div className="body-content" onClick={() => navigate('/consultinglist')}>
+              진행한 상담
+              {true ? <div className="body-content-num">N</div> : null}
+              {/* 진행중인상담 true/false */}
+            </div>
+            <div className="body-name">발품 기록</div>
+            <div className="body-content">내 기록</div>
+          </>
+        )}
         <div className="body-name">계정</div>
         <div className="body-content">로그아웃</div>
         <div className="body-content">회원탈퇴</div>
