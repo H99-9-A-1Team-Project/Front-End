@@ -131,7 +131,9 @@ export default function MyPageBody() {
               {true ? <div className="body-content-num">N</div> : null}
               {/* 진행중인상담 true/false */}
             </div>
-            <div className="body-content">답변한 상담</div>
+            <div className="body-content" type="button" onClick={() => navigate('/donelist')}>
+              답변한 상담
+            </div>
           </>
         ) : (
           <>
