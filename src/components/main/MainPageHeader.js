@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import SignUp from '../signup/SignUp';
 import SignUpModalLayout from '../signup/SignUpModalLayout';
+import { useNavigate } from 'react-router-dom';
 
 export default function MainPageHeader() {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const onOpenModal = () => {
     setModalOpen(true);
@@ -16,7 +18,7 @@ export default function MainPageHeader() {
     <>
       <HeaderContainer>
         <HeaderLogo>등대지기</HeaderLogo>
-        <HeaderMenuMyPage>마이페이지</HeaderMenuMyPage>
+        <HeaderMenuMyPage onClick={() => navigate('/mypage')}>마이페이지</HeaderMenuMyPage>
         <HeaderMenuChatting>채팅</HeaderMenuChatting>
         <HeaderMenuSignUp
           type="button"
