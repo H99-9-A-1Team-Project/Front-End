@@ -6,9 +6,10 @@ export default function RequestHeader() {
   return (
     <>
       <RequestHeaderContainer>
+        {/* 뒤로가기 */}
         <BackBtn
           onClick={() => {
-            navigate(-1);
+            navigate('/');
           }}
         >
           ← 상담 신청하기
