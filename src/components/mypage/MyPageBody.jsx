@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import default_profile from '../../sources/images/default_profile.png';
 import MyPageModal from './MyPageModal';
 
 export default function MyPageBody() {
+  const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
   const [modalVisibleNickname, setModalVisibleNickname] = useState(false);
   const [modalVisibleProfileImg, setModalVisibleProfileImg] = useState(false);
@@ -46,7 +48,7 @@ export default function MyPageBody() {
   return (
     <StMyPageBodyWrap>
       <div className="body-header">
-        {true ? (
+        {false ? (
           // 유저에따라서 true/false
           <>
             <div className="user-container">
@@ -121,7 +123,7 @@ export default function MyPageBody() {
       </div>
       <div className="body-body">
         <div className="body-name">상담</div>
-        {true ? (
+        {false ? (
           <div className="body-content">
             대기중인 상담
             {true ? <div className="body-content-num">+23</div> : null}
@@ -129,11 +131,13 @@ export default function MyPageBody() {
           </div>
         ) : null}
         {/* 유저에따라서 true/false */}
-        <div className="body-content">
-          진행중인 상담
-          {true ? <div className="body-content-num">+23</div> : null}
+        <div className="body-content" onClick={() => navigate('/consultinglist')}>
+          진행한 상담
+          {true ? <div className="body-content-num">N</div> : null}
           {/* 진행중인상담 true/false */}
         </div>
+        <div className="body-name">발품 기록</div>
+        <div className="body-content">내 기록</div>
         <div className="body-name">계정</div>
         <div className="body-content">로그아웃</div>
         <div className="body-content">회원탈퇴</div>
