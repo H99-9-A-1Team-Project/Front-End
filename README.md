@@ -1,6 +1,6 @@
 # :mailbox_with_mail: [등대지기] 부동산 안전거래를 위한 안심 상담 플랫폼 
 
-
+SA : https://docs.google.com/spreadsheets/d/1JBQ1iAl9BINJq8oehd-nAWLhO557RTj0O0C3cUAFJQA/edit#gid=0
 
 ## :house_with_garden: 소개 | About Us 
 
