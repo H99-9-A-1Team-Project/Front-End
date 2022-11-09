@@ -1,18 +1,18 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { CloseModal } from '../../store/store';
 import SignUp from '../signup/SignUp';
 import SignUpModalLayout from '../signup/SignUpModalLayout';
 import { useNavigate } from 'react-router-dom';
 
 export default function MainPageHeader() {
   const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
   const onOpenModal = () => {
     setModalOpen(true);
   };
   const onCloseModal = () => {
     setModalOpen(false);
-    window.location.reload();
   };
   return (
     <>
