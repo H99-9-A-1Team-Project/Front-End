@@ -1,0 +1,50 @@
+.MarkerClickBox {
+  width: 350px;
+  height: 80px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  cursor: default;
+}
+
+.MarkerHeaderBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.MarkerAddressBox {
+  margin-left: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.MarkerAddress {
+  font-weight: bold;
+}
+
+.MarkerDetailbtn {
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 100px;
+  border: 1px solid black;
+  display: flex;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.MarkerComment {
+  width: 320px;
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.MarkerCloseBtn {
+  width: 100px;
+}
