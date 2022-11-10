@@ -15,7 +15,7 @@ function SignUpRealtor() {
   // 모달 닫는 이벤트 핸들러
   const onCloseModal = (e) => {
     setModalOpen(false);
-    window.location.reload();
+    setNextModalTor(0);
   };
 
   // 모달 뒤로가기 이벤트 핸들러

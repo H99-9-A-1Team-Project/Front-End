@@ -28,7 +28,9 @@ function SignUp() {
   // 모달 닫는 이벤트 핸들러
   const onCloseModal = (e) => {
     setModalOpen(false);
-    window.location.reload();
+    setNextMem(0);
+    setNextTor(0);
+    setGoingLogin(0);
   };
 
   // 일반회원 모달 다음으로 넘기는 버튼용 함수

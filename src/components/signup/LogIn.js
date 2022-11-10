@@ -14,7 +14,7 @@ function LogIn() {
   // 모달 닫는 이벤트 핸들러
   const onCloseModal = (e) => {
     setModalOpen(false);
-    window.location.reload();
+    setGoingLogin(0);
   };
 
   //비밀번호 미리보기 이벤트 핸들러
