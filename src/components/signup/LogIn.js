@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { CloseModal, GoLogIn } from '../../store/store';
+import { useMutation } from '@tanstack/react-query';
+import { EmailLoginData } from '../../api/apiPOST';
 
 function LogIn() {
   //모달 닫을 때 필요한 recoilstate
@@ -22,18 +24,50 @@ function LogIn() {
     setSecret(!secret);
   };
 
+  // 데이터 전송용 initialstate
+  const initialState = {
+    email: '',
+    password: '',
+  };
+
+  // 데이터 전송을 위한 state
+  const [result, setResult] = useState(initialState);
+
   //이메일 입력
   //폼에 맞는 이메일 정보 입력 state
-  const [email, setEmail] = useState({ mailid: '', atsign: '@', domain: '' });
-  // 이메일 input별 id 구조분해 할당
-  const { mailid, domain } = email;
-
+  const [emailinput, setEmailInput] = useState({ mailid: '', atsign: '@', domain: '' });
+  //이메일 input별 id 구조분해할당
+  const { mailid, domain } = emailinput;
   //이메일 입력 이벤트 핸들러
+  const onChangeEmail = (e) => {
+    const { name, value } = e.target;
+    setEmailInput({ ...emailinput, [name]: value });
+    const mail = Object.values(emailinput);
+    const Email = mail.join('');
+    console.log(mail);
+    console.log(Email);
+    setResult({ ...result, email: Email });
+    console.log(result);
+  };
+  //비밀번호 입력
   const onChangeContent = (e) => {
     const { name, value } = e.target;
-    setEmail({ ...email, [name]: value });
-    console.log(email);
+    setResult({ ...result, [name]: value });
+    console.log(result);
   };
+
+  //로그인 데이터 전송
+  // const { mutate: emailLogin } = useMutation(EmailLoginData, {
+  //   onSuccess: (response) => {
+  //     sessionStorage.setItem('Access_Token', response.headers.Access_Token);
+  //   },
+  //   onError: (err) => {
+  //     alert('로그인에 실패했습니다');
+  //   },
+  // });
+  // const onSubmitLoginData = () => {
+  //   emailLogin(result);
+  // };
 
   return (
     <div>
@@ -47,8 +81,11 @@ function LogIn() {
           </LogInContainer>
           <LoginInputBox>
             <LoginMailInput>
-              <EmailInput name="email" placeholder="이메일을 입력해주세요" />@
-              <select name="domain" className="box" value={domain} id="domain-list" onChange={onChangeContent}>
+              <MailInput onChange={onChangeEmail} name="mailid" value={mailid} placeholder="이메일 아이디" />@
+              <MailSelect name="domain" className="box" value={domain || ''} id="domain-list" onChange={onChangeEmail}>
+                <option value="" disabled>
+                  선택해주세요
+                </option>
                 <option value="naver.com">naver.com</option>
                 <option value="gmail.com">gmail.com</option>
                 <option value="kakao.com">kakao.com</option>
@@ -57,7 +94,7 @@ function LogIn() {
                 <option value="outlook.com">outlook.com</option>
                 <option value="yahoo.com">yahoo.com</option>
                 <option value="icloud.com">icloud.com</option>
-              </select>
+              </MailSelect>
             </LoginMailInput>
             {secret === true ? (
               <form>
@@ -66,11 +103,17 @@ function LogIn() {
                   type="password"
                   placeholder="비밀번호를 입력해주세요"
                   autoComplete="on"
+                  onChange={onChangeContent}
                 />
               </form>
             ) : (
               <form>
-                <PasswordInput name="password" type="text" placeholder="비밀번호를 입력해주세요" />
+                <PasswordInput
+                  name="password"
+                  type="text"
+                  placeholder="비밀번호를 입력해주세요"
+                  onChange={onChangeContent}
+                />
               </form>
             )}
           </LoginInputBox>
@@ -79,7 +122,14 @@ function LogIn() {
           </PreviewPassword>
 
           <LoginButtonBox>
-            <LoginButton>로그인</LoginButton>
+            <LoginButton
+            // type="button"
+            // onClick={() => {
+            //   onSubmitLoginData();
+            // }}
+            >
+              로그인
+            </LoginButton>
           </LoginButtonBox>
         </ModalInnerContainer>
       ) : null}
@@ -91,7 +141,7 @@ export default LogIn;
 
 const ModalInnerContainer = styled.div`
   width: 440px;
-  height: 330px;
+  height: 400px;
   /* background-color: pink; */
   display: flex;
   flex-direction: column;
@@ -146,16 +196,25 @@ const LoginMailInput = styled.div`
   /* background-color: red; */
 `;
 
-const EmailInput = styled.input`
-  width: 150px;
-  height: 30px;
-  border-radius: 10px;
+const MailInput = styled.input`
+  width: 180px;
+  height: 40px;
+  border: none;
+  background-color: beige;
+`;
+
+const MailSelect = styled.select`
+  width: 180px;
+  height: 40px;
+  background-color: beige;
+  border: none;
 `;
 
 const PasswordInput = styled.input`
-  width: 330px;
+  width: 380px;
   height: 40px;
-  border-radius: 10px;
+  background-color: beige;
+  border: none;
 `;
 
 const PreviewPassword = styled.div`
@@ -168,16 +227,18 @@ const PreviewPassword = styled.div`
 
 const LoginButtonBox = styled.div`
   width: 440px;
-  height: 70px;
+  height: 90px;
   display: flex;
   justify-content: right;
+  /* background-color: pink; */
 `;
 
 const LoginButton = styled.div`
-  width: 130px;
+  width: 100px;
   height: 50px;
   border-radius: 10px;
-  background-color: gray;
+  margin-top: 20px;
+  background-color: lightgray;
   display: flex;
   align-items: center;
   justify-content: center;

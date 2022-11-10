@@ -3,6 +3,8 @@ import { useRecoilState } from 'recoil';
 import { NextTor, CloseModal } from '../../store/store';
 import styled from 'styled-components';
 import ProgressBar from './Progress';
+import { useMutation } from '@tanstack/react-query';
+import { RealtorSignUpFormDatas } from '../../api/apiPOST';
 
 function SignUpRealtor() {
   //모달 다음창으로 넘기는 recoilstate
@@ -24,6 +26,12 @@ function SignUpRealtor() {
     console.log(nextModaltor);
   };
 
+  //모달 다음으로 넘기는 버튼용 함수
+  const onNextRealtorModal = () => {
+    setNextModalTor(nextModaltor + 1);
+    console.log(nextModaltor);
+  };
+
   //이미지 입력 및 미리보기
   const [licenseimage, setLicenseImage] = useState('');
   const onFileChangeHandler = (e) => {
@@ -31,28 +39,34 @@ function SignUpRealtor() {
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
       console.log(e.target.files[0]);
-      setLicenseImage(e.target.files[0]);
+      
     }
     reader.onloadend = () => {
       const resultImage = reader.result;
       setPreviewImage(resultImage);
     };
+   const file = e.target.files[0];
+   setLicenseImage(file);
+   console.log(file)
   };
 
   //이메일 입력
   //폼에 맞는 이메일 정보 입력 state
-  const [email, setEmail] = useState({ mailid: '', atsign: '@', domain: '' });
+  const [emailinput, setEmailInput] = useState({ mailid: '', atsign: '@', domain: '' });
   //이메일 전체 정보 state (아직 구현중)
   const [mailAdd, setMailAdd] = useState('');
   // 이메일 input별 id 구조분해할당
-  const { mailid, domain } = email;
+  const { mailid, domain } = emailinput;
 
-  //이메일 입력 이벤트 핸들러
-  const onChangeContent = (e) => {
+  //이메일 아이디 입력 이벤트 핸들러
+  const onChangeEmail = (e) => {
     const { name, value } = e.target;
-    setEmail({ ...email, [name]: value });
-    setMailAdd(email(value));
-    console.log(email);
+    setEmailInput({ ...emailinput, [name]: value });
+    const mail = Object.values(emailinput);
+    const Email = mail.join('');
+    console.log(mail);
+    console.log(Email);
+    setMailAdd(Email)
   };
 
   //비밀번호 입력용 state, 이벤트 핸들러
@@ -76,7 +90,30 @@ function SignUpRealtor() {
     console.log(phonenum);
   };
 
+ // 공인중개사 회원가입 데이터 전송 
+
+    const {mutate : postRealtorSignUp} = useMutation(RealtorSignUpFormDatas, {
+      onSuccess: (response) => {
+        setNextModalTor(6)
+        alert ('가입완료!')
+
+      },
+      onError: (error) => {
+        alert('가입실패!')
+      }
+    })
+  
+
   //formdata
+  const onSubmitData = (e)=>{
+    const formData = new FormData()
+    formData.append('email', mailAdd)
+    formData.append('password', password)
+    formData.append('nickname', nickname)
+    formData.append('file', licenseimage)
+    postRealtorSignUp(formData)
+  }
+
 
   return (
     <div>
@@ -102,6 +139,7 @@ function SignUpRealtor() {
                 <div>{previewimage && <ImagePreview src={previewimage} alt="+" />}</div>
               </ImageBox>
             </ImageContainer>
+            <Buttondiv onClick={onNextRealtorModal}>다음</Buttondiv>
           </ModalInnerContainer>
         </>
       ) : null}
@@ -115,11 +153,14 @@ function SignUpRealtor() {
               <div onClick={onPrevRealtorModal}>뒤로가기</div> <div onClick={onCloseModal}>취소</div>
             </HeadButtonsContainer>
             <QuestionContainer>
-              <Questionbox>이메일을 입력해주세요</Questionbox> <Questionbox>이메일은 아이디로 사용됩니다</Questionbox>
+              <Questionbox>이메일을 입력해주세요</Questionbox> <QuestionInfo>이메일은 아이디로 사용됩니다</QuestionInfo>
             </QuestionContainer>
             <MailBox>
-              <input onChange={onChangeContent} name="mailid" value={mailid} placeholder="이메일 아이디" />@
-              <select name="domain" className="box" value={domain} id="domain-list" onChange={onChangeContent}>
+              <MailInput onChange={onChangeEmail} name="mailid" value={mailid} placeholder="이메일 아이디" />@
+              <MailSelect name="domain" className="box" value={domain || ''} id="domain-list" onChange={onChangeEmail}>
+                <option value="" disabled>
+                  선택해주세요
+                </option>
                 <option value="naver.com">naver.com</option>
                 <option value="gmail.com">gmail.com</option>
                 <option value="kakao.com">kakao.com</option>
@@ -128,8 +169,9 @@ function SignUpRealtor() {
                 <option value="outlook.com">outlook.com</option>
                 <option value="yahoo.com">yahoo.com</option>
                 <option value="icloud.com">icloud.com</option>
-              </select>
+              </MailSelect>
             </MailBox>
+            <Buttondiv onClick={onNextRealtorModal}>다음</Buttondiv>
           </ModalInnerContainer>
         </>
       ) : null}
@@ -147,8 +189,11 @@ function SignUpRealtor() {
               <Questionbox>사용하실 비밀번호를 입력해주세요</Questionbox>
             </QuestionContainer>
             <PasswordBox>
-              <input placeholder="비밀번호를 입력해주세요" onChange={onChangePassword} />
+              <>
+              <PasswordInput placeholder="비밀번호를 입력해주세요" onChange={onChangePassword} type="password" autocomplete ="off"/>
+              </>
             </PasswordBox>
+            <Buttondiv onClick={onNextRealtorModal}>다음</Buttondiv>
           </ModalInnerContainer>
         </>
       ) : null}
@@ -166,8 +211,9 @@ function SignUpRealtor() {
               <Questionbox>닉네임은 무엇으로 하시겠어요?</Questionbox>
             </QuestionContainer>
             <NickNameBox>
-              <input placeholder="닉네임을 입력해주세요" onChange={onChangeNickname} />
+              <NickNameInput placeholder="닉네임을 입력해주세요" onChange={onChangeNickname} />
             </NickNameBox>
+            <Buttondiv onClick={onNextRealtorModal}>다음</Buttondiv>
           </ModalInnerContainer>
         </>
       ) : null}
@@ -183,11 +229,12 @@ function SignUpRealtor() {
             </HeadButtonsContainer>
             <QuestionContainer>
               <Questionbox>전화번호를 남겨주시면</Questionbox>
-              <Questionbox>인증 완료 후 메세지를 보내드릴게요</Questionbox>
+              <QuestionInfo>인증 완료 후 메세지를 보내드릴게요</QuestionInfo>
             </QuestionContainer>
             <NickNameBox>
-              <input placeholder="전화번호를 입력해주세요" onChange={onChangePhoneNumber} />
+              <PhoneNumInput placeholder="전화번호를 입력해주세요" onChange={onChangePhoneNumber} />
             </NickNameBox>
+            <Buttondiv onClick={()=>onSubmitData()}>시작하기</Buttondiv>
           </ModalInnerContainer>
         </>
       ) : null}
@@ -199,7 +246,7 @@ export default SignUpRealtor;
 
 const ModalInnerContainer = styled.div`
   width: 440px;
-  height: 330px;
+  height: 420px;
   /* background-color: pink; */
   display: flex;
   flex-direction: column;
@@ -265,22 +312,11 @@ const QuestionInfo = styled.div`
 
 const ImageContainer = styled.div`
   width: 480px;
-  height: 120px;
+  height: 100px;
   display: flex;
   justify-content: left;
   margin-top: 20px;
   /* background-color: red; */
-`;
-
-const ImageButton = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  background-color: gray;
-  display: flex;
-  justify-content: center;
-  font-size: xx-large;
-  color: white;
 `;
 
 const ImageBox = styled.label`
@@ -301,7 +337,7 @@ const ImageInput = styled.input`
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: none;
-  background-color: blue;
+  /* background-color: blue; */
 `;
 
 const ImagePreview = styled.img`
@@ -321,13 +357,34 @@ const MailBox = styled.div`
   /* background-color: red; */
 `;
 
-const PasswordBox = styled.div`
+const MailInput = styled.input`
+  width: 180px;
+  height: 40px;
+  border: none;
+  background-color: beige;
+`;
+
+const MailSelect = styled.select`
+  width: 180px;
+  height: 40px;
+  background-color: beige;
+  border: none;
+`;
+
+const PasswordBox = styled.form`
   width: 480px;
   height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
   /* background-color: red; */
+`;
+
+const PasswordInput = styled.input`
+  width: 440px;
+  height: 40px;
+  background-color: beige;
+  border: none;
 `;
 
 const NickNameBox = styled.div`
@@ -337,4 +394,30 @@ const NickNameBox = styled.div`
   justify-content: center;
   align-items: center;
   /* background-color: red; */
+`;
+
+const NickNameInput = styled.input`
+  width: 440px;
+  height: 40px;
+  background-color: beige;
+  border: none;
+`;
+
+const PhoneNumInput = styled.input`
+  width: 440px;
+  height: 40px;
+  background-color: beige;
+  border: none;
+`;
+
+const Buttondiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: lightgray;
+  margin-top: 100px;
+  margin-left: 300px;
 `;

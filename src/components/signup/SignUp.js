@@ -6,13 +6,13 @@ import SignUpMember from './SignUpMember';
 import SignUpRealtor from './SignUpRealtor';
 import LogIn from './LogIn';
 
-function SignUp() {
+function SignUp({ email }) {
   // 모달 닫을때 필요한 recoilstate
   const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
   // 초기로그인 모달 화면 열기 위한 state
   const [early, setEarly] = useState(false);
 
-  //로그인 모달 열때 필요한 state, 삼항연산자용
+  //이미 가입한 회원 로그인 모달 열때 필요한 state, 삼항연산자용
   const [alreadysignin, setAlreadySignIn] = useState(false);
   //일반회원 모달 다음으로 넘기기 위한 recoilstate
   const [nextmem, setNextMem] = useRecoilState(NextMem);
@@ -22,8 +22,24 @@ function SignUp() {
   //모달 마지막 페이지에서 버튼 바꾸기 위한 recoilstate
   const [choiceBool, setChoiceBool] = useRecoilState(ChoiceMem);
 
-  //이미 가입된 회원 로그인 모달 열때 필요한 recoilstate
+  //이미 가입된 회원 로그인 모달 다음으로 넘기기 위한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+
+  // 데이터 전송용 initialstate
+  const initialState = {
+    email: '',
+    password: '',
+    nickName: '',
+  };
+
+  // 데이터 전송을 위한 state
+  const [result, setResult] = useState(initialState);
+
+  //데이터 onSubmit
+  const onSubmitHandler = (e) => {
+    setResult(email);
+    console.log(result);
+  };
 
   // 모달 닫는 이벤트 핸들러
   const onCloseModal = (e) => {
@@ -38,8 +54,6 @@ function SignUp() {
     setNextMem(nextmem + 2);
     setChoiceBool(true);
     setEarly(true);
-    console.log(Boolean(nextmem));
-    console.log(nextmem);
   };
 
   // 공인중개사회원 모달 다음으로 넘기는 버튼용 함수
@@ -47,8 +61,6 @@ function SignUp() {
     setNextTor(nexttor + 1);
     setChoiceBool(false);
     setEarly(true);
-    console.log(Boolean(nexttor));
-    console.log(nexttor);
   };
 
   // 이미 가입된 회원 모달 다음으로 넘기는 버튼용 함수
@@ -56,7 +68,6 @@ function SignUp() {
     setGoingLogin(goinglogin + 1);
     setAlreadySignIn(true);
     setEarly(true);
-    console.log(goinglogin);
   };
 
   return (
@@ -94,14 +105,14 @@ function SignUp() {
                   <>
                     <ModalContainer>
                       <SignUpMember />
-                      {nextmem < 5 ? <div onClick={onNextMemberModal}>다음</div> : <div>시작하기</div>}
+                      {/* {nextmem < 5 ? <div onClick={onNextMemberModal}>다음</div> : <div>시작하기</div>} */}
                     </ModalContainer>
                   </>
                 ) : (
                   <>
                     <ModalContainer>
                       <SignUpRealtor />
-                      {nexttor < 5 ? <div onClick={onNextRealtorModal}>다음</div> : <div>인증신청</div>}
+                      {/* {nexttor < 5 ? <div onClick={onNextRealtorModal}>다음</div> : <div>인증신청</div>} */}
                     </ModalContainer>
                   </>
                 )}
@@ -138,25 +149,27 @@ const PrograssbarContainer = styled.div`
 
 const ModalInnerContainer = styled.div`
   width: 440px;
-  height: 380px;
+  height: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const HeadButtonsContainer = styled.div`
   width: 440px;
   height: 40px;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   display: flex;
   flex-direction: row;
   justify-content: right;
   align-items: center;
+  
 `;
 const QuestionContainer = styled.div`
   width: 440px;
   height: 80px;
-  margin-top: 50px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -171,6 +184,7 @@ const Questionbox = styled.div`
   justify-content: left;
   align-items: left;
   margin-left: 30px;
+  
 `;
 const ChoiceButtonsContainer = styled.div`
   width: 440px;
@@ -187,7 +201,8 @@ const ButtonBox = styled.div`
   width: 200px;
   height: 200px;
   border-radius: 20px;
-  border: 2px solid gray;
+  background-color: beige;
+  /* border: 2px solid gray; */
   display: flex;
   flex-direction: row;
   justify-content: center;
