@@ -48,7 +48,7 @@ export default function MyPageBody() {
   return (
     <StMyPageBodyWrap>
       <div className="body-header">
-        {true ? (
+        {false ? (
           // 유저에따라서 true/false
           <>
             <div className="user-container">
@@ -123,7 +123,7 @@ export default function MyPageBody() {
       </div>
       <div className="body-body">
         <div className="body-name">상담</div>
-        {true ? (
+        {false ? (
           // 유저에따라서 true/false
           <>
             <div className="body-content" type="button" onClick={() => navigate('/stanbylist')}>
