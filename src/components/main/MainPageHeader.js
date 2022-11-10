@@ -17,9 +17,15 @@ export default function MainPageHeader() {
   return (
     <>
       <HeaderContainer>
-        <HeaderLogo>등대지기</HeaderLogo>
+        <HeaderLogo
+          onClick={() => {
+            navigate('/');
+          }}
+        >
+          등대지기
+        </HeaderLogo>
         <HeaderMenuMyPage onClick={() => navigate('/mypage')}>마이페이지</HeaderMenuMyPage>
-        <HeaderMenuChatting>채팅</HeaderMenuChatting>
+        <HeaderMenuFootStepMain onClick={() => navigate('/footstep')}>발품 기록하기</HeaderMenuFootStepMain>
         <HeaderMenuSignUp
           type="button"
           onClick={() => {
@@ -50,7 +56,7 @@ const HeaderContainer = styled.div`
 const HeaderLogo = styled.div`
   margin-left: 50px;
   font-size: 50px;
-  cursor: default;
+  cursor: pointer;
 `;
 
 const HeaderMenuMyPage = styled.span`
@@ -59,7 +65,7 @@ const HeaderMenuMyPage = styled.span`
   cursor: pointer;
 `;
 
-const HeaderMenuChatting = styled.span`
+const HeaderMenuFootStepMain = styled.span`
   margin-left: 20px;
   font-size: 17px;
   cursor: pointer;
