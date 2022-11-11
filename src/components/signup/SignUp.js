@@ -105,14 +105,12 @@ function SignUp({ email }) {
                   <>
                     <ModalContainer>
                       <SignUpMember />
-                      {/* {nextmem < 5 ? <div onClick={onNextMemberModal}>다음</div> : <div>시작하기</div>} */}
                     </ModalContainer>
                   </>
                 ) : (
                   <>
                     <ModalContainer>
                       <SignUpRealtor />
-                      {/* {nexttor < 5 ? <div onClick={onNextRealtorModal}>다음</div> : <div>인증신청</div>} */}
                     </ModalContainer>
                   </>
                 )}
@@ -164,7 +162,6 @@ const HeadButtonsContainer = styled.div`
   flex-direction: row;
   justify-content: right;
   align-items: center;
-  
 `;
 const QuestionContainer = styled.div`
   width: 440px;
@@ -184,7 +181,6 @@ const Questionbox = styled.div`
   justify-content: left;
   align-items: left;
   margin-left: 30px;
-  
 `;
 const ChoiceButtonsContainer = styled.div`
   width: 440px;

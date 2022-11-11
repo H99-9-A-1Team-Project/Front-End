@@ -33,6 +33,15 @@ function LogIn() {
   // 데이터 전송을 위한 state
   const [result, setResult] = useState(initialState);
 
+  // 이메일 오류용 state
+  const [erroremail, setErrorEmail] = useState('');
+  // 비밀번호 오류용 state
+  const [errorpassword, setErrorPassWord] = useState('');
+  // 관리자 승인 대기중 state
+  const [waitpermit, setWaitPermit] = useState('');
+  // 관리자 승인 거부 state
+  const [rejectpermit, setRejectPermit] = useState('');
+
   //이메일 입력
   //폼에 맞는 이메일 정보 입력 state
   const [emailinput, setEmailInput] = useState({ mailid: '', atsign: '@', domain: '' });
@@ -44,30 +53,45 @@ function LogIn() {
     setEmailInput({ ...emailinput, [name]: value });
     const mail = Object.values(emailinput);
     const Email = mail.join('');
-    console.log(mail);
-    console.log(Email);
     setResult({ ...result, email: Email });
-    console.log(result);
   };
   //비밀번호 입력
   const onChangeContent = (e) => {
     const { name, value } = e.target;
     setResult({ ...result, [name]: value });
-    console.log(result);
   };
 
+  // 데이터 전송 후 toast message
+  // const start = ()=>{
+  //   toast("username님 환영해요")
+  // }
+
   //로그인 데이터 전송
-  // const { mutate: emailLogin } = useMutation(EmailLoginData, {
-  //   onSuccess: (response) => {
-  //     sessionStorage.setItem('Access_Token', response.headers.Access_Token);
-  //   },
-  //   onError: (err) => {
-  //     alert('로그인에 실패했습니다');
-  //   },
-  // });
-  // const onSubmitLoginData = () => {
-  //   emailLogin(result);
-  // };
+  const { mutate: emailLogin } = useMutation(EmailLoginData, {
+    onSuccess: (response) => {
+      sessionStorage.setItem('Access_Token', response.headers.Access_Token);
+    },
+    onError: (err) => {
+      alert('로그인에 실패했습니다');
+      setErrorEmail('존재하지 않는 이메일입니다');
+      setErrorPassWord('비밀번호가 올바르지 않습니다');
+      if (err.data.data.accountstate == 0) {
+        alert('로그인에 실패했습니다');
+        setErrorEmail('존재하지 않는 이메일입니다');
+        setErrorPassWord('비밀번호가 올바르지 않습니다');
+      }
+      if (err.data.data.accountstate == 1) {
+        alert('로그인에 실패했습니다');
+        setWaitPermit(err.data.error.message, '관리자 승인 대기중입니다');
+        setRejectPermit(err.data.error.message, '관리자 승인이 거부되었습니다');
+        setErrorEmail('존재하지 않는 이메일입니다');
+        setErrorPassWord('비밀번호가 올바르지 않습니다');
+      }
+    },
+  });
+  const onSubmitLoginData = () => {
+    emailLogin(result);
+  };
 
   return (
     <div>
@@ -96,24 +120,17 @@ function LogIn() {
                 <option value="icloud.com">icloud.com</option>
               </MailSelect>
             </LoginMailInput>
+            <MessageBox>{erroremail === '' ? <Message></Message> : <Message>{erroremail}</Message>}</MessageBox>
+
             {secret === true ? (
               <form>
-                <PasswordInput
-                  name="password"
-                  type="password"
-                  placeholder="비밀번호를 입력해주세요"
-                  autoComplete="on"
-                  onChange={onChangeContent}
-                />
+                <PasswordInput name="password" type="password" placeholder="비밀번호를 입력해주세요" autoComplete="on" onChange={onChangeContent} />
+                <MessageBox>{errorpassword === '' ? <Message></Message> : <Message>{errorpassword}</Message>}</MessageBox>
               </form>
             ) : (
               <form>
-                <PasswordInput
-                  name="password"
-                  type="text"
-                  placeholder="비밀번호를 입력해주세요"
-                  onChange={onChangeContent}
-                />
+                <PasswordInput name="password" type="text" placeholder="비밀번호를 입력해주세요" onChange={onChangeContent} />
+                <MessageBox>{errorpassword === '' ? <Message></Message> : <Message>{errorpassword}</Message>}</MessageBox>
               </form>
             )}
           </LoginInputBox>
@@ -123,10 +140,10 @@ function LogIn() {
 
           <LoginButtonBox>
             <LoginButton
-            // type="button"
-            // onClick={() => {
-            //   onSubmitLoginData();
-            // }}
+              type="button"
+              onClick={() => {
+                onSubmitLoginData();
+              }}
             >
               로그인
             </LoginButton>
@@ -215,6 +232,21 @@ const PasswordInput = styled.input`
   height: 40px;
   background-color: beige;
   border: none;
+`;
+
+const MessageBox = styled.div`
+  width: 400px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Message = styled.div`
+  width: 400px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  font-size: small;
 `;
 
 const PreviewPassword = styled.div`
