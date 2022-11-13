@@ -45,7 +45,7 @@ export default function MainPageHeader() {
 }
 
 const HeaderContainer = styled.div`
-  width: 100%;
+  width: 800px;
   height: 113px;
   background-color: aqua;
   display: flex;

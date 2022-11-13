@@ -7,3 +7,4 @@ export const NextMem = atom({ key: 'nextMem', default: 0 });
 export const NextTor = atom({ key: 'nextTor', default: 0 });
 export const CloseModal = atom({ key: 'closemodal', default: false });
 export const FootStepListBackState = atom({ key: 'footsteplistbackstate', default: 0 });
+export const NewFootStepHeaderBtnState = atom({ key: 'newfootstepheaderbtnstate', default: 0 });

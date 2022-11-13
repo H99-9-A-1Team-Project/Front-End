@@ -38,7 +38,7 @@ export default function FootStepNavMenu() {
       const iwClick = [
         {
           mouseClick: `<div class="MarkerClickBox">
-          <div class="MarkerHeaderBox">
+          <div class onclick="MarkerHeaderBox">
           <div class="MarkerAddressBox">
           <p class="MarkerAddress">인천광역시 부평구</p>
           <p class="MarkerType">발품기록 | 상담</p>
