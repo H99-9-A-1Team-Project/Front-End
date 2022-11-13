@@ -1,10 +1,18 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { ReadProfile } from '../../api/apiGET';
 import default_profile from '../../sources/images/default_profile.png';
 import MyPageModal from './MyPageModal';
 
 export default function MyPageBody() {
+  const { data } = useQuery(['profile'], ReadProfile, {
+    refetchOnWindowFocus: false,
+    onSuccess: (temp) => {
+      console.log(temp);
+    },
+  });
   const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
   const [modalVisibleNickname, setModalVisibleNickname] = useState(false);
@@ -29,15 +37,12 @@ export default function MyPageBody() {
       [name]: value,
     });
   };
-  console.log(newNickname);
   const onChangeIntroMessageHandler = (e) => {
     const { name, value } = e.target;
     setNewIntroMessage({
       [name]: value,
     });
   };
-  console.log(newIntroMessage);
-
   const onSubmitNicknameHandler = () => {
     console.log('닉네임제출');
   };

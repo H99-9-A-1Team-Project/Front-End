@@ -1,7 +1,12 @@
+import { useQuery } from '@tanstack/react-query';
+import { ReadConsultingList } from '../../api/apiGET';
 import default_profile from '../../sources/images/default_profile.png';
 
 export default function Container({ listState, ansState }) {
   //proops로 lists 받아서, 조건별로 다르게 필터링해야함
+  const { data } = useQuery(['cosultingList'], ReadConsultingList, {
+    refetchOnWindowFocus: false,
+  });
 
   console.log(window.location.pathname);
 

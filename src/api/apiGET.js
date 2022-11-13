@@ -15,3 +15,13 @@ export async function ReadWard({ cityCode }) {
   );
   return response.data;
 }
+
+export async function ReadProfile() {
+  const response = await axios.get('http://localhost:3003/api/myprofile');
+  return response.data.data;
+}
+
+export async function ReadConsultingList() {
+  const response = await axios.get('http://localhost:3003/api/consulting');
+  return response.data.data;
+}

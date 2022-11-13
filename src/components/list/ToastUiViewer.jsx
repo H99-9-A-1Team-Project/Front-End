@@ -8,7 +8,7 @@ export default function ToastUiViewer({ contents }) {
   //   useEffect(() => {
   //     seta(contents.html);
   //   }, [contents]);
-  //   console.log('부어', a);
+  //   console.log('부어', a);x
   return (
     <div>
       <Viewer initialValue={contents.html} />

@@ -2,7 +2,6 @@ import { Editor } from '@toast-ui/react-editor'; // Editor
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor css
 import '@toast-ui/editor/dist/i18n/ko-kr'; // Editor 한국어
 import { useRef } from 'react';
-import ToastUiViewer from './ToastUiViewer';
 import { useState } from 'react';
 
 export default function ToastUiEditor() {
@@ -28,7 +27,7 @@ export default function ToastUiEditor() {
         language="ko-KR"
         ref={editorRef}
         onChange={onChange}
-        toolbarItems={[['bold', 'italic', 'strike'], ['image']]}
+        // toolbarItems={[['bold', 'italic', 'strike'], ['image']]}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
             console.log(blob); // File {name: '카레유.png', ... }
