@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import RqLt_Marker from './sources/RqLt_Marker.png';
+import RqLt_Marker from './sources/rqmLt_Marker.png';
 import '../../global/global.css';
 
 export default function requestList() {

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
-import path_Right from './sources/article_path_right.png';
-import login_Deco from './sources/article_login_deco.png';
-import QueMark from './sources/article_question.png';
+import path_Right from './sources/main_article_path_right.png';
+import login_Deco from './sources/main_article_login_deco.png';
+import QueMark from './sources/main_article_question.png';
 
 export default function MainPageArticle() {
   return (

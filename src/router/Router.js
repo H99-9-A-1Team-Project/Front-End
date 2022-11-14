@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import MainPage from '../pages/MainPage';
-import Request from '../pages/Request';
+import Request from '../pages/RequestMain';
 import './route.css';
 export default function Router() {
   return (

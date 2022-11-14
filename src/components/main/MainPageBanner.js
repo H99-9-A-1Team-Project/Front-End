@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Banner1 from './sources/banner_img1.png';
+import Banner1 from './sources/main_banner_img1.png';
 
 export default function MainPageBanner() {
   return (

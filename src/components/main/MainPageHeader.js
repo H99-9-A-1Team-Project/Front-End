@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from './sources/header_name.png';
-import Menu from './sources/header_menu.png';
+import Logo from './sources/main_header_name.png';
+import Menu from './sources/main_header_menu.png';
 
 export default function MainPageHeader() {
   return (
