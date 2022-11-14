@@ -1,78 +1,40 @@
+import React from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { CloseModal } from '../../store/store';
-import SignUp from '../signup/SignUp';
-import SignUpModalLayout from '../signup/SignUpModalLayout';
-import { useNavigate } from 'react-router-dom';
+import Logo from './sources/header_name.png';
+import Menu from './sources/header_menu.png';
 
 export default function MainPageHeader() {
-  const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
-  const onOpenModal = () => {
-    setModalOpen(true);
-  };
-  const onCloseModal = () => {
-    setModalOpen(false);
-  };
   return (
-    <>
-      <HeaderContainer>
-        <HeaderLogo
-          onClick={() => {
-            navigate('/');
-          }}
-        >
-          등대지기
-        </HeaderLogo>
-        <HeaderMenuMyPage onClick={() => navigate('/mypage')}>마이페이지</HeaderMenuMyPage>
-        <HeaderMenuFootStepMain onClick={() => navigate('/footstep')}>발품 기록하기</HeaderMenuFootStepMain>
-        <HeaderMenuSignUp
-          type="button"
-          onClick={() => {
-            setModalOpen(!modalOpen);
-          }}
-        >
-          회원가입
-          {modalOpen && (
-            <SignUpModalLayout visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}>
-              <SignUp />
-            </SignUpModalLayout>
-          )}
-        </HeaderMenuSignUp>
-      </HeaderContainer>
-    </>
+    <HeaderContainer>
+      <StLogo src={Logo} />
+      <StMenu src={Menu} />
+    </HeaderContainer>
   );
 }
 
 const HeaderContainer = styled.div`
   width: 100%;
-  height: 113px;
-  background-color: aqua;
+  height: 64px;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
-  align-items: center;
 `;
 
-const HeaderLogo = styled.div`
-  margin-left: 50px;
-  font-size: 50px;
+const StLogo = styled.img`
+  width: 97.5px;
+  height: 24px;
+  background-color: #ffffff;
+  margin-left: 16px;
+  margin-top: 20px;
   cursor: pointer;
 `;
 
-const HeaderMenuMyPage = styled.span`
-  margin-left: 20px;
-  font-size: 17px;
-  cursor: pointer;
-`;
-
-const HeaderMenuFootStepMain = styled.span`
-  margin-left: 20px;
-  font-size: 17px;
-  cursor: pointer;
-`;
-
-const HeaderMenuSignUp = styled.span`
-  margin-left: 20px;
-  font-size: 17px;
+const StMenu = styled.img`
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  margin-left: 320px;
+  margin-top: 20px;
   cursor: pointer;
 `;

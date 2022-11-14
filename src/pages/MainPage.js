@@ -1,21 +1,11 @@
 import MainPageHeader from '../components/main/MainPageHeader';
-import MainPageBanner from '../components/main/MainPageBanner';
-import MainPageArticle from '../components/main/MainPageArticleFooter';
-import styled from 'styled-components';
+import MainPageArticle from '../components/main/MainPageArticle';
 
 export default function Mainpage() {
   return (
     <>
-      <MainPageContainer>
-        <MainPageHeader />
-        <MainPageBanner />
-        <MainPageArticle />
-      </MainPageContainer>
+      <MainPageHeader />
+      <MainPageArticle />
     </>
   );
 }
-
-const MainPageContainer = styled.div`
-  width: 100%;
-  height: 100%;
-`;
