@@ -77,6 +77,7 @@ const ImgPathRight = styled.img`
   width: 24px;
   height: 24px;
   background: none;
+  cursor: pointer;
 `;
 
 const ImgLoginDeco = styled.img`
@@ -97,6 +98,7 @@ const ServcieGuideBox = styled.div`
   background: none;
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const ServiceGuideP = styled.p`
