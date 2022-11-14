@@ -14,7 +14,7 @@ export default function MainPageBanner() {
 
 const BannerContainer = styled.div`
   width: 100%;
-  height: 205px;
+  height: 204px;
   background-color: white;
   display: flex;
 `;
