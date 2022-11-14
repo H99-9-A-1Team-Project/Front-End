@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import Login from './Login';
 import SignUpMember from './SignUpMember';
 import SignUpRealtor from './SignUpRealtor';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpChoice() {
   //줄바꿈을 위한 질문 타이틀
@@ -29,6 +30,8 @@ function SignUpChoice() {
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
 
+  // 메인페이지로 회귀
+  const navigate = useNavigate();
   const onNextMemberPage = () => {
     setNextMem(nextmem + 2);
     setOpenSignUp(true);
@@ -50,13 +53,20 @@ function SignUpChoice() {
     console.log(goinglogin);
   };
 
+  const onGoingMainPage = () => {
+    setGoingLogin(0);
+    setNextMem(0);
+    setNextTor(0);
+    navigate('/');
+  };
+
   return (
     <>
       <ChoiceContainer>
         {opensignup === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
           <>
             <SignUpHeader>
-              <BackpageIconBox src={pathLeft} />
+              <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
               <SignUpTitle>회원가입</SignUpTitle>
             </SignUpHeader>
             <WelcomeQuestionContainer>

@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
-import path_Right from './sources/article_path_right.png';
-import login_Deco from './sources/article_login_deco.png';
-import QueMark from './sources/article_question.png';
+import path_Right from './sources/main_article_path_right.png';
+import login_Deco from './sources/main_article_login_deco.png';
+import QueMark from './sources/main_article_question.png';
+import { useNavigate } from 'react-router-dom';
 
 export default function MainPageArticle() {
+  const navigate = useNavigate();
+  const onStartLogin = () => {
+    navigate('/signup');
+  };
   return (
     <ArticleContainer>
       <TextGuide>
@@ -16,7 +21,7 @@ export default function MainPageArticle() {
         이용할 수 있어요
       </TextGuide>
       <LoginBtnBox>
-        <LoginBtn>로그인 하러가기</LoginBtn>
+        <LoginBtn onClick={onStartLogin}>로그인 하러가기</LoginBtn>
         <ImgPathRight src={path_Right} />
       </LoginBtnBox>
       <ImgLoginDeco src={login_Deco} />
@@ -77,6 +82,7 @@ const ImgPathRight = styled.img`
   width: 24px;
   height: 24px;
   background: none;
+  cursor: pointer;
 `;
 
 const ImgLoginDeco = styled.img`
@@ -97,6 +103,7 @@ const ServcieGuideBox = styled.div`
   background: none;
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const ServiceGuideP = styled.p`
