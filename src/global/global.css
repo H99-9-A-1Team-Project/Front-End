@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Leferi+Point+Type:wght@400;900&display=swap');
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+}
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  /* headline */
+  /* headline Large */
+  --headline-font-family: 'Pretendard-Regular';
+  --headline_Large-font-size: 24px;
+  --headline_Large-font-weight: 700;
+  --headline_Large-line-height: 28px;
+  --headline_Large-letter-spacing: 0px;
+
+  /* headline Medium */
+  --headline_Medium-font-size: 20px;
+  --headline_Medium-font-weight: 700;
+  --headline_Medium-line-height: 24px;
+  --headline_Medium-letter-spacing: 0.15px;
+
+  /* headline Small */
+  --headline_Small-font-size: 18px;
+  --headline_Small-font-weight: 700;
+  --headline_Small-line-height: 20px;
+  --headline_Small-letter-spacing: 0.1px;
+
+  /* body */
+  /* body Large */
+  --body-font-family: 'Pretendard-Regular';
+  --body_Large-font-size: 16px;
+  --body_Large-font-weight: 400;
+  --body_Large-line-height: 24px;
+  --body_Large-letter-spacing: 0.15px;
+
+  /* body Medium */
+  --body_Medium-font-size: 14px;
+  --body_Medium-font-weight: 400;
+  --body_Medium-line-height: 20px;
+  --body_Medium-letter-spacing: 0.25px;
+
+  /* body Small */
+  --body_Small-font-size: 12px;
+  --body_Small-font-weight: 400;
+  --body_Small-line-height: 16px;
+  --body_Small-letter-spacing: 0.4px;
+
+  /* button */
+  /* button Large */
+  --button-font-family: 'Pretendard-Regular';
+  --button_Large-font-size: 16px;
+  --button_Large-font-weight: 700;
+  --button_Large-line-height: 20px;
+  --button_Large-letter-spacing: 0.1px;
+
+  /* button Medium */
+  --button_Medium-font-size: 14px;
+  --button_Medium-font-weight: 500;
+  --button_Medium-line-height: 16px;
+  --button_Medium-letter-spacing: 0.5px;
+
+  /* button Small */
+  --button_Small-font-size: 12px;
+  --button_Small-font-weight: 500;
+  --button_Small-line-height: 16px;
+  --button_Small-letter-spacing: 0.5px;
+
+  /* Gray Scale */
+  --white: #ffffff;
+  --black: #000000;
+
+  --gray1: #25282b;
+  --gray2: #4d5053;
+  --gray3: #75787b;
+  --gray4: #9da0a3;
+  --gray5: #c5c8cb;
+  --gray6: #edf0f3;
+
+  /* Primary */
+  --primary1-100: #fffdf7;
+  --primary1-200: #fff9e5;
+  --primary1-300: #ffeeb2;
+  --primary1-400: #ffe178;
+  --primary1-500: #f2d055;
+
+  --primary2-100: #edf3fa;
+  --primary2-200: #a2c0fa;
+  --primary2-300: #578ffa;
+  --primary2-400: #3c6eef;
+  --primary2-500: #2939cc;
+
+  /* Shadow */
+  --Shadow1-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.15);
+  --Shadow2-box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+  --Shadow3-box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.1);
+}
