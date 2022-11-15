@@ -1,14 +1,14 @@
 import MainPageHeader from '../components/main/MainPageHeader';
 import MainPageTabBar from '../components/main/MainPageTabBar';
 import MyPageArticle from '../components/MyPage/MyPageArticle';
-import MyPageLayout from '../components/MyPage/MyPageLayout';
+import Layout from '../global/components/MyPageLayout';
 
 export default function MyPage() {
   return (
-    <MyPageLayout>
+    <Layout>
       <MainPageHeader />
       <MyPageArticle />
       <MainPageTabBar />
-    </MyPageLayout>
+    </Layout>
   );
 }

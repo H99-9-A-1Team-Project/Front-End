@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default function MyPageLayout({ children }) {
+export default function Layout({ children }) {
   return <StLayout>{children}</StLayout>;
 }
 
