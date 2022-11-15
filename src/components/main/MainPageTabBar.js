@@ -20,8 +20,20 @@ export default function MainPageTabBar() {
   const [tbReqeust, setTbRequest] = useRecoilState(tabBarRequest);
   const [tbUser, setTbUser] = useRecoilState(tabBarUser);
 
-  //새로고침했을 때 툴바 유지를 위해 useEffect 사용
+  //새로고침했을 때 툴바 유지를 위해 useEffect 사용, 발품기록 추가 필요
   useEffect(() => {
+    if (window.location.pathname === '/') {
+      setTbHome(1);
+      setTbPin(0);
+      setTbRequest(0);
+      setTbUser(0);
+    }
+    if (window.location.pathname === '/request') {
+      setTbHome(0);
+      setTbPin(0);
+      setTbRequest(1);
+      setTbUser(0);
+    }
     if (window.location.pathname === '/mypage') {
       setTbHome(0);
       setTbPin(0);
@@ -105,6 +117,7 @@ const TabBarContainer = styled.div`
   border-top: 1px solid var(--gray6);
   display: flex;
   flex-direction: row;
+  margin-top: auto;
 `;
 
 const HomeContainer = styled.div`
