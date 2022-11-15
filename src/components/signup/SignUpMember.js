@@ -62,19 +62,15 @@ function SignUpMember() {
   // 이메일 비밀번호 onchange // 닉네임 생성
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
-    setCheckemail({ ...checkemail, [name]: value });
-    console.log(checkemail);
-    const Nickname = checkemail.email.split('@')[0];
-    setLoginData({ ...loginData, nickname: Nickname, email: checkemail.email });
-    setEmailPassword(loginData.email);
-    console.log(loginData);
-  };
-
-  const onChangePassword = (e) => {
-    const { name, value } = e.target;
+    // setCheckemail({ ...checkemail, [name]: value });
     setLoginData({ ...loginData, [name]: value });
-    setEmailPassword(loginData.password);
-    setCheckPassword(loginData.password);
+    // setEmailPassword(loginData.email);
+    console.log('def', loginData);
+  };
+  const onblurChange = () => {
+    const Nickname = loginData.email.split('@')[0];
+    setLoginData({ ...loginData, nickname: Nickname });
+    console.log(loginData);
   };
 
   //이메일 중복확인
@@ -111,15 +107,10 @@ function SignUpMember() {
   //회원가입 데이터 전송
   const onSubmitSignUpData = () => {
     setErrorPassWord('');
-    setOpenSignUp(false);
+    console.log(loginData.email);
+    console.log('asdf', loginData);
+    // setOpenSignUp(false);
     memberSignUp(loginData);
-
-    //   if (loginData.password === checkpassword) {
-    //     setErrorPassWord('');
-    //     memberSignUp(loginData);
-    //   } else {
-    //     setErrorPassWord('비밀번호를 잘못 입력하셨습니다.');
-    //   }
   };
 
   return (
@@ -138,7 +129,7 @@ function SignUpMember() {
               <InputName>아이디(이메일)</InputName>
               {errormail === '' ? (
                 <>
-                  <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputText>
+                  <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail} onBlur={onblurChange}></InputText>
                   <InputErrorMessageBox>
                     <InputErrorMessage></InputErrorMessage>
                   </InputErrorMessageBox>
@@ -155,7 +146,7 @@ function SignUpMember() {
               {errorpassword === '' ? (
                 <>
                   <form>
-                    <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangePassword} type={secret === false ? 'text' : 'password'}></InputText>
+                    <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputText>
                   </form>
                   <InputErrorMessageBox>
                     <InputErrorMessage></InputErrorMessage>
@@ -167,7 +158,7 @@ function SignUpMember() {
               ) : (
                 <>
                   <form>
-                    <InputTextError placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangePassword} type={secret === false ? 'text' : 'password'}></InputTextError>
+                    <InputTextError placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputTextError>
                   </form>
                   <InputErrorMessageBox>
                     <InputErrorMessage>잘못된 비밀번호 형식입니다 </InputErrorMessage>

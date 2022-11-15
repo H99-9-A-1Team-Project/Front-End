@@ -12,3 +12,9 @@ export const tabBarHome = atom({ key: 'tabbarhome', default: 0 });
 export const tabBarPin = atom({ key: 'tabbarpin', default: 0 });
 export const tabBarRequest = atom({ key: 'tabbarrequest', default: 0 });
 export const tabBarUser = atom({ key: 'tabbaruser', default: 0 });
+
+// 로그인 여부
+export const isLogin = atom({
+  key: 'isLogin',
+  default: false,
+});
