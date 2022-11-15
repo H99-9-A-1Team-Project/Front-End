@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
 import imgHomeOFF from '../../global/tabBar/Home_OFF.png';
@@ -19,6 +19,16 @@ export default function MainPageTabBar() {
   const [tbPin, setTbPin] = useRecoilState(tabBarPin);
   const [tbReqeust, setTbRequest] = useRecoilState(tabBarRequest);
   const [tbUser, setTbUser] = useRecoilState(tabBarUser);
+
+  //새로고침했을 때 툴바 유지를 위해 useEffect 사용
+  useEffect(() => {
+    if (window.location.pathname === '/mypage') {
+      setTbHome(0);
+      setTbPin(0);
+      setTbRequest(0);
+      setTbUser(1);
+    }
+  });
 
   const onClickTab = (click) => {
     if (click === 1) {
@@ -74,7 +84,12 @@ export default function MainPageTabBar() {
         </RequestBox>
       </RequestContainer>
       <UserContainer>
-        <UserBox onClick={() => {onClickTab(4); navigate('/mypage')}}>
+        <UserBox
+          onClick={() => {
+            onClickTab(4);
+            navigate('/mypage');
+          }}
+        >
           {tbUser === 0 ? <UserImg src={imgUserOFF} /> : <UserImg src={imgUserON} />}
           <UserP tbUser={tbUser}>마이페이지</UserP>
         </UserBox>
