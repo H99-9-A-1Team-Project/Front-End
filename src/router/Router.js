@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import MainPage from '../pages/MainPage';
+import MyPage from '../pages/MyPage';
 import Request from '../pages/RequestMain';
 import './route.css';
 export default function Router() {
@@ -8,6 +9,7 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="request" element={<Request />} />
+        <Route path="mypage" element={<MyPage />} />
       </Routes>
     </div>
   );

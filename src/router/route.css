@@ -1,6 +1,5 @@
 .app {
   width: 360px;
-  height: 800px;
+  height: 100vh;
   margin: 0 auto;
-  margin-top: 80px;
 }
