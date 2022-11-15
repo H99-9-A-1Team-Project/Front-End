@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
 import RqAt_Path_Right from './sources/rqm_article_right_light2.png';
-import RqAt_Question from './sources/rqmAt_Question.png';
+import RqAt_Question from './sources/RqmAt_Question.png';
 
 export default function requestArticle() {
   return (
