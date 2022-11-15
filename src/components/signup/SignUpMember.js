@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { NextMem, ChangeSignUp } from '../../store/store';
@@ -62,13 +62,17 @@ function SignUpMember() {
   // 이메일 비밀번호 onchange // 닉네임 생성
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
-    setCheckemail({ ...checkemail, [name]: value });
-    console.log(checkemail);
-    const Nickname = checkemail.email.split('@')[0];
-    setLoginData({ ...loginData, nickname: Nickname, email: checkemail.email });
-    setEmailPassword(loginData.email);
-    console.log(loginData);
+    setLoginData({ ...loginData, [name]: value });
+    console.log('1', loginData);
   };
+
+  const onblurChange = () => {
+    console.log('블러');
+    const Nickname = loginData.email.split('@')[0];
+    setLoginData({ ...loginData, nickname: Nickname });
+  };
+
+  console.log('2', loginData);
 
   const onChangePassword = (e) => {
     const { name, value } = e.target;
@@ -138,14 +142,14 @@ function SignUpMember() {
               <InputName>아이디(이메일)</InputName>
               {errormail === '' ? (
                 <>
-                  <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputText>
+                  <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail} onBlur={() => onblurChange()}></InputText>
                   <InputErrorMessageBox>
                     <InputErrorMessage></InputErrorMessage>
                   </InputErrorMessageBox>
                 </>
               ) : (
                 <>
-                  <InputTextError placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputTextError>
+                  <InputTextError placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail} onBlur={() => onblurChange()}></InputTextError>
                   <InputErrorMessageBox>
                     <InputErrorMessage>잘못된 이메일 형식입니다 </InputErrorMessage>
                   </InputErrorMessageBox>
