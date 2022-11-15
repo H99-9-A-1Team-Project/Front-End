@@ -5,6 +5,7 @@ import MainPageTabBar from '../components/main/MainPageTabBar';
 export default function Mainpage() {
   return (
     <>
+      <div>test</div>
       <MainPageHeader />
       <MainPageArticle />
       <MainPageBanner />
