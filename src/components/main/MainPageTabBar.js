@@ -74,7 +74,7 @@ export default function MainPageTabBar() {
         </RequestBox>
       </RequestContainer>
       <UserContainer>
-        <UserBox onClick={() => onClickTab(4)}>
+        <UserBox onClick={() => {onClickTab(4); navigate('/mypage')}}>
           {tbUser === 0 ? <UserImg src={imgUserOFF} /> : <UserImg src={imgUserON} />}
           <UserP tbUser={tbUser}>마이페이지</UserP>
         </UserBox>
