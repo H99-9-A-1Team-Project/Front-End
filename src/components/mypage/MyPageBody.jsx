@@ -1,18 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReadProfile } from '../../api/apiGET';
+import { Emailcheck, loginUser, realtorSignup, RequestSignUp } from '../../api/apiPOST';
 import default_profile from '../../sources/images/default_profile.png';
 import MyPageModal from './MyPageModal';
 
 export default function MyPageBody() {
-  const { data } = useQuery(['profile'], ReadProfile, {
-    refetchOnWindowFocus: false,
-    onSuccess: (temp) => {
-      console.log(temp);
-    },
-  });
   const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
   const [modalVisibleNickname, setModalVisibleNickname] = useState(false);
@@ -50,9 +45,99 @@ export default function MyPageBody() {
     console.log('인트로메세지제출');
   };
 
+  const initialState = {
+    email: '',
+    password: '',
+    nickname: '',
+  };
+  const [result, setResult] = useState(initialState);
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setResult({
+      ...result,
+      [name]: value,
+    });
+  };
+  const { mutate: MutateSignUp } = useMutation(RequestSignUp, {
+    onSuccess: () => {
+      alert('회원가입 완료');
+    },
+  });
+  const { mutate: check } = useMutation(Emailcheck, {
+    onSuccess: () => {},
+  });
+  const { mutate: realtorsingup } = useMutation(realtorSignup);
+  const { mutate: login } = useMutation(loginUser, {
+    onSuccess: (config) => {
+      console.log(config);
+    },
+  });
+  const onSubmit = (e) => {
+    console.log('일반유저회원가입');
+    e.preventDefault();
+    MutateSignUp(result);
+    setResult(initialState);
+  };
+  const onEmailCheck = (e) => {
+    e.preventDefault();
+    check({ email: result.email });
+  };
+  const onPostingHandler = (e) => {
+    console.log('공인중개사회원가입');
+    e.preventDefault();
+    let formData = new FormData();
+    let postimage = document.getElementById('img_file');
+    formData.append('SignUpRealtorRequestDto', new Blob([JSON.stringify(result)], { type: 'application/json' }));
+    formData.append('file', postimage.files[0]);
+    for (var key of formData.keys()) {
+      console.log('폼데이터 키', key);
+    }
+    for (var value of formData.values()) {
+      console.log('폼데이터벨류', value);
+    }
+    realtorsingup(formData);
+  };
+  const loginSubmit = (e) => {
+    e.preventDefault();
+    login({ email: result.email, password: result.password });
+  };
+
   return (
     <StMyPageBodyWrap>
       <div className="body-header">
+        <form onSubmit={onSubmit}>
+          <input type="email" name="email" value={result.email} onChange={onChangeHandler} />
+          <input name="password" value={result.password} onChange={onChangeHandler} type="password" />
+          <input name="nickname" value={result.nickname} onChange={onChangeHandler} type="text" />
+          <button> 가입하기</button>
+          <button type="button" onClick={onEmailCheck}>
+            중복확인
+          </button>
+        </form>
+        <p></p>
+        <p></p>
+        <form onSubmit={onPostingHandler}>
+          <input type="email" name="email" value={result.email} onChange={onChangeHandler} />
+          <input name="password" value={result.password} onChange={onChangeHandler} type="password" />
+          <input name="nickname" value={result.nickname} onChange={onChangeHandler} type="text" />
+          <div>
+            <div>
+              <input type="file" id="img_file" accept="image/*" />
+            </div>
+          </div>
+          <button> 가입하기</button>
+          <button type="button" onClick={onEmailCheck}>
+            중복확인
+          </button>
+        </form>
+        <p></p>
+        <p></p>
+        <form onSubmit={loginSubmit}>
+          <input type="email" name="email" value={result.email} onChange={onChangeHandler} />
+          <input name="password" value={result.password} onChange={onChangeHandler} type="password" />
+          <button> 로그인하기</button>
+        </form>
+
         {false ? (
           // 유저에따라서 true/false
           <>
