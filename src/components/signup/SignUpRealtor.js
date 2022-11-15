@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState } from 'recoil';
-import { NextTor, CloseModal } from '../../store/store';
+import { NextTor, CloseModal, ChangeSignUp } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import CompleteModal from './CompleteModal';
 import InnerModal from './InnerModal';
@@ -27,6 +27,9 @@ function SignUpRealtor() {
 
   // 모달 오픈용 recoilstate
   const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
+
+  //회원가입창의 시작과 전환을 위한 recoilstate
+  const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
@@ -69,6 +72,8 @@ function SignUpRealtor() {
   //가입하기 버튼 (페이지 이동 및 모달창 오픈 )
   const onOpenModalMovePage = () => {
     setModalOpen(true);
+    setOpenSignUp(false);
+    setNextTor(0);
     navigate('/');
   };
 

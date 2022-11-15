@@ -1,21 +1,52 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { NextMem } from '../../store/store';
+import { NextMem, ChangeSignUp } from '../../store/store';
 import { useRecoilState } from 'recoil';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
+import { useMutation } from '@tanstack/react-query';
+import { MemberSignUp, RequestEmail } from '../../api/apiPOST';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpMember() {
+  const navigate = useNavigate();
   const welcometext = '사용할 회원 정보를\n 입력해주세요';
   //일반회원 이전으로 넘어가기 위한 recoilState
   const [nextmem, setNextMem] = useRecoilState(NextMem);
 
+  //이메일 비밀번호 담을 usestate
+  const [emailpassword, setEmailPassword] = useState('');
+
+  //이메일 확인할 usestate
+  const [checkemail, setCheckemail] = useState('');
+
+  //비밀번호 확인할 usestate
+  const [checkpassword, setCheckPassword] = useState('');
+
+  //이메일 중복확인 완료 state
+  const [okemail, setOkEmail] = useState('');
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
   //비밀번호 잘못 입력 에러 출력 state
   const [errorpassword, setErrorPassWord] = useState('');
+  //닉네임 전용 state
+  const [nickName, setNickName] = useState('');
 
+  //회원가입창의 시작과 전환을 위한 recoilstate
+  const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
+
+  //데이터 전송용 initialstate
+  const initialState = {
+    email: '',
+    password: '',
+    nickname: '',
+  };
+
+  //데이터 전송을 위한 state
+  const [loginData, setLoginData] = useState(initialState);
+
+  // 뒤로가기 버튼용
   const onPrevMemberPage = (e) => {
     setNextMem(nextmem - 2);
   };
@@ -26,6 +57,69 @@ function SignUpMember() {
   //비밀번호 미리보기 이벤트 핸들러
   const onPreviewPW = (e) => {
     setSecret(!secret);
+  };
+
+  // 이메일 비밀번호 onchange // 닉네임 생성
+  const onChangeEmail = (e) => {
+    const { name, value } = e.target;
+    setCheckemail({ ...checkemail, [name]: value });
+    console.log(checkemail);
+    const Nickname = checkemail.email.split('@')[0];
+    setLoginData({ ...loginData, nickname: Nickname, email: checkemail.email });
+    setEmailPassword(loginData.email);
+    console.log(loginData);
+  };
+
+  const onChangePassword = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+    setEmailPassword(loginData.password);
+    setCheckPassword(loginData.password);
+  };
+
+  //이메일 중복확인
+  // const { mutate: memberEmail } = useMutation(RequestEmail, {
+  //   onSuccess: (response) => {
+  //     setOkEmail('가입이 가능한 이메일입니다');
+  //   },
+  //   onError: (err) => {
+  //     setErrorMail(err.response.data.error.message);
+  //   },
+  // });
+
+  //회원가입
+  const { mutate: memberSignUp } = useMutation(MemberSignUp, {
+    onSuccess: () => {
+      alert('회원가입완료!');
+      navigate('/');
+    },
+    onError: () => {
+      setErrorPassWord('회원가입오류');
+    },
+  });
+
+  // 이메일 중복확인
+  // const onCheckEmailDouble = () => {
+  //   if (checkemail.includes('@') === true) {
+  //     setErrorMail('');
+  //     memberEmail(checkemail);
+  //   } else {
+  //     setErrorMail('이메일을 잘못 입력하셨습니다');
+  //   }
+  // };
+
+  //회원가입 데이터 전송
+  const onSubmitSignUpData = () => {
+    setErrorPassWord('');
+    setOpenSignUp(false);
+    memberSignUp(loginData);
+
+    //   if (loginData.password === checkpassword) {
+    //     setErrorPassWord('');
+    //     memberSignUp(loginData);
+    //   } else {
+    //     setErrorPassWord('비밀번호를 잘못 입력하셨습니다.');
+    //   }
   };
 
   return (
@@ -44,14 +138,14 @@ function SignUpMember() {
               <InputName>아이디(이메일)</InputName>
               {errormail === '' ? (
                 <>
-                  <InputText placeholder="lighthouse@gmail.com"></InputText>
+                  <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputText>
                   <InputErrorMessageBox>
                     <InputErrorMessage></InputErrorMessage>
                   </InputErrorMessageBox>
                 </>
               ) : (
                 <>
-                  <InputTextError placeholder="lighthouse@gmail.com"></InputTextError>
+                  <InputTextError placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputTextError>
                   <InputErrorMessageBox>
                     <InputErrorMessage>잘못된 이메일 형식입니다 </InputErrorMessage>
                   </InputErrorMessageBox>
@@ -60,7 +154,9 @@ function SignUpMember() {
               <InputName>비밀번호</InputName>
               {errorpassword === '' ? (
                 <>
-                  <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" type={secret === false ? 'text' : 'password'}></InputText>
+                  <form>
+                    <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangePassword} type={secret === false ? 'text' : 'password'}></InputText>
+                  </form>
                   <InputErrorMessageBox>
                     <InputErrorMessage></InputErrorMessage>
                   </InputErrorMessageBox>
@@ -70,7 +166,9 @@ function SignUpMember() {
                 </>
               ) : (
                 <>
-                  <InputTextError placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" type={secret === false ? 'text' : 'password'}></InputTextError>
+                  <form>
+                    <InputTextError placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangePassword} type={secret === false ? 'text' : 'password'}></InputTextError>
+                  </form>
                   <InputErrorMessageBox>
                     <InputErrorMessage>잘못된 비밀번호 형식입니다 </InputErrorMessage>
                   </InputErrorMessageBox>
@@ -82,7 +180,16 @@ function SignUpMember() {
             </InputContainer>
             <BlankContainer></BlankContainer>
             <ButtonContainer>
-              <ButtonStyle>시작하기</ButtonStyle>
+              <ButtonStyle
+                // onClick={() => {
+                //   errormail === '' ? onSubmitSignUpData() : onCheckEmailDouble();
+                // }}
+                onClick={() => {
+                  onSubmitSignUpData();
+                }}
+              >
+                시작하기
+              </ButtonStyle>
             </ButtonContainer>
           </ChoiceContainer>
         </>

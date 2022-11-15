@@ -6,8 +6,12 @@ import { GoLogIn } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
+import { useMutation } from '@tanstack/react-query';
+import { EmailLoginData } from '../../api/apiPOST';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
 
@@ -29,6 +33,49 @@ function Login() {
     setGoingLogin(goinglogin - 1);
   };
 
+  // 데이터 전송을 위한 initialState
+
+  const initialState = {
+    email: '',
+    password: '',
+  };
+
+  // 데이터 전송을 위한 state
+  const [result, setResult] = useState(initialState);
+
+  //이메일 및 비밀번호 입력
+
+  const onChangeLoginInput = (e) => {
+    const { name, value } = e.target;
+    setResult({ ...result, [name]: value });
+    console.log(result);
+  };
+
+  const { mutate: emailLogin } = useMutation(EmailLoginData, {
+    onSuccess: (response) => {
+      sessionStorage.setItem('access_token', response.headers.access_token);
+      sessionStorage.setItem('refresh_token', response.headers.refresh_token);
+      console.log(response);
+      navigate('/');
+    },
+    onError: (err) => {
+      alert('로그인 실패');
+    },
+  });
+
+  const onSubmitLoginData = () => {
+    setErrorMail('');
+    emailLogin(result);
+
+    // const EmailAddress = result.email;
+    // if (EmailAddress.includes('@') === true) {
+    //   setErrorMail('');
+    //   emailLogin(result);
+    // } else {
+    //   setErrorMail('잘못된 이메일 형식입니다');
+    // }
+  };
+
   return (
     <>
       {goinglogin === 1 ? (
@@ -47,23 +94,25 @@ function Login() {
             <InputName>아이디</InputName>
             {errormail === '' ? (
               <>
-                <InputText placeholder="아이디를 입력해주세요"></InputText>
+                <InputText placeholder="아이디를 입력해주세요" name="email" onChange={onChangeLoginInput}></InputText>
                 <InputErrorMessageBox>
                   <InputErrorMessage></InputErrorMessage>
                 </InputErrorMessageBox>
               </>
             ) : (
               <>
-                <InputTextError placeholder="아이디를 입력해주세요"></InputTextError>
+                <InputTextError placeholder="아이디를 입력해주세요" name="email" onChange={onChangeLoginInput}></InputTextError>
                 <InputErrorMessageBox>
-                  <InputErrorMessage>잘못된 이메일 형식입니다 </InputErrorMessage>
+                  <InputErrorMessage>{errormail} </InputErrorMessage>
                 </InputErrorMessageBox>
               </>
             )}
             <InputName>비밀번호</InputName>
             {errorpassword === '' ? (
               <>
-                <InputText placeholder="비밀번호를 입력해주세요" type={secret === false ? 'text' : 'password'}></InputText>
+                <form>
+                  <InputText placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputText>
+                </form>
                 <InputErrorMessageBox>
                   <InputErrorMessage></InputErrorMessage>
                 </InputErrorMessageBox>
@@ -73,7 +122,9 @@ function Login() {
               </>
             ) : (
               <>
-                <InputTextError placeholder="비밀번호를 입력해주세요" type={secret === false ? 'text' : 'password'}></InputTextError>
+                <form>
+                  <InputTextError placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputTextError>
+                </form>
                 <InputErrorMessageBox>
                   <InputErrorMessage>잘못된 비밀번호 형식입니다 </InputErrorMessage>
                 </InputErrorMessageBox>
@@ -85,7 +136,7 @@ function Login() {
           </InputContainer>
           <BlankContainer2></BlankContainer2>
           <ButtonContainer>
-            <ButtonStyle>시작하기</ButtonStyle>
+            <ButtonStyle onClick={onSubmitLoginData}>시작하기</ButtonStyle>
           </ButtonContainer>
         </ChoiceContainer>
       ) : null}
