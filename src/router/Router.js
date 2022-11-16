@@ -10,8 +10,8 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="request" element={<Request />} />
-        <Route path="mypage" element={<MyPage />} />
+        <Route path="/request" element={<Request />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </div>
   );
