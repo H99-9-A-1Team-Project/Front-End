@@ -132,8 +132,8 @@ function SignUpRealtor() {
     );
     const image = document.getElementById('file');
     let formData = new FormData();
-    formData.append('content', image.files[0]);
-    formData.append('SignUpRealtorRequestDto', blob);
+    formData.append('license', image.files[0]);
+    formData.append('content', blob);
     postFormData(formData);
   };
 
