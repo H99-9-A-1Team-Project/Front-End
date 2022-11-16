@@ -16,3 +16,8 @@ export async function ReadProfile() {
   const response = await api.get('v1/myprofile');
   return response;
 }
+
+export async function ReadSignUpList() {
+  const response = await api.get('v1/realtor-approval');
+  return response;
+}

@@ -1,12 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import arrow2 from './sources/arrow2.png';
 
-export default function MyConsultHeader() {
+export default function MyConsultHeader({ text }) {
+  const navigate = useNavigate();
   return (
     <MyConsultHeaderLayout>
-      <div className="div1">
-        <img src={arrow2} alt="arrow2" />내 상담
+      <div className="div1" onClick={() => navigate('/mypage')}>
+        <img src={arrow2} alt="arrow2" />
+        {text}
       </div>
     </MyConsultHeaderLayout>
   );
