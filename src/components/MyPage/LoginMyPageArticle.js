@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
@@ -12,6 +12,8 @@ import { DeleteUser } from '../../api/apiDELETE';
 export default function LoginMyPageArticle() {
   const navigate = useNavigate();
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+  const [userInfo, setUserInfo] = useState({});
+
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
@@ -21,15 +23,17 @@ export default function LoginMyPageArticle() {
 
   const { mutate: getProfile } = useMutation(ReadProfile, {
     onSuccess: (config) => {
-      console.log(config);
+      setUserInfo(config.data);
     },
   });
 
-  useEffect(() => {
-    getProfile();
-  }, []);
-
   const { mutate: deleteUser } = useMutation(DeleteUser);
+
+  useEffect(() => {
+    if (AppLogin !== false) {
+      getProfile();
+    }
+  }, []);
 
   return (
     <Container>
@@ -39,10 +43,10 @@ export default function LoginMyPageArticle() {
         </div>
         <div className="div2">
           <div className="div3">
-            <span className="span1">username님</span>
+            <span className="span1">{userInfo.nickname}님</span>
             <span className="span2">수정</span>
           </div>
-          <span className="span3">username@naver.com</span>
+          <span className="span3">{userInfo.email}</span>
         </div>
       </div>
       <div className="body-article-container">
@@ -67,7 +71,13 @@ export default function LoginMyPageArticle() {
           로그아웃
           <img src={arrow} alt="arrow" />
         </div>
-        <div className="info-2" onClick={() => deleteUser()}>
+        <div
+          className="info-2"
+          onClick={() => {
+            deleteUser();
+            navigate('/');
+          }}
+        >
           회원탈퇴
           <img src={arrow} alt="arrow" />
         </div>
