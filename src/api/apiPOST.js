@@ -9,13 +9,13 @@ export async function MemberSignUp(MemberInfo) {
 
 //이메일 중복확인
 export async function RequestEmail(EmailDouble) {
-  const { data } = await api.post('api/emailconfirm', EmailDouble);
+  const { data } = await api.post('v1/emailconfirm', EmailDouble);
   return data;
 }
 
 //공인중개사 회원가입
 export async function RealtorSignUpFormDatas(RealtorInfo) {
-  const { data } = await api.post('api/realtor/signup', RealtorInfo);
+  const { data } = await api.post('v1/realtor/signup', RealtorInfo, { headers: { 'Content-Type': 'multipart/form-data' } });
   return data;
 }
 
