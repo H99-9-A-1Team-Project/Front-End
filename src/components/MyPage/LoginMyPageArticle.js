@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { ReadProfile } from '../../api/apiGET';
+import { DeleteUser } from '../../api/apiDELETE';
 
 export default function LoginMyPageArticle() {
   const navigate = useNavigate();
@@ -15,6 +18,18 @@ export default function LoginMyPageArticle() {
     sessionStorage.removeItem('accountstate');
     setAppLogin(false);
   };
+
+  const { mutate: getProfile } = useMutation(ReadProfile, {
+    onSuccess: (config) => {
+      console.log(config);
+    },
+  });
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const { mutate: deleteUser } = useMutation(DeleteUser);
 
   return (
     <Container>
@@ -32,7 +47,7 @@ export default function LoginMyPageArticle() {
       </div>
       <div className="body-article-container">
         <div className="info-1">상담</div>
-        <div className="info-2">
+        <div className="info-2" onClick={() => navigate('/myconsult')}>
           내상담
           <img src={arrow} alt="arrow" />
         </div>
@@ -52,7 +67,7 @@ export default function LoginMyPageArticle() {
           로그아웃
           <img src={arrow} alt="arrow" />
         </div>
-        <div className="info-2">
+        <div className="info-2" onClick={() => deleteUser()}>
           회원탈퇴
           <img src={arrow} alt="arrow" />
         </div>
