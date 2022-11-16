@@ -8,6 +8,8 @@ import CompleteModal from './CompleteModal';
 import InnerModal from './InnerModal';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
+import { useMutation } from '@tanstack/react-query';
+import { RealtorSignUpFormDatas } from '../../api/apiPOST';
 
 function SignUpRealtor() {
   const welcometext = '사용할 회원 정보를\n 입력해주세요';
@@ -30,6 +32,16 @@ function SignUpRealtor() {
 
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
+
+  //데이터 전송용 initialstate
+  const initialState = {
+    email: '',
+    password: '',
+    nickname: '',
+  };
+
+  //데이터 전송을 위한 state
+  const [loginData, setLoginData] = useState(initialState);
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
@@ -54,6 +66,20 @@ function SignUpRealtor() {
     setNextTor(nexttor + 1);
   };
 
+  // 이메일 비밀번호 onchange // 닉네임 생성
+  const onChangeEmail = (e) => {
+    const { name, value } = e.target;
+    // setCheckemail({ ...checkemail, [name]: value });
+    setLoginData({ ...loginData, [name]: value });
+    // setEmailPassword(loginData.email);
+    console.log('def', loginData);
+  };
+  const onblurChange = () => {
+    const Nickname = loginData.email.split('@')[0];
+    setLoginData({ ...loginData, nickname: Nickname });
+    console.log(loginData);
+  };
+
   //이미지 입력 및 미리보기
   const [licenseimage, setLicenseImage] = useState('');
   const onFileChangeHandler = (e) => {
@@ -62,20 +88,64 @@ function SignUpRealtor() {
       reader.readAsDataURL(e.target.files[0]);
       console.log(e.target.files[0]);
       setLicenseImage(e.target.files[0]);
+      console.log(licenseimage);
     }
     reader.onloadend = () => {
       const resultImage = reader.result;
       setPreviewImage(resultImage);
+      console.log(resultImage);
     };
   };
 
-  //가입하기 버튼 (페이지 이동 및 모달창 오픈 )
-  const onOpenModalMovePage = () => {
-    setModalOpen(true);
-    setOpenSignUp(false);
-    setNextTor(0);
-    navigate('/');
+  // //가입하기 버튼 (페이지 이동 및 모달창 오픈 )
+  // const onOpenModalMovePage = () => {
+  //   setModalOpen(true);
+  //   setOpenSignUp(false);
+  //   setNextTor(0);
+  //   navigate('/');
+  // };
+
+  //mutate
+  const { mutate: postFormData } = useMutation(RealtorSignUpFormDatas, {
+    onSuccess: (response) => {
+      alert('가입신청!');
+      navigate('/');
+    },
+    onError: (error) => {
+      alert('가입신청실패!');
+    },
+  });
+
+  //가입하기
+  const onSubmit = () => {
+    const blob = new Blob(
+      [
+        JSON.stringify({
+          email: loginData.email,
+          password: loginData.password,
+          nickname: loginData.nickname,
+        }),
+      ],
+      {
+        type: 'application/json',
+      }
+    );
+    const image = document.getElementById('file');
+    let formData = new FormData();
+    formData.append('content', image.files[0]);
+    formData.append('SignUpRealtorRequestDto', blob);
+    postFormData(formData);
   };
+
+  // //가입하기
+  // const onSubmit = () => {
+  //   const formData = new FormData();
+  //   formData.append('file', licenseimage);
+  //   formData.append('nickname', loginData.nickname);
+  //   formData.append('email', loginData.email);
+  //   formData.append('password', loginData.password);
+  //   postFormData(formData);
+  // };
 
   return (
     <>
@@ -90,43 +160,24 @@ function SignUpRealtor() {
           </WelcomeQuestionContainer>
           <InputContainer>
             <InputName>아이디(이메일)</InputName>
-            {errormail === '' ? (
-              <>
-                <InputText placeholder="lighthouse@gmail.com"></InputText>
-                <InputErrorMessageBox>
-                  <InputErrorMessage></InputErrorMessage>
-                </InputErrorMessageBox>
-              </>
-            ) : (
-              <>
-                <InputTextError placeholder="lighthouse@gmail.com"></InputTextError>
-                <InputErrorMessageBox>
-                  <InputErrorMessage>잘못된 이메일 형식입니다 </InputErrorMessage>
-                </InputErrorMessageBox>
-              </>
-            )}
+
+            <>
+              <InputText placeholder="lighthouse@gmail.com" name="email" onChange={onChangeEmail} onBlur={onblurChange}></InputText>
+              <InputErrorMessageBox>
+                <InputErrorMessage> {errormail === '' ? null : errormail}</InputErrorMessage>
+              </InputErrorMessageBox>
+            </>
             <InputName>비밀번호</InputName>
-            {errorpassword === '' ? (
-              <>
-                <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" type={secret === false ? 'text' : 'password'}></InputText>
-                <InputErrorMessageBox>
-                  <InputErrorMessage></InputErrorMessage>
-                </InputErrorMessageBox>
-                <PasswordViewButtonContainer>
-                  <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-                </PasswordViewButtonContainer>
-              </>
-            ) : (
-              <>
-                <InputTextError placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" type={secret === false ? 'text' : 'password'}></InputTextError>
-                <InputErrorMessageBox>
-                  <InputErrorMessage>잘못된 비밀번호 형식입니다 </InputErrorMessage>
-                </InputErrorMessageBox>
-                <PasswordViewButtonContainer>
-                  <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-                </PasswordViewButtonContainer>
-              </>
-            )}
+
+            <>
+              <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputText>
+              <InputErrorMessageBox>
+                <InputErrorMessage>{errorpassword === '' ? null : errorpassword}</InputErrorMessage>
+              </InputErrorMessageBox>
+              <PasswordViewButtonContainer>
+                <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+              </PasswordViewButtonContainer>
+            </>
           </InputContainer>
           <BlankContainer></BlankContainer>
           <ButtonContainer>
@@ -154,7 +205,8 @@ function SignUpRealtor() {
           <ButtonContainer>
             <ButtonStyle
               onClick={() => {
-                onOpenModalMovePage(!modalOpen);
+                // onOpenModalMovePage(!modalOpen);
+                onSubmit();
               }}
             >
               가입하기
