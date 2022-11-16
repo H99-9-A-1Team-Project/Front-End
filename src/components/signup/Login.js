@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState } from 'recoil';
-import { GoLogIn } from '../../store/store';
+import { GoLogIn, isLogin } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -22,6 +22,8 @@ function Login() {
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
+
+  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
 
   //비밀번호 미리보기 이벤트 핸들러
   const onPreviewPW = (e) => {
@@ -55,6 +57,8 @@ function Login() {
     onSuccess: (response) => {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
+      sessionStorage.setItem('accountstate', response.data.accountState);
+      setAppLogin(true);
       console.log(response);
       navigate('/');
     },
