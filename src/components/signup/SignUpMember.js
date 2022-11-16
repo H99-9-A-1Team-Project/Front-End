@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { NextMem, ChangeSignUp } from '../../store/store';
@@ -136,7 +136,7 @@ function SignUpMember() {
                 </>
               ) : (
                 <>
-                  <InputTextError placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputTextError>
+                  <InputTextError placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail} onBlur={() => onblurChange()}></InputTextError>
                   <InputErrorMessageBox>
                     <InputErrorMessage>잘못된 이메일 형식입니다 </InputErrorMessage>
                   </InputErrorMessageBox>
