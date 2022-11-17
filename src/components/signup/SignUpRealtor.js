@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState } from 'recoil';
-import { NextTor, CloseModal, ChangeSignUp } from '../../store/store';
+import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2 } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import CompleteModal from './CompleteModal';
 import InnerModal from './InnerModal';
@@ -18,6 +18,12 @@ function SignUpRealtor() {
   const navigate = useNavigate();
   //공인중개사 회원 이전과 다음으로 넘어가기 위한 recoilState
   const [nexttor, setNextTor] = useRecoilState(NextTor);
+
+  //이메일 확인할 usestate
+  const [checkemail, setCheckemail] = useState('');
+
+  //비밀번호 확인할 usestate
+  const [checkpassword, setCheckPassword] = useState('');
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
@@ -43,6 +49,13 @@ function SignUpRealtor() {
   //데이터 전송을 위한 state
   const [loginData, setLoginData] = useState(initialState);
 
+  //버튼 활성화 및 오류메시지 색상 활성화를 위한 state
+  const [valid, setValid] = useRecoilState(itsNotOK);
+  const [psvalid, setPsValid] = useRecoilState(itsNotOK2);
+  const isValidLogin = !(valid && psvalid);
+  const [isEmail, setIsEmail] = useState();
+  const [isPassword, setIsPassword] = useState();
+
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
 
@@ -60,27 +73,61 @@ function SignUpRealtor() {
 
   const onPrevRealtorPage = () => {
     setNextTor(nexttor - 1);
+    setValid(false);
+    setPsValid(false);
   };
 
   const onNextRealtorPage = () => {
     setNextTor(nexttor + 1);
+    setValid(false);
+    setPsValid(false);
   };
 
   // 이메일 비밀번호 onchange // 닉네임 생성
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
-    // setCheckemail({ ...checkemail, [name]: value });
     setLoginData({ ...loginData, [name]: value });
-    // setEmailPassword(loginData.email);
     console.log('def', loginData);
+    const emailData = loginData.email;
+    const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (exptext.test(emailData) == false) {
+      setCheckemail('잘못된 이메일 형식입니다.');
+      setIsEmail(false);
+      setValid(false);
+      // emailData.focus();
+    } else {
+      setCheckemail('알맞은 형식입니다 :) ');
+      setIsEmail(true);
+      setValid(true);
+    }
   };
+
   const onblurChange = () => {
     const Nickname = loginData.email.split('@')[0];
     setLoginData({ ...loginData, nickname: Nickname });
     console.log(loginData);
   };
 
+  const onChangePassword = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+    console.log('ABC', loginData);
+    const passwordData = loginData.password;
+    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,30}$/;
+    if (expword.test(passwordData) == false) {
+      setCheckPassword('잘못된 비밀번호 형식입니다');
+      setIsPassword(false);
+      setPsValid(false);
+      // passwordData.focus();
+    } else {
+      setCheckPassword('알맞은 형식입니다 :)');
+      setIsPassword(true);
+      setPsValid(true);
+    }
+  };
+
   //이미지 입력 및 미리보기
+
   const [licenseimage, setLicenseImage] = useState('');
   const onFileChangeHandler = (e) => {
     let reader = new FileReader();
@@ -131,21 +178,13 @@ function SignUpRealtor() {
       }
     );
     const image = document.getElementById('file');
+    setLicenseImage(image);
     let formData = new FormData();
     formData.append('license', image.files[0]);
     formData.append('content', blob);
     postFormData(formData);
   };
-
-  // //가입하기
-  // const onSubmit = () => {
-  //   const formData = new FormData();
-  //   formData.append('file', licenseimage);
-  //   formData.append('nickname', loginData.nickname);
-  //   formData.append('email', loginData.email);
-  //   formData.append('password', loginData.password);
-  //   postFormData(formData);
-  // };
+  const isVaildPhoto = !licenseimage;
 
   return (
     <>
@@ -159,29 +198,48 @@ function SignUpRealtor() {
             <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
           </WelcomeQuestionContainer>
           <InputContainer>
-            <InputName>아이디(이메일)</InputName>
+            <InputBox>
+              <InputName>아이디(이메일)</InputName>
 
-            <>
-              <InputText placeholder="lighthouse@gmail.com" name="email" onChange={onChangeEmail} onBlur={onblurChange}></InputText>
-              <InputErrorMessageBox>
-                <InputErrorMessage> {errormail === '' ? null : errormail}</InputErrorMessage>
-              </InputErrorMessageBox>
-            </>
-            <InputName>비밀번호</InputName>
+              <>
+                <InputText
+                  placeholder="lighthouse@gmail.com"
+                  name="email"
+                  onChange={onChangeEmail}
+                  onBlur={onblurChange}
+                  style={{
+                    border: isEmail === false ? '1px solid #d14343 ' : 'none',
+                  }}
+                ></InputText>
+                <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+              </>
+            </InputBox>
+            <InputBoxPassword>
+              <InputName>비밀번호</InputName>
 
-            <>
-              <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputText>
-              <InputErrorMessageBox>
-                <InputErrorMessage>{errorpassword === '' ? null : errorpassword}</InputErrorMessage>
-              </InputErrorMessageBox>
-              <PasswordViewButtonContainer>
-                <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-              </PasswordViewButtonContainer>
-            </>
+              <InputText
+                placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합"
+                autocomplete="current-password"
+                name="password"
+                onChange={onChangePassword}
+                type={secret === false ? 'text' : 'password'}
+                style={{
+                  border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                }}
+              ></InputText>
+            </InputBoxPassword>
+            <ErrorMsgPreview>
+              <InputErrorMessageBoxPassword>
+                {isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}
+              </InputErrorMessageBoxPassword>
+              <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+            </ErrorMsgPreview>
           </InputContainer>
           <BlankContainer></BlankContainer>
           <ButtonContainer>
-            <ButtonStyle onClick={onNextRealtorPage}>다음</ButtonStyle>
+            <ButtonStyle type="submit" disabled={isValidLogin} onClick={onNextRealtorPage}>
+              다음
+            </ButtonStyle>
           </ButtonContainer>
         </ChoiceContainer>
       ) : null}
@@ -204,6 +262,8 @@ function SignUpRealtor() {
           <BlankContainer2></BlankContainer2>
           <ButtonContainer>
             <ButtonStyle
+              type="submit"
+              disabled={isVaildPhoto}
               onClick={() => {
                 // onOpenModalMovePage(!modalOpen);
                 onSubmit();
@@ -257,14 +317,14 @@ const BackpageIconBox = styled.img`
 `;
 const SignUpTitle = styled.div`
   background-color: white;
-  width: 50px;
+  width: 70px;
   height: 20px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;
 
 const WelcomeQuestionContainer = styled.div`
@@ -282,11 +342,11 @@ const WelcomeQuestionbox = styled.div`
   position: absolute;
   left: 16px;
   top: 24px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
+  font-family: var(--headline-font-family);
+  font-size: var(--headline_Large-font-size);
+  font-weight: var(--headline_Large-font-weight);
+  line-height: var(--headline_Large-line-height);
   display: flex;
   align-items: center;
   white-space: pre-line;
@@ -309,11 +369,11 @@ const WelcomeQuestionbox2 = styled.div`
   position: absolute;
   left: 16px;
   top: 24px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
+  font-family: var(--headline-font-family);
+  font-size: var(--headline_Large-font-size);
+  font-weight: var(--headline_Large-font-weight);
+  line-height: var(--headline_Large-line-height);
   white-space: pre-line;
 `;
 const WelcomeInfobox = styled.div`
@@ -323,12 +383,12 @@ const WelcomeInfobox = styled.div`
   left: 16px;
   top: 96px;
   position: absolute;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
   color: #000000;
   background-color: white;
 `;
@@ -363,7 +423,7 @@ const ImageInput = styled.input`
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: none;
-  background-color: blue;
+  background-color: white;
   border-radius: 8px;
 `;
 
@@ -387,34 +447,50 @@ const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const InputBox = styled.div`
+  width: 328px;
+  height: 82px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const InputBoxPassword = styled.div`
+  width: 328px;
+  height: 64px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const InputName = styled.div`
   width: 328px;
   height: 20px;
   display: flex;
   justify-content: left;
   background-color: white;
-  font-size: 14px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;
+
 const InputText = styled.input`
   width: 328px;
   height: 44px;
   border-radius: 8px;
   border: none;
   background-color: white;
+  :focus {
+    outline: none;
+  }
 `;
 
-const InputTextError = styled.input`
-  width: 328px;
-  height: 44px;
-  border-radius: 8px;
-  background-color: white;
-  border: 1px solid #d14343;
-`;
 const InputErrorMessageBox = styled.div`
   width: 328px;
   height: 16px;
@@ -422,24 +498,38 @@ const InputErrorMessageBox = styled.div`
   display: flex;
   align-items: center;
 `;
-const InputErrorMessage = styled.div`
+const InputErrorMessageBoxPassword = styled.div`
+  width: 304px;
+  height: 16px;
+  background-color: white;
+  display: flex;
+  align-items: flex-end;
+`;
+
+const InputMessage = styled.div`
   width: 328px;
   height: 12px;
-  font-family: 'Inter';
   font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-  color: #d14343;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+  color: #c5c8cb;
   background-color: white;
 `;
 
-const PasswordViewButtonContainer = styled.div`
+const InputErrorMessage = styled.div`
   width: 328px;
-  height: 24px;
+  height: 12px;
+  font-style: normal;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+  color: #d14343;
   background-color: white;
-  display: flex;
-  justify-content: right;
 `;
 
 const PasswordViewButtonImg = styled.img`
@@ -448,6 +538,14 @@ const PasswordViewButtonImg = styled.img`
   background-color: white;
 `;
 
+const ErrorMsgPreview = styled.div`
+  width: 328px;
+  height: 24px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+`;
 const BlankContainer = styled.div`
   width: 360px;
   height: 344px;
@@ -467,17 +565,24 @@ const ButtonContainer = styled.div`
   /* background-color: green; */
 `;
 
-const ButtonStyle = styled.div`
+const ButtonStyle = styled.button`
   width: 328px;
-
   height: 60px;
+  border: none;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background-color: #c5c8cb;
-  :hover {
+  font-family: var(--button-font-family);
+  font-size: var(--button_Large-font-size);
+  font-weight: var(--button_Large-font-weight);
+  line-height: var(--button_Large-line-height);
+  letter-spacing: var(--button_Large-letter-spacing);
+  :disabled {
+    background-color: #c5c8cb;
+  }
+  :enabled {
     background-color: #3c6eef;
     color: white;
   }

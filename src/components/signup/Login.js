@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState } from 'recoil';
-import { GoLogIn, isLogin, NextTor, NextMem  } from '../../store/store';
+import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2 } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -17,6 +17,11 @@ function Login() {
   const [nexttor, setNextTor] = useRecoilState(NextTor);
   const [nextmem, setNextMem] = useRecoilState(NextMem);
 
+  //이메일 확인할 usestate
+  const [checkemail, setCheckemail] = useState('');
+
+  //비밀번호 확인할 usestate
+  const [checkpassword, setCheckPassword] = useState('');
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
@@ -28,6 +33,13 @@ function Login() {
 
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
 
+  //버튼 활성화 및 오류메시지 색상 활성화를 위한 state
+  const [valid, setValid] = useRecoilState(itsNotOK);
+  const [psvalid, setPsValid] = useRecoilState(itsNotOK2);
+  const isValidLogin = !(valid && psvalid);
+  const [isEmail, setIsEmail] = useState();
+  const [isPassword, setIsPassword] = useState();
+
   //비밀번호 미리보기 이벤트 핸들러
   const onPreviewPW = (e) => {
     setSecret(!secret);
@@ -36,10 +48,8 @@ function Login() {
   // 이미 가입된 회원 모달 이전으로 넘기는 버튼용 함수
   const onGoingLogIn = () => {
     setGoingLogin(0);
-    setNextMem(0);
-    setNextTor(0);
-    navigate('/');
-    // window.location.reload();
+    // navigate('/');
+    window.location.reload();
   };
 
   // 데이터 전송을 위한 initialState
@@ -50,14 +60,42 @@ function Login() {
   };
 
   // 데이터 전송을 위한 state
-  const [result, setResult] = useState(initialState);
+  const [loginData, setLoginData] = useState(initialState);
 
   //이메일 및 비밀번호 입력
-
-  const onChangeLoginInput = (e) => {
+  const onChangeEmail = (e) => {
     const { name, value } = e.target;
-    setResult({ ...result, [name]: value });
-    console.log(result);
+    setLoginData({ ...loginData, [name]: value });
+    console.log('def', loginData);
+    const emailData = loginData.email;
+    const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (exptext.test(emailData) == false) {
+      setCheckemail('잘못된 이메일 형식입니다.');
+      setIsEmail(false);
+      setValid(false);
+      // emailData.focus();
+    } else {
+      setCheckemail('알맞은 형식입니다 :) ');
+      setIsEmail(true);
+      setValid(true);
+    }
+  };
+  const onChangePassword = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+    console.log('ABC', loginData);
+    const passwordData = loginData.password;
+    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    if (expword.test(passwordData) == false) {
+      setCheckPassword('잘못된 비밀번호 형식입니다');
+      setIsPassword(false);
+      setPsValid(false);
+      // passwordData.focus();
+    } else {
+      setCheckPassword('알맞은 형식입니다 :)');
+      setIsPassword(true);
+      setPsValid(true);
+    }
   };
 
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
@@ -70,13 +108,13 @@ function Login() {
       navigate('/');
     },
     onError: (err) => {
-      alert('로그인 실패');
+      alert(err.response.data.errorMessage);
     },
   });
 
   const onSubmitLoginData = () => {
     setErrorMail('');
-    emailLogin(result);
+    emailLogin(loginData);
 
     // const EmailAddress = result.email;
     // if (EmailAddress.includes('@') === true) {
@@ -102,27 +140,47 @@ function Login() {
             </WelcomeQuestionbox>
           </WelcomeQuestionContainer>
           <InputContainer>
-            <InputName>아이디</InputName>
-            <>
-              <InputText placeholder="아이디를 입력해주세요" name="email" onChange={onChangeLoginInput}></InputText>
-              <InputErrorMessageBox>
-                <InputErrorMessage>{errormail === '' ? null : errormail}</InputErrorMessage>
-              </InputErrorMessageBox>
-            </>
-            <InputName>비밀번호</InputName>
-                 <form>
-                <InputText placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputText>
-              </form>
-              <InputErrorMessageBox>
-                <InputErrorMessage>{errorpassword === '' ? null : errorpassword}</InputErrorMessage>
-              </InputErrorMessageBox>
-              <PasswordViewButtonContainer>
-                <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-              </PasswordViewButtonContainer>
+            <InputBox>
+              <InputName>아이디</InputName>
+              <>
+                <InputText
+                  placeholder="아이디를 입력해주세요"
+                  type="text"
+                  name="email"
+                  onChange={onChangeEmail}
+                  style={{
+                    border: isEmail === false ? '1px solid #d14343 ' : 'none',
+                  }}
+                ></InputText>
+                <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+              </>
+            </InputBox>
+            <InputBoxPassword>
+              <InputName>비밀번호</InputName>
+
+              <InputText
+                placeholder="비밀번호를 입력해주세요"
+                name="password"
+                type={secret === false ? 'text' : 'password'}
+                autocomplete="current-password"
+                onChange={onChangePassword}
+                style={{
+                  border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                }}
+              ></InputText>
+            </InputBoxPassword>
+            <ErrorMsgPreview>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
+              </InputErrorMessageBoxPassword>
+              <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+            </ErrorMsgPreview>
           </InputContainer>
           <BlankContainer2></BlankContainer2>
           <ButtonContainer>
-            <ButtonStyle onClick={onSubmitLoginData}>시작하기</ButtonStyle>
+            <ButtonStyle type="submit" disabled={isValidLogin} onClick={onSubmitLoginData}>
+              시작하기
+            </ButtonStyle>
           </ButtonContainer>
         </ChoiceContainer>
       ) : null}
@@ -164,14 +222,14 @@ const BackpageIconBox = styled.img`
 `;
 const SignUpTitle = styled.div`
   background-color: white;
-  width: 50px;
+  width: 70px;
   height: 20px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;
 
 const WelcomeQuestionContainer = styled.div`
@@ -226,18 +284,36 @@ const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const InputBox = styled.div`
+  width: 328px;
+  height: 82px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const InputBoxPassword = styled.div`
+  width: 328px;
+  height: 64px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 const InputName = styled.div`
   width: 328px;
   height: 20px;
   display: flex;
   justify-content: left;
   background-color: white;
-  font-size: 14px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;
 const InputText = styled.input`
   width: 328px;
@@ -245,41 +321,50 @@ const InputText = styled.input`
   border-radius: 8px;
   border: none;
   background-color: white;
+  :focus {
+    outline: none;
+  }
 `;
 
-const InputTextError = styled.input`
-  width: 328px;
-  height: 44px;
-  border-radius: 8px;
-  background-color: white;
-  border: 1px solid #d14343;
-`;
 const InputErrorMessageBox = styled.div`
   width: 328px;
   height: 16px;
   background-color: white;
   display: flex;
   align-items: center;
-  margin-bottom: 4px;
+`;
+
+const InputErrorMessageBoxPassword = styled.div`
+  width: 304px;
+  height: 16px;
+  background-color: white;
+  display: flex;
+  align-items: flex-end;
+`;
+
+const InputMessage = styled.div`
+  width: 328px;
+  height: 12px;
+  font-style: normal;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+  color: #c5c8cb;
+  background-color: white;
 `;
 const InputErrorMessage = styled.div`
   width: 328px;
   height: 12px;
-  font-family: 'Inter';
   font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
   color: #d14343;
   background-color: white;
-`;
-
-const PasswordViewButtonContainer = styled.div`
-  width: 328px;
-  height: 24px;
-  background-color: white;
-  display: flex;
-  justify-content: right;
 `;
 
 const PasswordViewButtonImg = styled.img`
@@ -287,12 +372,15 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: white;
 `;
-
-const BlankContainer = styled.div`
-  width: 360px;
-  height: 293px;
+const ErrorMsgPreview = styled.div`
+  width: 328px;
+  height: 24px;
   background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 `;
+
 const BlankContainer2 = styled.div`
   width: 360px;
   height: 269px;
@@ -308,17 +396,24 @@ const ButtonContainer = styled.div`
   /* background-color: green; */
 `;
 
-const ButtonStyle = styled.div`
+const ButtonStyle = styled.button`
   width: 328px;
-
   height: 60px;
+  border: none;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background-color: #c5c8cb;
-  :hover {
+  font-family: var(--button-font-family);
+  font-size: var(--button_Large-font-size);
+  font-weight: var(--button_Large-font-weight);
+  line-height: var(--button_Large-line-height);
+  letter-spacing: var(--button_Large-letter-spacing);
+  :disabled {
+    background-color: #c5c8cb;
+  }
+  :enabled {
     background-color: #3c6eef;
     color: white;
   }
