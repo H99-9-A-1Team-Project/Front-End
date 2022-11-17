@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState } from 'recoil';
-import { GoLogIn } from '../../store/store';
+import { GoLogIn, isLogin, NextTor, NextMem  } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -14,6 +14,9 @@ function Login() {
   const navigate = useNavigate();
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+  const [nexttor, setNextTor] = useRecoilState(NextTor);
+  const [nextmem, setNextMem] = useRecoilState(NextMem);
+
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
@@ -23,6 +26,8 @@ function Login() {
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
 
+  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+
   //비밀번호 미리보기 이벤트 핸들러
   const onPreviewPW = (e) => {
     setSecret(!secret);
@@ -30,7 +35,11 @@ function Login() {
 
   // 이미 가입된 회원 모달 이전으로 넘기는 버튼용 함수
   const onGoingLogIn = () => {
-    setGoingLogin(goinglogin - 1);
+    setGoingLogin(0);
+    setNextMem(0);
+    setNextTor(0);
+    navigate('/');
+    // window.location.reload();
   };
 
   // 데이터 전송을 위한 initialState
@@ -55,6 +64,8 @@ function Login() {
     onSuccess: (response) => {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
+      sessionStorage.setItem('accountstate', response.data.accountState);
+      setAppLogin(true);
       console.log(response);
       navigate('/');
     },
@@ -92,47 +103,22 @@ function Login() {
           </WelcomeQuestionContainer>
           <InputContainer>
             <InputName>아이디</InputName>
-            {errormail === '' ? (
-              <>
-                <InputText placeholder="아이디를 입력해주세요" name="email" onChange={onChangeLoginInput}></InputText>
-                <InputErrorMessageBox>
-                  <InputErrorMessage></InputErrorMessage>
-                </InputErrorMessageBox>
-              </>
-            ) : (
-              <>
-                <InputTextError placeholder="아이디를 입력해주세요" name="email" onChange={onChangeLoginInput}></InputTextError>
-                <InputErrorMessageBox>
-                  <InputErrorMessage>{errormail} </InputErrorMessage>
-                </InputErrorMessageBox>
-              </>
-            )}
+            <>
+              <InputText placeholder="아이디를 입력해주세요" name="email" onChange={onChangeLoginInput}></InputText>
+              <InputErrorMessageBox>
+                <InputErrorMessage>{errormail === '' ? null : errormail}</InputErrorMessage>
+              </InputErrorMessageBox>
+            </>
             <InputName>비밀번호</InputName>
-            {errorpassword === '' ? (
-              <>
-                <form>
-                  <InputText placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputText>
-                </form>
-                <InputErrorMessageBox>
-                  <InputErrorMessage></InputErrorMessage>
-                </InputErrorMessageBox>
-                <PasswordViewButtonContainer>
-                  <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-                </PasswordViewButtonContainer>
-              </>
-            ) : (
-              <>
-                <form>
-                  <InputTextError placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputTextError>
-                </form>
-                <InputErrorMessageBox>
-                  <InputErrorMessage>잘못된 비밀번호 형식입니다 </InputErrorMessage>
-                </InputErrorMessageBox>
-                <PasswordViewButtonContainer>
-                  <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-                </PasswordViewButtonContainer>
-              </>
-            )}
+                 <form>
+                <InputText placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputText>
+              </form>
+              <InputErrorMessageBox>
+                <InputErrorMessage>{errorpassword === '' ? null : errorpassword}</InputErrorMessage>
+              </InputErrorMessageBox>
+              <PasswordViewButtonContainer>
+                <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+              </PasswordViewButtonContainer>
           </InputContainer>
           <BlankContainer2></BlankContainer2>
           <ButtonContainer>

@@ -1,13 +1,19 @@
+import { useRecoilValue } from 'recoil';
+import AdminMyPageArticle from '../components/admin/AdminMyPageArticle';
 import MainPageHeader from '../components/main/MainPageHeader';
 import MainPageTabBar from '../components/main/MainPageTabBar';
-import MyPageArticle from '../components/MyPage/MyPageArticle';
-import Layout from '../global/components/MyPageLayout';
+import LoginMyPageArticle from '../components/MyPage/LoginMyPageArticle';
+import LogoutMyPageArticle from '../components/MyPage/LogoutMyPageArticle';
+import Layout from '../global/components/Layout';
+import { isLogin } from '../store/store';
 
 export default function MyPage() {
+  const loginState = useRecoilValue(isLogin);
+  const accountstate = sessionStorage.getItem('accountstate');
   return (
     <Layout>
       <MainPageHeader />
-      <MyPageArticle />
+      {accountstate === '2' ? <AdminMyPageArticle /> : !loginState ? <LogoutMyPageArticle /> : <LoginMyPageArticle />}
       <MainPageTabBar />
     </Layout>
   );

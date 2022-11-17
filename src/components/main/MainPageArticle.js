@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 
 export default function MainPageArticle() {
   const navigate = useNavigate();
+
   const onStartLogin = () => {
     navigate('/signup');
   };
+
   return (
     <ArticleContainer>
       <TextGuide>

@@ -1,17 +1,23 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../global/global.css';
 import arrow from './sources/arrow.png';
 
-export default function MyPageArticle() {
+export default function LogoutMyPageArticle() {
+  const navigate = useNavigate();
   return (
     <Container>
       <div className="head-article-container">
         <div className="div1">
-          <span className="span">로그인</span>
+          <span className="span" onClick={() => navigate('/signup')}>
+            로그인
+          </span>
           <span className="span1"> 혹은</span>
         </div>
         <div className="div2">
-          <span className="span">회원가입</span>
+          <span className="span" onClick={() => navigate('/signup')}>
+            회원가입
+          </span>
           <span className="span1">이 필요해요</span>
         </div>
       </div>
@@ -46,6 +52,7 @@ const Container = styled.div`
     line-height: var(--headline_Large-line-height);
     letter-spacing: var(--headline_Large-letter-spacing);
     border-bottom: 4px solid var(--gray6);
+    border-top: 1px solid var(--gray6);
     div {
       background-color: white;
       margin-left: 19px;

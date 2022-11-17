@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { NextMem, ChangeSignUp } from '../../store/store';
@@ -88,6 +88,7 @@ function SignUpMember() {
     onSuccess: () => {
       alert('회원가입완료!');
       navigate('/');
+      setNextMem(0);
     },
     onError: () => {
       setErrorPassWord('회원가입오류');
@@ -127,47 +128,26 @@ function SignUpMember() {
             </WelcomeQuestionContainer>
             <InputContainer>
               <InputName>아이디(이메일)</InputName>
-              {errormail === '' ? (
-                <>
-                  <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail} onBlur={onblurChange}></InputText>
-                  <InputErrorMessageBox>
-                    <InputErrorMessage></InputErrorMessage>
-                  </InputErrorMessageBox>
-                </>
-              ) : (
-                <>
-                  <InputTextError placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail}></InputTextError>
-                  <InputErrorMessageBox>
-                    <InputErrorMessage>잘못된 이메일 형식입니다 </InputErrorMessage>
-                  </InputErrorMessageBox>
-                </>
-              )}
+
+              <>
+                <InputText placeholder="lighthouse@gmail.com" name="email" type="text" onChange={onChangeEmail} onBlur={onblurChange}></InputText>
+                <InputErrorMessageBox>
+                  <InputErrorMessage>{errormail === '' ? null : errormail}</InputErrorMessage>
+                </InputErrorMessageBox>
+              </>
+
               <InputName>비밀번호</InputName>
-              {errorpassword === '' ? (
-                <>
-                  <form>
-                    <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputText>
-                  </form>
-                  <InputErrorMessageBox>
-                    <InputErrorMessage></InputErrorMessage>
-                  </InputErrorMessageBox>
-                  <PasswordViewButtonContainer>
-                    <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-                  </PasswordViewButtonContainer>
-                </>
-              ) : (
-                <>
-                  <form>
-                    <InputTextError placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputTextError>
-                  </form>
-                  <InputErrorMessageBox>
-                    <InputErrorMessage>잘못된 비밀번호 형식입니다 </InputErrorMessage>
-                  </InputErrorMessageBox>
-                  <PasswordViewButtonContainer>
-                    <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-                  </PasswordViewButtonContainer>
-                </>
-              )}
+              <>
+                <form>
+                  <InputText placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합" autocomplete="current-password" name="password" onChange={onChangeEmail} type={secret === false ? 'text' : 'password'}></InputText>
+                </form>
+                <InputErrorMessageBox>
+                  <InputErrorMessage> {errorpassword === '' ? null : errorpassword}</InputErrorMessage>
+                </InputErrorMessageBox>
+                <PasswordViewButtonContainer>
+                  <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+                </PasswordViewButtonContainer>
+              </>
             </InputContainer>
             <BlankContainer></BlankContainer>
             <ButtonContainer>

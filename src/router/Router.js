@@ -8,6 +8,9 @@ import Request2 from '../pages/Request2';
 import Request3 from '../pages/Request3';
 import './route.css';
 import RequestCheck from '../pages/RequestCheck';
+import MyPageMyConsult from '../pages/MyPageMyConsult';
+import MyPageAdmin from '../pages/MyPageAdmin';
+
 export default function Router() {
   return (
     <div className="app">
@@ -20,6 +23,9 @@ export default function Router() {
         <Route path="request2" element={<Request2 />} />
         <Route path="request3" element={<Request3 />} />
         <Route path="requestcheck" element={<RequestCheck />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/myconsult" element={<MyPageMyConsult />} />
+        <Route path="/admin" element={<MyPageAdmin />} />
       </Routes>
     </div>
   );
