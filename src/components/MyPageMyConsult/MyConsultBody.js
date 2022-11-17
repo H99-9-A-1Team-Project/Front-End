@@ -81,20 +81,65 @@ const StMyPageBodyWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     background-color: var(--primary2-100);
     padding: 16px;
+    .container-header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: var(--primary2-100);
+      margin-bottom: 0;
+    }
     .title-box {
       display: flex;
       align-items: center;
       width: 246px;
-      height: 40px;
+      background-color: var(--primary2-100);
+      font-family: var(--button-font-family);
+      font-size: var(--button_Large-font-size);
+      font-weight: var(--button_Large-font-weight);
+      line-height: var(--button_Large-line-height);
+      letter-spacing: var(--button_Large-letter-spacing);
     }
     .answer-icon {
       width: 42px;
       height: 24px;
       border-radius: 4px;
+      color: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
       background-color: var(--primary2-400);
+      font-family: var(--button-font-family);
+      font-size: var(--button_Small-font-size);
+      font-weight: var(--button_Small-font-weight);
+      line-height: var(--button_Small-line-height);
+      letter-spacing: var(--button_Small-letter-spacing);
+    }
+    .time {
+      margin-top: 8px;
+      background-color: var(--primary2-100);
+      color: var(--gray3);
+      font-family: var(--button-font-family);
+      font-size: var(--body_Small-font-size);
+      font-weight: var(--body_Small-font-weight);
+      line-height: var(--body_Small-line-height);
+      letter-spacing: var(--body_Small-letter-spacing);
+    }
+    .consulting-message {
+      width: 100%;
+      margin-top: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background-color: var(--primary2-100);
+      font-family: var(--button-font-family);
+      font-size: var(--button_Medium-font-size);
+      font-weight: var(--button_Medium-font-weight);
+      line-height: var(--button_Medium-line-height);
+      letter-spacing: var(--button_Medium-letter-spacing);
     }
   }
   .consulting-container {
