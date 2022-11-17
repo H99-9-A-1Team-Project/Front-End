@@ -6,6 +6,7 @@ export default function Layout({ children }) {
 
 const StLayout = styled.div`
   width: 100%;
+  height: 800px;
   height: 100%;
   display: flex;
   flex-direction: column;
