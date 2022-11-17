@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import styled from 'styled-components';
-import { UpdateRealtorApproval } from '../../api/apiPUT';
+import { UpdateRealtorApproval } from '../../api/apiUPDATE';
 
 export default function AdminBodyItem({ item }) {
   const updateRealtorApproval = useMutation((arg) => UpdateRealtorApproval(arg), {
