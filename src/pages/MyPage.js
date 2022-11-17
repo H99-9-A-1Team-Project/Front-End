@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
+import AdminMyPageArticle from '../components/admin/AdminMyPageArticle';
 import MainPageHeader from '../components/main/MainPageHeader';
 import MainPageTabBar from '../components/main/MainPageTabBar';
-import AdminMyPageArticle from '../components/MyPage/AdminMyPageArticle';
 import LoginMyPageArticle from '../components/MyPage/LoginMyPageArticle';
 import LogoutMyPageArticle from '../components/MyPage/LogoutMyPageArticle';
 import Layout from '../global/components/Layout';
@@ -13,8 +13,7 @@ export default function MyPage() {
   return (
     <Layout>
       <MainPageHeader />
-      {/* {accountstate === 2 ? <AdminMyPageArticle /> : !loginState ? <LogoutMyPageArticle /> : <LoginMyPageArticle />} */}
-      {true ? <AdminMyPageArticle /> : !loginState ? <LogoutMyPageArticle /> : <LoginMyPageArticle />}
+      {accountstate === '2' ? <AdminMyPageArticle /> : !loginState ? <LogoutMyPageArticle /> : <LoginMyPageArticle />}
       <MainPageTabBar />
     </Layout>
   );

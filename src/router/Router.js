@@ -5,6 +5,7 @@ import MyPage from '../pages/MyPage';
 import Request from '../pages/RequestMain';
 import './route.css';
 import MyPageMyConsult from '../pages/MyPageMyConsult';
+import MyPageAdmin from '../pages/MyPageAdmin';
 export default function Router() {
   return (
     <div className="app">
@@ -14,6 +15,7 @@ export default function Router() {
         <Route path="/request" element={<Request />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myconsult" element={<MyPageMyConsult />} />
+        <Route path="/admin" element={<MyPageAdmin />} />
       </Routes>
     </div>
   );

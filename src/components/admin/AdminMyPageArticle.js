@@ -1,57 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import userProfile6 from '../MyPage/sources/userProfile6.png';
+import arrow from '../MyPage/sources/arrow.png';
 import styled from 'styled-components';
-import userProfile2 from './sources/userProfile2.png';
-import arrow from './sources/arrow.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
-import { useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { ReadProfile } from '../../api/apiGET';
-import { DeleteUser } from '../../api/apiDELETE';
 
-export default function LoginMyPageArticle() {
+export default function AdminMyPageArticle() {
   const navigate = useNavigate();
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
-  const [userInfo, setUserInfo] = useState({});
-
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
     setAppLogin(false);
   };
-
-  const getProfile = useQuery(['profile'], ReadProfile, {
-    onSuccess: (config) => {
-      setUserInfo(config.data);
-    },
-  });
-
-  const { mutate: deleteUser } = useMutation(DeleteUser);
-
   return (
     <Container>
       <div className="head-article-container">
         <div className="div1">
-          <img src={userProfile2} alt="userProfile" />
+          <img src={userProfile6} alt="userProfile" />
         </div>
         <div className="div2">
           <div className="div3">
-            <span className="span1">{userInfo.nickname}님</span>
-            <span className="span2">수정</span>
+            <span className="span1">관리자</span>
           </div>
-          <span className="span3">{userInfo.email}</span>
         </div>
       </div>
       <div className="body-article-container">
-        <div className="info-1">상담</div>
-        <div className="info-2" onClick={() => navigate('/myconsult')}>
-          내상담
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-3">발품기록</div>
-        <div className="info-2">
-          내기록
+        <div className="info-1">계정 관리</div>
+        <div className="info-2" onClick={() => navigate('/admin')}>
+          계정 목록
           <img src={arrow} alt="arrow" />
         </div>
         <div className="info-3">계정</div>
@@ -63,16 +42,6 @@ export default function LoginMyPageArticle() {
           }}
         >
           로그아웃
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div
-          className="info-2"
-          onClick={() => {
-            deleteUser();
-            navigate('/');
-          }}
-        >
-          회원탈퇴
           <img src={arrow} alt="arrow" />
         </div>
       </div>
@@ -148,6 +117,45 @@ const Container = styled.div`
     flex-direction: column;
     background-color: white;
     .info-1,
+    .info-3 {
+      color: var(--gray4);
+      background-color: white;
+      margin-left: 16px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      font-family: var(--headline-font-family);
+      font-size: var(--body_Medium-font-size);
+      font-weight: var(--body_Medium-font-weight);
+      line-height: var(--body_Medium-line-height);
+      letter-spacing: var(--body_Medium-letter-spacing);
+    }
+    .info-2 {
+      color: var(--gray2);
+      background-color: white;
+      padding: 12px 0 12px 0;
+      width: 328px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--headline-font-family);
+      font-size: var(--button_Medium-font-size);
+      font-weight: var(--button_Medium-font-weight);
+      line-height: var(--button_Medium-line-height);
+      letter-spacing: var(--button_Medium-letter-spacing);
+      cursor: pointer;
+      img {
+        background-color: white;
+        width: 7.59px;
+        height: 13.06px;
+      }
+    }
+    .info-3 {
+      border-top: 1px solid var(--gray6);
+      margin-top: 16px;
+      padding-top: 16px;
+    }
     .info-3 {
       color: var(--gray4);
       background-color: white;
