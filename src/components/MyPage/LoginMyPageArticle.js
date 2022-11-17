@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
+import newIcon from './sources/newIcon.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,10 @@ export default function LoginMyPageArticle() {
   const navigate = useNavigate();
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
   const [userInfo, setUserInfo] = useState({});
+  const [showMessage, setShowMessage] = useState(false);
+
+  const test = '가나다라가나다라가나d다가나다라가나다라가나다라가나다ㄱㄷㄷ프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필가나다라가나다라';
+  console.log(test.length);
 
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
@@ -22,6 +27,7 @@ export default function LoginMyPageArticle() {
   };
 
   const getProfile = useQuery(['profile'], ReadProfile, {
+    refetchOnWindowFocus: false,
     onSuccess: (config) => {
       setUserInfo(config.data);
     },
@@ -32,28 +38,91 @@ export default function LoginMyPageArticle() {
   return (
     <Container>
       <div className="head-article-container">
-        <div className="div1">
-          <img src={userProfile2} alt="userProfile" />
-        </div>
-        <div className="div2">
-          <div className="div3">
-            <span className="span1">{userInfo.nickname}님</span>
-            <span className="span2">수정</span>
+        <div className="head-article-inner-container">
+          <div className="div1">
+            <img src={userProfile2} alt="userProfile" />
           </div>
-          <span className="span3">{userInfo.email}</span>
+          <div className="div2">
+            <div className="div3">
+              <span className="span1">{userInfo.nickname}님</span>
+              <span className="span2">수정</span>
+            </div>
+            <span className="span3">{userInfo.email}</span>
+          </div>
         </div>
+        {/* {sessionStorage.getItem('accountstate')===1} */}
+        {true ? (
+          showMessage ? (
+            <div className="intro-message">
+              <div className="intro-message-show">
+                프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다
+                프로필 텍스트입니다 프로필ddd 텍스트dddddddddddddd입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                <div className="button-box">
+                  <button
+                    className="show-button"
+                    onClick={() => {
+                      setShowMessage(false);
+                    }}
+                  >
+                    닫기
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="intro-message">
+              <div className="intro-message-hide">
+                <div className="intro-message-hide-container">{test}</div>
+                {test.length > 82 ? (
+                  <div className="button-box">
+                    <button
+                      className="hide-button"
+                      onClick={() => {
+                        setShowMessage(true);
+                      }}
+                    >
+                      더보기
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          )
+        ) : null}
       </div>
       <div className="body-article-container">
         <div className="info-1">상담</div>
-        <div className="info-2" onClick={() => navigate('/myconsult')}>
-          내상담
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-3">발품기록</div>
-        <div className="info-2">
-          내기록
-          <img src={arrow} alt="arrow" />
-        </div>
+        {/* {sessionStorage.getItem('accountstate')===1} */}
+        {true ? (
+          <>
+            <div className="info-2" onClick={() => navigate('/myconsult')}>
+              <div className="box">
+                대기중인 상담
+                {/* {대기중인 게시글의 length가 1 이상일때} */}
+                {true ? <div className="newIcon">N</div> : null}
+              </div>
+              <img src={arrow} alt="arrow" />
+            </div>
+            <div className="info-2">
+              답변한 상담
+              <img src={arrow} alt="arrow" />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="info-2" onClick={() => navigate('/myconsult')}>
+              내상담
+              <img src={arrow} alt="arrow" />
+            </div>
+            <div className="info-3">발품기록</div>
+            <div className="info-2">
+              내기록
+              <img src={arrow} alt="arrow" />
+            </div>
+          </>
+        )}
+
         <div className="info-3">계정</div>
         <div
           className="info-2"
@@ -87,10 +156,14 @@ const Container = styled.div`
     width: 100%;
     background-color: white;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     border-bottom: 4px solid var(--gray6);
     border-top: 1px solid var(--gray6);
+    .head-article-inner-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
     img {
       background-color: white;
       width: 60px;
@@ -181,11 +254,84 @@ const Container = styled.div`
         width: 7.59px;
         height: 13.06px;
       }
+      .box {
+        background-color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        div {
+          background-color: var(--primary1-400);
+          color: white;
+          border-radius: 21px;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          margin-left: 4px;
+        }
+      }
     }
     .info-3 {
       border-top: 1px solid var(--gray6);
       margin-top: 16px;
       padding-top: 16px;
+    }
+  }
+  .intro-message {
+    width: 100%;
+  }
+  .intro-message-hide {
+    margin: 0 16px 8px 16px;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--body-font-family);
+    font-size: var(--body_Medium-font-size);
+    font-weight: var(--body_Medium-font-weight);
+    line-height: var(--body_Medium-line-height);
+    letter-spacing: var(--body_Medium-letter-spacing);
+    button {
+      border: none;
+      background-color: white;
+      float: right;
+      color: var(--gray5);
+      font-family: var(--body-font-family);
+      font-size: var(--body_Small-font-size);
+      font-weight: var(--body_Small-font-weight);
+      line-height: var(--body_Small-line-height);
+      letter-spacing: var(--body_Small-letter-spacing);
+    }
+  }
+  .intro-message-hide-container {
+    height: 60px;
+    white-space: nomal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .intro-message-show {
+    margin: 0 16px 8px 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--body-font-family);
+    font-size: var(--body_Medium-font-size);
+    font-weight: var(--body_Medium-font-weight);
+    line-height: var(--body_Medium-line-height);
+    letter-spacing: var(--body_Medium-letter-spacing);
+    button {
+      border: none;
+      background-color: white;
+      float: right;
+      color: var(--gray5);
+      font-family: var(--body-font-family);
+      font-size: var(--body_Small-font-size);
+      font-weight: var(--body_Small-font-weight);
+      line-height: var(--body_Small-line-height);
+      letter-spacing: var(--body_Small-letter-spacing);
     }
   }
 `;
