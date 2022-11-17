@@ -20,18 +20,14 @@ function SignUpMember() {
 
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
-
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
 
   //이메일 중복확인 완료 state
   const [okemail, setOkEmail] = useState('');
-  //이메일 잘못 입력 에러 출력 state
-  const [errormail, setErrorMail] = useState('');
-  //비밀번호 잘못 입력 에러 출력 state
-  const [errorpassword, setErrorPassWord] = useState('');
-  //닉네임 전용 state
-  const [nickName, setNickName] = useState('');
+
+  //회원가입 오류 출력 state
+  const [reject, setReject] = useState('');
 
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
@@ -127,8 +123,8 @@ function SignUpMember() {
       navigate('/');
       setNextMem(0);
     },
-    onError: () => {
-      setErrorPassWord('회원가입오류');
+    onError: (err) => {
+      setReject(err.response.data.errorMessage);
     },
   });
 
@@ -144,7 +140,7 @@ function SignUpMember() {
 
   //회원가입 데이터 전송
   const onSubmitSignUpData = () => {
-    setErrorPassWord('');
+    setReject('');
     console.log(loginData.email);
     console.log('asdf', loginData);
     // setOpenSignUp(false);
@@ -178,6 +174,7 @@ function SignUpMember() {
                       border: isEmail === false ? '1px solid #d14343 ' : 'none',
                     }}
                   ></InputText>
+                  <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
                 </>
               </InputBox>
               <InputBoxPassword>
@@ -227,12 +224,12 @@ export default SignUpMember;
 
 const ChoiceContainer = styled.div`
   width: 360px;
-  height: 800px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: pink;
+  background-color: var(--white);
 `;
 
 const SignUpHeader = styled.div`
@@ -246,7 +243,7 @@ const SignUpHeader = styled.div`
   align-items: center;
   /* padding: 20px 16px; */
   gap: 8px;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const BackpageIconBox = styled.img`
@@ -256,7 +253,7 @@ const BackpageIconBox = styled.img`
   margin-left: 20px;
 `;
 const SignUpTitle = styled.div`
-  background-color: white;
+  background-color: var(--white);
   width: 70px;
   height: 20px;
   font-style: normal;
@@ -269,16 +266,17 @@ const SignUpTitle = styled.div`
 
 const WelcomeQuestionContainer = styled.div`
   width: 360px;
-  height: 140px;
-  background-color: white;
+  min-height: 120px;
+  background-color: var(--white);
   display: flex;
+  align-items: center;
   position: relative;
 `;
 
 const WelcomeQuestionbox = styled.div`
   width: 183px;
   height: 84px;
-  background-color: white;
+  background-color: var(--white);
   position: absolute;
   left: 16px;
   top: 24px;
@@ -288,14 +286,14 @@ const WelcomeQuestionbox = styled.div`
   font-weight: var(--headline_Large-font-weight);
   line-height: var(--headline_Large-line-height);
   display: flex;
-  align-items: center;
+
   white-space: pre-line;
 `;
 
 const InputContainer = styled.div`
   width: 360px;
-  height: 188px;
-  background-color: white;
+  min-height: 188px;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -304,16 +302,17 @@ const InputContainer = styled.div`
 const InputBox = styled.div`
   width: 328px;
   height: 82px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 14px;
 `;
 const InputBoxPassword = styled.div`
   width: 328px;
   height: 64px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -324,7 +323,7 @@ const InputName = styled.div`
   height: 20px;
   display: flex;
   justify-content: left;
-  background-color: white;
+  background-color: var(--white);
   font-style: normal;
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
@@ -337,7 +336,7 @@ const InputText = styled.input`
   height: 44px;
   border-radius: 8px;
   border: none;
-  background-color: white;
+  background-color: var(--white);
   :focus {
     outline: none;
   }
@@ -346,7 +345,7 @@ const InputText = styled.input`
 const InputErrorMessageBox = styled.div`
   width: 328px;
   height: 16px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   align-items: center;
 `;
@@ -354,7 +353,7 @@ const InputErrorMessageBox = styled.div`
 const InputErrorMessageBoxPassword = styled.div`
   width: 304px;
   height: 16px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   align-items: flex-end;
 `;
@@ -368,8 +367,8 @@ const InputMessage = styled.div`
   font-weight: var(--body_Small-font-weight);
   line-height: var(--body_Small-line-height);
   letter-spacing: var(--body_Small-letter-spacing);
-  color: #c5c8cb;
-  background-color: white;
+  color: var(--gray5);
+  background-color: var(--white);
 `;
 const InputErrorMessage = styled.div`
   width: 328px;
@@ -381,19 +380,19 @@ const InputErrorMessage = styled.div`
   line-height: var(--body_Small-line-height);
   letter-spacing: var(--body_Small-letter-spacing);
   color: #d14343;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const PasswordViewButtonImg = styled.img`
   width: 24px;
   height: 24px;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const ErrorMsgPreview = styled.div`
   width: 328px;
   height: 24px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -401,17 +400,16 @@ const ErrorMsgPreview = styled.div`
 
 const BlankContainer = styled.div`
   width: 360px;
-  height: 328px;
-  background-color: white;
+  height: 100%;
+  background-color: var(--white);
 `;
 
 const ButtonContainer = styled.div`
   width: 360px;
-  height: 92px;
-  background-color: white;
+  min-height: 92px;
+  background-color: var(--white);
   display: flex;
   justify-content: center;
-  /* background-color: green; */
 `;
 
 const ButtonStyle = styled.button`
@@ -429,10 +427,10 @@ const ButtonStyle = styled.button`
   line-height: var(--button_Large-line-height);
   letter-spacing: var(--button_Large-letter-spacing);
   :disabled {
-    background-color: #c5c8cb;
+    background-color: var(--gray5);
   }
   :enabled {
-    background-color: #3c6eef;
-    color: white;
+    background-color: var(--primary2-400);
+    color: var(--white);
   }
 `;

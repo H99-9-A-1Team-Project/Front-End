@@ -46,7 +46,7 @@ const ModalContainer = styled.div`
 const ModalHeader = styled.div`
   width: 328px;
   height: 56px;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 8px;
   display: flex;
   justify-content: right;
@@ -56,13 +56,13 @@ const CloseButton = styled.img`
   width: 24px;
   height: 24px;
   margin-right: 16px;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const ContentContainer = styled.div`
   width: 328px;
   height: 300px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,7 +72,7 @@ const ContentContainer = styled.div`
 const IconContainer = styled.div`
   width: 217px;
   height: 224px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,13 +81,13 @@ const IconContainer = styled.div`
 const IconBox = styled.img`
   width: 168px;
   height: 140px;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const TextContainer = styled.div`
   width: 217px;
   height: 112px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,36 +96,39 @@ const TextContainer = styled.div`
 const BigText = styled.div`
   width: 162px;
   height: 24px;
-  font-family: 'Pretendard';
+
   font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
+  font-family: var(--headline-font-family);
+  font-size: var(--headline_Medium-font-size);
+  font-weight: var(--headline_Medium-font-weight);
+  line-height: var(--headline_Medium-line-height);
+  letter-spacing: var(--headline_Medium-letter-spacing);
   display: flex;
   align-items: center;
   text-align: center;
-  letter-spacing: 0.15px;
+
   color: black;
   flex: none;
   order: 0;
   flex-grow: 0;
-  background-color: white;
+  background-color: var(--white);
 `;
 const MediumText = styled.div`
   width: 217px;
   height: 24px;
-  font-family: 'Pretendard';
+
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Large-font-size);
+  font-weight: var(--body_Large-font-weight);
+  line-height: var(--body_Large-line-height);
+  letter-spacing: var(--body_Large-letter-spacing);
   display: flex;
   align-items: center;
   text-align: center;
-  letter-spacing: 0.15px;
 
   color: black;
-  background-color: white;
+  background-color: var(--white);
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -133,25 +136,27 @@ const MediumText = styled.div`
 const SmallText = styled.div`
   width: 135px;
   height: 20px;
-  font-family: 'Pretendard';
+
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
   display: flex;
   align-items: center;
   text-align: center;
-  letter-spacing: 0.25px;
-  color: #c5c8cb;
+
+  color: var(--gray5);
   flex: none;
   order: 2;
   flex-grow: 0;
-  background-color: white;
+  background-color: var(--white);
 `;
 const ModalButtonContainer = styled.div`
   width: 328px;
   height: 72px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,9 +168,9 @@ const ButtonStyle = styled.div`
   height: 40px;
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #3c6eef;
+  background-color: var(--primary2-400);
 `;

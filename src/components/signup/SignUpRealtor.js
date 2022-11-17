@@ -287,17 +287,17 @@ export default SignUpRealtor;
 
 const ChoiceContainer = styled.div`
   width: 360px;
-  height: 800px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: pink;
+  background-color: var(--white);
 `;
 
 const SignUpHeader = styled.div`
   width: 360px;
-  height: 64px;
+  min-height: 64px;
   left: 0px;
   top: 0px;
   /* position: absolute; */
@@ -306,17 +306,17 @@ const SignUpHeader = styled.div`
   align-items: center;
   /* padding: 20px 16px; */
   gap: 8px;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const BackpageIconBox = styled.img`
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: var(--white);
   margin-left: 20px;
 `;
 const SignUpTitle = styled.div`
-  background-color: white;
+  background-color: var(--white);
   width: 70px;
   height: 20px;
   font-style: normal;
@@ -329,16 +329,16 @@ const SignUpTitle = styled.div`
 
 const WelcomeQuestionContainer = styled.div`
   width: 360px;
-  height: 140px;
-  background-color: white;
+  min-height: 120px;
   display: flex;
   position: relative;
+  background-color: var(--white);
 `;
 
 const WelcomeQuestionbox = styled.div`
   width: 183px;
   height: 84px;
-  background-color: white;
+  background-color: var(--white);
   position: absolute;
   left: 16px;
   top: 24px;
@@ -348,14 +348,14 @@ const WelcomeQuestionbox = styled.div`
   font-weight: var(--headline_Large-font-weight);
   line-height: var(--headline_Large-line-height);
   display: flex;
-  align-items: center;
+
   white-space: pre-line;
 `;
 
 const WelcomeQuestionContainer2 = styled.div`
   width: 360px;
-  height: 160px;
-  background-color: white;
+  min-height: 140px;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -365,7 +365,7 @@ const WelcomeQuestionContainer2 = styled.div`
 const WelcomeQuestionbox2 = styled.div`
   width: 198px;
   height: 56px;
-  background-color: white;
+  background-color: var(--white);
   position: absolute;
   left: 16px;
   top: 24px;
@@ -389,14 +389,14 @@ const WelcomeInfobox = styled.div`
   font-weight: var(--body_Medium-font-weight);
   line-height: var(--body_Medium-line-height);
   letter-spacing: var(--body_Medium-letter-spacing);
-  color: #000000;
-  background-color: white;
+  color: var(--white);
+  background-color: var(--white);
 `;
 
 const AuthPhotoContainer = styled.div`
   width: 360px;
-  height: 156px;
-  background-color: white;
+  min-height: 156px;
+  background-color: var(--white);
   display: flex;
   justify-content: center;
   position: relative;
@@ -405,11 +405,11 @@ const AuthPhotoContainer = styled.div`
 const AutoPhotoOpenView = styled.label`
   width: 126px;
   height: 156px;
-  background-color: white;
+  background-color: var(--white);
   left: 16px;
   box-sizing: border-box;
   position: absolute;
-  border: 1px solid #3c6eef;
+  border: 1px solid var(--primary2-400);
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -423,13 +423,13 @@ const ImageInput = styled.input`
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: none;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 8px;
 `;
 
 const ImagePreview = styled.img`
   width: 126px;
-  height: 156px;
+  min-height: 156px;
   border-radius: 8px;
   object-fit: contain;
   position: relative;
@@ -440,8 +440,8 @@ const ImagePreview = styled.img`
 
 const InputContainer = styled.div`
   width: 360px;
-  height: 188px;
-  background-color: white;
+  min-height: 188px;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -450,16 +450,17 @@ const InputContainer = styled.div`
 const InputBox = styled.div`
   width: 328px;
   height: 82px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 14px;
 `;
 const InputBoxPassword = styled.div`
   width: 328px;
   height: 64px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -471,7 +472,7 @@ const InputName = styled.div`
   height: 20px;
   display: flex;
   justify-content: left;
-  background-color: white;
+  background-color: var(--white);
   font-style: normal;
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
@@ -485,7 +486,7 @@ const InputText = styled.input`
   height: 44px;
   border-radius: 8px;
   border: none;
-  background-color: white;
+  background-color: var(--white);
   :focus {
     outline: none;
   }
@@ -494,14 +495,14 @@ const InputText = styled.input`
 const InputErrorMessageBox = styled.div`
   width: 328px;
   height: 16px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   align-items: center;
 `;
 const InputErrorMessageBoxPassword = styled.div`
   width: 304px;
   height: 16px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   align-items: flex-end;
 `;
@@ -515,8 +516,8 @@ const InputMessage = styled.div`
   font-weight: var(--body_Small-font-weight);
   line-height: var(--body_Small-line-height);
   letter-spacing: var(--body_Small-letter-spacing);
-  color: #c5c8cb;
-  background-color: white;
+  color: var(--gray5);
+  background-color: var(--white);
 `;
 
 const InputErrorMessage = styled.div`
@@ -529,37 +530,37 @@ const InputErrorMessage = styled.div`
   line-height: var(--body_Small-line-height);
   letter-spacing: var(--body_Small-letter-spacing);
   color: #d14343;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const PasswordViewButtonImg = styled.img`
   width: 24px;
   height: 24px;
-  background-color: white;
+  background-color: var(--white);
 `;
 
 const ErrorMsgPreview = styled.div`
   width: 328px;
   height: 24px;
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 `;
 const BlankContainer = styled.div`
   width: 360px;
-  height: 344px;
-  background-color: white;
+  height: 100%;
+  background-color: var(--white);
 `;
 const BlankContainer2 = styled.div`
   width: 360px;
-  height: 328px;
-  background-color: white;
+  height: 100%;
+  background-color: var(--white);
 `;
 const ButtonContainer = styled.div`
   width: 360px;
-  height: 92px;
-  background-color: white;
+  min-height: 92px;
+  background-color: var(--white);
   display: flex;
   justify-content: center;
   /* background-color: green; */
@@ -580,10 +581,10 @@ const ButtonStyle = styled.button`
   line-height: var(--button_Large-line-height);
   letter-spacing: var(--button_Large-letter-spacing);
   :disabled {
-    background-color: #c5c8cb;
+    background-color: var(--gray5);
   }
   :enabled {
-    background-color: #3c6eef;
-    color: white;
+    background-color: var(--primary2-400);
+    color: var(--white);
   }
 `;
