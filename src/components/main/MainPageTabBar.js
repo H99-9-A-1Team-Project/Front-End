@@ -34,7 +34,7 @@ export default function MainPageTabBar() {
       setTbRequest(1);
       setTbUser(0);
     }
-    if (window.location.pathname === '/mypage') {
+    if (window.location.pathname === '/mypage' || window.location.pathname === '/myconsult') {
       setTbHome(0);
       setTbPin(0);
       setTbRequest(0);
