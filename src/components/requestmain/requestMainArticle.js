@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import '../../global/global.css';
 import RqAt_Path_Right from './sources/rqm_article_right_light2.png';
 import RqAt_Question from './sources/RqmAt_Question.png';
-
-export default function requestArticle() {
+import { useNavigate } from 'react-router-dom';
+export default function RequestArticle() {
+  const navigate = useNavigate();
   return (
     <RqArticleContainer>
       <LikeText>
@@ -29,7 +30,7 @@ export default function requestArticle() {
             <InfoNav2>완료</InfoNav2>
           </InfoWrap3>
         </InfoBox>
-        <RequestBtn>
+        <RequestBtn onClick={() => navigate('/request1')}>
           매물 상담 신청하기
           <RequestBtnPath src={RqAt_Path_Right} />
         </RequestBtn>

@@ -3,16 +3,26 @@ import MainPage from '../pages/MainPage';
 import SignUp from '../pages/SignUp';
 import MyPage from '../pages/MyPage';
 import Request from '../pages/RequestMain';
+import Request1 from '../pages/Request1';
+import Request2 from '../pages/Request2';
+import Request3 from '../pages/Request3';
 import './route.css';
+import RequestCheck from '../pages/RequestCheck';
 import MyPageMyConsult from '../pages/MyPageMyConsult';
 import MyPageAdmin from '../pages/MyPageAdmin';
+
 export default function Router() {
   return (
     <div className="app">
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/request" element={<Request />} />
+        <Route path="request" element={<Request />} />
+        <Route path="mypage" element={<MyPage />} />
+        <Route path="request1" element={<Request1 />} />
+        <Route path="request2" element={<Request2 />} />
+        <Route path="request3" element={<Request3 />} />
+        <Route path="requestcheck" element={<RequestCheck />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myconsult" element={<MyPageMyConsult />} />
         <Route path="/admin" element={<MyPageAdmin />} />
