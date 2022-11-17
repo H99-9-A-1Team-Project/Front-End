@@ -4,20 +4,11 @@ export default function MyConsultBodyContainer({ listState, ansState }) {
       <>
         <div className="consulting-container-blue">
           <div className="container-header">
-            <div className="consulting-inner-container">
-              <div className="consulting-box">
-                <div className="title-box">상담신청한 주소 상담신청한 주소 상담신청한 주소 상담신청한 주소</div>
-                <div className="answer-icon">답변함</div>
-              </div>
-              <div className="consulting-box-bottom">
-                <div>등기부등본</div>
-                <div className="type-second">건축물대장</div>
-              </div>
-            </div>
+            <div className="title-box">상담신청한 주소 상담신청한 주소 상담신청한 주소 상담신청한 주소 </div>
+            <div className="answer-icon">답변함</div>
           </div>
-          <div className="container-body">
-            <div>전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용</div>
-          </div>
+          <div className="time">2000.00.00</div>
+          <div className="consulting-message">전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용 전달된 메시지 내용</div>
         </div>
 
         <div className="consulting-container">
