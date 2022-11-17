@@ -82,7 +82,7 @@ export default function Request1Article() {
 }
 
 const Rq1ArticleContainer = styled.div`
-  height: 684px;
+  height: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -174,8 +174,9 @@ const DetailAddressInput = styled.input`
 const NextBtn = styled.div`
   width: 328px;
   height: 60px;
-  margin-top: 400px;
   margin-left: 16px;
+  margin-top: auto;
+  margin-bottom: 32px;
   color: ${({ btnState }) => `${btnState === 0 ? 'black' : 'white'}`};
   background-color: ${({ btnState }) => `${btnState === 0 ? 'var(--gray5)' : 'var(--primary2-400)'}`};
   border-radius: 8px;
