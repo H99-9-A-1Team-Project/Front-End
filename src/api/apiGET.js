@@ -18,6 +18,6 @@ export async function ReadProfile() {
 }
 
 export async function ReadSignUpList() {
-  const response = await api.get('v1/realtor-approval');
-  return response;
+  const { data } = await api.get('v1/realtor-approval');
+  return data;
 }

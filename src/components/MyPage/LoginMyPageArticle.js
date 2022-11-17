@@ -5,7 +5,7 @@ import arrow from './sources/arrow.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { ReadProfile } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
 
@@ -21,19 +21,13 @@ export default function LoginMyPageArticle() {
     setAppLogin(false);
   };
 
-  const { mutate: getProfile } = useMutation(ReadProfile, {
+  const getProfile = useQuery(['profile'], ReadProfile, {
     onSuccess: (config) => {
       setUserInfo(config.data);
     },
   });
 
   const { mutate: deleteUser } = useMutation(DeleteUser);
-
-  useEffect(() => {
-    if (AppLogin !== false) {
-      getProfile();
-    }
-  }, []);
 
   return (
     <Container>

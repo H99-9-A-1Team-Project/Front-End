@@ -1,35 +1,19 @@
-import { useMutation } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import React from 'react';
 import styled from 'styled-components';
 import { ReadSignUpList } from '../../api/apiGET';
+import AdminBodyItem from './AdminBodyItem';
 
 export default function AdminBody() {
-  const [List, setList] = useState([]);
-  const { mutate: getSignUpList } = useMutation(ReadSignUpList, {
-    onSuccess: (config) => {
-      setList(config.data);
-    },
+  const { data } = useQuery(['signuplist'], ReadSignUpList, {
+    refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    getSignUpList();
-  }, []);
   return (
     <StAdminBodyLayout>
-      <div className="container">
-        <div className="img-box">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWao3-8NkHtjRsz4NxObzKLTiFXfBhIkA-g-nw0rQMqw&s" alt="" />
-        </div>
-        <div className="text-box">
-          <div>이메일</div>
-          <div>닉네임</div>
-          <div>신청일</div>
-        </div>
-        <div className="buttons">
-          <button>거절</button>
-          <button>승인</button>
-        </div>
-      </div>
+      {data?.map((item) => {
+        return <AdminBodyItem item={item} key={item.email} />;
+      })}
     </StAdminBodyLayout>
   );
 }
