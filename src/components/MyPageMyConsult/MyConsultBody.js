@@ -1,23 +1,24 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ReadRequestList } from '../../api/apiGET';
 import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function MyConsultBody() {
   const [listState, setListState] = useState(0);
-  const [ansState, setAnsState] = useState(0, 1, 2);
   const onClickListAll = () => {
-    setAnsState(0, 1, 2);
     setListState(0);
   };
   const onClickListWait = () => {
-    setAnsState(0);
     setListState(1);
   };
   const onClickListComplete = () => {
-    setAnsState(1, 2);
     setListState(2);
   };
 
+  const { data } = useQuery(['requestlist'], ReadRequestList, {
+    onSuccess: (config) => {},
+  });
   return (
     <StMyPageBodyWrap>
       <ul>
@@ -32,7 +33,9 @@ export default function MyConsultBody() {
         </li>
       </ul>
       <div className="consulting-wrap">
-        <MyConsultBodyContainer listState={listState} ansState={ansState} />
+        {data?.map((item) => {
+          return <MyConsultBodyContainer key={item.id} listState={listState} item={item} />;
+        })}
       </div>
     </StMyPageBodyWrap>
   );

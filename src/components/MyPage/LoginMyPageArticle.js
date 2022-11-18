@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
