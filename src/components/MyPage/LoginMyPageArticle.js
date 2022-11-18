@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
@@ -7,12 +7,14 @@ import userDefault from './sources/userDefault.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadProfile } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
 import MyPageModal from './MyPageModal';
+import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 
 export default function LoginMyPageArticle() {
+  const textRef = useRef();
   const navigate = useNavigate();
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
   const [userInfo, setUserInfo] = useState({});
@@ -23,6 +25,7 @@ export default function LoginMyPageArticle() {
     nickname: '',
     introMessage: '',
   });
+  const queryClient = useQueryClient();
 
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
@@ -31,17 +34,37 @@ export default function LoginMyPageArticle() {
     setAppLogin(false);
   };
 
-  const onSubmitNicknameHandler = () => {
-    console.log('닉네임제출');
+  const onSubmitUpdateUserProfileHandler = (e) => {
+    e.preventDefault();
+    updateUserProfile({ nickname: newProfile.nickname });
+  };
+
+  const onSubmitUpdateRealtorProfileHandler = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    let postimage = document.getElementById('img_file');
+    formData.append('content', new Blob([JSON.stringify(newProfile)], { type: 'application/json' }));
+    formData.append('profile', postimage.files[0]);
+    updateRealtorProfile(formData);
   };
 
   const onChangeProfileHandler = (e) => {
     const { name, value } = e.target;
     setNewProfile({
+      ...newProfile,
       [name]: value,
     });
   };
 
+  const onResizeHandler = useCallback(() => {
+    textRef.current.style.height = 'auto';
+    textRef.current.style.height = textRef.current.scrollHeight + 'px';
+  }, []);
+
+  const onChangeHandler = (e) => {
+    onChangeProfileHandler(e);
+    onResizeHandler(e);
+  };
   const onSaveFileImage = (e) => {
     setImgSave(URL.createObjectURL(e.target.files[0]));
   };
@@ -50,17 +73,36 @@ export default function LoginMyPageArticle() {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
       setUserInfo(config.data);
+      if (config.data.introMessage === null) {
+        config.data.introMessage = '소개 메세지가 없습니다.';
+      }
+      setNewProfile({
+        nickname: config.data.nickname,
+        introMessage: config.data.introMessage,
+      });
     },
   });
 
   const { mutate: deleteUser } = useMutation(DeleteUser);
-
+  const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['profile']);
+      setModalVisible(false);
+    },
+  });
+  const { mutate: updateUserProfile } = useMutation((arg) => UpdateUserProfile(arg), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['profile']);
+      setModalVisible(false);
+    },
+  });
+  console.log(imgSave);
   return (
     <Container>
       <div className="head-article-container">
         <div className="head-article-inner-container">
           {sessionStorage.getItem('accountstate') === '1' ? (
-            <div className="div1">{userInfo.profile ? <img src={`${userInfo.profle}`} alt="userProfile" /> : <img src={userDefault} alt="userDefault" />}</div>
+            <div className="div1">{userInfo.profile ? <img src={`${userInfo.profile}`} alt="userProfile" /> : <img src={userDefault} alt="userDefault" />}</div>
           ) : (
             <div className="div1">
               <img src={userProfile2} alt="userProfile2" />
@@ -171,18 +213,30 @@ export default function LoginMyPageArticle() {
 
       <>
         {modalVisible ? (
-          <MyPageModal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} onSubmitHandler={onSubmitNicknameHandler}>
-            <form className="profileform">
-              <label className="img-input-label" htmlFor="img_file">
-                <img className="prev-img" alt="" src={imgSave ? imgSave : User_cicrle} />
-              </label>
-              <input className="img-input" type="file" id="img_file" accept="image/*" onChange={onSaveFileImage} />
-              <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} placeholder="Username" />
-              <div className="intromessage-container">
-                <div className="intromessage-title">소개 메세지</div>
-                <textarea className="intromessage" maxLength={500}></textarea>
-              </div>
-            </form>
+          <MyPageModal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
+            {sessionStorage.getItem('accoutstate') === 1 ? (
+              <form className="profileform" onSubmit={onSubmitUpdateRealtorProfileHandler}>
+                <label className="img-input-label" htmlFor="img_file">
+                  <img className="prev-img" alt="" src={userInfo.profile ? (imgSave === '' ? `${userInfo.profile}` : imgSave) : imgSave === '' ? User_cicrle : imgSave} />
+                </label>
+                <input className="img-input" type="file" id="img_file" accept="image/*" onChange={onSaveFileImage} />
+                <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
+                <div className="intromessage-container">
+                  <div className="intromessage-title">소개 메세지</div>
+                  <textarea className="intromessage2" maxLength={500} ref={textRef} name="introMessage" value={newProfile.introMessage} onChange={onChangeHandler}></textarea>
+                </div>
+                <div className="button-container">
+                  <button>수정 완료</button>
+                </div>
+              </form>
+            ) : (
+              <form className="profileform2" onSubmit={onSubmitUpdateUserProfileHandler}>
+                <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
+                <div className="button-container">
+                  <button>수정 완료</button>
+                </div>
+              </form>
+            )}
           </MyPageModal>
         ) : null}
       </>
@@ -209,6 +263,7 @@ const Container = styled.div`
       background-color: white;
       width: 60px;
       height: 60px;
+      border-radius: 50%;
     }
     div {
       background-color: white;
@@ -321,7 +376,7 @@ const Container = styled.div`
       padding-top: 16px;
     }
   }
-  .intro-message {
+  .intromessage {
     width: 100%;
   }
   .intro-message-hide {
@@ -381,12 +436,21 @@ const Container = styled.div`
     align-items: center;
     background-color: white;
   }
+  .profileform2 {
+    height: 370px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+  }
   .img-input-label {
     background-color: white;
     img {
       width: 80px;
       height: 80px;
       background-color: white;
+      border-radius: 50%;
     }
   }
   .img-input {
@@ -426,17 +490,42 @@ const Container = styled.div`
     color: var(--gray4);
     background-color: white;
   }
-  .intromessage {
+  .intromessage2 {
     padding: 16px 12px;
     border: 1px solid var(--gray6);
     border-radius: 8px;
     background-color: white;
     resize: none;
+    min-height: 112px;
+    overflow-y: hidden;
+    outline: none;
+    margin-bottom: 24px;
     font-family: var(--headline-font-family);
     font-size: var(--body_Medium-font-size);
     font-weight: var(--body_Medium-font-weight);
     line-height: var(--body_Medium-line-height);
     letter-spacing: var(--body_Medium-letter-spacing);
     color: var(--gray1);
+  }
+  .button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    button {
+      border-radius: 8px;
+      background-color: var(--primary2-400);
+      box-shadow: var(--Shadow2-box-shadow);
+      border: none;
+      color: white;
+      width: 288px;
+      height: 40px;
+      font-family: var(--headline-font-family);
+      font-size: var(--button_Medium-font-size);
+      font-weight: var(--button_Medium-font-weight);
+      line-height: var(--button_Medium-line-height);
+      letter-spacing: var(--button_Medium-letter-spacing);
+    }
   }
 `;

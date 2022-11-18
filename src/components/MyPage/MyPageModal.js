@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import x from './sources/x.png';
 
-export default function MyPageModal({ className, setModalVisible, maskClosable, closable, visible, children, onSubmitHandler }) {
+export default function MyPageModal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave }) {
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
       setModalVisible(false);
+      setImgSave('');
     }
   };
 
@@ -18,7 +19,14 @@ export default function MyPageModal({ className, setModalVisible, maskClosable, 
           {closable && (
             <>
               <div className="modal-header">
-                <img src={x} alt="x" onClick={() => setModalVisible(false)} />
+                <img
+                  src={x}
+                  alt="x"
+                  onClick={() => {
+                    setModalVisible(false);
+                    setImgSave('');
+                  }}
+                />
               </div>
             </>
           )}
@@ -66,7 +74,7 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalInner = styled.div`
-  box-sizing: border-box;
+  box-sizing: content-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,11 +82,11 @@ const ModalInner = styled.div`
   background-color: white;
   border-radius: 10px;
   width: 328px;
-  height: 432px;
+  min-height: 432px;
   max-height: 100%;
   transform: translateY(-50%);
   margin: auto;
-  margin-top: 350px;
+  margin-top: 450px;
   .modal-header {
     width: 100%;
     height: 56px;
