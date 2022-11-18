@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import x from './sources/x.png';
 
 export default function MyPageModal({ className, setModalVisible, maskClosable, closable, visible, children, onSubmitHandler }) {
   const onMaskClick = (e) => {
@@ -15,14 +16,11 @@ export default function MyPageModal({ className, setModalVisible, maskClosable, 
       <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
         <ModalInner tabIndex={0} className="modal-inner">
           {closable && (
-            <div className="buttons">
-              <button className="modal-close" type="button" onClick={() => setModalVisible(false)}>
-                취소
-              </button>
-              <button className="modal-subit" type="button" onClick={onSubmitHandler}>
-                완료
-              </button>
-            </div>
+            <>
+              <div className="modal-header">
+                <img src={x} alt="x" onClick={() => setModalVisible(false)} />
+              </div>
+            </>
           )}
           {children}
         </ModalInner>
@@ -52,6 +50,7 @@ const ModalWrapper = styled.div`
   z-index: 1000;
   overflow: auto;
   outline: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalOverlay = styled.div`
@@ -70,16 +69,31 @@ const ModalInner = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
-  background-color: #fff;
+  background-color: white;
   border-radius: 10px;
-  width: 480px;
-  max-width: 480px;
-  height: 300px;
+  width: 328px;
+  height: 432px;
+  max-height: 100%;
   transform: translateY(-50%);
   margin: auto;
-  margin-top: 400px;
-  padding: 10px 20px;
+  margin-top: 350px;
+  .modal-header {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    img {
+      margin: 16px 16px 16px auto;
+      background-color: white;
+      width: 24px;
+      height: 24px;
+    }
+  }
   .buttons {
     display: flex;
     flex-direction: row;

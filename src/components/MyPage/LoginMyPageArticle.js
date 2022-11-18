@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
+import User_cicrle from './sources/User_cicrle.png';
+import userDefault from './sources/userDefault.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
@@ -15,9 +17,11 @@ export default function LoginMyPageArticle() {
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
   const [userInfo, setUserInfo] = useState({});
   const [showMessage, setShowMessage] = useState(false);
-  const [modalVisibleNickname, setModalVisibleNickname] = useState(false);
-  const [newNickname, setNewNickname] = useState({
-    nickname: 'nickname',
+  const [modalVisible, setModalVisible] = useState(false);
+  const [imgSave, setImgSave] = useState('');
+  const [newProfile, setNewProfile] = useState({
+    nickname: '',
+    introMessage: '',
   });
 
   const onLogoutHandler = () => {
@@ -31,11 +35,15 @@ export default function LoginMyPageArticle() {
     console.log('닉네임제출');
   };
 
-  const onChangeNicknameHandler = (e) => {
+  const onChangeProfileHandler = (e) => {
     const { name, value } = e.target;
-    setNewNickname({
+    setNewProfile({
       [name]: value,
     });
+  };
+
+  const onSaveFileImage = (e) => {
+    setImgSave(URL.createObjectURL(e.target.files[0]));
   };
 
   const getProfile = useQuery(['profile'], ReadProfile, {
@@ -51,11 +59,18 @@ export default function LoginMyPageArticle() {
     <Container>
       <div className="head-article-container">
         <div className="head-article-inner-container">
-          <div className="div1">{userInfo.profile ? <img src={`${userInfo.profle}`} alt="userProfile" /> : <img src={userProfile2} alt="userProfile" />}</div>
+          {sessionStorage.getItem('accountstate') === '1' ? (
+            <div className="div1">{userInfo.profile ? <img src={`${userInfo.profle}`} alt="userProfile" /> : <img src={userDefault} alt="userDefault" />}</div>
+          ) : (
+            <div className="div1">
+              <img src={userProfile2} alt="userProfile2" />
+            </div>
+          )}
+
           <div className="div2">
             <div className="div3">
               <span className="span1">{userInfo.nickname}님</span>
-              <span className="span2" onClick={() => setModalVisibleNickname(true)}>
+              <span className="span2" onClick={() => setModalVisible(true)}>
                 수정
               </span>
             </div>
@@ -155,10 +170,19 @@ export default function LoginMyPageArticle() {
       </div>
 
       <>
-        {modalVisibleNickname ? (
-          <MyPageModal visible={modalVisibleNickname} closable={true} maskClosable={true} setModalVisible={setModalVisibleNickname} onSubmitHandler={onSubmitNicknameHandler}>
-            <div className="update-title">닉네임 수정</div>
-            <input type="text" name="nickname" onChange={onChangeNicknameHandler} value={newNickname.nickname} />
+        {modalVisible ? (
+          <MyPageModal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} onSubmitHandler={onSubmitNicknameHandler}>
+            <form className="profileform">
+              <label className="img-input-label" htmlFor="img_file">
+                <img className="prev-img" alt="" src={imgSave ? imgSave : User_cicrle} />
+              </label>
+              <input className="img-input" type="file" id="img_file" accept="image/*" onChange={onSaveFileImage} />
+              <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} placeholder="Username" />
+              <div className="intromessage-container">
+                <div className="intromessage-title">소개 메세지</div>
+                <textarea className="intromessage" maxLength={500}></textarea>
+              </div>
+            </form>
           </MyPageModal>
         ) : null}
       </>
@@ -350,5 +374,69 @@ const Container = styled.div`
       line-height: var(--body_Small-line-height);
       letter-spacing: var(--body_Small-letter-spacing);
     }
+  }
+  .profileform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+  }
+  .img-input-label {
+    background-color: white;
+    img {
+      width: 80px;
+      height: 80px;
+      background-color: white;
+    }
+  }
+  .img-input {
+    display: none;
+  }
+  .nickname-input {
+    width: 220px;
+    height: 44px;
+    border: 1px solid var(--gray6);
+    border-radius: 8px;
+    background-color: white;
+    padding-left: 12px;
+    padding-right: 12px;
+    ::placeholder {
+      font-family: var(--headline-font-family);
+      font-size: var(--body_Medium-font-size);
+      font-weight: var(--body_Medium-font-weight);
+      line-height: var(--body_Medium-line-height);
+      letter-spacing: var(--body_Medium-letter-spacing);
+      color: var(--gray1);
+    }
+  }
+  .intromessage-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin-top: 16px;
+  }
+  .intromessage-title {
+    float: left;
+    font-family: var(--headline-font-family);
+    font-size: var(--body_Medium-font-size);
+    font-weight: var(--body_Medium-font-weight);
+    line-height: var(--body_Medium-line-height);
+    letter-spacing: var(--body_Medium-letter-spacing);
+    color: var(--gray4);
+    background-color: white;
+  }
+  .intromessage {
+    padding: 16px 12px;
+    border: 1px solid var(--gray6);
+    border-radius: 8px;
+    background-color: white;
+    resize: none;
+    font-family: var(--headline-font-family);
+    font-size: var(--body_Medium-font-size);
+    font-weight: var(--body_Medium-font-weight);
+    line-height: var(--body_Medium-line-height);
+    letter-spacing: var(--body_Medium-letter-spacing);
+    color: var(--gray1);
   }
 `;
