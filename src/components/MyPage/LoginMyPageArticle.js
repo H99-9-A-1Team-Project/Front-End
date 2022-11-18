@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ReadProfile } from '../../api/apiGET';
+import { ReadProfile, ReadWaitList } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
 import MyPageModal from './MyPageModal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
@@ -82,7 +82,7 @@ export default function LoginMyPageArticle() {
       });
     },
   });
-
+  const { data } = useQuery(['waitlist'], ReadWaitList);
   const { mutate: deleteUser } = useMutation(DeleteUser);
   const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
     onSuccess: () => {
@@ -96,7 +96,7 @@ export default function LoginMyPageArticle() {
       setModalVisible(false);
     },
   });
-  console.log(imgSave);
+
   return (
     <Container>
       <div className="head-article-container">
@@ -161,15 +161,14 @@ export default function LoginMyPageArticle() {
         <div className="info-1">상담</div>
         {sessionStorage.getItem('accountstate') === '1' ? (
           <>
-            <div className="info-2" onClick={() => navigate('/myconsult')}>
+            <div className="info-2" onClick={() => navigate('/waitlist')}>
               <div className="box">
                 대기중인 상담
-                {/* {대기중인 게시글의 length가 1 이상일때} */}
-                {true ? <div className="newIcon">N</div> : null}
+                {data?.length > 0 ? <div className="newIcon">N</div> : null}
               </div>
               <img src={arrow} alt="arrow" />
             </div>
-            <div className="info-2">
+            <div className="info-2" onClick={() => navigate('/answerdlist')}>
               답변한 상담
               <img src={arrow} alt="arrow" />
             </div>
@@ -302,6 +301,7 @@ const Container = styled.div`
       line-height: var(--button_Small-line-height);
       letter-spacing: var(--button_Small-letter-spacing);
       color: var(--primary2-400);
+      cursor: pointer;
     }
     .span3 {
       font-size: var(--body_Medium-font-size);
@@ -398,6 +398,7 @@ const Container = styled.div`
       font-weight: var(--body_Small-font-weight);
       line-height: var(--body_Small-line-height);
       letter-spacing: var(--body_Small-letter-spacing);
+      cursor: pointer;
     }
   }
   .intro-message-hide-container {
@@ -428,6 +429,7 @@ const Container = styled.div`
       font-weight: var(--body_Small-font-weight);
       line-height: var(--body_Small-line-height);
       letter-spacing: var(--body_Small-letter-spacing);
+      cursor: pointer;
     }
   }
   .profileform {

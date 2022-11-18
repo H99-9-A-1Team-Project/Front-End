@@ -33,6 +33,7 @@ const MyConsultHeaderLayout = styled.div`
     font-weight: var(--body_Medium-font-weight);
     line-height: var(--body_Medium-line-height);
     letter-spacing: var(--body_Medium-letter-spacing);
+    cursor: pointer;
   }
   img {
     background-color: white;
