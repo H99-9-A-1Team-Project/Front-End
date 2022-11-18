@@ -60,6 +60,9 @@ const StMyPageBodyWrap = styled.div`
     padding: 0 0 0 16px;
     background-color: white;
     border-bottom: 4px solid var(--gray6);
+    li {
+      cursor: pointer;
+    }
   }
   .button-large {
     background-color: white;

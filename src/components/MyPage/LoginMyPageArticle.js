@@ -55,7 +55,6 @@ export default function LoginMyPageArticle() {
       [name]: value,
     });
   };
-
   const onResizeHandler = useCallback(() => {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = textRef.current.scrollHeight + 'px';
@@ -82,7 +81,12 @@ export default function LoginMyPageArticle() {
       });
     },
   });
-  const { data } = useQuery(['waitlist'], ReadWaitList);
+  const { data } = useQuery(['waitlist'], ReadWaitList, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    enabled: sessionStorage.getItem('accountstate') !== '0',
+  });
   const { mutate: deleteUser } = useMutation(DeleteUser);
   const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
     onSuccess: () => {
@@ -213,7 +217,7 @@ export default function LoginMyPageArticle() {
       <>
         {modalVisible ? (
           <MyPageModal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
-            {sessionStorage.getItem('accoutstate') === 1 ? (
+            {sessionStorage.getItem('accountstate') === '1' ? (
               <form className="profileform" onSubmit={onSubmitUpdateRealtorProfileHandler}>
                 <label className="img-input-label" htmlFor="img_file">
                   <img className="prev-img" alt="" src={userInfo.profile ? (imgSave === '' ? `${userInfo.profile}` : imgSave) : imgSave === '' ? User_cicrle : imgSave} />
@@ -448,6 +452,7 @@ const Container = styled.div`
   }
   .img-input-label {
     background-color: white;
+    cursor: pointer;
     img {
       width: 80px;
       height: 80px;
@@ -477,6 +482,7 @@ const Container = styled.div`
   }
   .intromessage-container {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: white;
