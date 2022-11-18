@@ -6,7 +6,7 @@ export default function MyConsultSearch() {
   return (
     <StMyConsultSearchLayout>
       <form className="search">
-        <input type="text" name="keyword" placeholder="주소를 입력하여 검색" />
+        <input type="text" name="nnn" placeholder="주소를 입력하여 검색" />
         <button className="search-button">
           <img src={search} alt=""></img>
         </button>
