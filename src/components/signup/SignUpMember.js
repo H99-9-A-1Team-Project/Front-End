@@ -234,7 +234,7 @@ const ChoiceContainer = styled.div`
 
 const SignUpHeader = styled.div`
   width: 360px;
-  height: 64px;
+  min-height: 64px;
   left: 0px;
   top: 0px;
   /* position: absolute; */

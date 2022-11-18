@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
+import Plus from '../signup/sources/plus.png';
 import { useRecoilState } from 'recoil';
-import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2 } from '../../store/store';
+import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2, LoginDatas } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import CompleteModal from './CompleteModal';
-import InnerModal from './InnerModal';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
@@ -39,15 +39,8 @@ function SignUpRealtor() {
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
 
-  //데이터 전송용 initialstate
-  const initialState = {
-    email: '',
-    password: '',
-    nickname: '',
-  };
-
   //데이터 전송을 위한 state
-  const [loginData, setLoginData] = useState(initialState);
+  const [loginData, setLoginData] = useRecoilState(LoginDatas);
 
   //버튼 활성화 및 오류메시지 색상 활성화를 위한 state
   const [valid, setValid] = useRecoilState(itsNotOK);
@@ -75,6 +68,7 @@ function SignUpRealtor() {
     setNextTor(nexttor - 1);
     setValid(false);
     setPsValid(false);
+    setPreviewImage('');
   };
 
   const onNextRealtorPage = () => {
@@ -133,30 +127,23 @@ function SignUpRealtor() {
     let reader = new FileReader();
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
-      console.log(e.target.files[0]);
       setLicenseImage(e.target.files[0]);
-      console.log(licenseimage);
     }
     reader.onloadend = () => {
       const resultImage = reader.result;
       setPreviewImage(resultImage);
-      console.log(resultImage);
     };
   };
 
-  // //가입하기 버튼 (페이지 이동 및 모달창 오픈 )
-  // const onOpenModalMovePage = () => {
-  //   setModalOpen(true);
-  //   setOpenSignUp(false);
-  //   setNextTor(0);
-  //   navigate('/');
-  // };
+  //가입하기 버튼 (모달창 오픈 )
+  const onOpenModalMovePage = () => {
+    setModalOpen(true);
+  };
 
   //mutate
   const { mutate: postFormData } = useMutation(RealtorSignUpFormDatas, {
     onSuccess: (response) => {
-      alert('가입신청!');
-      navigate('/');
+      setModalOpen(true);
     },
     onError: (error) => {
       alert('가입신청실패!');
@@ -184,7 +171,7 @@ function SignUpRealtor() {
     formData.append('content', blob);
     postFormData(formData);
   };
-  const isVaildPhoto = !licenseimage;
+  const isVaildPhoto = !previewimage;
 
   return (
     <>
@@ -256,7 +243,11 @@ function SignUpRealtor() {
           <AuthPhotoContainer>
             <AutoPhotoOpenView htmlfor="file">
               <ImageInput type="file" name="file" accept="image/*" id="file" onChange={onFileChangeHandler} />
-              <>{previewimage && <ImagePreview src={previewimage} alt="+" />}</>
+              <InfoInput>
+                <InfoImage src={Plus} />
+                <InfoText>사진 추가</InfoText>
+              </InfoInput>
+              {previewimage && <ImagePreview src={previewimage} alt="+" />}
             </AutoPhotoOpenView>
           </AuthPhotoContainer>
           <BlankContainer2></BlankContainer2>
@@ -265,16 +256,12 @@ function SignUpRealtor() {
               type="submit"
               disabled={isVaildPhoto}
               onClick={() => {
-                // onOpenModalMovePage(!modalOpen);
+                onOpenModalMovePage(!modalOpen);
                 onSubmit();
               }}
             >
               가입하기
-              {modalOpen && (
-                <CompleteModal visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}>
-                  <InnerModal />
-                </CompleteModal>
-              )}
+              {modalOpen && <CompleteModal visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}></CompleteModal>}
             </ButtonStyle>
           </ButtonContainer>
         </ChoiceContainer>
@@ -360,12 +347,14 @@ const WelcomeQuestionContainer2 = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
+  margin-bottom: 24px;
 `;
 
 const WelcomeQuestionbox2 = styled.div`
   width: 198px;
   height: 56px;
   background-color: var(--white);
+  /* background-color: blue; */
   position: absolute;
   left: 16px;
   top: 24px;
@@ -389,7 +378,7 @@ const WelcomeInfobox = styled.div`
   font-weight: var(--body_Medium-font-weight);
   line-height: var(--body_Medium-line-height);
   letter-spacing: var(--body_Medium-letter-spacing);
-  color: var(--white);
+  color: var(--black);
   background-color: var(--white);
 `;
 
@@ -406,6 +395,7 @@ const AutoPhotoOpenView = styled.label`
   width: 126px;
   height: 156px;
   background-color: var(--white);
+  /* background-color: red; */
   left: 16px;
   box-sizing: border-box;
   position: absolute;
@@ -424,7 +414,30 @@ const ImageInput = styled.input`
   clip: rect(0, 0, 0, 0);
   border: none;
   background-color: var(--white);
+`;
+const InfoInput = styled.div`
+  width: 126px;
+  min-height: 156px;
+  position: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--primary2-400);
+  background-color: var(--white);
   border-radius: 8px;
+  gap: 8px;
+`;
+const InfoImage = styled.img`
+  background-color: var(--white);
+`;
+const InfoText = styled.div`
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  color: var(--primary2-400);
+  background-color: var(--white);
 `;
 
 const ImagePreview = styled.img`
@@ -434,6 +447,9 @@ const ImagePreview = styled.img`
   object-fit: contain;
   position: relative;
   display: flex;
+  background-color: var(--white);
+  border: 1px solid var(--primary2-400);
+  border-radius: 8px;
   //   justify-content: center;
   //   align-items: center;
 `;
