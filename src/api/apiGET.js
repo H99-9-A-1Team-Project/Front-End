@@ -13,6 +13,6 @@ export async function ReadSignUpList() {
 }
 
 export async function ReadRequestList() {
-  const data = await api.get('v1/myconsult');
+  const { data } = await api.get('v1/myconsult');
   return data;
 }

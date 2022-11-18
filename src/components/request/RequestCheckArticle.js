@@ -127,7 +127,7 @@ export default function RequestCheck() {
 }
 
 const RqCheckContainer = styled.div`
-  height: 800px;
+  height: 100%;
   overflow-y: auto;
   background-color: white;
   display: flex;

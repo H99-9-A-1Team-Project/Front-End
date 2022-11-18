@@ -145,8 +145,10 @@ export default function Request2Article() {
 }
 
 const Rq2Container = styled.div`
-  height: 684px;
+  height: 100%;
   background: none;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Rq2CheckImg = styled.img`
@@ -196,7 +198,8 @@ const BtnBox = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 16px;
-  margin-top: 137px;
+  margin-top: auto;
+  margin-bottom: 32px;
   background: none;
 `;
 const BackBtn = styled.button`
