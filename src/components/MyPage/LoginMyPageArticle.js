@@ -2,28 +2,40 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
-import newIcon from './sources/newIcon.png';
 import { useRecoilState } from 'recoil';
 import { isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ReadProfile } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
+import MyPageModal from './MyPageModal';
 
 export default function LoginMyPageArticle() {
   const navigate = useNavigate();
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
   const [userInfo, setUserInfo] = useState({});
   const [showMessage, setShowMessage] = useState(false);
-
-  const test = '가나다라가나다라가나d다가나다라가나다라가나다라가나다ㄱㄷㄷ프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필가나다라가나다라';
-  console.log(test.length);
+  const [modalVisibleNickname, setModalVisibleNickname] = useState(false);
+  const [newNickname, setNewNickname] = useState({
+    nickname: 'nickname',
+  });
 
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
     setAppLogin(false);
+  };
+
+  const onSubmitNicknameHandler = () => {
+    console.log('닉네임제출');
+  };
+
+  const onChangeNicknameHandler = (e) => {
+    const { name, value } = e.target;
+    setNewNickname({
+      [name]: value,
+    });
   };
 
   const getProfile = useQuery(['profile'], ReadProfile, {
@@ -39,25 +51,22 @@ export default function LoginMyPageArticle() {
     <Container>
       <div className="head-article-container">
         <div className="head-article-inner-container">
-          <div className="div1">
-            <img src={userProfile2} alt="userProfile" />
-          </div>
+          <div className="div1">{userInfo.profile ? <img src={`${userInfo.profle}`} alt="userProfile" /> : <img src={userProfile2} alt="userProfile" />}</div>
           <div className="div2">
             <div className="div3">
               <span className="span1">{userInfo.nickname}님</span>
-              <span className="span2">수정</span>
+              <span className="span2" onClick={() => setModalVisibleNickname(true)}>
+                수정
+              </span>
             </div>
             <span className="span3">{userInfo.email}</span>
           </div>
         </div>
-        {/* {sessionStorage.getItem('accountstate')===1} */}
-        {true ? (
+        {sessionStorage.getItem('accountstate') === '1' ? (
           showMessage ? (
             <div className="intro-message">
               <div className="intro-message-show">
-                프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다
-                프로필 텍스트입니다 프로필ddd 텍스트dddddddddddddd입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
-                텍스트입니다프로필 텍스트입니다 프로필 텍스트입니다 프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필 텍스트입니다프로필
+                {userInfo.introMessage}
                 <div className="button-box">
                   <button
                     className="show-button"
@@ -73,8 +82,8 @@ export default function LoginMyPageArticle() {
           ) : (
             <div className="intro-message">
               <div className="intro-message-hide">
-                <div className="intro-message-hide-container">{test}</div>
-                {test.length > 82 ? (
+                <div className="intro-message-hide-container">{userInfo.introMessage || '소개메세지가 없습니다.'}</div>
+                {userInfo.introMessage?.length > 82 ? (
                   <div className="button-box">
                     <button
                       className="hide-button"
@@ -93,8 +102,7 @@ export default function LoginMyPageArticle() {
       </div>
       <div className="body-article-container">
         <div className="info-1">상담</div>
-        {/* {sessionStorage.getItem('accountstate')===1} */}
-        {true ? (
+        {sessionStorage.getItem('accountstate') === '1' ? (
           <>
             <div className="info-2" onClick={() => navigate('/myconsult')}>
               <div className="box">
@@ -145,6 +153,15 @@ export default function LoginMyPageArticle() {
           <img src={arrow} alt="arrow" />
         </div>
       </div>
+
+      <>
+        {modalVisibleNickname ? (
+          <MyPageModal visible={modalVisibleNickname} closable={true} maskClosable={true} setModalVisible={setModalVisibleNickname} onSubmitHandler={onSubmitNicknameHandler}>
+            <div className="update-title">닉네임 수정</div>
+            <input type="text" name="nickname" onChange={onChangeNicknameHandler} value={newNickname.nickname} />
+          </MyPageModal>
+        ) : null}
+      </>
     </Container>
   );
 }
