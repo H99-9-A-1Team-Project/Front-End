@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { func } from 'prop-types';
 import api from './api';
 
 export async function ReadProfile() {
@@ -14,5 +12,14 @@ export async function ReadSignUpList() {
 
 export async function ReadRequestList() {
   const { data } = await api.get('v1/myconsult');
+  return data;
+}
+
+export async function ReadWaitList() {
+  const { data } = await api.get('v1/waitcustomer');
+  return data;
+}
+export async function ReadAnsweredList() {
+  const { data } = await api.get('v1/replied');
   return data;
 }

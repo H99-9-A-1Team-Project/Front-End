@@ -1,40 +1,48 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ReadRequestList } from '../../api/apiGET';
-import MyConsultBodyContainer from './MyConsultBodyContainer';
+import { ReadAnsweredList, ReadWaitList } from '../../api/apiGET';
+import MyConsultBodyContainer from '../MyPageMyConsult/MyConsultBodyContainer';
 
-export default function MyConsultBody() {
-  const [listState, setListState] = useState(0);
+export default function RealtorConsult() {
+  const [realtorListState, setRealtorListState] = useState(0);
   const onClickListAll = () => {
-    setListState(0);
+    setRealtorListState(0);
   };
   const onClickListWait = () => {
-    setListState(1);
+    setRealtorListState(1);
   };
-  const onClickListComplete = () => {
-    setListState(2);
-  };
+  useEffect(() => {
+    if (window.location.pathname === '/answerdlist') {
+      setRealtorListState(1);
+    }
+  }, []);
 
-  const { data } = useQuery(['requestlist'], ReadRequestList, {
+  const { data: waitData } = useQuery(['waitlist'], ReadWaitList, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
     refetchOnWindowFocus: false,
+    enabled: !realtorListState,
+  });
+  const { data: answeredData } = useQuery(['answeredlist'], ReadAnsweredList, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    enabled: !!realtorListState,
   });
   return (
     <StMyPageBodyWrap>
       <ul>
-        <li onClick={onClickListAll} className={listState === 0 ? 'button-large' : 'button-medium'}>
-          전체
-        </li>
-        <li onClick={onClickListWait} className={listState === 1 ? 'button-large' : 'button-medium'}>
+        <li onClick={onClickListAll} className={realtorListState === 0 ? 'button-large' : 'button-medium'}>
           대기중
         </li>
-        <li onClick={onClickListComplete} className={listState === 2 ? 'button-large' : 'button-medium'}>
-          완료
+        <li onClick={onClickListWait} className={realtorListState === 1 ? 'button-large' : 'button-medium'}>
+          답변한 상담
         </li>
       </ul>
       <div className="consulting-wrap">
-        {data?.map((item) => {
-          return <MyConsultBodyContainer key={item.id} listState={listState} item={item} />;
+        {(waitData ? waitData : answeredData)?.map((item) => {
+          return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} />;
         })}
       </div>
     </StMyPageBodyWrap>
