@@ -223,7 +223,7 @@ export default function LoginMyPageArticle() {
                   <img className="prev-img" alt="" src={userInfo.profile ? (imgSave === '' ? `${userInfo.profile}` : imgSave) : imgSave === '' ? User_cicrle : imgSave} />
                 </label>
                 <input className="img-input" type="file" id="img_file" accept="image/*" onChange={onSaveFileImage} />
-                <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
+                <input className="nickname-input" type="text" maxLength={30} onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
                 <div className="intromessage-container">
                   <div className="intromessage-title">소개 메세지</div>
                   <textarea className="intromessage2" maxLength={500} ref={textRef} name="introMessage" value={newProfile.introMessage} onChange={onChangeHandler}></textarea>
@@ -234,7 +234,7 @@ export default function LoginMyPageArticle() {
               </form>
             ) : (
               <form className="profileform2" onSubmit={onSubmitUpdateUserProfileHandler}>
-                <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
+                <input className="nickname-input" type="text" maxLength={30} onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
                 <div className="button-container">
                   <button>수정 완료</button>
                 </div>
