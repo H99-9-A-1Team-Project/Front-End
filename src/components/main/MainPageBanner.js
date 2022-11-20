@@ -112,16 +112,8 @@ const BannerBox = styled.div`
     ::-webkit-scrollbar {
       display: none;
     }
-    /* img {
-      margin: 0;
-    }
-    img:hover {
-      margin-left: 500px;
-      transition: 1s;
-    } */
   }
-  .my-siwper {
-    width: 328px;
+  .mysiwper {
     background-color: white;
   }
   .swiper-slide {

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
@@ -14,7 +14,7 @@ import MyPageModal from './MyPageModal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 
 export default function LoginMyPageArticle() {
-  const textRef = useRef();
+  const textRef = useRef(null);
   const navigate = useNavigate();
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
   const [userInfo, setUserInfo] = useState({});
@@ -33,12 +33,10 @@ export default function LoginMyPageArticle() {
     sessionStorage.removeItem('accountstate');
     setAppLogin(false);
   };
-
   const onSubmitUpdateUserProfileHandler = (e) => {
     e.preventDefault();
     updateUserProfile({ nickname: newProfile.nickname });
   };
-
   const onSubmitUpdateRealtorProfileHandler = (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -47,7 +45,6 @@ export default function LoginMyPageArticle() {
     formData.append('profile', postimage.files[0]);
     updateRealtorProfile(formData);
   };
-
   const onChangeProfileHandler = (e) => {
     const { name, value } = e.target;
     setNewProfile({
@@ -55,11 +52,18 @@ export default function LoginMyPageArticle() {
       [name]: value,
     });
   };
-  const onResizeHandler = useCallback(() => {
+  const onResizeHandler = () => {
     textRef.current.style.height = 'auto';
-    textRef.current.style.height = textRef.current.scrollHeight + 'px';
-  }, []);
-
+    textRef.current.style.height = textRef.current.scrollHeight - 38 + 'px';
+  };
+  const onClickEdit = () => {
+    setModalVisible(true);
+  };
+  useEffect(() => {
+    if (textRef.current !== null) {
+      textRef.current.focus();
+    }
+  }, [modalVisible]);
   const onChangeHandler = (e) => {
     onChangeProfileHandler(e);
     onResizeHandler(e);
@@ -67,7 +71,6 @@ export default function LoginMyPageArticle() {
   const onSaveFileImage = (e) => {
     setImgSave(URL.createObjectURL(e.target.files[0]));
   };
-
   const getProfile = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
@@ -116,7 +119,7 @@ export default function LoginMyPageArticle() {
           <div className="div2">
             <div className="div3">
               <span className="span1">{userInfo.nickname}님</span>
-              <span className="span2" onClick={() => setModalVisible(true)}>
+              <span className="span2" onClick={onClickEdit}>
                 수정
               </span>
             </div>
@@ -226,7 +229,7 @@ export default function LoginMyPageArticle() {
                 <input className="nickname-input" type="text" onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
                 <div className="intromessage-container">
                   <div className="intromessage-title">소개 메세지</div>
-                  <textarea className="intromessage2" maxLength={500} ref={textRef} name="introMessage" value={newProfile.introMessage} onChange={onChangeHandler}></textarea>
+                  <textarea className="intromessage2" id="textarea" maxLength={500} ref={textRef} name="introMessage" value={newProfile.introMessage} onChange={onChangeHandler} onFocus={onResizeHandler}></textarea>
                 </div>
                 <div className="button-container">
                   <button>수정 완료</button>
@@ -504,7 +507,6 @@ const Container = styled.div`
     border-radius: 8px;
     background-color: white;
     resize: none;
-    min-height: 112px;
     overflow-y: hidden;
     outline: none;
     margin-bottom: 24px;
