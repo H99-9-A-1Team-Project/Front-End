@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from './sources/main_header_name.png';
 import Menu from './sources/main_header_menu.png';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function MainPageHeader() {
   const navigate = useNavigate();

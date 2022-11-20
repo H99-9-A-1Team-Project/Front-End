@@ -52,13 +52,10 @@ export default function LoginMyPageArticle() {
       [name]: value,
     });
   };
-  const onResizeHandler = () => {
+  const onResizeHandler = useCallback(() => {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = textRef.current.scrollHeight - 38 + 'px';
-  };
-  const onClickEdit = () => {
-    setModalVisible(true);
-  };
+  }, []);
   useEffect(() => {
     if (textRef.current !== null) {
       textRef.current.focus();
@@ -119,7 +116,7 @@ export default function LoginMyPageArticle() {
           <div className="div2">
             <div className="div3">
               <span className="span1">{userInfo.nickname}님</span>
-              <span className="span2" onClick={onClickEdit}>
+              <span className="span2" onClick={() => setModalVisible(true)}>
                 수정
               </span>
             </div>
