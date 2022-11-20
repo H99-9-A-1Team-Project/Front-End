@@ -10,6 +10,8 @@ import './route.css';
 import RequestCheck from '../pages/RequestCheck';
 import MyPageMyConsult from '../pages/MyPageMyConsult';
 import MyPageAdmin from '../pages/MyPageAdmin';
+import FootstepMain from '../pages/FootstepMain';
+import NewFootStep from '../pages/NewFootStep';
 
 export default function Router() {
   return (
@@ -26,6 +28,8 @@ export default function Router() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myconsult" element={<MyPageMyConsult />} />
         <Route path="/admin" element={<MyPageAdmin />} />
+        <Route path="/footstepmain" element={<FootstepMain />} />
+        <Route path="/newfootstep" element={<NewFootStep />} />
       </Routes>
     </div>
   );

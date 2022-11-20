@@ -50,6 +50,7 @@ export default function MainPageTabBar() {
       setTbRequest(0);
       setTbUser(0);
     } else if (click === 2) {
+      navigate('/footstepmain');
       setTbHome(0);
       setTbPin(1);
       setTbRequest(0);

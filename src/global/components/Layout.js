@@ -11,4 +11,5 @@ const StLayout = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background-color: white;
+  border: 1px solid aqua;
 `;
