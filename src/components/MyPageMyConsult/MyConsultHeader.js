@@ -7,9 +7,11 @@ export default function MyConsultHeader({ text }) {
   const navigate = useNavigate();
   return (
     <MyConsultHeaderLayout>
-      <div className="div1" onClick={() => navigate('/mypage')}>
-        <img src={arrow2} alt="arrow2" />
-        {text}
+      <div className="div1">
+        <div onClick={() => navigate('/mypage')}>
+          <img src={arrow2} alt="arrow2" />
+          {text}
+        </div>
       </div>
     </MyConsultHeaderLayout>
   );
@@ -33,6 +35,14 @@ const MyConsultHeaderLayout = styled.div`
     font-weight: var(--body_Medium-font-weight);
     line-height: var(--body_Medium-line-height);
     letter-spacing: var(--body_Medium-letter-spacing);
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      background-color: white;
+      cursor: pointer;
+    }
   }
   img {
     background-color: white;
