@@ -2,6 +2,7 @@ import api from './api';
 
 export async function ReadProfile() {
   const response = await api.get('v1/myprofile');
+  console.log(response);
   return response;
 }
 

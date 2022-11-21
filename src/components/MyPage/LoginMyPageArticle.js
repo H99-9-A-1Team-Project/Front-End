@@ -4,8 +4,8 @@ import userProfile2 from './sources/userProfile2.png';
 import arrow from './sources/arrow.png';
 import User_cicrle from './sources/User_cicrle.png';
 import userDefault from './sources/userDefault.png';
-import { useRecoilState } from 'recoil';
-import { isLogin } from '../../store/store';
+import { useResetRecoilState } from 'recoil';
+import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadProfile, ReadWaitList } from '../../api/apiGET';
@@ -16,7 +16,11 @@ import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 export default function LoginMyPageArticle() {
   const textRef = useRef(null);
   const navigate = useNavigate();
-  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+  const appLogout = useResetRecoilState(isLogin);
+  const changeSignUp = useResetRecoilState(ChangeSignUp);
+  const nextMem = useResetRecoilState(NextMem);
+  const nextTor = useResetRecoilState(NextTor);
+  const goLogIn = useResetRecoilState(GoLogIn);
   const [userInfo, setUserInfo] = useState({});
   const [showMessage, setShowMessage] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,7 +35,12 @@ export default function LoginMyPageArticle() {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
-    setAppLogin(false);
+    sessionStorage.removeItem('nickname');
+    changeSignUp();
+    nextMem();
+    nextTor();
+    goLogIn();
+    appLogout();
   };
   const onSubmitUpdateUserProfileHandler = (e) => {
     e.preventDefault();
@@ -87,7 +96,19 @@ export default function LoginMyPageArticle() {
     refetchOnWindowFocus: false,
     enabled: sessionStorage.getItem('accountstate') !== '0',
   });
-  const { mutate: deleteUser } = useMutation(DeleteUser);
+  const { mutate: deleteUser } = useMutation(DeleteUser, {
+    onSuccess: () => {
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('refresh_token');
+      sessionStorage.removeItem('accountstate');
+      sessionStorage.removeItem('nickname');
+      changeSignUp();
+      nextMem();
+      nextTor();
+      goLogIn();
+      appLogout();
+    },
+  });
   const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
