@@ -80,7 +80,7 @@ export default function MainPageArticle() {
               </div>
             ) : null}
             {waitData?.length >= 1 ? (
-              <div className="article_body_notice_wrap">
+              <div className="article_body_notice_wrap" onClick={() => navigate('/waitlist')}>
                 <div className="notice_title">알림</div>
                 <div className="notice_content">
                   대기중인 상담이 있습니다.
@@ -116,7 +116,7 @@ export default function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '1' ? (
               <div className="article_body_banner_wrap">
-                <div className="banner3">
+                <div className="banner3" onClick={() => navigate('/waitlist')}>
                   <div className="div_1">
                     <div>대기중인 상담</div>
                     <div className="div_3">
@@ -200,6 +200,7 @@ const ArticleContainer = styled.div`
         background-color: white;
         border-radius: 4px;
         margin-bottom: 16px;
+        cursor: pointer;
         .notice_title {
           width: 22px;
           margin-right: 12px;
@@ -281,6 +282,7 @@ const ArticleContainer = styled.div`
           font-weight: var(--button_Large-font-weight);
           line-height: var(--button_Large-line-height);
           letter-spacing: var(--button_Large-letter-spacing);
+          cursor: pointer;
           .deco_3 {
             margin-top: -17px;
             margin-right: 18px;
