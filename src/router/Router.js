@@ -15,7 +15,6 @@ import NewFootStep from '../pages/NewFootStep';
 import MyConsultDetail from '../pages/MyConsultDetail';
 import MyPageRealtorConsult from '../pages/MyPageRealtorConsult';
 
-
 export default function Router() {
   return (
     <div className="app">

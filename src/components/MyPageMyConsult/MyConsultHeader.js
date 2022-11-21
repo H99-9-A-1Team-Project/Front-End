@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import arrow2 from './sources/arrow2.png';
 
-export default function MyConsultHeader({ text }) {
+export default function MyConsultHeader({ text, page }) {
   const navigate = useNavigate();
   return (
     <MyConsultHeaderLayout>
       <div className="div1">
-        <div onClick={() => navigate('/mypage')}>
+        <div onClick={() => navigate(page)}>
           <img src={arrow2} alt="arrow2" />
           {text}
         </div>

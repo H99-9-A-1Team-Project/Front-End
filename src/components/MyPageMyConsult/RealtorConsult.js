@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReadAnsweredList, ReadWaitList } from '../../api/apiGET';
-import MyConsultBodyContainer from '../MyPageMyConsult/MyConsultBodyContainer';
+import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function RealtorConsult() {
   const [realtorListState, setRealtorListState] = useState(0);
