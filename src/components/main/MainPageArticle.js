@@ -56,7 +56,7 @@ export default function MainPageArticle() {
       )}
       {AppLogin ? (
         <div className="article_body_wrap">
-          <div className="user_info" style={{ marginBottom: info || waitData?.length ? '80px' : '136px' }}>
+          <div className="user_info" style={{ marginBottom: (sessionStorage.getItem('accountstate') === '0' && info) || (sessionStorage.getItem('accountstate') === '1' && waitData?.length) ? '80px' : '136px' }}>
             {sessionStorage.getItem('accountstate') === '0' ? (
               <>
                 <div className="user_info_1">상담 {requestlist?.length}건</div>
@@ -70,7 +70,7 @@ export default function MainPageArticle() {
             ) : null}
           </div>
           <div className="article_body">
-            {info ? (
+            {info && sessionStorage.getItem('accountstate') === '0' ? (
               <div className="article_body_notice_wrap">
                 <div className="notice_title">알림</div>
                 <div className="notice_content">
@@ -79,7 +79,7 @@ export default function MainPageArticle() {
                 </div>
               </div>
             ) : null}
-            {waitData?.length >= 1 ? (
+            {waitData?.length >= 1 && sessionStorage.getItem('accountstate') === '1' ? (
               <div className="article_body_notice_wrap" onClick={() => navigate('/waitlist')}>
                 <div className="notice_title">알림</div>
                 <div className="notice_content">
