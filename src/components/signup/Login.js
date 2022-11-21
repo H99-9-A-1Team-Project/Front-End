@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState } from 'recoil';
-import { GoLogIn, isLogin, NextTor, NextMem  } from '../../store/store';
+import { GoLogIn, isLogin, NextTor, NextMem } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -16,7 +16,6 @@ function Login() {
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
   const [nexttor, setNextTor] = useRecoilState(NextTor);
   const [nextmem, setNextMem] = useRecoilState(NextMem);
-
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
@@ -65,6 +64,7 @@ function Login() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
+      sessionStorage.setItem('nickname', response.data.nickname);
       setAppLogin(true);
       console.log(response);
       navigate('/');
@@ -110,15 +110,15 @@ function Login() {
               </InputErrorMessageBox>
             </>
             <InputName>비밀번호</InputName>
-                 <form>
-                <InputText placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputText>
-              </form>
-              <InputErrorMessageBox>
-                <InputErrorMessage>{errorpassword === '' ? null : errorpassword}</InputErrorMessage>
-              </InputErrorMessageBox>
-              <PasswordViewButtonContainer>
-                <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-              </PasswordViewButtonContainer>
+            <form>
+              <InputText placeholder="비밀번호를 입력해주세요" name="password" type={secret === false ? 'text' : 'password'} autocomplete="on" onChange={onChangeLoginInput}></InputText>
+            </form>
+            <InputErrorMessageBox>
+              <InputErrorMessage>{errorpassword === '' ? null : errorpassword}</InputErrorMessage>
+            </InputErrorMessageBox>
+            <PasswordViewButtonContainer>
+              <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+            </PasswordViewButtonContainer>
           </InputContainer>
           <BlankContainer2></BlankContainer2>
           <ButtonContainer>

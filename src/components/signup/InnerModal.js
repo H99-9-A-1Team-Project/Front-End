@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import CompleteM from '../signup/sources/completemodal.png';
 import ModalClose from '../signup/sources/x.png';
 import { CloseModal } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 function InnerModal() {
   //모달 닫기 버튼용 recoilstate
-  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
+  const [setModalOpen] = useSetRecoilState(CloseModal);
   const onCloseModal = () => {
     setModalOpen(false);
   };

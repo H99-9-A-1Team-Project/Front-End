@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import Path from './source/rqhPath.png';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { rqInfo, requireAddress, rqDetailAddress } from '../../store/store';
 
 export default function RequestHeader() {
   const navigate = useNavigate();
-  const [rqhInfo, setRqhInfo] = useRecoilState(rqInfo);
-  const [rqhAddress, setRqhAddress] = useRecoilState(requireAddress);
-  const [rqhDetailAddress, setRqhDetailAddress] = useRecoilState(rqDetailAddress);
+  const setRqhInfo = useSetRecoilState(rqInfo);
+  const setRqhAddress = useSetRecoilState(requireAddress);
+  const setRqhDetailAddress = useSetRecoilState(rqDetailAddress);
   const onBack = () => {
     setRqhInfo({ title: '', coordX: '', coordY: '', check1: 0, check2: 0, check3: 0, check4: 0, check5: 0, check6: 0, consultMessage: '' });
     setRqhAddress('도로명 주소 검색');
