@@ -21,9 +21,12 @@ function Login() {
 
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
-
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
+  //이메일 잘못 입력 에러 출력 state
+  const [errormail, setErrorMail] = useState('');
+  //비밀번호 잘못 입력 에러 출력 state
+  const [errorpassword, setErrorPassWord] = useState('');
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
@@ -109,6 +112,7 @@ function Login() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
+      sessionStorage.setItem('nickname', response.data.nickname);
       setAppLogin(true);
       console.log(response);
       navigate('/');
@@ -158,6 +162,7 @@ function Login() {
             </WelcomeQuestionbox>
           </WelcomeQuestionContainer>
           <InputContainer>
+
             <InputBox>
               <InputName>아이디</InputName>
               <>
@@ -193,6 +198,7 @@ function Login() {
               </InputErrorMessageBoxPassword>
               <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
             </ErrorMsgPreview>
+
           </InputContainer>
           <AutoLoginContainer>
             <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} onClick={onAutoLogin} />

@@ -40,3 +40,13 @@ export const rqInfo = atom({
     consultMessage: '',
   },
 });
+
+export const testLocation = atom({
+  key: 'testlocation',
+  default: {
+    all: null,
+    seoul: null,
+    daegu: null,
+    busan: null,
+  },
+});

@@ -58,6 +58,9 @@ const Rq3Container = styled.div`
   margin: 0;
   padding: 0;
   background: none;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
 `;
 
 const CommentBox = styled.div`
@@ -86,7 +89,7 @@ const BtnBox = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 16px;
-  margin-top: 386px;
+  margin-top: auto;
   background: none;
 `;
 const BackBtn = styled.button`

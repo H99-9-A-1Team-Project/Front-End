@@ -1,23 +1,24 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ReadRequestList } from '../../api/apiGET';
 import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function MyConsultBody() {
   const [listState, setListState] = useState(0);
-  const [ansState, setAnsState] = useState(0, 1, 2);
   const onClickListAll = () => {
-    setAnsState(0, 1, 2);
     setListState(0);
   };
   const onClickListWait = () => {
-    setAnsState(0);
     setListState(1);
   };
   const onClickListComplete = () => {
-    setAnsState(1, 2);
     setListState(2);
   };
 
+  const { data } = useQuery(['requestlist'], ReadRequestList, {
+    refetchOnWindowFocus: false,
+  });
   return (
     <StMyPageBodyWrap>
       <ul>
@@ -32,7 +33,9 @@ export default function MyConsultBody() {
         </li>
       </ul>
       <div className="consulting-wrap">
-        <MyConsultBodyContainer listState={listState} ansState={ansState} />
+        {data?.map((item) => {
+          return <MyConsultBodyContainer key={item.id} listState={listState} item={item} />;
+        })}
       </div>
     </StMyPageBodyWrap>
   );
@@ -49,6 +52,9 @@ const StMyPageBodyWrap = styled.div`
     padding: 0 0 0 16px;
     background-color: white;
     border-bottom: 4px solid var(--gray6);
+    li {
+      cursor: pointer;
+    }
   }
   .button-large {
     background-color: white;
@@ -76,62 +82,101 @@ const StMyPageBodyWrap = styled.div`
     flex-direction: column;
     justify-content: center;
   }
-  .consulting-container-blue {
+  .consulting-container-0,
+  .consulting-container-1,
+  .consulting-container-2 {
     width: 328px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     background-color: var(--primary2-100);
     padding: 16px;
+    border-bottom: 1px solid var(--gray6);
+    .container-header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: var(--primary2-100);
+      margin-bottom: 0;
+    }
     .title-box {
       display: flex;
       align-items: center;
       width: 246px;
-      height: 40px;
+      background-color: var(--primary2-100);
+      font-family: var(--button-font-family);
+      font-size: var(--button_Large-font-size);
+      font-weight: var(--button_Large-font-weight);
+      line-height: var(--button_Large-line-height);
+      letter-spacing: var(--button_Large-letter-spacing);
     }
-    .answer-icon {
+    .answer-icon-0,
+    .answer-icon-1,
+    .answer-icon-2 {
       width: 42px;
       height: 24px;
       border-radius: 4px;
-      background-color: var(--primary2-400);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--button-font-family);
+      font-size: var(--button_Small-font-size);
+      font-weight: var(--button_Small-font-weight);
+      line-height: var(--button_Small-line-height);
+      letter-spacing: var(--button_Small-letter-spacing);
+    }
+    .time {
+      margin-top: 8px;
+      background-color: var(--primary2-100);
+      color: var(--gray3);
+      font-family: var(--button-font-family);
+      font-size: var(--body_Small-font-size);
+      font-weight: var(--body_Small-font-weight);
+      line-height: var(--body_Small-line-height);
+      letter-spacing: var(--body_Small-letter-spacing);
+    }
+    .consulting-message {
+      width: 100%;
+      margin-top: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background-color: var(--primary2-100);
+      font-family: var(--button-font-family);
+      font-size: var(--button_Medium-font-size);
+      font-weight: var(--button_Medium-font-weight);
+      line-height: var(--button_Medium-line-height);
+      letter-spacing: var(--button_Medium-letter-spacing);
     }
   }
-  .consulting-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .consulting-container-0,
+  .consulting-container-2 {
     background-color: white;
-    padding: 16px;
-  }
-  .container-header {
-    display: flex;
-    flex-direction: row;
-    img {
-      border-radius: 100%;
-      width: 40px;
-      height: 40px;
+    .container-header {
+      background-color: white;
+    }
+    .title-box {
+      background-color: white;
+    }
+    .time {
+      background-color: white;
+    }
+    .consulting-message {
+      background-color: white;
     }
   }
-  .consulting-inner-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .answer-icon-0 {
+    background-color: var(--primary2-100);
+    color: var(--primary2-300);
   }
-  .consulting-box {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+  .answer-icon-1 {
+    background-color: var(--primary2-400);
+    color: white;
   }
-  .consulting-box-bottom {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    font-size: 14px;
-    color: gray;
-  }
-  .type-second {
-    border-left: 1px solid gray;
-    padding-left: 10px;
+  .answer-icon-2 {
+    background-color: var(--gray6);
+    color: var(--gray4);
   }
 `;

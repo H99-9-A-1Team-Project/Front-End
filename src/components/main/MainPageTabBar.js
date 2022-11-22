@@ -34,7 +34,7 @@ export default function MainPageTabBar() {
       setTbRequest(1);
       setTbUser(0);
     }
-    if (window.location.pathname === '/mypage') {
+    if (window.location.pathname === '/mypage' || window.location.pathname === '/myconsult') {
       setTbHome(0);
       setTbPin(0);
       setTbRequest(0);
@@ -44,34 +44,48 @@ export default function MainPageTabBar() {
 
   const onClickTab = (click) => {
     if (click === 1) {
+      navigate('/');
       setTbHome(1);
       setTbPin(0);
       setTbRequest(0);
       setTbUser(0);
     } else if (click === 2) {
+      navigate('/footstepmain');
       setTbHome(0);
       setTbPin(1);
       setTbRequest(0);
       setTbUser(0);
     } else if (click === 3) {
-      setTbHome(0);
-      setTbPin(0);
-      setTbRequest(1);
-      setTbUser(0);
+      const localToken = localStorage.getItem('access_token');
+      const sessToken = sessionStorage.getItem('access_token');
+      const localAccountState = localStorage.getItem('accountstate');
+      const sessAccountState = sessionStorage.getItem('accountstate');
+      if ((localToken !== null && localAccountState === '0') || (sessToken !== null && sessAccountState === '0')) {
+        navigate('/request');
+        setTbHome(0);
+        setTbPin(0);
+        setTbRequest(1);
+        setTbUser(0);
+      } else if ((localToken !== null && localAccountState !== '0') || (sessToken !== null && sessAccountState !== '0')) {
+        alert('일반 회원만 접근 가능합니다.');
+      } else if (localToken === null && sessToken === null) {
+        navigate('/signup');
+      }
     } else if (click === 4) {
+      navigate('/mypage');
       setTbHome(0);
       setTbPin(0);
       setTbRequest(0);
       setTbUser(1);
     }
   };
+
   return (
     <TabBarContainer>
       <HomeContainer>
         <HomeBox
           onClick={() => {
             onClickTab(1);
-            navigate('/');
           }}
         >
           {tbHome === 0 ? <HomeImg src={imgHomeOFF} /> : <HomeImg src={imgHomeON} />}
@@ -88,7 +102,6 @@ export default function MainPageTabBar() {
         <RequestBox
           onClick={() => {
             onClickTab(3);
-            navigate('/request');
           }}
         >
           {tbReqeust === 0 ? <RequestImg src={imgRequestOFF} /> : <HomeImg src={imgRequestON} />}
@@ -99,7 +112,6 @@ export default function MainPageTabBar() {
         <UserBox
           onClick={() => {
             onClickTab(4);
-            navigate('/mypage');
           }}
         >
           {tbUser === 0 ? <UserImg src={imgUserOFF} /> : <UserImg src={imgUserON} />}

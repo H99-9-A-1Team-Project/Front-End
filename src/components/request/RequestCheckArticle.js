@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
 import { requireAddress, rqDetailAddress, rqInfo } from '../../store/store';
@@ -127,7 +127,7 @@ export default function RequestCheck() {
 }
 
 const RqCheckContainer = styled.div`
-  height: 800px;
+  height: 100%;
   overflow-y: auto;
   background-color: white;
   display: flex;

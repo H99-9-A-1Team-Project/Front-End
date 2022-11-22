@@ -4,8 +4,18 @@ import '../../global/global.css';
 import RqAt_Path_Right from './sources/rqm_article_right_light2.png';
 import RqAt_Question from './sources/RqmAt_Question.png';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { ReadRequestList } from '../../api/apiGET';
+
 export default function RequestArticle() {
   const navigate = useNavigate();
+
+  const { data } = useQuery(['RequestList'], ReadRequestList, {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+  });
+
   return (
     <RqArticleContainer>
       <LikeText>
