@@ -1,31 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ConsultDetailBodyContainer from './ConsultDetailBodyContainer';
 import pin from './sources/Pin.png';
 import arrow3 from './sources/arrow3.png';
+import { useQuery } from '@tanstack/react-query';
+import { ReadConsultDetail } from '../../api/apiGET';
 
-export default function ConsultDetailBody() {
+export default function ConsultDetailBody({ id }) {
+  const [checkNum, setCheckNum] = useState(0);
+  const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
+    refetchOnWindowFocus: false,
+    onSuccess: (config) => {
+      setCheckNum(0);
+      if (config.check1 === true)
+        setCheckNum((prev) => {
+          return prev + 1;
+        });
+      if (config.check2 === true)
+        setCheckNum((prev) => {
+          return prev + 1;
+        });
+      if (config.check3 === true)
+        setCheckNum((prev) => {
+          return prev + 1;
+        });
+      if (config.check4 === true)
+        setCheckNum((prev) => {
+          return prev + 1;
+        });
+      if (config.check5 === true)
+        setCheckNum((prev) => {
+          return prev + 1;
+        });
+      if (config.check6 === true)
+        setCheckNum((prev) => {
+          return prev + 1;
+        });
+      if (config.consultMessage === null) {
+        config.consultMessage = '전달메세지가 없습니다.';
+      }
+    },
+  });
   return (
-    <ConsultDetailBodyLayout>
-      <div className="answer_body_wrap">
-        <div className="answer_body_title_wrap">
-          <div className="title">주소</div>
-          <div className="title_body">
-            <img src={pin} alt="pin" />
-            서울특별시 관악구 주소주소주소
+    data && (
+      <ConsultDetailBodyLayout>
+        <div className="answer_body_wrap">
+          <div className="answer_body_title_wrap">
+            <div className="title">주소</div>
+            <div className="title_body">
+              <img src={pin} alt="pin" />
+              {data.title}
+            </div>
+          </div>
+          <div className="answer_body_info_wrap">
+            <div className="title">{checkNum}개의 고민</div>
+            <ConsultDetailBodyContainer data={data} checkNum={checkNum} />
+          </div>
+          <div className="answer_body_message_wrap">
+            <div className="title">전달메세지</div>
+            <div className="message">{data.consultMessage}</div>
           </div>
         </div>
-        <div className="answer_body_info_wrap">
-          <div className="title">5개의 고민</div>
-          <ConsultDetailBodyContainer />
-        </div>
-        <div className="answer_body_message_wrap">
-          <div className="title">전달메세지</div>
-          <div className="message">전달메세지 전달메세지 전달메세지 전달메세지 전달메세지 전달메세지 전달메세지 전달메세지 전달메세지 전달메세지</div>
-        </div>
-      </div>
-      <div className="date">2000.00.00</div>
-    </ConsultDetailBodyLayout>
+        <div className="date">{data.createdAt}</div>
+      </ConsultDetailBodyLayout>
+    )
   );
 }
 const ConsultDetailBodyLayout = styled.div`

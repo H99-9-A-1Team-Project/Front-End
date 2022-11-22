@@ -24,7 +24,7 @@ export default function MainPageArticle() {
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '0'),
     onSuccess: (config) => {
-      const info = config.findIndex((item) => item.answerState === 'ROLE_ANSWER');
+      const info = config.findIndex((item) => item.answerState === 'ANSWER');
       if (info !== -1) {
         setInfo(true);
       }

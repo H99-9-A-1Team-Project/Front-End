@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import deco from './sources/deco.png';
 import user_circle from '../MyPage/sources/userDefault.png';
@@ -10,69 +10,58 @@ import '@toast-ui/editor/dist/i18n/ko-kr'; // Editor 한국어
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useRef } from 'react';
 import { useState } from 'react';
+import { RequestConsultComment, RequestConsultCommentImage } from '../../api/apiPOST';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ReadConsultDetail } from '../../api/apiGET';
 
-export default function ConsultDetailComment() {
-  const [contents, setConsts] = useState({
-    html: '',
+export default function ConsultDetailComment({ id }) {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [buttonActive, setbuttonActive] = useState(false);
+  const [contents, setContents] = useState({
+    answerMessage: '',
   });
-
   const editorRef = useRef();
 
   const onChange = () => {
-    setConsts({ ...contents, html: editorRef.current.getInstance().getHTML() });
+    setContents({ ...contents, answerMessage: editorRef.current.getInstance().getHTML() });
   };
 
-  // if(sessionStorage.getItem('account')==='0'&&answerstate==="ROLE_WAIT"){return(
-  //     <div></div>
-  // )}
-  // if(sessionStorage.getItem('account')==='0'&&(answerstate==="ROLE_ANSWER"||answerstate==="ROLE_FINISH")){return(
-  //     <div></div>
-  // )}
-  // if(sessionStorage.getItem('account')==='1'&&answerstate==="ROLE_WAIT"){return(
-  //     <div></div>
-  // )}
-  // if(sessionStorage.getItem('account')==='1'&&(answerstate==="ROLE_ANSWER"||answerstate==="ROLE_FINISH")){return(
-  //     <div></div>
-  // )}
-  return (
-    // <ConsultDetailCommentLayout>
-    //   <div className="comment_body_wrap_wait">
-    //     <img src={deco} alt="deco" />
-    //     <div className="content_wait">
-    //       <div>공인중개사님이</div>
-    //       <div>빠른 시일 내로 답변할</div>
-    //       <div>예정이에요</div>
-    //     </div>
-    //   </div>
-    // </ConsultDetailCommentLayout>
-    <>
+  const { mutate: requestConsultComment } = useMutation((arg) => RequestConsultComment(arg), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['consultdetail']);
+      navigate('/answeredlist');
+    },
+  });
+  const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
+    refetchOnWindowFocus: false,
+    onSuccess: (config) => {
+      if (config.comments[0].introMessage === null) {
+        config.comments[0].introMessage = '소개메세지가 없습니다.';
+      }
+    },
+  });
+  useEffect(() => {
+    if (contents.answerMessage !== '') setbuttonActive(true);
+    else setbuttonActive(false);
+  }, [contents]);
+
+  if (sessionStorage.getItem('accountstate') === '0' && data?.answerState === 'WAIT') {
+    return (
       <ConsultDetailCommentLayout>
-        <div className="comment_body_wrap_answer">
-          <div className="header">username님의 답변입니다.</div>
-          <div className="realtor_info">
-            <div className="realtor_info_left">
-              <img src={user_circle} alt="user_circle" />
-            </div>
-            <div className="realtor_info_right">
-              <div className="realtor_info_right_top">공인중개사</div>
-              <div className="realtor_info_right_middle">username</div>
-              <div className="realtor_info_right_bottom">소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지소개메세지</div>
-            </div>
+        <div className="comment_body_wrap_wait">
+          <img src={deco} alt="deco" />
+          <div className="content_wait">
+            <div>공인중개사님이</div>
+            <div>빠른 시일 내로 답변할</div>
+            <div>예정이에요</div>
           </div>
-          <div className="editor_viwer_wrap">
-            <Viewer initialValue="<h3> html 헤더 <span >파란색</span></h3>" />
-          </div>
-          {/* <div className="like">
-          <img src={good2} alt="good" />
-          답변이 많은 도움이 되었어요
-        </div>
-        <div className="dis_like">
-          <img src={good} alt="good" />
-          답변이 많은 도움이 되었어요
-        </div> */}
         </div>
       </ConsultDetailCommentLayout>
-
+    );
+  } else if (sessionStorage.getItem('accountstate') === '1' && data?.answerState === 'WAIT') {
+    return (
       <ConsultDetailCommentLayout>
         <div className="editor_wrap">
           <Editor
@@ -88,24 +77,61 @@ export default function ConsultDetailComment() {
             toolbarItems={[['image', 'link'], ['heading', 'bold'], ['hr'], ['ul', 'ol']]}
             hooks={{
               addImageBlobHook: async (blob, callback) => {
-                console.log(blob); // File {name: '카레유.png', ... }
-
-                // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
-                // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
-
-                // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
-                callback('http://localhost:5000/img/카레유.png', '카레유');
+                let formData = new FormData();
+                formData.append('file', blob);
+                const imgUrl = await RequestConsultCommentImage({ formData, id });
+                callback(imgUrl.url, '');
               },
             }}
           />
           <div className="buttons">
-            <button className="cancle_button">취소</button>
-            <button className="submit_button">답변 완료</button>
+            <button className="cancle_button" onClick={() => navigate(-1)}>
+              취소
+            </button>
+            <button
+              className={buttonActive ? 'submit_button' : 'cancle_button'}
+              onClick={() => {
+                requestConsultComment({ id, contents });
+              }}
+            >
+              답변 완료
+            </button>
           </div>
         </div>
       </ConsultDetailCommentLayout>
-    </>
-  );
+    );
+  } else {
+    return (
+      data && (
+        <ConsultDetailCommentLayout>
+          <div className="comment_body_wrap_answer">
+            <div className="header">{data.comments[0].nickname}님의 답변입니다.</div>
+            <div className="realtor_info">
+              <div className="realtor_info_left">
+                <img src={data.comments[0].profile ? data.comments[0].profile : user_circle} alt="user_circle" />
+              </div>
+              <div className="realtor_info_right">
+                <div className="realtor_info_right_top">공인중개사</div>
+                <div className="realtor_info_right_middle">{data.comments[0].nickname}</div>
+                <div className="realtor_info_right_bottom">{data.comments[0].introMessage}</div>
+              </div>
+            </div>
+            <div className="editor_viwer_wrap">
+              <Viewer initialValue={data.comments[0].answerMessage} />
+            </div>
+            {/* <div className="like">
+            <img src={good2} alt="good" />
+            답변이 많은 도움이 되었어요
+          </div>
+          <div className="dis_like">
+            <img src={good} alt="good" />
+            답변이 많은 도움이 되었어요
+          </div> */}
+          </div>
+        </ConsultDetailCommentLayout>
+      )
+    );
+  }
 }
 const ConsultDetailCommentLayout = styled.div`
   width: 360px;
@@ -134,7 +160,11 @@ const ConsultDetailCommentLayout = styled.div`
     }
   }
   .comment_body_wrap_answer {
+    width: 328px;
     margin: 24px 16px 44px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     .header {
       font-family: var(--button-font-family);
       font-size: var(--headline_Small-font-size);
@@ -143,10 +173,13 @@ const ConsultDetailCommentLayout = styled.div`
       letter-spacing: var(--headline_Small-letter-spacing);
     }
     .realtor_info {
+      width: 100%;
       display: flex;
       flex-direction: row;
       border: 1px solid var(--gray6);
       margin-top: 16px;
+      margin-bottom: 12px;
+      border-radius: 8px;
       img {
         margin: 12px 8px 12px 12px;
         width: 40px;
@@ -185,6 +218,9 @@ const ConsultDetailCommentLayout = styled.div`
           letter-spacing: var(--body_Small-letter-spacing);
           color: var(--gray4);
         }
+      }
+      .editor_viwer_wrap {
+        width: 100%;
       }
     }
     .like,

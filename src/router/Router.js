@@ -34,7 +34,7 @@ export default function Router() {
         <Route path="/newfootstep" element={<NewFootStep />} />
         <Route path="/myconsultdetail/:id" element={<MyConsultDetail />} />
         <Route path="/waitlist" element={<MyPageRealtorConsult />} />
-        <Route path="/answerdlist" element={<MyPageRealtorConsult />} />
+        <Route path="/answeredlist" element={<MyPageRealtorConsult />} />
       </Routes>
     </div>
   );
