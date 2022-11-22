@@ -8,17 +8,28 @@ import lighthouse from './sources/main_article_lighthouse.png';
 import QueMark from './sources/main_article_question.png';
 import path_Light_Right from './sources/main_article_right_light.png';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { isLogin } from '../../store/store';
+import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { useQuery } from '@tanstack/react-query';
 
 export default function MainPageArticle() {
   const navigate = useNavigate();
+  //일반회원 다음으로 넘어가기 위한 recoilState
+  const [nextmem, setNextMem] = useRecoilState(NextMem);
+  //공인중개사 회원 다음으로 넘어가기 위한 recoilState
+  const [nexttor, setNextTor] = useRecoilState(NextTor);
+  //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
+  const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+
+
   const [info, setInfo] = useState(false);
   const AppLogin = useRecoilValue(isLogin);
+
   const onStartLogin = () => {
     navigate('/signup');
+    setNextMem(0);
+    setNextTor(0);
+    setGoingLogin(0);
   };
   const { data: requestlist } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
