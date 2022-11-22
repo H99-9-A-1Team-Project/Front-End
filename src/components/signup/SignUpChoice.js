@@ -54,9 +54,6 @@ function SignUpChoice() {
   };
 
   const onGoingMainPage = () => {
-    setGoingLogin(0);
-    setNextMem(0);
-    setNextTor(0);
     navigate('/');
   };
 

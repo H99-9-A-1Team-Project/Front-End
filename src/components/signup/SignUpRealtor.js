@@ -9,7 +9,8 @@ import CompleteModal from './CompleteModal';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
-import { RealtorSignUpFormDatas } from '../../api/apiPOST';
+import { RealtorSignUpFormDatas, RequestEmail } from '../../api/apiPOST';
+import InnerModal from '../signup/InnerModal';
 
 function SignUpRealtor() {
   const welcometext = '사용할 회원 정보를\n 입력해주세요';
@@ -24,6 +25,14 @@ function SignUpRealtor() {
 
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
+
+  //이메일 중복여부 확인 state
+  const [doubleEmail, setDoubleEmail] = useState({
+    email: '',
+  });
+
+  //이메일 중복확인 완료 state
+  const [okemail, setOkEmail] = useState('');
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
@@ -62,6 +71,7 @@ function SignUpRealtor() {
   };
   const onCloseModal = () => {
     setModalOpen(false);
+    navigate('/');
   };
 
   const onPrevRealtorPage = () => {
@@ -97,9 +107,28 @@ function SignUpRealtor() {
   };
 
   const onblurChange = () => {
+    const Email = loginData.email;
     const Nickname = loginData.email.split('@')[0];
     setLoginData({ ...loginData, nickname: Nickname });
+    setDoubleEmail({ ...loginData, email: Email });
     console.log(loginData);
+  };
+
+  //이메일 중복확인
+  const { mutate: memberEmail } = useMutation(RequestEmail, {
+    onSuccess: (response) => {
+      alert('가입이 가능한 이메일입니다!');
+      setOkEmail('가입이 가능한 이메일입니다');
+      setDoubleEmail('');
+    },
+    onError: (err) => {
+      alert('이메일을 다시 확인해주세요~!');
+      setDoubleEmail(err.response.data.error.message);
+    },
+  });
+  const onCheckEmailDouble = () => {
+    setOkEmail('');
+    memberEmail(doubleEmail);
   };
 
   const onChangePassword = (e) => {
@@ -135,18 +164,11 @@ function SignUpRealtor() {
     };
   };
 
-  //가입하기 버튼 (모달창 오픈 )
-  const onOpenModalMovePage = () => {
-    setModalOpen(true);
-  };
-
   //mutate
   const { mutate: postFormData } = useMutation(RealtorSignUpFormDatas, {
-    onSuccess: (response) => {
-      setModalOpen(true);
-    },
+    onSuccess: (response) => {},
     onError: (error) => {
-      alert('가입신청실패!');
+      alert(error.response.data.errorMessage);
     },
   });
 
@@ -172,7 +194,7 @@ function SignUpRealtor() {
     postFormData(formData);
   };
   const isVaildPhoto = !previewimage;
-
+  console.log(nexttor);
   return (
     <>
       {nexttor === 1 ? (
@@ -198,7 +220,12 @@ function SignUpRealtor() {
                     border: isEmail === false ? '1px solid #d14343 ' : 'none',
                   }}
                 ></InputText>
-                <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+
+                {okemail === '' ? (
+                  <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+                ) : (
+                  <InputErrorMessageBox>{errormail === '' ? <InputMessage>{okemail}</InputMessage> : <InputErrorMessage>{errormail}</InputErrorMessage>}</InputErrorMessageBox>
+                )}
               </>
             </InputBox>
             <InputBoxPassword>
@@ -224,7 +251,13 @@ function SignUpRealtor() {
           </InputContainer>
           <BlankContainer></BlankContainer>
           <ButtonContainer>
-            <ButtonStyle type="submit" disabled={isValidLogin} onClick={onNextRealtorPage}>
+            <ButtonStyle
+              type="submit"
+              disabled={isValidLogin}
+              onClick={() => {
+                doubleEmail === '' ? onNextRealtorPage() : onCheckEmailDouble();
+              }}
+            >
               다음
             </ButtonStyle>
           </ButtonContainer>
@@ -247,21 +280,26 @@ function SignUpRealtor() {
                 <InfoImage src={Plus} />
                 <InfoText>사진 추가</InfoText>
               </InfoInput>
-              {previewimage && <ImagePreview src={previewimage} alt="+" />}
+              {previewimage && <ImagePreview src={previewimage} />}
             </AutoPhotoOpenView>
           </AuthPhotoContainer>
           <BlankContainer2></BlankContainer2>
           <ButtonContainer>
             <ButtonStyle
-              type="submit"
+              // type="submit"
+              type="button"
               disabled={isVaildPhoto}
               onClick={() => {
-                onOpenModalMovePage(!modalOpen);
+                onOpenModal(!modalOpen);
                 onSubmit();
               }}
             >
               가입하기
-              {modalOpen && <CompleteModal visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}></CompleteModal>}
+              {modalOpen && (
+                <CompleteModal visible={onOpenModal} closeable={true} maskCloseable={true} onClose={onCloseModal}>
+                  <InnerModal />
+                </CompleteModal>
+              )}
             </ButtonStyle>
           </ButtonContainer>
         </ChoiceContainer>
@@ -335,7 +373,6 @@ const WelcomeQuestionbox = styled.div`
   font-weight: var(--headline_Large-font-weight);
   line-height: var(--headline_Large-line-height);
   display: flex;
-
   white-space: pre-line;
 `;
 

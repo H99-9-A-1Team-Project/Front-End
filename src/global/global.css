@@ -2,6 +2,19 @@
   font-family: 'Pretendard-Regular';
   src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
 }
+@font-face {
+  font-family: 'LeferiPoint-BlackA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'LeferiPoint-WhiteObliqueA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 body {
   margin: 0;
@@ -28,6 +41,12 @@ body {
   --headline_Small-font-weight: 700;
   --headline_Small-line-height: 20px;
   --headline_Small-letter-spacing: 0.1px;
+
+  /* login headline Small */ 
+  --login_headline-font-family:'LeferiPoint-WhiteObliqueA';
+  --login_headline_Small-font-size : 15px;
+  --login_headline_Small-font-weight: 300;
+  --login_headline_Small-line-height: 28px;
 
   /* body */
   /* body Large */

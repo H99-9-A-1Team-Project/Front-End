@@ -5,12 +5,23 @@ import path_Right from './sources/main_article_path_right.png';
 import login_Deco from './sources/main_article_login_deco.png';
 import QueMark from './sources/main_article_question.png';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { NextMem, NextTor, GoLogIn } from '../../store/store';
 
 export default function MainPageArticle() {
   const navigate = useNavigate();
+  //일반회원 다음으로 넘어가기 위한 recoilState
+  const [nextmem, setNextMem] = useRecoilState(NextMem);
+  //공인중개사 회원 다음으로 넘어가기 위한 recoilState
+  const [nexttor, setNextTor] = useRecoilState(NextTor);
+  //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
+  const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
 
   const onStartLogin = () => {
     navigate('/signup');
+    setNextMem(0);
+    setNextTor(0);
+    setGoingLogin(0);
   };
 
   return (

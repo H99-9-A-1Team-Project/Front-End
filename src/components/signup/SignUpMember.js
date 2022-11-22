@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2 } from '../../store/store';
+import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2, isLogin } from '../../store/store';
 import { useRecoilState } from 'recoil';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
-import { MemberSignUp, RequestEmail } from '../../api/apiPOST';
+import { MemberSignUp, RequestEmail, EmailLoginData } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpMember() {
@@ -15,6 +15,9 @@ function SignUpMember() {
   //일반회원 이전으로 넘어가기 위한 recoilState
   const [nextmem, setNextMem] = useRecoilState(NextMem);
 
+  //로그인 유지를 위한 recoilstate
+  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+
   //이메일 비밀번호 담을 usestate
   const [emailpassword, setEmailPassword] = useState('');
 
@@ -22,9 +25,6 @@ function SignUpMember() {
   const [checkemail, setCheckemail] = useState('');
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
-
-  //이메일 중복확인 완료 state
-  const [okemail, setOkEmail] = useState('');
 
   //회원가입 오류 출력 state
   const [reject, setReject] = useState('');
@@ -64,7 +64,7 @@ function SignUpMember() {
     setSecret(!secret);
   };
 
-  // 이메일 비밀번호 onchange // 닉네임 생성
+  // 이메일  onchange
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -82,12 +82,21 @@ function SignUpMember() {
       setValid(true);
     }
   };
+
+  // 닉네임 생성
   const onblurChange = () => {
     const Nickname = loginData.email.split('@')[0];
     setLoginData({ ...loginData, nickname: Nickname });
     console.log(loginData);
   };
 
+  const LoginPocket = {
+    email: loginData.email,
+    password: loginData.password,
+  };
+
+  console.log();
+  // 비밀번호 onChange
   const onChangePassword = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -106,45 +115,41 @@ function SignUpMember() {
     }
   };
 
-  //이메일 중복확인
-  // const { mutate: memberEmail } = useMutation(RequestEmail, {
-  //   onSuccess: (response) => {
-  //     setOkEmail('가입이 가능한 이메일입니다');
-  //   },
-  //   onError: (err) => {
-  //     setErrorMail(err.response.data.error.message);
-  //   },
-  // });
-
   //회원가입
   const { mutate: memberSignUp } = useMutation(MemberSignUp, {
     onSuccess: () => {
       alert('회원가입완료!');
       navigate('/');
-      setNextMem(0);
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
     },
   });
-
-  // 이메일 중복확인
-  // const onCheckEmailDouble = () => {
-  //   if (checkemail.includes('@') === true) {
-  //     setErrorMail('');
-  //     memberEmail(checkemail);
-  //   } else {
-  //     setErrorMail('이메일을 잘못 입력하셨습니다');
-  //   }
-  // };
+  //동시로그인
+  const { mutate: emailLogin } = useMutation(EmailLoginData, {
+    onSuccess: (response) => {
+      sessionStorage.setItem('access_token', response.headers.access_token);
+      sessionStorage.setItem('refresh_token', response.headers.refresh_token);
+      sessionStorage.setItem('accountstate', response.data.accountState);
+      setAppLogin(true);
+      console.log(response);
+      navigate('/');
+    },
+    onError: (err) => {
+      alert(err.response.data.errorMessage);
+    },
+  });
 
   //회원가입 데이터 전송
   const onSubmitSignUpData = () => {
     setReject('');
     console.log(loginData.email);
     console.log('asdf', loginData);
-    // setOpenSignUp(false);
+    setOpenSignUp(false);
     memberSignUp(loginData);
+    setTimeout(() => {
+      emailLogin(LoginPocket);
+    }, 2000);
   };
 
   return (
