@@ -11,8 +11,8 @@ export default function ConsultDetailBody({ id }) {
   const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
-      console.log(config.checks.length);
-      // const checkList = config.checks.filter((item)=>)
+      const checkList = config.checks.filter((item) => item === true);
+      setCheckNum(checkList.length);
       if (config.consultMessage === null) {
         config.consultMessage = '전달메세지가 없습니다.';
       }
@@ -31,7 +31,7 @@ export default function ConsultDetailBody({ id }) {
           </div>
           <div className="answer_body_info_wrap">
             <div className="title">{checkNum}개의 고민</div>
-            <ConsultDetailBodyContainer data={data} checkNum={checkNum} />
+            <ConsultDetailBodyContainer data={data.checks} checkNum={checkNum} />
           </div>
           <div className="answer_body_message_wrap">
             <div className="title">전달메세지</div>

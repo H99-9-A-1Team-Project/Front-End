@@ -28,13 +28,9 @@ export default function RealtorConsult() {
   const { data: waitData } = useQuery(['waitlist'], ReadWaitList, {
     refetchOnMount: false,
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
     enabled: !!(window.location.pathname === '/waitlist'),
   });
   const { data: answeredData } = useQuery(['answeredlist'], ReadAnsweredList, {
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
     enabled: !!(window.location.pathname === '/answeredlist'),
   });
   return (

@@ -20,7 +20,6 @@ export default function MyConsultBody() {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
       config.map((item) => {
-        console.log('ㅇㅇ');
         if (item.consultMessage === '없음') {
           return (item.consultMessage = '전달메세지가 없습니다.');
         }

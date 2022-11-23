@@ -32,14 +32,13 @@ export default function ConsultDetailComment({ id }) {
 
   const { mutate: requestConsultComment } = useMutation((arg) => RequestConsultComment(arg), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['consultdetail']);
+      queryClient.invalidateQueries(['answeredlist']);
       navigate('/answeredlist');
     },
   });
   const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
-      console.log(config.comments.length);
       if (config.comments.length !== 0 && config.comments[0].introMessage === null) {
         config.comments[0].introMessage = '소개메세지가 없습니다.';
       }

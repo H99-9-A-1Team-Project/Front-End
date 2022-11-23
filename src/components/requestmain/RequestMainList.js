@@ -29,7 +29,7 @@ export default function RequestList() {
             }
             if (item.answerState === 'ANSWER') {
               return (
-                <ListContent key={item.id}>
+                <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
                   <MarkerImg src={RqLt_Marker} />
                   <ContentText>{item.title}</ContentText>
                   <div className="answer-icon-1">답변함</div>
@@ -38,7 +38,7 @@ export default function RequestList() {
             }
             if (item.answerState === 'FINISH') {
               return (
-                <ListContent key={item.id}>
+                <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
                   <MarkerImg src={RqLt_Marker} />
                   <ContentText>{item.title}</ContentText>
                   <div className="answer-icon-2">답변함</div>
