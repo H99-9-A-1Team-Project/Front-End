@@ -11,31 +11,8 @@ export default function ConsultDetailBody({ id }) {
   const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
-      setCheckNum(0);
-      if (config.check1 === true)
-        setCheckNum((prev) => {
-          return prev + 1;
-        });
-      if (config.check2 === true)
-        setCheckNum((prev) => {
-          return prev + 1;
-        });
-      if (config.check3 === true)
-        setCheckNum((prev) => {
-          return prev + 1;
-        });
-      if (config.check4 === true)
-        setCheckNum((prev) => {
-          return prev + 1;
-        });
-      if (config.check5 === true)
-        setCheckNum((prev) => {
-          return prev + 1;
-        });
-      if (config.check6 === true)
-        setCheckNum((prev) => {
-          return prev + 1;
-        });
+      console.log(config.checks.length);
+      // const checkList = config.checks.filter((item)=>)
       if (config.consultMessage === null) {
         config.consultMessage = '전달메세지가 없습니다.';
       }

@@ -10,7 +10,7 @@ import path_Light_Right from './sources/main_article_right_light.png';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLogin } from '../../store/store';
-import { ReadRequestList, ReadWaitList } from '../../api/apiGET';
+import { ReadPremisesList, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { useQuery } from '@tanstack/react-query';
 
 export default function MainPageArticle() {
@@ -36,6 +36,12 @@ export default function MainPageArticle() {
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '1'),
   });
+  const { data: premisesData } = useQuery(['premiseslist'], ReadPremisesList, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    enabled: !!(sessionStorage.getItem('accountstate') === '0'),
+  });
 
   return (
     <ArticleContainer>
@@ -60,7 +66,7 @@ export default function MainPageArticle() {
             {sessionStorage.getItem('accountstate') === '0' ? (
               <>
                 <div className="user_info_1">상담 {requestlist?.length}건</div>
-                <div className="user_info_2">발품기록 0건</div>
+                <div className="user_info_2">발품기록 {premisesData?.length}건</div>
               </>
             ) : null}
             {sessionStorage.getItem('accountstate') === '1' ? (

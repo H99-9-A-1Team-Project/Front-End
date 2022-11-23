@@ -1,26 +1,51 @@
 import React from 'react';
 import styled from 'styled-components';
 import RqLt_Marker from './sources/RqmLt_Marker.png';
-
 import '../../global/global.css';
+import { useQuery } from '@tanstack/react-query';
+import { ReadRequestList } from '../../api/apiGET';
+import { useNavigate } from 'react-router-dom';
 
-export default function requestList() {
+export default function RequestList() {
+  const navigate = useNavigate();
+  const { data } = useQuery(['requestlist'], ReadRequestList, {
+    refetchOnWindowFocus: false,
+    onSuccess: (response) => {},
+  });
   return (
     <RqListContainer>
       <LastRequestContainer>
         <ListBox>
           <ListHeader>내 지난 상담</ListHeader>
-          <ListContent>
-            <MarkerImg src={RqLt_Marker} />
-            <ContentText>서울특별시 관악구 남부순환로 2076 203호</ContentText>
-            <ContentState1>대기중</ContentState1>
-          </ListContent>
-          <HorizontalBar />
-          <ListContent>
-            <MarkerImg src={RqLt_Marker} />
-            <ContentText>서울특별시 관악구 남부순환로 2076 203호</ContentText>
-            <ContentState2>완료</ContentState2>
-          </ListContent>
+          {data?.map((item) => {
+            if (item.answerState === 'WAIT') {
+              return (
+                <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
+                  <MarkerImg src={RqLt_Marker} />
+                  <ContentText>{item.title}</ContentText>
+                  <div className="answer-icon-0">대기중</div>
+                </ListContent>
+              );
+            }
+            if (item.answerState === 'ANSWER') {
+              return (
+                <ListContent key={item.id}>
+                  <MarkerImg src={RqLt_Marker} />
+                  <ContentText>{item.title}</ContentText>
+                  <div className="answer-icon-1">답변함</div>
+                </ListContent>
+              );
+            }
+            if (item.answerState === 'FINISH') {
+              return (
+                <ListContent key={item.id}>
+                  <MarkerImg src={RqLt_Marker} />
+                  <ContentText>{item.title}</ContentText>
+                  <div className="answer-icon-2">답변함</div>
+                </ListContent>
+              );
+            }
+          })}
         </ListBox>
       </LastRequestContainer>
     </RqListContainer>
@@ -32,6 +57,35 @@ const RqListContainer = styled.div`
   height: 328px;
   display: flex;
   background-color: white;
+  .answer-icon-0,
+  .answer-icon-1,
+  .answer-icon-2 {
+    width: 48px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    margin-top: 8px;
+    justify-content: center;
+    font-family: var(--button-font-family);
+    font-size: var(--button_Small-font-size);
+    font-weight: var(--button_Small-font-weight);
+    line-height: var(--button_Small-line-height);
+    letter-spacing: var(--button_Small-letter-spacing);
+  }
+  .answer-icon-0 {
+    background-color: var(--primary2-100);
+    color: var(--primary2-300);
+  }
+  .answer-icon-1 {
+    background-color: var(--primary2-400);
+    color: white;
+  }
+  .answer-icon-2 {
+    background-color: var(--gray6);
+    color: var(--gray4);
+  }
 `;
 
 const LastRequestContainer = styled.div`

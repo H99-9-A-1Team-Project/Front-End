@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import deco from './sources/deco.png';
 import user_circle from '../MyPage/sources/userDefault.png';
+import edit_button_comment from './sources/edit_button_comment.png';
 import good from './sources/Good.png';
 import good2 from './sources/Good2.png';
 import { Editor, Viewer } from '@toast-ui/react-editor'; // Editor
@@ -19,6 +20,7 @@ export default function ConsultDetailComment({ id }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [buttonActive, setbuttonActive] = useState(false);
+  const [editActive, setEditActive] = useState(false);
   const [contents, setContents] = useState({
     answerMessage: '',
   });
@@ -63,43 +65,51 @@ export default function ConsultDetailComment({ id }) {
     );
   } else if (sessionStorage.getItem('accountstate') === '1' && data?.answerState === 'WAIT') {
     return (
-      <ConsultDetailCommentLayout>
-        <div className="editor_wrap">
-          <Editor
-            previewStyle={'tab'}
-            height="400px"
-            initialEditType="wysiwyg"
-            initialValue={'공인중개사님의 답변을 작성해 주세요.'}
-            hideModeSwitch={true}
-            usageStatistics={false}
-            language="ko-KR"
-            ref={editorRef}
-            onChange={onChange}
-            toolbarItems={[['image', 'link'], ['heading', 'bold'], ['hr'], ['ul', 'ol']]}
-            hooks={{
-              addImageBlobHook: async (blob, callback) => {
-                let formData = new FormData();
-                formData.append('file', blob);
-                const imgUrl = await RequestConsultCommentImage({ formData, id });
-                callback(imgUrl.url, '');
-              },
-            }}
-          />
-          <div className="buttons">
-            <button className="cancle_button" onClick={() => navigate(-1)}>
-              취소
-            </button>
-            <button
-              className={buttonActive ? 'submit_button' : 'cancle_button'}
-              onClick={() => {
-                requestConsultComment({ id, contents });
-              }}
-            >
-              답변 완료
-            </button>
+      <>
+        <ConsultDetailCommentLayout2 style={{ display: editActive ? 'none' : 'flex' }}>
+          <div className="edit__comment_button" style={{ display: editActive ? 'none' : 'flex' }}>
+            <img src={edit_button_comment} alt="edit_button_comment" />
+            <button onClick={() => setEditActive(true)}>답변쓰기</button>
           </div>
-        </div>
-      </ConsultDetailCommentLayout>
+        </ConsultDetailCommentLayout2>
+        <ConsultDetailCommentLayout style={{ display: editActive ? 'flex' : 'none' }}>
+          <div className="editor_wrap">
+            <Editor
+              previewStyle={'tab'}
+              height="400px"
+              initialEditType="wysiwyg"
+              initialValue={'공인중개사님의 답변을 작성해 주세요.'}
+              hideModeSwitch={true}
+              usageStatistics={false}
+              language="ko-KR"
+              ref={editorRef}
+              onChange={onChange}
+              toolbarItems={[['image', 'link'], ['heading', 'bold'], ['hr'], ['ul', 'ol']]}
+              hooks={{
+                addImageBlobHook: async (blob, callback) => {
+                  let formData = new FormData();
+                  formData.append('file', blob);
+                  const imgUrl = await RequestConsultCommentImage({ formData, id });
+                  callback(imgUrl.url, '');
+                },
+              }}
+            />
+            <div className="buttons">
+              <button className="cancle_button" onClick={() => setEditActive(false)}>
+                취소
+              </button>
+              <button
+                className={buttonActive ? 'submit_button' : 'cancle_button'}
+                onClick={() => {
+                  requestConsultComment({ id, contents });
+                }}
+              >
+                답변 완료
+              </button>
+            </div>
+          </div>
+        </ConsultDetailCommentLayout>
+      </>
     );
   } else {
     return (
@@ -252,7 +262,6 @@ const ConsultDetailCommentLayout = styled.div`
   .editor_wrap {
     padding: 32px 0 0 0;
     width: 328px;
-    display: flex;
     flex-direction: column;
     .buttons {
       width: 328px;
@@ -270,6 +279,7 @@ const ConsultDetailCommentLayout = styled.div`
         font-weight: var(--button_Large-font-weight);
         line-height: var(--button_Large-line-height);
         letter-spacing: var(--button_Large-letter-spacing);
+        cursor: pointer;
       }
       .cancle_button {
         border: 1.5px solid var(--gray4);
@@ -281,6 +291,39 @@ const ConsultDetailCommentLayout = styled.div`
         color: white;
         background-color: var(--primary2-400);
       }
+    }
+  }
+`;
+const ConsultDetailCommentLayout2 = styled.div`
+  width: 360px;
+  height: 320px;
+  margin-top: auto;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .edit__comment_button {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    align-items: center;
+    img {
+      width: 176px;
+      height: 44px;
+      margin-bottom: 12px;
+    }
+    button {
+      width: 328px;
+      height: 52px;
+      border-radius: 8px;
+      color: white;
+      border: none;
+      background-color: var(--primary2-400);
+      font-family: var(--button-font-family);
+      font-size: var(--button_Large-font-size);
+      font-weight: var(--button_Large-font-weight);
+      line-height: var(--button_Large-line-height);
+      letter-spacing: var(--button_Large-letter-spacing);
     }
   }
 `;

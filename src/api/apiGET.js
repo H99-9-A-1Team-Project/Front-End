@@ -30,3 +30,8 @@ export async function ReadConsultDetail(id) {
   const { data } = await api.get(`v1/consult/${id}`);
   return data;
 }
+//매물 목록 조회
+export async function ReadPremisesList() {
+  const { data } = await api.get('v1/premises/allpost');
+  return data;
+}
