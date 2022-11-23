@@ -14,9 +14,9 @@ export async function UpdateRealtorProfile(arg) {
   });
   return data;
 }
-//일반유저 닉네임 수정
+//일반유저 프로필 수정
 export async function UpdateUserProfile(arg) {
-  const { data } = await api.put('v1/user/edit-nickname', arg);
+  const { data } = await api.put('v1/user/profile', arg);
   return data;
 }
 //answerState "Answer"=>Finish
