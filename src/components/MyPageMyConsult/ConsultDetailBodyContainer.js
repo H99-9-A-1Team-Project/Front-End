@@ -24,6 +24,7 @@ export default function ConsultDetailBodyContainer({ data, checkNum }) {
         {data.check4 ? <div className="check"> 언제 지어졌는지 알고 싶어요 </div> : null}
         {data.check5 ? <div className="check"> 전반적인 등기정보를 알고 싶어요 </div> : null}
         {data.check6 ? <div className="check"> 전/월세 계약하는데 안전할지 점검받고 싶어요 </div> : null}
+        <div cla>더보기</div>
       </ConsultDetailBodyContainerLayout>
     );
   }

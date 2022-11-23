@@ -20,7 +20,10 @@ export default function RealtorConsult() {
     if (window.location.pathname === '/answeredlist') {
       setRealtorListState(1);
     }
-  }, []);
+    if (window.location.pathname === '/waitlist') {
+      setRealtorListState(0);
+    }
+  }, [window.location.pathname]);
 
   const { data: waitData } = useQuery(['waitlist'], ReadWaitList, {
     refetchOnMount: false,

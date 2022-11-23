@@ -71,7 +71,7 @@ export default function MainPageArticle() {
           </div>
           <div className="article_body">
             {info && sessionStorage.getItem('accountstate') === '0' ? (
-              <div className="article_body_notice_wrap">
+              <div className="article_body_notice_wrap" onClick={() => navigate('/myconsult')}>
                 <div className="notice_title">알림</div>
                 <div className="notice_content">
                   상담에 공인중개사님이 답글을 달았어요

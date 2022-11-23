@@ -149,6 +149,11 @@ const StMyPageBodyWrap = styled.div`
       font-weight: var(--button_Medium-font-weight);
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
+      .toastui-editor-contents {
+        p {
+          border-bottom: 0px !important;
+        }
+      }
     }
   }
   .consulting-container-0,

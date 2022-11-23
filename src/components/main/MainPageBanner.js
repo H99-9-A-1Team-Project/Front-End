@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import Banner1 from './sources/main_banner_img1.png';
 import Banner2 from './sources/banner2.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 import 'swiper/css';
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 export default function MainPageBanner() {
   return (
     <BannerContainer>
       <BannerBox>
-        <Swiper className="mysiwper">
+        <Swiper className="mysiwper" autoplay={{ delay: 3000, disableOnInteraction: false }}>
           <SwiperSlide className="slide">
             <BannerImg1 src={Banner1} />
           </SwiperSlide>

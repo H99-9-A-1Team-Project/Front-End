@@ -37,7 +37,8 @@ export default function ConsultDetailComment({ id }) {
   const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
-      if (config.comments[0].introMessage === null) {
+      console.log(config.comments.length);
+      if (config.comments.length !== 0 && config.comments[0].introMessage === null) {
         config.comments[0].introMessage = '소개메세지가 없습니다.';
       }
     },
