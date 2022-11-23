@@ -54,9 +54,6 @@ function SignUpChoice() {
   };
 
   const onGoingMainPage = () => {
-    setGoingLogin(0);
-    setNextMem(0);
-    setNextTor(0);
     navigate('/');
   };
 
@@ -114,7 +111,8 @@ function SignUpChoice() {
 export default SignUpChoice;
 const ChoiceContainer = styled.div`
   width: 360px;
-  height: 800px;
+  height: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,10 +122,10 @@ const ChoiceContainer = styled.div`
 
 const SignUpHeader = styled.div`
   width: 360px;
-  height: 64px;
+  min-height: 64px;
   left: 0px;
   top: 0px;
-  /* position: absolute; */
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -144,36 +142,36 @@ const BackpageIconBox = styled.img`
 `;
 const SignUpTitle = styled.div`
   background-color: white;
-  width: 50px;
+  width: 70px;
   height: 20px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;
 
 const WelcomeQuestionContainer = styled.div`
   width: 360px;
-  height: 140px;
+  min-height: 140px;
   background-color: white;
   display: flex;
   position: relative;
 `;
 
 const WelcomeQuestionbox = styled.div`
-  width: 138px;
+  width: 183px;
   height: 84px;
   background-color: white;
   position: absolute;
   left: 16px;
   top: 24px;
-  font-family: 'Pretendard';
   font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
+  font-family: var(--headline-font-family);
+  font-size: var(--headline_Large-font-size);
+  font-weight: var(--headline_Large-font-weight);
+  line-height: var(--headline_Large-line-height);
   display: flex;
   align-items: center;
   white-space: pre-line;
@@ -181,21 +179,22 @@ const WelcomeQuestionbox = styled.div`
 
 const ButtonContainer = styled.div`
   width: 360px;
-  height: 80px;
+  min-height: 80px;
   background-color: white;
   display: flex;
   justify-content: center;
+  position: relative;
 `;
 
 const ButtonStyle = styled.div`
   width: 328px;
-
   height: 60px;
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 1px solid #3c6eef;
+  border: 1px solid var(--primary2-400);
   border-radius: 8px;
   background-color: white;
   :hover {
@@ -205,26 +204,29 @@ const ButtonStyle = styled.div`
 `;
 const BlankContainer = styled.div`
   width: 360px;
-  height: 384px;
+  height: 100%;
   background-color: white;
+  position: relative;
 `;
 const AlreadyIdContainer = styled.div`
   width: 360px;
-  height: 52px;
+  min-height: 52px;
   display: flex;
   justify-content: center;
   background-color: white;
+  position: relative;
 `;
 const AlreadyIdBox = styled.div`
-  width: 147px;
+  width: 148px;
   height: 20px;
-  font-family: 'Pretendard';
+  position: relative;
   font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-  letter-spacing: 0.1px;
+  font-family: var(--button-font-family);
+  font-size: var(--button_Large-font-size);
+  font-weight: var(--button_Large-font-weight);
+  line-height: var(--button_Large-line-height);
+  letter-spacing: var(--button_Large-letter-spacing);
   text-decoration-line: underline;
-  color: #9da043;
+  color: var(--gray4);
   background-color: white;
 `;
