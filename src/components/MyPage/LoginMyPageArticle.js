@@ -14,6 +14,7 @@ import MyPageModal from './MyPageModal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 
 export default function LoginMyPageArticle() {
+  const queryClient = useQueryClient();
   const textRef = useRef(null);
   const navigate = useNavigate();
   const appLogout = useResetRecoilState(isLogin);
@@ -29,7 +30,6 @@ export default function LoginMyPageArticle() {
     nickname: '',
     introMessage: '',
   });
-  const queryClient = useQueryClient();
 
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
@@ -193,7 +193,7 @@ export default function LoginMyPageArticle() {
               </div>
               <img src={arrow} alt="arrow" />
             </div>
-            <div className="info-2" onClick={() => navigate('/answerdlist')}>
+            <div className="info-2" onClick={() => navigate('/answeredlist')}>
               답변한 상담
               <img src={arrow} alt="arrow" />
             </div>

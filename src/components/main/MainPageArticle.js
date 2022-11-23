@@ -8,8 +8,9 @@ import lighthouse from './sources/main_article_lighthouse.png';
 import QueMark from './sources/main_article_question.png';
 import path_Light_Right from './sources/main_article_right_light.png';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { ReadPremisesList, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
-import { ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { useQuery } from '@tanstack/react-query';
 
 export default function MainPageArticle() {
@@ -35,7 +36,7 @@ export default function MainPageArticle() {
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '0'),
     onSuccess: (config) => {
-      const info = config.findIndex((item) => item.answerState === 'ROLE_ANSWER');
+      const info = config.findIndex((item) => item.answerState === 'ANSWER');
       if (info !== -1) {
         setInfo(true);
       }
@@ -46,6 +47,12 @@ export default function MainPageArticle() {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '1'),
+  });
+  const { data: premisesData } = useQuery(['premiseslist'], ReadPremisesList, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    enabled: !!(sessionStorage.getItem('accountstate') === '0'),
   });
 
   return (
@@ -67,11 +74,11 @@ export default function MainPageArticle() {
       )}
       {AppLogin ? (
         <div className="article_body_wrap">
-          <div className="user_info" style={{ marginBottom: info || waitData?.length ? '80px' : '136px' }}>
+          <div className="user_info" style={{ marginBottom: (sessionStorage.getItem('accountstate') === '0' && info) || (sessionStorage.getItem('accountstate') === '1' && waitData?.length) ? '80px' : '136px' }}>
             {sessionStorage.getItem('accountstate') === '0' ? (
               <>
                 <div className="user_info_1">상담 {requestlist?.length}건</div>
-                <div className="user_info_2">발품기록 0건</div>
+                <div className="user_info_2">발품기록 {premisesData?.length}건</div>
               </>
             ) : null}
             {sessionStorage.getItem('accountstate') === '1' ? (
@@ -81,8 +88,8 @@ export default function MainPageArticle() {
             ) : null}
           </div>
           <div className="article_body">
-            {info ? (
-              <div className="article_body_notice_wrap">
+            {info && sessionStorage.getItem('accountstate') === '0' ? (
+              <div className="article_body_notice_wrap" onClick={() => navigate('/myconsult')}>
                 <div className="notice_title">알림</div>
                 <div className="notice_content">
                   상담에 공인중개사님이 답글을 달았어요
@@ -90,8 +97,8 @@ export default function MainPageArticle() {
                 </div>
               </div>
             ) : null}
-            {waitData?.length >= 1 ? (
-              <div className="article_body_notice_wrap">
+            {waitData?.length >= 1 && sessionStorage.getItem('accountstate') === '1' ? (
+              <div className="article_body_notice_wrap" onClick={() => navigate('/waitlist')}>
                 <div className="notice_title">알림</div>
                 <div className="notice_content">
                   대기중인 상담이 있습니다.
@@ -127,7 +134,7 @@ export default function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '1' ? (
               <div className="article_body_banner_wrap">
-                <div className="banner3">
+                <div className="banner3" onClick={() => navigate('/waitlist')}>
                   <div className="div_1">
                     <div>대기중인 상담</div>
                     <div className="div_3">
@@ -211,6 +218,7 @@ const ArticleContainer = styled.div`
         background-color: white;
         border-radius: 4px;
         margin-bottom: 16px;
+        cursor: pointer;
         .notice_title {
           width: 22px;
           margin-right: 12px;
@@ -292,6 +300,7 @@ const ArticleContainer = styled.div`
           font-weight: var(--button_Large-font-weight);
           line-height: var(--button_Large-line-height);
           letter-spacing: var(--button_Large-letter-spacing);
+          cursor: pointer;
           .deco_3 {
             margin-top: -17px;
             margin-right: 18px;

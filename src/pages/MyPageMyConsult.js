@@ -10,7 +10,7 @@ import Layout from '../global/components/Layout';
 export default function MyPageMyConsult() {
   return (
     <Layout>
-      <MyConsultHeader text={'내 상담'} />
+      <MyConsultHeader text={'내 상담'} page={-1} />
       <MyConsultSearch />
       <MyConsultBody />
       <MainPageTabBar />

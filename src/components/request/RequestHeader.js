@@ -18,12 +18,7 @@ export default function RequestHeader() {
   };
   return (
     <HeaderContainer>
-      <HeaderPath
-        src={Path}
-        onClick={() => {
-          onBack();
-        }}
-      />
+      <HeaderPath src={Path} onClick={() => navigate(-1)} />
       <HeaderP>상담 신청하기</HeaderP>
     </HeaderContainer>
   );
