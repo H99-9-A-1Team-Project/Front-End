@@ -8,7 +8,7 @@ import lighthouse from './sources/main_article_lighthouse.png';
 import QueMark from './sources/main_article_question.png';
 import path_Light_Right from './sources/main_article_right_light.png';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ReadPremisesList, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
@@ -21,7 +21,6 @@ export default function MainPageArticle() {
   const [nexttor, setNextTor] = useRecoilState(NextTor);
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
-
 
   const [info, setInfo] = useState(false);
   const AppLogin = useRecoilValue(isLogin);

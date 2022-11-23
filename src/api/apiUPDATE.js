@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from './api';
 
 //공인중개사 회원가입 승인/거부

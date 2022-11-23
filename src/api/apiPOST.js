@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { func } from 'prop-types';
 import api from './api';
 
 //일반회원 회원가입
