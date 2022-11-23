@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { useQuery } from '@tanstack/react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function MainPageArticle() {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export default function MainPageArticle() {
   const [nexttor, setNextTor] = useRecoilState(NextTor);
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
-
 
   const [info, setInfo] = useState(false);
   const AppLogin = useRecoilValue(isLogin);

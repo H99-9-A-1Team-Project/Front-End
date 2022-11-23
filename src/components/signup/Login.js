@@ -37,6 +37,9 @@ function Login() {
   //자동로그인 체크박스용 state
   const [checkAuto, setCheckAuto] = useState(false);
 
+  //토큰용 state
+  const [accessToken, setAccessToken] = useState('');
+
   //버튼 활성화 및 오류메시지 색상 활성화를 위한 state
   const [valid, setValid] = useRecoilState(itsNotOK);
   const [psvalid, setPsValid] = useRecoilState(itsNotOK2);
@@ -88,6 +91,9 @@ function Login() {
       setIsEmail(true);
       setValid(true);
     }
+    if (e.target.value === '') {
+      setCheckemail('빈칸을 채워주세요');
+    }
   };
   const onChangePassword = (e) => {
     const { name, value } = e.target;
@@ -104,6 +110,9 @@ function Login() {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
+    }
+    if (e.target.value === '') {
+      setCheckPassword('빈칸을 채워주세요');
     }
   };
 
@@ -127,7 +136,9 @@ function Login() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
-      localStorage.setItem('refresh_token', response.headers.refresh_token);
+      // localStorage.setItem('access_token', response.headers.access_token);
+      setAccessToken(response.headers.access_token);
+      window.localStorage.setItem('jwt', '자동로그인');
       setAppLogin(true);
       console.log(response);
       navigate('/');
@@ -162,7 +173,6 @@ function Login() {
             </WelcomeQuestionbox>
           </WelcomeQuestionContainer>
           <InputContainer>
-
             <InputBox>
               <InputName>아이디</InputName>
               <>
@@ -198,7 +208,6 @@ function Login() {
               </InputErrorMessageBoxPassword>
               <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
             </ErrorMsgPreview>
-
           </InputContainer>
           <AutoLoginContainer>
             <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} onClick={onAutoLogin} />
