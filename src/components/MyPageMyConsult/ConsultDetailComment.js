@@ -12,9 +12,10 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { RequestConsultComment, RequestConsultCommentImage } from '../../api/apiPOST';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
+import imageCompression from 'browser-image-compression';
 
 export default function ConsultDetailComment({ id }) {
   const queryClient = useQueryClient();
@@ -86,10 +87,42 @@ export default function ConsultDetailComment({ id }) {
               toolbarItems={[['image', 'link'], ['heading', 'bold'], ['hr'], ['ul', 'ol']]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
-                  let formData = new FormData();
-                  formData.append('file', blob);
-                  const imgUrl = await RequestConsultCommentImage({ formData, id });
-                  callback(imgUrl.url, '');
+                  console.log(blob);
+                  const options = {
+                    maxSizeMB: 0.2,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                  };
+                  try {
+                    const compressedFile = await imageCompression(blob, options);
+                    const reader = new FileReader();
+                    reader.readAsDataURL(compressedFile);
+                    reader.onloadend = () => {
+                      const base64data = reader.result;
+                      onHandlingDataForm(base64data);
+                    };
+                  } catch (error) {
+                    console.log(error);
+                  }
+                  const onHandlingDataForm = async (dataURI) => {
+                    const byteString = atob(dataURI.split(',')[1]);
+                    const ab = new ArrayBuffer(byteString.length);
+                    const ia = new Uint8Array(ab);
+                    for (let i = 0; i < byteString.length; i++) {
+                      ia[i] = byteString.charCodeAt(i);
+                    }
+                    const blob = new Blob([ia], {
+                      type: 'image/jpeg',
+                    });
+
+                    const file = new File([blob], 'image.jpg');
+
+                    let formData = new FormData();
+                    formData.append('file', file);
+                    const imgUrl = await RequestConsultCommentImage({ formData, id });
+                    callback(imgUrl.url, '');
+                    console.log(file);
+                  };
                 },
               }}
             />

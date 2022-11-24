@@ -9,7 +9,7 @@ import QueMark from './sources/main_article_question.png';
 import path_Light_Right from './sources/main_article_right_light.png';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ReadAnsweredList, ReadPremisesList, ReadRequestList, ReadWaitList } from '../../api/apiGET';
+import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
 
@@ -31,6 +31,10 @@ export default function MainPageArticle() {
     setNextTor(0);
     setGoingLogin(0);
   };
+  const { data: readProfile } = useQuery(['profile'], ReadProfile, {
+    refetchOnWindowFocus: false,
+    enabled: !!AppLogin,
+  });
   const { data: requestlist } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '0'),
@@ -56,13 +60,14 @@ export default function MainPageArticle() {
   const { data: answeredData } = useQuery(['answeredlist'], ReadAnsweredList, {
     enabled: !!(sessionStorage.getItem('accountstate') === '1'),
   });
+
   return (
     <ArticleContainer>
       {AppLogin ? (
         <TextGuide>
           안녕하세요
           <br />
-          {sessionStorage.getItem('nickname')}님!
+          {readProfile?.data.nickname}님!
         </TextGuide>
       ) : (
         <TextGuide>
