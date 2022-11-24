@@ -8,8 +8,8 @@ import lighthouse from './sources/main_article_lighthouse.png';
 import QueMark from './sources/main_article_question.png';
 import path_Light_Right from './sources/main_article_right_light.png';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { ReadPremisesList, ReadRequestList, ReadWaitList } from '../../api/apiGET';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { ReadAnsweredList, ReadPremisesList, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -42,19 +42,21 @@ export default function MainPageArticle() {
       }
     },
   });
-  const { data: waitData } = useQuery(['waitlist'], ReadWaitList, {
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    enabled: !!(sessionStorage.getItem('accountstate') === '1'),
-  });
   const { data: premisesData } = useQuery(['premiseslist'], ReadPremisesList, {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '0'),
   });
-
+  const { data: waitData } = useQuery(['waitlist'], ReadWaitList, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    enabled: !!(sessionStorage.getItem('accountstate') === '1'),
+  });
+  const { data: answeredData } = useQuery(['answeredlist'], ReadAnsweredList, {
+    enabled: !!(sessionStorage.getItem('accountstate') === '1'),
+  });
   return (
     <ArticleContainer>
       {AppLogin ? (
@@ -83,7 +85,7 @@ export default function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '1' ? (
               <>
-                <div className="user_info_3">답변한 상담 0건</div>
+                <div className="user_info_3">답변한 상담 {answeredData?.length}건</div>
               </>
             ) : null}
           </div>

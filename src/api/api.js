@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // create BASE API
 const api = axios.create({
-  baseURL: 'http://lighthouse-env.eba-di8putuk.ap-northeast-2.elasticbeanstalk.com/',
+  baseURL: `${process.env.REACT_APP_API}`,
 });
 
 // API TOKEN Intercepters
