@@ -17,6 +17,7 @@ import { ReadProfile, ReadWaitList } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
 import MyPageModal from './MyPageModal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
+import imageCompression from 'browser-image-compression';
 
 export default function LoginMyPageArticle() {
   const queryClient = useQueryClient();
@@ -52,13 +53,42 @@ export default function LoginMyPageArticle() {
     e.preventDefault();
     updateUserProfile({ nickname: newProfile.nickname, profileImg: userProfile.state });
   };
-  const onSubmitUpdateRealtorProfileHandler = (e) => {
+  const onSubmitUpdateRealtorProfileHandler = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    let postimage = document.getElementById('img_file');
-    formData.append('content', new Blob([JSON.stringify(newProfile)], { type: 'application/json' }));
-    formData.append('profile', postimage.files[0]);
-    updateRealtorProfile(formData);
+    const postimage = document.getElementById('img_file');
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(postimage.files[0], options);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+
+      const file = new File([blob], 'image.jpg');
+      let formData = new FormData();
+      formData.append('content', new Blob([JSON.stringify(newProfile)], { type: 'application/json' }));
+      formData.append('profile', file);
+      updateRealtorProfile(formData);
+    };
   };
   const onChangeProfileHandler = (e) => {
     const { name, value } = e.target;
@@ -114,7 +144,6 @@ export default function LoginMyPageArticle() {
       });
     },
   });
-  console.log(userProfile);
   const { data } = useQuery(['waitlist'], ReadWaitList, {
     refetchOnMount: false,
     refetchOnReconnect: false,

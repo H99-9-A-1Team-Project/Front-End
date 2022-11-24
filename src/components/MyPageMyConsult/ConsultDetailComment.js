@@ -12,15 +12,17 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { RequestConsultComment, RequestConsultCommentImage } from '../../api/apiPOST';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
+import imageCompression from 'browser-image-compression';
 
 export default function ConsultDetailComment({ id }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [buttonActive, setbuttonActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
+  const [likeActive, setLikeActive] = useState(false);
   const [contents, setContents] = useState({
     answerMessage: '',
   });
@@ -86,10 +88,39 @@ export default function ConsultDetailComment({ id }) {
               toolbarItems={[['image', 'link'], ['heading', 'bold'], ['hr'], ['ul', 'ol']]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
-                  let formData = new FormData();
-                  formData.append('file', blob);
-                  const imgUrl = await RequestConsultCommentImage({ formData, id });
-                  callback(imgUrl.url, '');
+                  const options = {
+                    maxSizeMB: 0.2,
+                    maxWidthOrHeight: 360,
+                    useWebWorker: true,
+                  };
+                  try {
+                    const compressedFile = await imageCompression(blob, options);
+                    const reader = new FileReader();
+                    reader.readAsDataURL(compressedFile);
+                    reader.onloadend = () => {
+                      const base64data = reader.result;
+                      onHandlingDataForm(base64data);
+                    };
+                  } catch (error) {
+                    console.log(error);
+                  }
+                  const onHandlingDataForm = async (dataURI) => {
+                    const byteString = atob(dataURI.split(',')[1]);
+                    const ab = new ArrayBuffer(byteString.length);
+                    const ia = new Uint8Array(ab);
+                    for (let i = 0; i < byteString.length; i++) {
+                      ia[i] = byteString.charCodeAt(i);
+                    }
+                    const blob = new Blob([ia], {
+                      type: 'image/jpeg',
+                    });
+
+                    const file = new File([blob], 'image.jpg');
+                    let formData = new FormData();
+                    formData.append('file', file);
+                    const imgUrl = await RequestConsultCommentImage({ formData, id });
+                    callback(imgUrl.url, '');
+                  };
                 },
               }}
             />
@@ -129,14 +160,17 @@ export default function ConsultDetailComment({ id }) {
             <div className="editor_viwer_wrap">
               <Viewer initialValue={data.comments[0].answerMessage} />
             </div>
-            {/* <div className="like">
-            <img src={good2} alt="good" />
-            답변이 많은 도움이 되었어요
-          </div>
-          <div className="dis_like">
-            <img src={good} alt="good" />
-            답변이 많은 도움이 되었어요
-          </div> */}
+            {likeActive ? (
+              <div className="like" onClick={() => setLikeActive(false)}>
+                <img src={good2} alt="good" />
+                답변이 많은 도움이 되었어요
+              </div>
+            ) : (
+              <div className="dis_like" onClick={() => setLikeActive(true)}>
+                <img src={good} alt="good" />
+                답변이 많은 도움이 되었어요
+              </div>
+            )}
           </div>
         </ConsultDetailCommentLayout>
       )
@@ -175,6 +209,7 @@ const ConsultDetailCommentLayout = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
     .header {
       font-family: var(--button-font-family);
       font-size: var(--headline_Small-font-size);
@@ -252,6 +287,7 @@ const ConsultDetailCommentLayout = styled.div`
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
       color: var(--primary2-400);
+      cursor: pointer;
     }
     .like {
       background-color: var(--primary2-400);
