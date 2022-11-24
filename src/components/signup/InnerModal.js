@@ -3,16 +3,15 @@ import styled from 'styled-components';
 import CompleteM from '../signup/sources/completemodal.png';
 import ModalClose from '../signup/sources/x.png';
 import { CloseModal, LoginDatas } from '../../store/store';
-import { useRecoilState,useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-
 
 function InnerModal() {
   const navigate = useNavigate();
   //데이터 전송을 위한 state
   const [loginData, setLoginData] = useRecoilState(LoginDatas);
   //모달 닫기 버튼용 recoilstate
-  const [setModalOpen] = useSetRecoilState(CloseModal);
+  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
   const onCloseModal = () => {
     setModalOpen(false);
     navigate('/');

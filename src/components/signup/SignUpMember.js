@@ -81,6 +81,9 @@ function SignUpMember() {
       setIsEmail(true);
       setValid(true);
     }
+    if (e.target.value === '') {
+      setCheckemail('빈칸을 채워주세요');
+    }
   };
 
   // 닉네임 생성
@@ -95,7 +98,6 @@ function SignUpMember() {
     password: loginData.password,
   };
 
-  console.log();
   // 비밀번호 onChange
   const onChangePassword = (e) => {
     const { name, value } = e.target;
@@ -112,6 +114,9 @@ function SignUpMember() {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
+    }
+    if (e.target.value === '') {
+      setCheckPassword('빈칸을 채워주세요');
     }
   };
 

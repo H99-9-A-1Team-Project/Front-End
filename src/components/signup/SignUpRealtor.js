@@ -65,7 +65,7 @@ function SignUpRealtor() {
   const onPreviewPW = (e) => {
     setSecret(!secret);
   };
-
+  //모달 열고 닫기
   const onOpenModal = () => {
     setModalOpen(true);
   };
@@ -74,6 +74,7 @@ function SignUpRealtor() {
     navigate('/');
   };
 
+  //페이지 넘기기
   const onPrevRealtorPage = () => {
     setNextTor(nexttor - 1);
     setValid(false);
@@ -104,6 +105,9 @@ function SignUpRealtor() {
       setIsEmail(true);
       setValid(true);
     }
+    if (e.target.value === '') {
+      setCheckemail('빈칸을 채워주세요');
+    }
   };
 
   const onblurChange = () => {
@@ -131,6 +135,8 @@ function SignUpRealtor() {
     memberEmail(doubleEmail);
   };
 
+  console.log(doubleEmail);
+
   const onChangePassword = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -146,6 +152,9 @@ function SignUpRealtor() {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
+    }
+    if (e.target.value === '') {
+      setCheckPassword('빈칸을 채워주세요');
     }
   };
 
@@ -290,7 +299,7 @@ function SignUpRealtor() {
               type="button"
               disabled={isVaildPhoto}
               onClick={() => {
-                onOpenModal(!modalOpen);
+                onOpenModal();
                 onSubmit();
               }}
             >
