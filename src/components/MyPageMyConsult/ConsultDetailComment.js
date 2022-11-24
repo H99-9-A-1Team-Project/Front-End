@@ -22,6 +22,7 @@ export default function ConsultDetailComment({ id }) {
   const navigate = useNavigate();
   const [buttonActive, setbuttonActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
+  const [likeActive, setLikeActive] = useState(false);
   const [contents, setContents] = useState({
     answerMessage: '',
   });
@@ -87,10 +88,9 @@ export default function ConsultDetailComment({ id }) {
               toolbarItems={[['image', 'link'], ['heading', 'bold'], ['hr'], ['ul', 'ol']]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
-                  console.log(blob);
                   const options = {
                     maxSizeMB: 0.2,
-                    maxWidthOrHeight: 1920,
+                    maxWidthOrHeight: 360,
                     useWebWorker: true,
                   };
                   try {
@@ -116,12 +116,10 @@ export default function ConsultDetailComment({ id }) {
                     });
 
                     const file = new File([blob], 'image.jpg');
-
                     let formData = new FormData();
                     formData.append('file', file);
                     const imgUrl = await RequestConsultCommentImage({ formData, id });
                     callback(imgUrl.url, '');
-                    console.log(file);
                   };
                 },
               }}
@@ -162,14 +160,17 @@ export default function ConsultDetailComment({ id }) {
             <div className="editor_viwer_wrap">
               <Viewer initialValue={data.comments[0].answerMessage} />
             </div>
-            {/* <div className="like">
-            <img src={good2} alt="good" />
-            답변이 많은 도움이 되었어요
-          </div>
-          <div className="dis_like">
-            <img src={good} alt="good" />
-            답변이 많은 도움이 되었어요
-          </div> */}
+            {likeActive ? (
+              <div className="like" onClick={() => setLikeActive(false)}>
+                <img src={good2} alt="good" />
+                답변이 많은 도움이 되었어요
+              </div>
+            ) : (
+              <div className="dis_like" onClick={() => setLikeActive(true)}>
+                <img src={good} alt="good" />
+                답변이 많은 도움이 되었어요
+              </div>
+            )}
           </div>
         </ConsultDetailCommentLayout>
       )
@@ -208,6 +209,7 @@ const ConsultDetailCommentLayout = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
     .header {
       font-family: var(--button-font-family);
       font-size: var(--headline_Small-font-size);
@@ -285,6 +287,7 @@ const ConsultDetailCommentLayout = styled.div`
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
       color: var(--primary2-400);
+      cursor: pointer;
     }
     .like {
       background-color: var(--primary2-400);

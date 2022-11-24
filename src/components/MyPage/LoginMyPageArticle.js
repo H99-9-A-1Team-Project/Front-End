@@ -58,7 +58,7 @@ export default function LoginMyPageArticle() {
     const postimage = document.getElementById('img_file');
     const options = {
       maxSizeMB: 0.2,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 360,
       useWebWorker: true,
     };
     try {
