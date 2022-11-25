@@ -9,6 +9,7 @@ import userProfile6 from './sources/userProfile6.png';
 import arrow from './sources/arrow.png';
 import User_cicrle from './sources/User_cicrle.png';
 import userDefault from './sources/userDefault.png';
+import good from './sources/Good.png';
 import { useResetRecoilState } from 'recoil';
 import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
@@ -190,7 +191,11 @@ export default function LoginMyPageArticle() {
 
           <div className="div2">
             <div className="div3">
-              <span className="span1">{userInfo.nickname}님</span>
+              <div className="div4">
+                <span className="span1">{userInfo.nickname}님</span>
+                <img src={good} alt="good" />
+                {userInfo.likeCount}
+              </div>
               <span className="span2" onClick={() => setModalVisible(true)}>
                 수정
               </span>
@@ -344,6 +349,7 @@ const Container = styled.div`
     border-bottom: 4px solid var(--gray6);
     border-top: 1px solid var(--gray6);
     .head-article-inner-container {
+      width: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -361,6 +367,7 @@ const Container = styled.div`
       margin: 24px 16px;
     }
     .div2 {
+      width: 100%;
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -369,9 +376,28 @@ const Container = styled.div`
       gap: 8px;
     }
     .div3 {
+      width: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
+    }
+    .div4 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-family: var(--button-font-family);
+      font-size: var(--body_Small-font-size);
+      font-weight: var(--body_Small-font-weight);
+      line-height: var(--body_Small-line-height);
+      letter-spacing: var(--body_Small-letter-spacing);
+      color: var(--primary2-400);
+      img {
+        width: 16px;
+        height: 16px;
+        margin-left: 4px;
+        margin-right: 4px;
+      }
     }
     span {
       background-color: white;
@@ -382,6 +408,7 @@ const Container = styled.div`
       font-weight: var(--headline_Medium-font-weight);
       line-height: var(--headline_Medium-line-height);
       letter-spacing: var(--headline_Medium-letter-spacing);
+      color: black;
     }
     .span2 {
       margin-left: 4px;
@@ -657,6 +684,7 @@ const Container = styled.div`
       font-weight: var(--button_Medium-font-weight);
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
+      cursor: pointer;
     }
   }
 `;
