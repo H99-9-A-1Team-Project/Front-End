@@ -12,7 +12,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
-import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function MainPageArticle() {
   const navigate = useNavigate();
