@@ -23,10 +23,10 @@ export default function FootstepMainArticle() {
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
-      center: new kakao.maps.LatLng(37.696046, 127.081947),
+      center: new window.kakao.maps.LatLng(37.696046, 127.081947),
       level: 8,
     };
-    const map = new kakao.maps.Map(container, options);
+    const map = new window.kakao.maps.Map(container, options);
 
     //요소의 사이즈;
     const list = document.querySelector('.list');
