@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
+import Modal from '../../global/components/Modal';
 
 export default function MainPageArticle() {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ export default function MainPageArticle() {
 
   const [info, setInfo] = useState(false);
   const AppLogin = useRecoilValue(isLogin);
+  const [consultNum, setConsultNum] = useState(2);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onStartLogin = () => {
     navigate('/signup');
@@ -31,6 +34,14 @@ export default function MainPageArticle() {
     setNextTor(0);
     setGoingLogin(0);
   };
+  const onClickRequestConsult = () => {
+    if (consultNum <= 0) {
+      setModalVisible(true);
+    } else {
+      navigate('/request1');
+    }
+  };
+
   const { data: readProfile } = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     enabled: !!AppLogin,
@@ -43,6 +54,8 @@ export default function MainPageArticle() {
       if (info !== -1) {
         setInfo(true);
       }
+      const allNum = config.length;
+      setConsultNum(2 - allNum);
     },
   });
   const { data: premisesData } = useQuery(['premiseslist'], ReadPremisesList, {
@@ -126,7 +139,7 @@ export default function MainPageArticle() {
                     <img className="deco_1" src={map} alt="map" />
                   </div>
                 </div>
-                <div className="banner2" onClick={() => navigate('/request1')}>
+                <div className="banner2" onClick={onClickRequestConsult}>
                   <div className="div_1">
                     <div>상담</div>
                     <div className="div_3">
@@ -163,6 +176,11 @@ export default function MainPageArticle() {
               </div>
             )}
           </div>
+          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible}>
+            <div className="modal_div">상담 횟수 2회를 모두 사용하셨습니다.</div>
+            <div className="modal_div">추가 상담을 원하시면 </div>
+            <div className="modal_div">관리자에게 문의해주세요.</div>
+          </Modal>
         </div>
       ) : (
         <>

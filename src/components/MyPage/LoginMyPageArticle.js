@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadProfile, ReadWaitList } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
-import MyPageModal from './MyPageModal';
+import Modal from '../../global/components/Modal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 import imageCompression from 'browser-image-compression';
 
@@ -291,7 +291,7 @@ export default function LoginMyPageArticle() {
 
       <>
         {modalVisible ? (
-          <MyPageModal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
+          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
             {sessionStorage.getItem('accountstate') === '1' ? (
               <form className="profileform" onSubmit={onSubmitUpdateRealtorProfileHandler}>
                 <label className="img-input-label" htmlFor="img_file">
@@ -326,7 +326,7 @@ export default function LoginMyPageArticle() {
                 </form>
               </div>
             )}
-          </MyPageModal>
+          </Modal>
         ) : null}
       </>
     </Container>

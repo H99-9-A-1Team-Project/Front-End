@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import x from './sources/x.png';
+import x from '../../components/MyPage/sources/x.png';
 
-export default function MyPageModal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave }) {
+export default function Modal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave }) {
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
       setModalVisible(false);
@@ -57,13 +57,13 @@ export default function MyPageModal({ className, setModalVisible, maskClosable, 
   );
 }
 
-MyPageModal.defaultProps = {
+Modal.defaultProps = {
   visible: false,
   closable: true,
   maskClosable: true,
 };
 
-MyPageModal.propTypes = {
+Modal.propTypes = {
   visible: PropTypes.bool,
 };
 
