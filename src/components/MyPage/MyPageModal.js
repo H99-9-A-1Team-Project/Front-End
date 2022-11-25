@@ -15,23 +15,43 @@ export default function MyPageModal({ className, setModalVisible, maskClosable, 
     <>
       <ModalOverlay visible={visible} />
       <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
-        <ModalInner tabIndex={0} className="modal-inner">
-          {closable && (
-            <>
-              <div className="modal-header">
-                <img
-                  src={x}
-                  alt="x"
-                  onClick={() => {
-                    setModalVisible(false);
-                    setImgSave('');
-                  }}
-                />
-              </div>
-            </>
-          )}
-          {children}
-        </ModalInner>
+        {sessionStorage.getItem('accountstate') === '0' ? (
+          <ModalInner tabIndex={0} className="modal-inner">
+            {closable && (
+              <>
+                <div className="modal-header">
+                  <img
+                    src={x}
+                    alt="x"
+                    onClick={() => {
+                      setModalVisible(false);
+                      setImgSave('');
+                    }}
+                  />
+                </div>
+              </>
+            )}
+            {children}
+          </ModalInner>
+        ) : (
+          <ModalInner2 tabIndex={0} className="modal-inner2">
+            {closable && (
+              <>
+                <div className="modal-header">
+                  <img
+                    src={x}
+                    alt="x"
+                    onClick={() => {
+                      setModalVisible(false);
+                      setImgSave('');
+                    }}
+                  />
+                </div>
+              </>
+            )}
+            {children}
+          </ModalInner2>
+        )}
       </ModalWrapper>
     </>
   );
@@ -74,6 +94,40 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalInner = styled.div`
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+  background-color: white;
+  border-radius: 10px;
+  width: 328px;
+  height: 364px;
+  transform: translateY(-50%);
+  margin: auto;
+  margin-top: 380px;
+  .modal-header {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    img {
+      margin: 16px 16px 16px auto;
+      background-color: white;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+const ModalInner2 = styled.div`
   box-sizing: content-box;
   display: flex;
   flex-direction: column;

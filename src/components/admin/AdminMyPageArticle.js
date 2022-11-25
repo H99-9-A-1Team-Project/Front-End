@@ -3,17 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import userProfile6 from '../MyPage/sources/userProfile6.png';
 import arrow from '../MyPage/sources/arrow.png';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { isLogin } from '../../store/store';
+import { useResetRecoilState } from 'recoil';
+import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
 
 export default function AdminMyPageArticle() {
   const navigate = useNavigate();
-  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+  const appLogout = useResetRecoilState(isLogin);
+  const changeSignUp = useResetRecoilState(ChangeSignUp);
+  const nextMem = useResetRecoilState(NextMem);
+  const nextTor = useResetRecoilState(NextTor);
+  const goLogIn = useResetRecoilState(GoLogIn);
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
-    setAppLogin(false);
+    sessionStorage.removeItem('nickname');
+    changeSignUp();
+    nextMem();
+    nextTor();
+    goLogIn();
+    appLogout();
   };
   return (
     <Container>

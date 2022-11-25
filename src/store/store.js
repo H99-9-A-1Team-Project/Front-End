@@ -8,6 +8,9 @@ export const NextTor = atom({ key: 'nextTor', default: 0 });
 export const ChangeSignUp = atom({ key: 'changesignup', default: false });
 export const CloseModal = atom({ key: 'closemodal', default: false });
 export const isLogin = atom({ key: 'islogin', default: false });
+export const itsNotOK = atom({ key: 'itsnotok', default: false });
+export const itsNotOK2 = atom({ key: 'itsnotok2', default: false });
+export const LoginDatas = atom({ key: 'logindatas', default: '' });
 
 // Tab Bar
 export const tabBarHome = atom({ key: 'tabbarhome', default: 0 });

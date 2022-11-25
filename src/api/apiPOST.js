@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { func } from 'prop-types';
 import api from './api';
 
 //일반회원 회원가입
@@ -35,5 +33,15 @@ export async function SendRequest(datas) {
 
 export async function SendNfsc(datas) {
   const data = await api.post('v1/premises', datas);
+
+// 상담 답변 작성하기(이미지)
+export async function RequestConsultCommentImage(arg) {
+  const { data } = await api.post(`v1/consult/${arg.id}/img`, arg.formData);
+  return data;
+}
+
+// 상담 답변 작성하기(텍스트)
+export async function RequestConsultComment(arg) {
+  const { data } = await api.post(`v1/consult/${arg.id}/comment`, arg.contents);
   return data;
 }

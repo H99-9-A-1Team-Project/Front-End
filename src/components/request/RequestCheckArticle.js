@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
 import { requireAddress, rqDetailAddress, rqInfo } from '../../store/store';

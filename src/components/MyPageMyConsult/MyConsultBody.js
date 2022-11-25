@@ -18,6 +18,13 @@ export default function MyConsultBody() {
 
   const { data } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
+    onSuccess: (config) => {
+      config.map((item) => {
+        if (item.consultMessage === '없음') {
+          return (item.consultMessage = '전달메세지가 없습니다.');
+        }
+      });
+    },
   });
   return (
     <StMyPageBodyWrap>
@@ -46,6 +53,7 @@ const StMyPageBodyWrap = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
+  margin-bottom: auto;
   ul {
     display: flex;
     flex-direction: row;
@@ -149,6 +157,11 @@ const StMyPageBodyWrap = styled.div`
       font-weight: var(--button_Medium-font-weight);
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
+      .toastui-editor-contents {
+        p {
+          border-bottom: 0px !important;
+        }
+      }
     }
   }
   .consulting-container-0,

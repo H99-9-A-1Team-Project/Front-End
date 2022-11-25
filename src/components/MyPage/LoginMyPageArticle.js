@@ -1,49 +1,94 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import userProfile1 from './sources/userProfile1.png';
 import userProfile2 from './sources/userProfile2.png';
+import userProfile3 from './sources/userProfile3.png';
+import userProfile4 from './sources/userProfile4.png';
+import userProfile5 from './sources/userProfile5.png';
+import userProfile6 from './sources/userProfile6.png';
 import arrow from './sources/arrow.png';
 import User_cicrle from './sources/User_cicrle.png';
 import userDefault from './sources/userDefault.png';
-import { useRecoilState } from 'recoil';
-import { isLogin } from '../../store/store';
+import { useResetRecoilState } from 'recoil';
+import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadProfile, ReadWaitList } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
 import MyPageModal from './MyPageModal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
+import imageCompression from 'browser-image-compression';
 
 export default function LoginMyPageArticle() {
+  const queryClient = useQueryClient();
   const textRef = useRef(null);
   const navigate = useNavigate();
-  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+  const appLogout = useResetRecoilState(isLogin);
+  const changeSignUp = useResetRecoilState(ChangeSignUp);
+  const nextMem = useResetRecoilState(NextMem);
+  const nextTor = useResetRecoilState(NextTor);
+  const goLogIn = useResetRecoilState(GoLogIn);
   const [userInfo, setUserInfo] = useState({});
   const [showMessage, setShowMessage] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [imgSave, setImgSave] = useState('');
+  const [userProfile, setUserProfile] = useState({});
   const [newProfile, setNewProfile] = useState({
     nickname: '',
     introMessage: '',
   });
-  const queryClient = useQueryClient();
 
   const onLogoutHandler = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
-    setAppLogin(false);
+    sessionStorage.removeItem('nickname');
+    changeSignUp();
+    nextMem();
+    nextTor();
+    goLogIn();
+    appLogout();
   };
   const onSubmitUpdateUserProfileHandler = (e) => {
     e.preventDefault();
-    updateUserProfile({ nickname: newProfile.nickname });
+    updateUserProfile({ nickname: newProfile.nickname, profileImg: userProfile.state });
   };
-  const onSubmitUpdateRealtorProfileHandler = (e) => {
+  const onSubmitUpdateRealtorProfileHandler = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    let postimage = document.getElementById('img_file');
-    formData.append('content', new Blob([JSON.stringify(newProfile)], { type: 'application/json' }));
-    formData.append('profile', postimage.files[0]);
-    updateRealtorProfile(formData);
+    const postimage = document.getElementById('img_file');
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(postimage.files[0], options);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+
+      const file = new File([blob], 'image.jpg');
+      let formData = new FormData();
+      formData.append('content', new Blob([JSON.stringify(newProfile)], { type: 'application/json' }));
+      formData.append('profile', file);
+      updateRealtorProfile(formData);
+    };
   };
   const onChangeProfileHandler = (e) => {
     const { name, value } = e.target;
@@ -72,6 +117,24 @@ export default function LoginMyPageArticle() {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
       setUserInfo(config.data);
+      if (config.data.profileImg === 1 || config.data.profileImg === 0) {
+        setUserProfile({ state: 1, userProfile: userProfile1 });
+      }
+      if (config.data.profileImg === 2) {
+        setUserProfile({ state: 2, userProfile: userProfile2 });
+      }
+      if (config.data.profileImg === 3) {
+        setUserProfile({ state: 3, userProfile: userProfile3 });
+      }
+      if (config.data.profileImg === 4) {
+        setUserProfile({ state: 4, userProfile: userProfile4 });
+      }
+      if (config.data.profileImg === 5) {
+        setUserProfile({ state: 5, userProfile: userProfile5 });
+      }
+      if (config.data.profileImg === 6) {
+        setUserProfile({ state: 6, userProfile: userProfile6 });
+      }
       if (config.data.introMessage === null) {
         config.data.introMessage = '소개 메세지가 없습니다.';
       }
@@ -87,7 +150,19 @@ export default function LoginMyPageArticle() {
     refetchOnWindowFocus: false,
     enabled: sessionStorage.getItem('accountstate') !== '0',
   });
-  const { mutate: deleteUser } = useMutation(DeleteUser);
+  const { mutate: deleteUser } = useMutation(DeleteUser, {
+    onSuccess: () => {
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('refresh_token');
+      sessionStorage.removeItem('accountstate');
+      sessionStorage.removeItem('nickname');
+      changeSignUp();
+      nextMem();
+      nextTor();
+      goLogIn();
+      appLogout();
+    },
+  });
   const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
@@ -109,7 +184,7 @@ export default function LoginMyPageArticle() {
             <div className="div1">{userInfo.profile ? <img src={`${userInfo.profile}`} alt="userProfile" /> : <img src={userDefault} alt="userDefault" />}</div>
           ) : (
             <div className="div1">
-              <img src={userProfile2} alt="userProfile2" />
+              <img src={userProfile.userProfile} alt="userProfile2" />
             </div>
           )}
 
@@ -172,7 +247,7 @@ export default function LoginMyPageArticle() {
               </div>
               <img src={arrow} alt="arrow" />
             </div>
-            <div className="info-2" onClick={() => navigate('/answerdlist')}>
+            <div className="info-2" onClick={() => navigate('/answeredlist')}>
               답변한 상담
               <img src={arrow} alt="arrow" />
             </div>
@@ -233,12 +308,23 @@ export default function LoginMyPageArticle() {
                 </div>
               </form>
             ) : (
-              <form className="profileform2" onSubmit={onSubmitUpdateUserProfileHandler}>
-                <input className="nickname-input" type="text" maxLength={30} onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
-                <div className="button-container">
-                  <button>수정 완료</button>
+              <div className="profile_edit_wrap">
+                <img className="represent_img" src={userProfile.userProfile} alt="profile_img" />
+                <div className="select_imgs">
+                  <img className="select_img" src={userProfile1} alt="profile_img" onClick={() => setUserProfile({ state: 1, userProfile: userProfile1 })} />
+                  <img className="select_img" src={userProfile2} alt="profile_img" onClick={() => setUserProfile({ state: 2, userProfile: userProfile2 })} />
+                  <img className="select_img" src={userProfile3} alt="profile_img" onClick={() => setUserProfile({ state: 3, userProfile: userProfile3 })} />
+                  <img className="select_img" src={userProfile4} alt="profile_img" onClick={() => setUserProfile({ state: 4, userProfile: userProfile4 })} />
+                  <img className="select_img" src={userProfile5} alt="profile_img" onClick={() => setUserProfile({ state: 5, userProfile: userProfile5 })} />
+                  <img className="select_img" src={userProfile6} alt="profile_img" onClick={() => setUserProfile({ state: 6, userProfile: userProfile6 })} />
                 </div>
-              </form>
+                <form className="profileform2" onSubmit={onSubmitUpdateUserProfileHandler}>
+                  <input className="nickname-input2" type="text" maxLength={30} onChange={onChangeProfileHandler} name="nickname" value={newProfile.nickname} />
+                  <div className="button-container">
+                    <button>수정 완료</button>
+                  </div>
+                </form>
+              </div>
             )}
           </MyPageModal>
         ) : null}
@@ -442,13 +528,51 @@ const Container = styled.div`
     align-items: center;
     background-color: white;
   }
-  .profileform2 {
-    height: 370px;
+  .profile_edit_wrap {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    .represent_img {
+      width: 80px;
+      height: 80px;
+    }
+    .select_imgs {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      margin-top: 16px;
+      margin-bottom: 32px;
+    }
+    .select_img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .profileform2 {
+    height: 140px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     background-color: white;
+    .nickname-input2 {
+      width: 264px;
+      height: 44px;
+      border: 1px solid var(--gray6);
+      border-radius: 8px;
+      background-color: white;
+      padding-left: 12px;
+      padding-right: 12px;
+      margin-bottom: 40px;
+      ::placeholder {
+        font-family: var(--headline-font-family);
+        font-size: var(--body_Medium-font-size);
+        font-weight: var(--body_Medium-font-weight);
+        line-height: var(--body_Medium-line-height);
+        letter-spacing: var(--body_Medium-letter-spacing);
+        color: var(--gray1);
+      }
+    }
   }
   .img-input-label {
     background-color: white;

@@ -7,7 +7,7 @@ import Layout from '../global/components/Layout';
 export default function MyPageAdmin() {
   return (
     <Layout>
-      <MyConsultHeader text={'계정목록'} />
+      <MyConsultHeader text={'계정목록'} page={'/mypage'} />
       <AdminBody />
       <MainPageTabBar />
     </Layout>

@@ -10,7 +10,7 @@ export default function ConsultBoxFinish({ item }) {
         <div className="answer-icon-2">답변함</div>
       </div>
       <div className="time">{item.createdAt}</div>
-      <div className="consulting-message">{item.answerMessage}</div>
+      <div className="consulting-message">{item.comments ? item.comments[0] : item.answerMessage}</div>
     </div>
   );
 }

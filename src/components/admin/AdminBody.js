@@ -8,7 +8,9 @@ export default function AdminBody() {
   const { data } = useQuery(['signuplist'], ReadSignUpList, {
     refetchOnWindowFocus: false,
   });
-
+  if (data !== undefined) {
+    console.log(data);
+  }
   return (
     <StAdminBodyLayout>
       {data?.map((item) => {

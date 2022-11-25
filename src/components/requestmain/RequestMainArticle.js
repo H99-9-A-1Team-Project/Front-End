@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
 import RqAt_Path_Right from './sources/rqm_article_right_light2.png';
@@ -9,10 +9,16 @@ import { ReadRequestList } from '../../api/apiGET';
 
 export default function RequestArticle() {
   const navigate = useNavigate();
+  const [waitNum, setWaitNum] = useState(0);
+  const [finishNum, setFinishNum] = useState(0);
 
-  const { data } = useQuery(['RequestList'], ReadRequestList, {
+  const { data } = useQuery(['requestlist'], ReadRequestList, {
+    refetchOnWindowFocus: false,
     onSuccess: (response) => {
-      console.log(response);
+      const allNum = response.length;
+      const waitList = response.filter((item) => item.answerState === 'WAIT');
+      setWaitNum(waitList.length);
+      setFinishNum(allNum - waitList.length);
     },
   });
 
@@ -26,17 +32,15 @@ export default function RequestArticle() {
       <InfoContainer>
         <InfoBox>
           <InfoWrap1>
-            <InfoHead1>1회</InfoHead1>
+            <InfoHead1>?회</InfoHead1>
             <InfoNav1>미사용</InfoNav1>
           </InfoWrap1>
-          <VerticalBar />
           <InfoWrap2>
-            <InfoHead1>1건</InfoHead1>
+            <InfoHead1>{waitNum}건</InfoHead1>
             <InfoNav1>대기중</InfoNav1>
           </InfoWrap2>
-          <VerticalBar />
           <InfoWrap3>
-            <InfoHead2>1건</InfoHead2>
+            <InfoHead3>{finishNum}건</InfoHead3>
             <InfoNav2>완료</InfoNav2>
           </InfoWrap3>
         </InfoBox>
@@ -88,6 +92,7 @@ const InfoBox = styled.div`
   height: 40px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin-top: 28px;
   margin-left: 25px;
   background: none;
@@ -107,7 +112,7 @@ const InfoWrap2 = styled.div`
   height: 40px;
   display: flex;
   flex-direction: column;
-  margin-left: 39px;
+  margin-left: 23px;
   background: none;
 `;
 
@@ -116,8 +121,9 @@ const InfoWrap3 = styled.div`
   height: 40px;
   display: flex;
   flex-direction: column;
-  margin-left: 39px;
+  margin-left: 23px;
   background: none;
+  margin-right: 16px;
 `;
 
 const InfoHead1 = styled.p`
@@ -132,9 +138,13 @@ const InfoHead1 = styled.p`
   cursor: default;
 `;
 
-const InfoHead2 = styled.p`
+const InfoHead3 = styled.p`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   color: black;
   background: none;
+  margin-left: -2px;
   font-family: var(--headline-font-family);
   font-size: var(--headline_Small-font-size);
   font-weight: var(--headline_Small-font-weight);

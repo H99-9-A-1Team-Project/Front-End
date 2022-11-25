@@ -1,34 +1,37 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReadAnsweredList, ReadWaitList } from '../../api/apiGET';
-import MyConsultBodyContainer from '../MyPageMyConsult/MyConsultBodyContainer';
+import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function RealtorConsult() {
+  const navigate = useNavigate();
   const [realtorListState, setRealtorListState] = useState(0);
   const onClickListAll = () => {
     setRealtorListState(0);
+    navigate('/waitlist');
   };
   const onClickListWait = () => {
     setRealtorListState(1);
+    navigate('/answeredlist');
   };
   useEffect(() => {
-    if (window.location.pathname === '/answerdlist') {
+    if (window.location.pathname === '/answeredlist') {
       setRealtorListState(1);
     }
-  }, []);
+    if (window.location.pathname === '/waitlist') {
+      setRealtorListState(0);
+    }
+  }, [window.location.pathname]);
 
   const { data: waitData } = useQuery(['waitlist'], ReadWaitList, {
     refetchOnMount: false,
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    enabled: !realtorListState,
+    enabled: !!(window.location.pathname === '/waitlist'),
   });
   const { data: answeredData } = useQuery(['answeredlist'], ReadAnsweredList, {
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    enabled: !!realtorListState,
+    enabled: !!(window.location.pathname === '/answeredlist'),
   });
   return (
     <StMyPageBodyWrap>
@@ -41,9 +44,16 @@ export default function RealtorConsult() {
         </li>
       </ul>
       <div className="consulting-wrap">
-        {(waitData ? waitData : answeredData)?.map((item) => {
-          return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} />;
-        })}
+        {window.location.pathname === '/waitlist'
+          ? waitData?.map((item) => {
+              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} />;
+            })
+          : null}
+        {window.location.pathname === '/answeredlist'
+          ? answeredData?.map((item) => {
+              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} />;
+            })
+          : null}
       </div>
     </StMyPageBodyWrap>
   );
@@ -54,6 +64,7 @@ const StMyPageBodyWrap = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
+  margin-bottom: auto;
   ul {
     display: flex;
     flex-direction: row;

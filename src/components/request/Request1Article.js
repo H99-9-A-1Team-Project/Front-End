@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import '../../global/global.css';
 import rq1search from './source/rq1search.png';
 import { useState } from 'react';
-import PopupDom from './PopupDom';
+
 import PopupPostCode from './PopupPostCode';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { requireAddress, rqInfo, rqDetailAddress } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Request1Article() {
   const navigate = useNavigate();
-  const [requAddress, setRequAddress] = useRecoilState(requireAddress);
+  const requAddress = useRecoilValue(requireAddress);
   const [rq1Info, setRq1Info] = useRecoilState(rqInfo);
   const [rq1DetailAddress, setRq1DetailAddress] = useRecoilState(rqDetailAddress);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
