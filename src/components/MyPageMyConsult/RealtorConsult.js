@@ -64,6 +64,7 @@ const StMyPageBodyWrap = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
+  margin-bottom: auto;
   ul {
     display: flex;
     flex-direction: row;
