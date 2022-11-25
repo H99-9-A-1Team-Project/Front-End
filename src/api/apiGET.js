@@ -23,3 +23,8 @@ export async function ReadAnsweredList() {
   const { data } = await api.get('v1/replied');
   return data;
 }
+
+export async function ReadImgFootStep() {
+  const { data } = await api.get('v1/premises/27?page=0&size=5');
+  return data;
+}

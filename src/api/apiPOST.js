@@ -32,3 +32,8 @@ export async function SendRequest(datas) {
   const data = await api.post('v1/advicerequest', datas);
   return data;
 }
+
+export async function SendNfsc(datas) {
+  const data = await api.post('v1/premises', datas);
+  return data;
+}
