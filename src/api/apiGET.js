@@ -25,11 +25,16 @@ export async function ReadAnsweredList() {
   const { data } = await api.get('v1/replied');
   return data;
 }
+
+export async function ReadImgFootStep() {
+  const { data } = await api.get('v1/premises/27?page=0&size=5');
+
 //상담 상세페이지 조회
 export async function ReadConsultDetail(id) {
   const { data } = await api.get(`v1/consult/${id}`);
   return data;
 }
+
 //매물 목록 조회
 export async function ReadPremisesList() {
   const { data } = await api.get('v1/premises/allpost');

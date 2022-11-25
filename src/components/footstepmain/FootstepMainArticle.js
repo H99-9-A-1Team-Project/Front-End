@@ -5,10 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import '../../global/global.css';
 import searchImg from './sources/Search.png';
 import pathDown from './sources/path_down.png';
+import pathUp from './sources/path_up.png';
 import WriteIcon from './sources/write.png';
+import { useQuery } from '@tanstack/react-query';
+import { ReadImgFootStep } from '../../api/apiGET';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
+  const { data } = useQuery(['imgs'], ReadImgFootStep, {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (response) => {
+      console.log(response);
+    },
+  });
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
@@ -120,36 +131,6 @@ export default function FootstepMainArticle() {
                 <CarosulItem
                   className="image"
                   src="https://w.namu.la/s/200b12d8096ace4b14fad5783b72ded273dd4eab1317b6a3455a7ab95e80d06d7d49f4dd92ffb9502afa4e9be50398e229fba3e3541e3a77f64d3e480d3e0e34e6fde40ed312e7bd168a4502ce694271202ac4f941d1448edc1c7ab47970d204"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://w.namu.la/s/f1dbb5118738ea9ae30b8dffe5e09aeeebe528b1023f67da317dd68c3e12ab14979925126dd0fd2948e18cd82d5c484e3438a6274f4b48c17a9fcf20817a7b08f014991d6484653d4b70e304e14004c502ddea8ad5fd0f28e77f3f8a296eb55d2eb9aefcd45842931dd2df1ae592b586"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem className="image" src="https://img4.yna.co.kr/photo/ap/2011/09/12/PAP20110912234101034_P4.jpg" alt="첫 번째 별나비" />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem className="image" src="https://img.insight.co.kr/static/2016/06/13/2000/s2q33j23pj02068k8j7v.jpg" alt="첫 번째 별나비" />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem className="image" src="http://image.yes24.com/blogimage/blog/k/i/kikine/czXNJ1Dr.gif" alt="첫 번째 별나비" />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://mblogthumb-phinf.pstatic.net/MjAxNzAyMThfMTMz/MDAxNDg3Mzk5MzExODYy.O6Ysc8jgkkdtuM1hA4v6Ko1Abmq3NAfuVOMYUlZEtpEg.bQyZllUpIL8y2QGz0fLm6UlEsPINWYgSE88l_uHz8MEg.JPEG.soso005/%EC%95%BC%EB%8F%88.jpg?type=w800"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://w.namu.la/s/799cc2ec018675e79efedb50c0750cd1a74e8bf79466c1eab9caec6ec59dd4681ed4deb364f7d3f5147e31d6ee0fa0f7ef42e9ea90b55370e87283e0faf2e5536b05fe73d64085efdd5d48a996b8cea7867fe5be249490ea521c4a84b89d21c4"
                   alt="첫 번째 별나비"
                 />
               </CarouselLi>

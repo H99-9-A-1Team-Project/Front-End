@@ -31,6 +31,9 @@ export async function SendRequest(datas) {
   return data;
 }
 
+export async function SendNfsc(datas) {
+  const data = await api.post('v1/premises', datas);
+
 // 상담 답변 작성하기(이미지)
 export async function RequestConsultCommentImage(arg) {
   const { data } = await api.post(`v1/consult/${arg.id}/img`, arg.formData);

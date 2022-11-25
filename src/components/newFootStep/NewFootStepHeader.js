@@ -2,21 +2,120 @@ import React from 'react';
 import styled from 'styled-components';
 import Path_left from './sources/path_left.png';
 import { useNavigate } from 'react-router-dom';
-
+import { useMutation } from '@tanstack/react-query';
+import { SendNfsc } from '../../api/apiPOST';
+import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress } from '../../store/store';
+import { useForm } from 'react-hook-form';
+import { useRecoilState, useRecoilValue } from 'recoil';
 export default function NewFootStepAddress() {
   const navigate = useNavigate();
+  const { handleSubmit } = useForm();
+  const nfscData = useRecoilValue(nfsData);
+  const nfscImgData = useRecoilValue(nfsImgData);
+  const [nfshData, setNfshData] = useRecoilState(nfsData);
+  const [nfshImgData, setNfshImgData] = useRecoilState(nfsImgData);
+  const [nfshPreviewImgData, setNfshPreviewImgData] = useRecoilState(nfsPreviewImgData);
+  const [nfshrPath, setNfshrPath] = useRecoilState(nfsrPath);
+  const [nfshImgState, setNfshImgState] = useRecoilState(nfsImgState);
+  const [nfshRoadAddress, setNfshRoadAddress] = useRecoilState(nfsRoadAddress);
+  const [nfshDetailAddress, setNfshDetailAddress] = useRecoilState(nfsDetailAddress);
+
+  const { mutate: nfsMutate } = useMutation(SendNfsc, {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (response) => {
+      console.log(response);
+    },
+  });
+
+  const onSendData = () => {
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(nfscData)], { type: 'application/json' });
+    nfscImgData.map((prop) => formData.append('file', prop));
+    formData.append('post', blob);
+    nfsMutate(formData);
+    onDefault();
+  };
+
+  const onDefault = () => {
+    setNfshRoadAddress('도로명 주소 검색');
+    setNfshDetailAddress('');
+    setNfshData({
+      title: '',
+      coordFX: '',
+      coordFY: '',
+      price: '',
+      expenses: '',
+      size: '',
+      review: '',
+      sun: false,
+      mold: false,
+      vent: false,
+      water: false,
+      ventil: false,
+      drain: false,
+      draft: false,
+      extraMemo: '',
+      option: '',
+      destroy: false,
+      utiRoom: false,
+      securityWindow: false,
+      noise: false,
+      loan: false,
+      cctv: false,
+      hill: false,
+      mart: false,
+      hospital: false,
+      accessibility: false,
+      park: false,
+    });
+    setNfshImgData([]);
+    setNfshPreviewImgData([]);
+    setNfshrPath({
+      basic: false,
+      sun: false,
+      option: false,
+      security: false,
+      conven: false,
+    });
+    setNfshImgState({
+      sun: false,
+      mold: false,
+      vent: false,
+      water: false,
+      ventil: false,
+      drain: false,
+      draft: false,
+      destroy: false,
+      utiRoom: false,
+      securityWindow: false,
+      noise: false,
+      loan: false,
+      cctv: false,
+      hill: false,
+      mart: false,
+      hospital: false,
+      accessibility: false,
+      park: false,
+      extramemo: false,
+      option: false,
+    });
+    navigate('/footstepmain');
+  };
+
   return (
     <Container>
       <HeaderBox>
         <ImgPathLeft
           src={Path_left}
           onClick={() => {
-            navigate('/footstepmain');
+            onDefault();
           }}
         />
         <HeadlineBox>
           <HeaderHeadline>발품기록</HeaderHeadline>
-          <CreateBtn>추가</CreateBtn>
+          <CreateBtn onClick={() => onSendData()}>추가</CreateBtn>
         </HeadlineBox>
       </HeaderBox>
     </Container>
