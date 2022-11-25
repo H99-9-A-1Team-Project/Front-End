@@ -11,7 +11,7 @@ import '@toast-ui/editor/dist/i18n/ko-kr'; // Editor 한국어
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useRef } from 'react';
 import { useState } from 'react';
-import { RequestConsultComment, RequestConsultCommentImage } from '../../api/apiPOST';
+import { RequestConsultComment, RequestConsultCommentImage, RequestLike } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
@@ -36,6 +36,11 @@ export default function ConsultDetailComment({ id }) {
     onSuccess: () => {
       queryClient.invalidateQueries(['answeredlist']);
       navigate('/answeredlist');
+    },
+  });
+  const { mutate: requestLike } = useMutation((arg) => RequestLike(arg), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['consultdetail']);
     },
   });
   const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
@@ -160,17 +165,31 @@ export default function ConsultDetailComment({ id }) {
             <div className="editor_viwer_wrap">
               <Viewer initialValue={data.comments[0].answerMessage} />
             </div>
-            {likeActive ? (
-              <div className="like" onClick={() => setLikeActive(false)}>
-                <img src={good2} alt="good" />
-                답변이 많은 도움이 되었어요
-              </div>
-            ) : (
-              <div className="dis_like" onClick={() => setLikeActive(true)}>
-                <img src={good} alt="good" />
-                답변이 많은 도움이 되었어요
-              </div>
-            )}
+            {sessionStorage.getItem('accountstate') === '0' ? (
+              data.comments[0].likeCount ? (
+                <div
+                  className="like"
+                  onClick={() => {
+                    setLikeActive(false);
+                    requestLike(data.comments[0].id);
+                  }}
+                >
+                  <img src={good2} alt="good" />
+                  답변이 많은 도움이 되었어요
+                </div>
+              ) : (
+                <div
+                  className="dis_like"
+                  onClick={() => {
+                    setLikeActive(true);
+                    requestLike(data.comments[0].id);
+                  }}
+                >
+                  <img src={good} alt="good" />
+                  답변이 많은 도움이 되었어요
+                </div>
+              )
+            ) : null}
           </div>
         </ConsultDetailCommentLayout>
       )

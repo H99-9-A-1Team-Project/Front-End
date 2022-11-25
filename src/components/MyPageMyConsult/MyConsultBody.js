@@ -24,6 +24,7 @@ export default function MyConsultBody() {
           return (item.consultMessage = '전달메세지가 없습니다.');
         }
       });
+      return config.reverse();
     },
   });
   return (

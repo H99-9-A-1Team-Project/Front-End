@@ -42,3 +42,9 @@ export async function RequestConsultComment(arg) {
   const { data } = await api.post(`v1/consult/${arg.id}/comment`, arg.contents);
   return data;
 }
+
+// 좋아요
+export async function RequestLike(arg) {
+  const { data } = await api.post(`v1/like/${arg}`, '');
+  return data;
+}
