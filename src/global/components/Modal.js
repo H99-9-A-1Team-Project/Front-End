@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import x from '../../components/MyPage/sources/x.png';
+import x from '../sources/x.png';
 
 export default function Modal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave }) {
   const onMaskClick = (e) => {

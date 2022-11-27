@@ -14,7 +14,7 @@ import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
 import Modal from '../../global/components/Modal';
 
-export default function MainPageArticle() {
+function MainPageArticle() {
   const navigate = useNavigate();
   //일반회원 다음으로 넘어가기 위한 recoilState
   const [nextmem, setNextMem] = useRecoilState(NextMem);
@@ -198,6 +198,7 @@ export default function MainPageArticle() {
     </ArticleContainer>
   );
 }
+export default React.memo(MainPageArticle);
 
 const ArticleContainer = styled.div`
   width: 360px;
