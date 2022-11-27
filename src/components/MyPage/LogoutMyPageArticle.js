@@ -23,7 +23,7 @@ export default function LogoutMyPageArticle() {
       </div>
       <div className="body-article-container">
         <div className="info-1">등대지기 A to Z</div>
-        <div className="info-2">
+        <div className="info-2" onClick={() => navigate('/introduce')}>
           서비스 소개
           <img src={arrow} alt="arrow" />
         </div>
@@ -104,6 +104,7 @@ const Container = styled.div`
       font-weight: var(--button_Medium-font-weight);
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
+      cursor: pointer;
       img {
         background-color: white;
         width: 7.59px;

@@ -169,7 +169,7 @@ export default function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '2' ? null : (
               <div className="guide_wrap">
-                <div className="guide_content">
+                <div className="guide_content" onClick={() => navigate('/introduce')}>
                   <div>어떤서비스인가요?</div>
                   <img src={QueMark} alt="QueMark" />
                 </div>
@@ -190,7 +190,7 @@ export default function MainPageArticle() {
           </LoginBtnBox>
           <ImgLoginDeco src={login_Deco} />
           <ServcieGuideBox>
-            <ServiceGuideP>어떤 서비스인가요?</ServiceGuideP>
+            <ServiceGuideP onClick={() => navigate('/introduce')}>어떤 서비스인가요?</ServiceGuideP>
             <ServiceQueMark src={QueMark} />
           </ServcieGuideBox>
         </>

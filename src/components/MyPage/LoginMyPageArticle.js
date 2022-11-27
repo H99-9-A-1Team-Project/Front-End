@@ -292,6 +292,19 @@ export default function LoginMyPageArticle() {
           회원탈퇴
           <img src={arrow} alt="arrow" />
         </div>
+        <div className="info-3">등대지기 A to Z</div>
+        <div className="info-2" onClick={() => navigate('/introduce')}>
+          서비스 소개
+          <img src={arrow} alt="arrow" />
+        </div>
+        <div className="info-2">
+          제작팀
+          <img src={arrow} alt="arrow" />
+        </div>
+        <div className="info-2">
+          설문 참여
+          <img src={arrow} alt="arrow" />
+        </div>
       </div>
 
       <>
@@ -437,7 +450,7 @@ const Container = styled.div`
     .info-3 {
       color: var(--gray4);
       background-color: white;
-      margin-left: 16px;
+      padding-left: 16px;
       margin-top: 24px;
       margin-bottom: 8px;
       font-family: var(--headline-font-family);
