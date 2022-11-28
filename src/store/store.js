@@ -20,6 +20,9 @@ export const tabBarPin = atom({ key: 'tabbarpin', default: 0 });
 export const tabBarRequest = atom({ key: 'tabbarrequest', default: 0 });
 export const tabBarUser = atom({ key: 'tabbaruser', default: 0 });
 
+// Side Tab Bar
+export const sideTabBar = atom({ key: 'sidetabbar', default: false });
+
 // 상담 요청하기 헤드라인
 export const rqHeadline = atom({ key: 'rqheadline', default: '' });
 export const rqHeadlinecount = atom({ key: 'rqheadlinecount', default: '' });

@@ -16,6 +16,7 @@ import MyConsultDetail from '../pages/MyConsultDetail';
 import MyPageRealtorConsult from '../pages/MyPageRealtorConsult';
 import FootStepDetail from '../pages/FootStepDetail';
 import IntroducePage from '../pages/IntroducePage';
+import MainPageSideBar from '../components/main/MainPageSideBar';
 export default function Router() {
   return (
     <>
@@ -42,6 +43,7 @@ export default function Router() {
             <Route path="footstepmain/:id" element={<FootStepDetail />} />
             <Route path="/introduce" element={<IntroducePage />} />
           </Routes>
+          <MainPageSideBar />
         </div>
         <div className="default"></div>
       </div>
