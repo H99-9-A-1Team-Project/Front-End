@@ -1,12 +1,16 @@
 .app {
   width: 360px;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: fit-content;
+  display: flex;
+  flex-direction: row;
   /* margin: 0 auto; */
 }
 
 .default {
   width: 800px;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: fit-content;
   background-color: #578ffa;
 }
 

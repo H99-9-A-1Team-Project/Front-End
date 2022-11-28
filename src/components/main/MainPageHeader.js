@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import Logo from './sources/main_header_name.png';
 import Menu from './sources/main_header_menu.png';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { sideTabBar } from '../../store/store';
 
-function MainPageHeader({ setVisible }) {
+function MainPageHeader() {
   const navigate = useNavigate();
+  const setVisible = useSetRecoilState(sideTabBar);
 
   return (
     <HeaderContainer>
@@ -22,17 +25,13 @@ const HeaderContainer = styled.div`
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
-  .go {
-    transform: translate(360px, 0);
-  }
 `;
 
 const StLogo = styled.img`
   width: 97.5px;
   height: 24px;
   background-color: #ffffff;
-  margin-left: 16px;
-  margin-top: 20px;
+  margin: 20px 0 20px 16px;
   cursor: pointer;
 `;
 

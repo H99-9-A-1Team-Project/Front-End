@@ -193,8 +193,12 @@ export default function LoginMyPageArticle() {
             <div className="div3">
               <div className="div4">
                 <span className="span1">{userInfo.nickname}님</span>
-                <img src={good} alt="good" />
-                {userInfo.likeCount}
+                {sessionStorage.getItem('accountstate') === '1' ? (
+                  <>
+                    <img src={good} alt="good" />
+                    {userInfo.likeCount}
+                  </>
+                ) : null}
               </div>
               <span className="span2" onClick={() => setModalVisible(true)}>
                 수정
