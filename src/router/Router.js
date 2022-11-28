@@ -14,6 +14,7 @@ import FootstepMain from '../pages/FootstepMain';
 import NewFootStep from '../pages/NewFootStep';
 import MyConsultDetail from '../pages/MyConsultDetail';
 import MyPageRealtorConsult from '../pages/MyPageRealtorConsult';
+import IntroducePage from '../pages/IntroducePage';
 
 export default function Router() {
   return (
@@ -35,6 +36,7 @@ export default function Router() {
         <Route path="/myconsultdetail/:id" element={<MyConsultDetail />} />
         <Route path="/waitlist" element={<MyPageRealtorConsult />} />
         <Route path="/answeredlist" element={<MyPageRealtorConsult />} />
+        <Route path="/introduce" element={<IntroducePage />} />
       </Routes>
     </div>
   );
