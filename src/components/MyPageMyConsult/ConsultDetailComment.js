@@ -11,7 +11,7 @@ import '@toast-ui/editor/dist/i18n/ko-kr'; // Editor 한국어
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useRef } from 'react';
 import { useState } from 'react';
-import { RequestConsultComment, RequestConsultCommentImage } from '../../api/apiPOST';
+import { RequestConsultComment, RequestConsultCommentImage, RequestLike } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
@@ -36,6 +36,11 @@ export default function ConsultDetailComment({ id }) {
     onSuccess: () => {
       queryClient.invalidateQueries(['answeredlist']);
       navigate('/answeredlist');
+    },
+  });
+  const { mutate: requestLike } = useMutation((arg) => RequestLike(arg), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['consultdetail']);
     },
   });
   const { data } = useQuery(['consultdetail'], () => ReadConsultDetail(id), {
@@ -153,24 +158,42 @@ export default function ConsultDetailComment({ id }) {
               </div>
               <div className="realtor_info_right">
                 <div className="realtor_info_right_top">공인중개사</div>
-                <div className="realtor_info_right_middle">{data.comments[0].nickname}</div>
+                <div className="realtor_info_right_middle">
+                  {data.comments[0].nickname}
+                  <img className="realtor_like_num_img" src={good} alt="good" />
+                  <div className="realtor_like_num">{data.comments[0].realtorLike}</div>
+                </div>
                 <div className="realtor_info_right_bottom">{data.comments[0].introMessage}</div>
               </div>
             </div>
             <div className="editor_viwer_wrap">
               <Viewer initialValue={data.comments[0].answerMessage} />
             </div>
-            {likeActive ? (
-              <div className="like" onClick={() => setLikeActive(false)}>
-                <img src={good2} alt="good" />
-                답변이 많은 도움이 되었어요
-              </div>
-            ) : (
-              <div className="dis_like" onClick={() => setLikeActive(true)}>
-                <img src={good} alt="good" />
-                답변이 많은 도움이 되었어요
-              </div>
-            )}
+            {sessionStorage.getItem('accountstate') === '0' ? (
+              data.comments[0].likeCount ? (
+                <div
+                  className="like"
+                  onClick={() => {
+                    setLikeActive(false);
+                    requestLike(data.comments[0].id);
+                  }}
+                >
+                  <img src={good2} alt="good" />
+                  답변이 많은 도움이 되었어요
+                </div>
+              ) : (
+                <div
+                  className="dis_like"
+                  onClick={() => {
+                    setLikeActive(true);
+                    requestLike(data.comments[0].id);
+                  }}
+                >
+                  <img src={good} alt="good" />
+                  답변이 많은 도움이 되었어요
+                </div>
+              )
+            ) : null}
           </div>
         </ConsultDetailCommentLayout>
       )
@@ -230,6 +253,15 @@ const ConsultDetailCommentLayout = styled.div`
         width: 40px;
         height: 40px;
       }
+      .realtor_info_left {
+        img {
+          width: 40px;
+          height: 40px;
+          background-color: white;
+          border-radius: 50%;
+        }
+      }
+
       .realtor_info_right {
         display: flex;
         flex-direction: column;
@@ -243,12 +275,29 @@ const ConsultDetailCommentLayout = styled.div`
           color: var(--primary2-300);
         }
         .realtor_info_right_middle {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
           font-family: var(--button-font-family);
           font-size: var(--headline_Small-font-size);
           font-weight: var(--headline_Small-font-weight);
           line-height: var(--headline_Small-line-height);
           letter-spacing: var(--headline_Small-letter-spacing);
           margin-bottom: 8px;
+          .realtor_like_num_img {
+            width: 16px;
+            height: 16px;
+            margin: 0 4px;
+            padding: 0;
+          }
+          .realtor_like_num {
+            font-family: var(--button-font-family);
+            font-size: var(--body_Small-font-size);
+            font-weight: var(--body_Small-font-weight);
+            line-height: var(--body_Small-line-height);
+            letter-spacing: var(--body_Small-letter-spacing);
+            color: var(--primary2-400);
+          }
         }
         .realtor_info_right_bottom {
           white-space: nomal;

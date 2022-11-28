@@ -12,8 +12,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
 import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
+import Modal from '../../global/components/Modal';
 
-export default function MainPageArticle() {
+function MainPageArticle() {
   const navigate = useNavigate();
   //일반회원 다음으로 넘어가기 위한 recoilState
   const [nextmem, setNextMem] = useRecoilState(NextMem);
@@ -24,6 +25,8 @@ export default function MainPageArticle() {
 
   const [info, setInfo] = useState(false);
   const AppLogin = useRecoilValue(isLogin);
+  const [consultNum, setConsultNum] = useState(2);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onStartLogin = () => {
     navigate('/signup');
@@ -31,6 +34,14 @@ export default function MainPageArticle() {
     setNextTor(0);
     setGoingLogin(0);
   };
+  const onClickRequestConsult = () => {
+    if (consultNum <= 0) {
+      setModalVisible(true);
+    } else {
+      navigate('/request1');
+    }
+  };
+
   const { data: readProfile } = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     enabled: !!AppLogin,
@@ -43,6 +54,8 @@ export default function MainPageArticle() {
       if (info !== -1) {
         setInfo(true);
       }
+      const allNum = config.length;
+      setConsultNum(2 - allNum);
     },
   });
   const { data: premisesData } = useQuery(['premiseslist'], ReadPremisesList, {
@@ -126,7 +139,7 @@ export default function MainPageArticle() {
                     <img className="deco_1" src={map} alt="map" />
                   </div>
                 </div>
-                <div className="banner2" onClick={() => navigate('/request1')}>
+                <div className="banner2" onClick={onClickRequestConsult}>
                   <div className="div_1">
                     <div>상담</div>
                     <div className="div_3">
@@ -156,13 +169,18 @@ export default function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '2' ? null : (
               <div className="guide_wrap">
-                <div className="guide_content">
+                <div className="guide_content" onClick={() => navigate('/introduce')}>
                   <div>어떤서비스인가요?</div>
                   <img src={QueMark} alt="QueMark" />
                 </div>
               </div>
             )}
           </div>
+          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible}>
+            <div className="modal_div">상담 횟수 2회를 모두 사용하셨습니다.</div>
+            <div className="modal_div">추가 상담을 원하시면 </div>
+            <div className="modal_div">관리자에게 문의해주세요.</div>
+          </Modal>
         </div>
       ) : (
         <>
@@ -172,7 +190,7 @@ export default function MainPageArticle() {
           </LoginBtnBox>
           <ImgLoginDeco src={login_Deco} />
           <ServcieGuideBox>
-            <ServiceGuideP>어떤 서비스인가요?</ServiceGuideP>
+            <ServiceGuideP onClick={() => navigate('/introduce')}>어떤 서비스인가요?</ServiceGuideP>
             <ServiceQueMark src={QueMark} />
           </ServcieGuideBox>
         </>
@@ -180,6 +198,7 @@ export default function MainPageArticle() {
     </ArticleContainer>
   );
 }
+export default React.memo(MainPageArticle);
 
 const ArticleContainer = styled.div`
   width: 360px;

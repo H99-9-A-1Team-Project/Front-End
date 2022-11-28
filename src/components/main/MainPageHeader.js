@@ -4,15 +4,17 @@ import Logo from './sources/main_header_name.png';
 import Menu from './sources/main_header_menu.png';
 import { useNavigate } from 'react-router-dom';
 
-export default function MainPageHeader() {
+function MainPageHeader({ setVisible }) {
   const navigate = useNavigate();
+
   return (
     <HeaderContainer>
       <StLogo src={Logo} onClick={() => navigate('/')} />
-      <StMenu src={Menu} />
+      <StMenu src={Menu} onClick={() => setVisible(true)} />
     </HeaderContainer>
   );
 }
+export default React.memo(MainPageHeader);
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -20,6 +22,9 @@ const HeaderContainer = styled.div`
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
+  .go {
+    transform: translate(360px, 0);
+  }
 `;
 
 const StLogo = styled.img`

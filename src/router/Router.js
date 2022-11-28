@@ -15,13 +15,12 @@ import NewFootStep from '../pages/NewFootStep';
 import MyConsultDetail from '../pages/MyConsultDetail';
 import MyPageRealtorConsult from '../pages/MyPageRealtorConsult';
 import FootStepDetail from '../pages/FootStepDetail';
-import styled from 'styled-components';
-
+import IntroducePage from '../pages/IntroducePage';
 export default function Router() {
   return (
     <>
       <div className="container">
-        <div className="left"></div>
+        <div className="default"></div>
         <div className="app">
           <Routes>
             <Route path="/" element={<MainPage />} />
@@ -41,16 +40,11 @@ export default function Router() {
             <Route path="/waitlist" element={<MyPageRealtorConsult />} />
             <Route path="/answeredlist" element={<MyPageRealtorConsult />} />
             <Route path="footstepmain/:id" element={<FootStepDetail />} />
+            <Route path="/introduce" element={<IntroducePage />} />
           </Routes>
         </div>
-        <div className="left"></div>
+        <div className="default"></div>
       </div>
     </>
   );
 }
-
-const LeftMap = styled.div`
-  width: 5000px;
-  height: 100%;
-  background-color: #edf3fa;
-`;
