@@ -262,7 +262,7 @@ const HelpBox = styled.div`
     display: none;
     position: relative;
     width: 192px;
-    height: 70px;
+    height: 80px;
     right: 38px;
     bottom: 5px;
   }

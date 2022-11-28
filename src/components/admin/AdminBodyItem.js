@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { UpdateRealtorApproval } from '../../api/apiUPDATE';
 
 export default function AdminBodyItem({ item }) {
-  console.log(item);
+  const queryClient = useQueryClient();
+
   const updateRealtorApproval = useMutation((arg) => UpdateRealtorApproval(arg), {
     onSuccess: () => {
       queryClient.invalidateQueries(['signuplist']);
     },
   });
-  const queryClient = useQueryClient();
   const onClickReject = () => {
     updateRealtorApproval.mutate({
       accountCheck: 'APPROVE_REJECT',

@@ -1,10 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import x from '../../global/sources/x.png';
+import { sideTabBar } from '../../store/store';
 
-export default function MainPageSideBar({ visible, setVisible }) {
+export default function MainPageSideBar() {
   const navigate = useNavigate();
+  const [visible, setVisible] = useRecoilState(sideTabBar);
 
   return (
     <StMainPageSideBarLayout visible={visible} className="StMainPageSideBarLayout">
@@ -24,16 +27,16 @@ export default function MainPageSideBar({ visible, setVisible }) {
   );
 }
 const StMainPageSideBarLayout = styled.div`
-  width: 100%;
   height: 100%;
   display: ${(props) => (props.visible ? 'flex' : 'none')};
-  /* display: flex; */
+  z-index: 1;
+  right: 360px;
   flex-direction: row;
   position: relative;
-  z-index: ${(props) => (props.visible ? '1' : '-1')};
-  /* right: 360px; */
-  transform: ${(props) => (props.visible ? 'translateX(-360px)' : 'none')};
-  transition: transform 0.5s;
+  /* display: flex; */
+  /* z-index: ${(props) => (props.visible ? '1' : '-1')}; */
+  /* transform: ${(props) => (props.visible ? 'translateX(-360px)' : 'translateX(0)')}; */
+  /* transition: transform 0.5s; */
   .sidebar_img {
     margin-top: 8px;
     border: none;
