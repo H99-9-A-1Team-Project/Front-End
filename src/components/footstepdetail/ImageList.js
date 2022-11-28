@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import img1 from './sources/1.png';
@@ -6,8 +7,17 @@ import img2 from './sources/2.png';
 import img3 from './sources/3.png';
 import img4 from './sources/4.png';
 export default function ImageList() {
+  const navigate = useNavigate();
+  const { id } = useParams();
   return (
     <Container>
+      <div
+        onClick={() => {
+          navigate(id);
+        }}
+      >
+        <button>dddd</button>
+      </div>
       <Swiper className="mysiwper" autoplay={{ delay: 3000, disableOnInteraction: false }}>
         <SwiperSlide className="slide">
           <BannerImg src={img1} />
