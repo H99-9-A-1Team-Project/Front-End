@@ -1,5 +1,7 @@
 import { atom } from 'recoil';
 
+export const TabState = atom({ key: 'tabstate', default: 0 });
+
 // 회원가입,로그인
 export const ChoiceMem = atom({ key: 'choiceMem', default: false });
 export const GoLogIn = atom({ key: 'gologin', default: 0 });

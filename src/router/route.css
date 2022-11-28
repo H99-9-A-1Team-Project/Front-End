@@ -1,5 +1,16 @@
 .app {
   width: 360px;
   height: 100vh;
-  margin: 0 auto;
+  /* margin: 0 auto; */
+}
+
+.left {
+  width: 800px;
+  height: 100vh;
+  background-color: #578ffa;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
 }

@@ -15,7 +15,11 @@ function App() {
     console.log(AppLogin);
   }, [AppLogin]);
 
-  return <Router />;
+  return (
+    <>
+      <Router />
+    </>
+  );
 }
 
 export default App;

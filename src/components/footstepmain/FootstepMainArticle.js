@@ -1,5 +1,5 @@
 /*global kakao*/
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import '../../global/global.css';
@@ -8,11 +8,18 @@ import pathDown from './sources/path_down.png';
 import pathUp from './sources/path_up.png';
 import WriteIcon from './sources/write.png';
 import { useQuery } from '@tanstack/react-query';
-import { ReadImgFootStep } from '../../api/apiGET';
+import { ReadImgFootStep, ReadPremisesList } from '../../api/apiGET';
+import fstMarker from './sources/fstMarker.png';
+import CaroselImages from './sources/caroselImage.png';
+import CarouselMarker from './sources/carouselmarker.png';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
-  const { data } = useQuery(['imgs'], ReadImgFootStep, {
+  const [fstData, setFstData] = useState([]);
+  const [sortName, setSortName] = useState('전체');
+  const [sortState, setSortState] = useState(true);
+
+  const { data: premisesData } = useQuery(['premisesData'], ReadPremisesList, {
     onSuccess: (response) => {
       console.log(response);
     },
@@ -20,14 +27,46 @@ export default function FootstepMainArticle() {
       console.log(response);
     },
   });
+  const onSortList = () => {
+    setSortState(false);
+  };
+
+  const onSorting = (sort) => {
+    if (sort === '상담') {
+      setSortName(sort);
+      setSortState(true);
+    }
+    if (sort === '발품기록') {
+      premisesData?.map((data) => {
+        let coord = { LatLng: new kakao.maps.LatLng(data.coordFX, data.coordFY) };
+        return setFstData([...fstData, coord]);
+      });
+      console.log(fstData);
+      setSortName(sort);
+      setSortState(true);
+    }
+    if (sort === '전체') {
+      setSortName(sort);
+      setSortState(true);
+    }
+  };
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
-      center: new window.kakao.maps.LatLng(37.696046, 127.081947),
-      level: 8,
+      center: new window.kakao.maps.LatLng(37.389777093851, 127.097880906475),
+      level: 7,
     };
     const map = new window.kakao.maps.Map(container, options);
 
+    for (let i = 0; i < fstData.length; i++) {
+      let imageSize = new kakao.maps.Size(44, 54);
+      let markerImage = new kakao.maps.MarkerImage(fstMarker, imageSize);
+      let marker = new kakao.maps.Marker({
+        map: map,
+        position: fstData[i].LatLng,
+        image: markerImage,
+      });
+    }
     //요소의 사이즈;
     const list = document.querySelector('.list');
     const listScrollWidth = list?.scrollWidth;
@@ -113,10 +152,45 @@ export default function FootstepMainArticle() {
           <SearchImg src={searchImg} />
         </AddressSearchBox>
         <ListBtn>목록</ListBtn>
-        <SortBox>
-          <SortName>전체</SortName>
-          <SortImg src={pathDown} />
-        </SortBox>
+        {sortState === false ? (
+          <SortList>
+            <SortHeadlineBox>
+              <SortHeadline>전체</SortHeadline>
+              <SortingImg src={pathUp} />
+            </SortHeadlineBox>
+            <SortRequest
+              onClick={() => {
+                onSorting('상담');
+              }}
+            >
+              상담
+            </SortRequest>
+            <SortNfs
+              onClick={() => {
+                onSorting('발품기록');
+              }}
+            >
+              발품기록
+            </SortNfs>
+            <SortAll
+              onClick={() => {
+                onSorting('전체');
+              }}
+            >
+              전체
+            </SortAll>
+          </SortList>
+        ) : (
+          <SortBox
+            onClick={() => {
+              onSortList();
+            }}
+          >
+            <SortName>{sortName}</SortName>
+            <SortImg src={pathDown} />
+          </SortBox>
+        )}
+
         <WriteBox>
           <WriteBtn
             onClick={() => {
@@ -127,13 +201,25 @@ export default function FootstepMainArticle() {
           </WriteBtn>
           <CarouselWrap>
             <CarouselUl className="list">
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://w.namu.la/s/200b12d8096ace4b14fad5783b72ded273dd4eab1317b6a3455a7ab95e80d06d7d49f4dd92ffb9502afa4e9be50398e229fba3e3541e3a77f64d3e480d3e0e34e6fde40ed312e7bd168a4502ce694271202ac4f941d1448edc1c7ab47970d204"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
+              {sortName === '발품기록' ? (
+                <CarouselLi className="item">
+                  <CarouselBox
+                    onClick={() => {
+                      navigate(`${premisesData && premisesData[0].id}`);
+                    }}
+                  >
+                    <CarouselImage src={CaroselImages} />
+                    <CarouselRightBox>
+                      <CarouselHeaderBox>
+                        <CarouselMarkerImg src={CarouselMarker} />
+                        <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP>
+                      </CarouselHeaderBox>
+                      <CarouselAddress>{premisesData && premisesData[0].title}</CarouselAddress>
+                      <CarouselReview>{premisesData && premisesData[0].review}</CarouselReview>
+                    </CarouselRightBox>
+                  </CarouselBox>
+                </CarouselLi>
+              ) : null}
             </CarouselUl>
           </CarouselWrap>
         </WriteBox>
@@ -141,6 +227,71 @@ export default function FootstepMainArticle() {
     </>
   );
 }
+
+const CarouselBox = styled.div`
+  width: 308px;
+  height: 120px;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--Shadow2-box-shadow);
+  margin-left: 16px;
+  -webkit-user-drag: none;
+  cursor: pointer;
+`;
+
+const CarouselImage = styled.img`
+  width: 84px;
+  height: 84px;
+  margin-top: 18px;
+  margin-left: 16px;
+`;
+const CarouselRightBox = styled.div`
+  margin-left: 12px;
+  margin-top: 16px;
+`;
+
+const CarouselHeaderBox = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const CarouselMarkerImg = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+const CarouselHeaderP = styled.div`
+  margin-left: 8px;
+  margin-top: 4px;
+  color: #3fb00a;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+`;
+
+const CarouselAddress = styled.div`
+  width: 180px;
+  margin-top: 4px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+`;
+
+const CarouselReview = styled.div`
+  margin-top: 4px;
+  color: var(--gray4);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+`;
 
 const FootstepMainArticleContainer = styled.div`
   width: 360px;
@@ -211,6 +362,8 @@ const SortBox = styled.div`
   width: 70px;
   height: 36px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   border: 1px solid var(--gray5);
   border-radius: 8px;
@@ -220,8 +373,6 @@ const SortBox = styled.div`
 `;
 
 const SortName = styled.div`
-  margin-left: 12px;
-  margin-top: 10px;
   font-family: var(--button-font-family);
   font-size: var(--button_Small-font-size);
   font-weight: var(--button_Small-font-weight);
@@ -229,11 +380,97 @@ const SortName = styled.div`
   letter-spacing: var(--button_Small-letter-spacing);
 `;
 
+const SortList = styled.div`
+  position: absolute;
+  width: 70px;
+  height: 135px;
+  margin-top: 80px;
+  margin-left: 16px;
+  background-color: white;
+  border: 1px solid var(--gray5);
+  border-radius: 8px;
+`;
+
+const SortHeadlineBox = styled.div`
+  width: 60px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 12px;
+  margin-top: 8px;
+  color: var(--gray3);
+`;
+
+const SortHeadline = styled.div`
+  margin-top: 2px;
+  cursor: default;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+`;
+
+const SortRequest = styled.div`
+  width: 70px;
+  height: 32px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-top: 1px solid var(--gray5);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
+`;
+
+const SortNfs = styled.div`
+  width: 70px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-top: 1px solid var(--gray5);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
+`;
+
+const SortAll = styled.div`
+  width: 70px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-top: 1px solid var(--gray5);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
+`;
+
+const SortingImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+`;
+
 const SortImg = styled.img`
   width: 20px;
   height: 20px;
   margin-left: 4px;
-  margin-top: 8px;
 `;
 
 const WriteBox = styled.div`
