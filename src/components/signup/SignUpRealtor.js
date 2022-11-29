@@ -99,7 +99,7 @@ function SignUpRealtor() {
       setCheckemail('잘못된 이메일 형식입니다.');
       setIsEmail(false);
       setValid(false);
-      // emailData.focus();
+      emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
@@ -142,12 +142,12 @@ function SignUpRealtor() {
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
     const passwordData = loginData.password;
-    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,30}$/;
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setIsPassword(false);
       setPsValid(false);
-      // passwordData.focus();
+      passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);

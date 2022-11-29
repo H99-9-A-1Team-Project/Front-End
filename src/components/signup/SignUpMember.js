@@ -104,7 +104,7 @@ function SignUpMember() {
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
     const passwordData = loginData.password;
-    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setIsPassword(false);
@@ -120,16 +120,24 @@ function SignUpMember() {
     }
   };
 
+  // const onKeyPress = (e) => {
+  //   if (e.key === 'Enter') {
+  //     onClick();
+  //   }
+  // };
+  const { email, password } = loginData;
+  // const SameLogin = emailLogin();
   //회원가입
   const { mutate: memberSignUp } = useMutation(MemberSignUp, {
     onSuccess: () => {
-      alert('회원가입완료!');
-      navigate('/');
+      // alert('회원가입완료!');
+      // SameLogin();
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
     },
   });
+
   //동시로그인
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
     onSuccess: (response) => {
@@ -152,9 +160,9 @@ function SignUpMember() {
     console.log('asdf', loginData);
     setOpenSignUp(false);
     memberSignUp(loginData);
-    setTimeout(() => {
-      emailLogin(LoginPocket);
-    }, 2000);
+    // setTimeout(() => {
+    //   emailLogin(LoginPocket);
+    // }, 2000);
   };
 
   return (
@@ -178,6 +186,7 @@ function SignUpMember() {
                     placeholder="lighthouse@gmail.com"
                     name="email"
                     type="text"
+                    value={email}
                     onChange={onChangeEmail}
                     onBlur={onblurChange}
                     style={{
@@ -194,6 +203,7 @@ function SignUpMember() {
                   placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합"
                   autocomplete="current-password"
                   name="password"
+                  value={password}
                   onChange={onChangePassword}
                   type={secret === false ? 'text' : 'password'}
                   style={{
@@ -210,18 +220,20 @@ function SignUpMember() {
             </InputContainer>
             <BlankContainer></BlankContainer>
             <ButtonContainer>
-              <ButtonStyle
-                // onClick={() => {
-                //   errormail === '' ? onSubmitSignUpData() : onCheckEmailDouble();
-                // }}
-                type="submit"
-                disabled={isValidLogin}
-                onClick={() => {
-                  onSubmitSignUpData();
-                }}
-              >
-                시작하기
-              </ButtonStyle>
+              <form>
+                <ButtonStyle
+                  // onClick={() => {
+                  //   errormail === '' ? onSubmitSignUpData() : onCheckEmailDouble();
+                  // }}
+                  type="submit"
+                  disabled={isValidLogin}
+                  onClick={() => {
+                    onSubmitSignUpData();
+                  }}
+                >
+                  시작하기
+                </ButtonStyle>
+              </form>
             </ButtonContainer>
           </ChoiceContainer>
         </>

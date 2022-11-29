@@ -16,17 +16,17 @@ function Login() {
   const navigate = useNavigate();
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
-  const [nexttor, setNextTor] = useRecoilState(NextTor);
-  const [nextmem, setNextMem] = useRecoilState(NextMem);
+  // const [nexttor, setNextTor] = useRecoilState(NextTor);
+  // const [nextmem, setNextMem] = useRecoilState(NextMem);
 
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
   //이메일 잘못 입력 에러 출력 state
-  const [errormail, setErrorMail] = useState('');
+  // const [errormail, setErrorMail] = useState('');
   //비밀번호 잘못 입력 에러 출력 state
-  const [errorpassword, setErrorPassWord] = useState('');
+  // const [errorpassword, setErrorPassWord] = useState('');
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
@@ -85,7 +85,7 @@ function Login() {
       setCheckemail('잘못된 이메일 형식입니다.');
       setIsEmail(false);
       setValid(false);
-      // emailData.focus();
+      emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
@@ -100,12 +100,12 @@ function Login() {
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
     const passwordData = loginData.password;
-    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setIsPassword(false);
       setPsValid(false);
-      // passwordData.focus();
+      passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
@@ -121,7 +121,7 @@ function Login() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
-      sessionStorage.setItem('nickname', response.data.nickname);
+      // sessionStorage.setItem('nickname', response.data.nickname);
       setAppLogin(true);
       console.log(response);
       navigate('/');

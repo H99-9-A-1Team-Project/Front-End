@@ -30,7 +30,7 @@ function CompleteModal(props) {
 export default CompleteModal;
 
 CompleteModal.propTypes = {
-  visibles: PropTypes.func,
+  visibles: PropTypes.bool,
 };
 
 const ModalWrapper = styled.div`
