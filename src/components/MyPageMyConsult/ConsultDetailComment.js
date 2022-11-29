@@ -271,6 +271,7 @@ const ConsultDetailCommentLayout = styled.div`
       margin-top: 16px;
       margin-bottom: 12px;
       border-radius: 8px;
+      cursor: pointer;
       img {
         margin: 12px 8px 12px 12px;
         width: 40px;
@@ -482,6 +483,7 @@ const ConsultDetailCommentLayout3 = styled.div`
       margin-top: 16px;
       margin-bottom: 12px;
       border-radius: 8px;
+      cursor: pointer;
       img {
         margin: 12px 8px 12px 12px;
         width: 40px;

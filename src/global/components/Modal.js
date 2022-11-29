@@ -5,10 +5,12 @@ import x from '../sources/x.png';
 
 export default function Modal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave, page }) {
   const onMaskClick = (e) => {
-    if (sessionStorage.getItem('accountstate') === '1' && e.target === e.currentTarget) {
+    if (window.location.pathname === 'mypage' && sessionStorage.getItem('accountstate') === '1' && e.target === e.currentTarget) {
       setModalVisible(false);
       setImgSave('');
-    } else {
+      return;
+    }
+    if (e.target === e.currentTarget) {
       setModalVisible(false);
     }
   };
@@ -26,7 +28,6 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
                     alt="x"
                     onClick={() => {
                       setModalVisible(false);
-                      setImgSave('');
                     }}
                   />
                 </div>
@@ -78,7 +79,6 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
                     alt="x"
                     onClick={() => {
                       setModalVisible(false);
-                      setImgSave('');
                     }}
                   />
                 </div>
@@ -110,7 +110,7 @@ const ModalWrapper = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 10;
   overflow: auto;
   outline: 0;
   background-color: rgba(0, 0, 0, 0.5);
@@ -125,7 +125,7 @@ const ModalOverlay = styled.div`
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
+  z-index: 9;
 `;
 
 const ModalInner = styled.div`
@@ -141,6 +141,8 @@ const ModalInner = styled.div`
   transform: translateY(-50%);
   margin: auto;
   margin-top: 380px;
+  z-index: 20;
+
   .modal-header {
     width: 100%;
     height: 56px;
