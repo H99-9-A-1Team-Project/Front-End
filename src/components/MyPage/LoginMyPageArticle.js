@@ -314,7 +314,7 @@ export default function LoginMyPageArticle() {
 
       <>
         {modalVisible ? (
-          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
+          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave} page={'profile'}>
             {sessionStorage.getItem('accountstate') === '1' ? (
               <form className="profileform" onSubmit={onSubmitUpdateRealtorProfileHandler}>
                 <label className="img-input-label" htmlFor="img_file">
