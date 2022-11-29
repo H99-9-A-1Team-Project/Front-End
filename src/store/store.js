@@ -19,6 +19,7 @@ export const tabBarHome = atom({ key: 'tabbarhome', default: 0 });
 export const tabBarPin = atom({ key: 'tabbarpin', default: 0 });
 export const tabBarRequest = atom({ key: 'tabbarrequest', default: 0 });
 export const tabBarUser = atom({ key: 'tabbaruser', default: 0 });
+export const TabAccountState = atom({ key: 'tabaccountstate', default: 1 });
 
 // Side Tab Bar
 export const sideTabBar = atom({ key: 'sidetabbar', default: false });
