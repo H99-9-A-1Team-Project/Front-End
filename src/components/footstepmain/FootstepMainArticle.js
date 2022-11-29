@@ -12,6 +12,8 @@ import { ReadImgFootStep, ReadPremisesList } from '../../api/apiGET';
 import fstMarker from './sources/fstMarker.png';
 import CaroselImages from './sources/caroselImage.png';
 import CarouselMarker from './sources/carouselmarker.png';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Pagination } from 'swiper';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
@@ -50,6 +52,7 @@ export default function FootstepMainArticle() {
       setSortState(true);
     }
   };
+  console.log(premisesData);
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
@@ -58,89 +61,17 @@ export default function FootstepMainArticle() {
     };
     const map = new window.kakao.maps.Map(container, options);
 
-    for (let i = 0; i < fstData.length; i++) {
-      let imageSize = new kakao.maps.Size(44, 54);
-      let markerImage = new kakao.maps.MarkerImage(fstMarker, imageSize);
-      let marker = new kakao.maps.Marker({
-        map: map,
-        position: fstData[i].LatLng,
-        image: markerImage,
-      });
-    }
-    //요소의 사이즈;
-    const list = document.querySelector('.list');
-    const listScrollWidth = list?.scrollWidth;
-    const listClientWidth = list?.clientWidth;
-
-    // 이벤트마다 갱신될 값
-    let startX = 0;
-    let nowX = 0;
-    let endX = 0;
-    let listX = 0;
-
-    const onScrollStart = (e) => {
-      startX = getClientX(e);
-      window.addEventListener('mousemove', onScrollMove);
-      window.addEventListener('touchmove', onScrollMove);
-      window.addEventListener('mouseup', onScrollEnd);
-      window.addEventListener('touchend', onScrollEnd);
-    };
-    const onScrollMove = (e) => {
-      nowX = getClientX(e);
-      setTranslateX(listX + nowX - startX);
-    };
-    const onScrollEnd = (e) => {
-      endX = getClientX(e);
-      listX = getTranslateX();
-      if (listX > 0) {
-        setTranslateX(0);
-        list.style.transition = `all 0.3s ease`;
-        listX = 0;
-      } else if (listX < listClientWidth - listScrollWidth) {
-        setTranslateX(listClientWidth - listScrollWidth);
-        list.style.transition = `all 0.3s ease`;
-        listX = listClientWidth - listScrollWidth;
-      }
-
-      window.removeEventListener('mousedown', onScrollStart);
-      window.removeEventListener('touchstart', onScrollStart);
-      window.removeEventListener('mousemove', onScrollMove);
-      window.removeEventListener('touchmove', onScrollMove);
-      window.removeEventListener('mouseup', onScrollEnd);
-      window.removeEventListener('touchend', onScrollEnd);
-      window.removeEventListener('click', onClick);
-
-      setTimeout(() => {
-        bindEvents();
-        list.style.transition = '';
-      }, 300);
-    };
-    const onClick = (e) => {
-      if (startX - endX !== 0) {
-        e.preventDefault();
-      }
-    };
-
-    const getClientX = (e) => {
-      const isToches = e.touches ? true : false;
-      return isToches ? e.touches[0].clientX : e.clientX;
-    };
-
-    const getTranslateX = () => {
-      return parseInt(getComputedStyle(list).transform.split(/[^\-0-9]+/g)[5]);
-    };
-
-    const setTranslateX = (x) => {
-      list.style.transform = `translateX(${x}px)`;
-    };
-
-    const bindEvents = () => {
-      list.addEventListener('mousedown', onScrollStart);
-      list.addEventListener('touchstart', onScrollStart);
-      list.addEventListener('click', onClick);
-    };
-
-    bindEvents();
+    // if (premisesData.length !== 0) {
+    //   for (let i = 0; i < fstData.length; i++) {
+    //     let imageSize = new kakao.maps.Size(44, 54);
+    //     let markerImage = new kakao.maps.MarkerImage(fstMarker, imageSize);
+    //     let marker = new kakao.maps.Marker({
+    //       map: map,
+    //       position: fstData[i].LatLng,
+    //       image: markerImage,
+    //     });
+    //   }
+    // }
   });
 
   return (
@@ -200,27 +131,38 @@ export default function FootstepMainArticle() {
             <WriteImg src={WriteIcon} />
           </WriteBtn>
           <CarouselWrap>
-            <CarouselUl className="list">
-              {sortName === '발품기록' ? (
-                <CarouselLi className="item">
-                  <CarouselBox
-                    onClick={() => {
-                      navigate(`${premisesData && premisesData[0].id}`);
-                    }}
-                  >
-                    <CarouselImage src={CaroselImages} />
-                    <CarouselRightBox>
-                      <CarouselHeaderBox>
-                        <CarouselMarkerImg src={CarouselMarker} />
-                        <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP>
-                      </CarouselHeaderBox>
-                      <CarouselAddress>{premisesData && premisesData[0].title}</CarouselAddress>
-                      <CarouselReview>{premisesData && premisesData[0].review}</CarouselReview>
-                    </CarouselRightBox>
-                  </CarouselBox>
-                </CarouselLi>
-              ) : null}
-            </CarouselUl>
+            <Swiper
+              slidesPerView={2}
+              spaceBetween={-40}
+              freeMode={true}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[FreeMode, Pagination]}
+              className="mySwiper"
+            >
+              <CarouselUl className="list">
+                {sortName === '발품기록' ? (
+                  <CarouselLi className="item">
+                    <CarouselBox
+                      onClick={() => {
+                        navigate(`${premisesData !== 'undefined' && premisesData.length !== '0' ? premisesData[0].id : null}`);
+                      }}
+                    >
+                      <CarouselImage src={CaroselImages} />
+                      <CarouselRightBox>
+                        <CarouselHeaderBox>
+                          <CarouselMarkerImg src={CarouselMarker} />
+                          <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP>
+                        </CarouselHeaderBox>
+                        <CarouselAddress>{premisesData.length !== 0 ? premisesData[0].title : null}</CarouselAddress>
+                        <CarouselReview>{premisesData.length !== 0 ? premisesData[0].review : null}</CarouselReview>
+                      </CarouselRightBox>
+                    </CarouselBox>
+                  </CarouselLi>
+                ) : null}
+              </CarouselUl>
+            </Swiper>
           </CarouselWrap>
         </WriteBox>
       </FootstepMainArticleContainer>

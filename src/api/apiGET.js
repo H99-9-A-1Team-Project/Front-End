@@ -27,7 +27,8 @@ export async function ReadAnsweredList() {
 }
 
 export async function ReadImgFootStep() {
-  const { data } = await api.get('v1/premises/27?page=0&size=5');
+  const { data } = await api.get('v1/premises/27?page=1&size=5');
+  return data;
 }
 
 //상담 상세페이지 조회

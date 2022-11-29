@@ -15,6 +15,7 @@ import MyConsultDetail from '../pages/MyConsultDetail';
 import MyPageRealtorConsult from '../pages/MyPageRealtorConsult';
 import FootStepDetail from '../pages/FootStepDetail';
 import IntroducePage from '../pages/IntroducePage';
+import FootStepDetailImg from '../pages/FootStepDetailImg';
 import MainPageSideBar from '../components/main/MainPageSideBar';
 import styled from 'styled-components';
 import DefaultLeft from './DefaultLeft';
@@ -44,6 +45,7 @@ export default function Router() {
             <Route path="/waitlist" element={<MyPageRealtorConsult />} />
             <Route path="/answeredlist" element={<MyPageRealtorConsult />} />
             <Route path="footstepmain/:id" element={<FootStepDetail />} />
+            <Route path="footstepmain/:id/:id" element={<FootStepDetailImg />} />
             <Route path="/introduce" element={<IntroducePage />} />
           </Routes>
           <MainPageSideBar />
