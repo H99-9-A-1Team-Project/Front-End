@@ -27,10 +27,7 @@ export default function LogoutMyPageArticle() {
           서비스 소개
           <img src={arrow} alt="arrow" />
         </div>
-        <div className="info-2">
-          제작팀
-          <img src={arrow} alt="arrow" />
-        </div>
+
         <div className="info-3">
           설문 참여
           <img src={arrow} alt="arrow" />
