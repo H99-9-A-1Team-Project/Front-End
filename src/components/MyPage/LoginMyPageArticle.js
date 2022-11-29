@@ -275,6 +275,20 @@ export default function LoginMyPageArticle() {
           </>
         )}
 
+        <div className="info-3">등대지기 A to Z</div>
+        <div className="info-2" onClick={() => navigate('/introduce')}>
+          서비스 소개
+          <img src={arrow} alt="arrow" />
+        </div>
+        <div className="info-2">
+          제작팀
+          <img src={arrow} alt="arrow" />
+        </div>
+        <div className="info-2">
+          설문 참여
+          <img src={arrow} alt="arrow" />
+        </div>
+
         <div className="info-3">계정</div>
         <div
           className="info-2"
@@ -294,19 +308,6 @@ export default function LoginMyPageArticle() {
           }}
         >
           회원탈퇴
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-3">등대지기 A to Z</div>
-        <div className="info-2" onClick={() => navigate('/introduce')}>
-          서비스 소개
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-2">
-          제작팀
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-2">
-          설문 참여
           <img src={arrow} alt="arrow" />
         </div>
       </div>
