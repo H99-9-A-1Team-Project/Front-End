@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import img from '../MyPageMyConsult/sources/deco.png';
 import deco from './sources/deco.png';
+import service_info from './sources/service_info.png';
+import service_info_phone_1 from './sources/service_info_phone_1.png';
+import service_info_phone_2 from './sources/service_info_phone_2.png';
+import service_info_phone_3 from './sources/service_info_phone_3.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -12,7 +16,7 @@ export default function IntroduceBody() {
   return (
     <StContainer>
       <div className="img_container">
-        <img src={img} alt="introimg" />
+        <img src={service_info} alt="service_info" />
       </div>
       <div className="information_container_1">
         <div className="infomation">집을 구할 때 힘들게 발품 팔아서 마음에 드는 집을 발견했어도, 덜컥 계약하기에는 따져봐야 할 것들이 정말 많죠. 신중하게 골라 오랫동안 살 내집. 등대지기로 어떤 도움을 받을 수 있을까요?</div>
@@ -22,7 +26,7 @@ export default function IntroduceBody() {
         <div className="infomation_title_1">매물을 꼼꼼히 기록해보세요</div>
       </div>
       <div className="information_container_3">
-        <Swiper slidesPerView={1} spaceBetween={0} freeMode={true} modules={[FreeMode]} className="swiper">
+        <Swiper slidesPerView={1.1} spaceBetween={0} freeMode={true} modules={[FreeMode]} className="swiper">
           <SwiperSlide className="slide">
             <div className="information_slide_1">
               <div className="information_slide_1_text_1">
@@ -31,14 +35,14 @@ export default function IntroduceBody() {
                 <div className="information_slide_1_text_1_1">꼼꼼히 메모하고</div>
               </div>
               <div className="information_slide_1_img_1">
-                <img src={img} alt="phone_1" />
+                <img src={service_info_phone_1} alt="phone_1" />
               </div>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="information_slide_2">
               <div className="information_slide_1_img_2">
-                <img src={img} alt="phone_2" />
+                <img src={service_info_phone_2} alt="phone_2" />
               </div>
               <div className="information_slide_1_text_2">
                 <div className="information_slide_1_text_1_1">내가 기록한 발품이</div>
@@ -55,7 +59,7 @@ export default function IntroduceBody() {
         <div className="infomation_title_1">1:1 매물 안전 상담을 받아보세요</div>
       </div>
       <div className="information_container_4">
-        <img src={img} alt="phone_3" />
+        <img src={service_info_phone_3} alt="service_info_phone_3" />
       </div>
       <div className="information_container_5">
         <div className="infomation_title_1">인증된 공인중개사님이 고민에 맞게</div>
@@ -106,7 +110,7 @@ const StContainer = styled.div`
   .information_container_2 {
     width: 100%;
     box-sizing: border-box;
-    padding: 0 16px;
+    padding: 0 16px 0 16px;
     margin-bottom: 20px;
     .infomation_title_1 {
       font-family: var(--button-font-family);
@@ -117,7 +121,7 @@ const StContainer = styled.div`
     }
   }
   .information_container_3 {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
   .swiper {
     width: 360px;
@@ -134,12 +138,12 @@ const StContainer = styled.div`
       display: flex;
       flex-direction: row;
       .information_slide_1_text_1 {
-        margin: 58px 38px 0px 16px;
+        margin: 58px auto 0px 20px;
       }
       .information_slide_1_img_1 {
         img {
-          width: 140px;
-          height: 307px;
+          width: 180px;
+          height: 332px;
         }
       }
     }
@@ -152,8 +156,8 @@ const StContainer = styled.div`
       }
       .information_slide_1_img_2 {
         img {
-          width: 140px;
-          height: 307px;
+          width: 180px;
+          height: 332px;
         }
       }
     }

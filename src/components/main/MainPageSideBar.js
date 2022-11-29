@@ -13,11 +13,13 @@ export default function MainPageSideBar() {
     <StMainPageSideBarLayout visible={visible} className="StMainPageSideBarLayout">
       <div className="left_layout" onClick={() => setVisible(false)}></div>
       <div className="right_layout">
-        <div className="sidebar_img" onClick={() => setVisible(false)}>
-          <img src={x} alt="x" />
-          닫기
-        </div>
-        <div className="sidebar_menu_1" onClick={() => navigate('/introduce')}>
+        <div
+          className="sidebar_menu_1"
+          onClick={() => {
+            navigate('/introduce');
+            setVisible(false);
+          }}
+        >
           서비스 소개
         </div>
         <div className="sidebar_menu_2">제작팀</div>
