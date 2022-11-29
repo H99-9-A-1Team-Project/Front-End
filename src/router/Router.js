@@ -18,14 +18,20 @@ import IntroducePage from '../pages/IntroducePage';
 import FootStepDetailImg from '../pages/FootStepDetailImg';
 import MainPageSideBar from '../components/main/MainPageSideBar';
 import styled from 'styled-components';
-import DefaultLeft from './DefaultLeft';
-import DefaultRight from './DefaultRight';
+import background from '../global/sources/background.png';
+import logo from '../global/sources/main_header_name.png';
+import right_arrow from '../global/sources/path_right.png';
 
 export default function Router() {
   return (
     <>
       <Container>
-        <DefaultLeft />
+        <div className="left_container">
+          <div className="left_container_text_box">
+            <div className="left_container_text_1">부동산 안전 거래 지킴이</div>
+            <img src={logo} alt="logo" />
+          </div>
+        </div>
         <App>
           <Routes>
             <Route path="/" element={<MainPage />} />
@@ -50,7 +56,17 @@ export default function Router() {
           </Routes>
           <MainPageSideBar />
         </App>
-        <DefaultRight />
+        <div className="right_container">
+          <div className="right_container_button">
+            베타 서비스 설문 참여하기
+            <img src={right_arrow} alt="" />
+          </div>
+          <div className="right_container_text">
+            <div className="right_container_text_1">FE 조병민 김성욱 김하나</div>
+            <div className="right_container_text_2">BE 장경원 유은정 정규재</div>
+            <div className="right_container_text_1">UI/UX 손하영</div>
+          </div>
+        </div>
       </Container>
     </>
   );
@@ -58,6 +74,89 @@ export default function Router() {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  @media (max-width: 900px) {
+    background-image: none;
+  }
+  background-color: var(--gray6);
+  background-image: url(${background});
+  background-repeat: no-repeat;
+  background-position: bottom;
+  .left_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (max-width: 900px) {
+      display: none;
+    }
+    .left_container_text_1 {
+      font-family: var(--headline-font-family);
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 48.9px;
+    }
+    img {
+      width: 167px;
+      height: 40px;
+      margin: 12px 0 0 -5px;
+    }
+  }
+  .left_container_text_box {
+    margin: 332px auto auto auto;
+  }
+  .right_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin: auto 32px 24px auto;
+    @media (max-width: 900px) {
+      display: none;
+    }
+    .right_container_button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 245px;
+      height: 56px;
+      background-color: white;
+      border-radius: 8px;
+      margin-bottom: 40px;
+      font-family: var(--headline-font-family);
+      font-size: var(--body_Large-font-size);
+      font-weight: var(--body_Large-font-weight);
+      line-height: var(--button_Large-line-height);
+      letter-spacing: var(--button_Large-letter-spacing);
+      color: var(--primary2-400);
+      img {
+        width: 24px;
+        height: 24px;
+        padding-left: 8px;
+        margin-right: -12px;
+      }
+    }
+    .right_container_text {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: flex-end;
+      font-family: var(--headline-font-family);
+      font-size: var(--body_Medium-font-size);
+      font-weight: var(--body_Medium-font-weight);
+      line-height: var(--body_Medium-line-height);
+      letter-spacing: var(--body_Medium-letter-spacing);
+      color: var(--gray3);
+      .right_container_text_1,
+      .right_container_text_2 {
+        margin-right: 16px;
+      }
+    }
+  }
 `;
 
 const App = styled.div`
@@ -67,43 +166,6 @@ const App = styled.div`
   display: flex;
   flex-direction: row;
   background-color: white;
-  box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.1), 0px 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
-`;
-
-const Backgrounds = styled.div`
-  background-color: #edf0f3;
-  width: 100%;
-`;
-
-const LeftHeadline = styled.div`
-  font-family: var(--headline-font-family);
-  color: var(--gray1);
-  margin-left: 120px;
-  margin-top: 331px;
-  cursor: default;
-  font-size: 32px;
-  line-height: 48.9px;
-`;
-
-const LogoImg = styled.img`
-  margin-left: 112px;
-  margin-top: 12px;
-  width: 167px;
-  height: 40.02px;
-`;
-
-const LeftHome1 = styled.img`
-  position: absolute;
-  margin-top: 341.24px;
-  margin-left: 180px;
-  z-index: 1;
-  opacity: 0.66;
-`;
-const LeftHome2 = styled.img`
-  position: absolute;
-  margin-left: 454px;
-  margin-top: 255px;
-  z-index: 0;
-  opacity: 0.6;
 `;

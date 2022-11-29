@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from './sources/main_header_name.png';
+import Logo from '../../global/sources/main_header_name.png';
 import Menu from './sources/main_header_menu.png';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';

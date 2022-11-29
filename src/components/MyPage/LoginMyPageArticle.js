@@ -281,10 +281,6 @@ export default function LoginMyPageArticle() {
           <img src={arrow} alt="arrow" />
         </div>
         <div className="info-2">
-          제작팀
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-2">
           설문 참여
           <img src={arrow} alt="arrow" />
         </div>
