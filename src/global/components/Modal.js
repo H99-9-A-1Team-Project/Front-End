@@ -3,19 +3,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import x from '../sources/x.png';
 
-export default function Modal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave }) {
+export default function Modal({ className, setModalVisible, maskClosable, closable, visible, children, setImgSave, page }) {
   const onMaskClick = (e) => {
-    if (e.target === e.currentTarget) {
+    if (sessionStorage.getItem('accountstate') === '1' && e.target === e.currentTarget) {
       setModalVisible(false);
       setImgSave('');
+    } else {
+      setModalVisible(false);
     }
   };
-
-  return (
-    <>
-      <ModalOverlay visible={visible} />
-      <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
-        {sessionStorage.getItem('accountstate') === '0' ? (
+  if (sessionStorage.getItem('accountstate') === '0' && page === 'profile') {
+    return (
+      <>
+        <ModalOverlay visible={visible} />
+        <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
           <ModalInner tabIndex={0} className="modal-inner">
             {closable && (
               <>
@@ -33,7 +34,15 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
             )}
             {children}
           </ModalInner>
-        ) : (
+        </ModalWrapper>
+      </>
+    );
+  }
+  if (sessionStorage.getItem('accountstate') === '1' && page === 'profile') {
+    return (
+      <>
+        <ModalOverlay visible={visible} />
+        <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
           <ModalInner2 tabIndex={0} className="modal-inner2">
             {closable && (
               <>
@@ -51,10 +60,36 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
             )}
             {children}
           </ModalInner2>
-        )}
-      </ModalWrapper>
-    </>
-  );
+        </ModalWrapper>
+      </>
+    );
+  }
+  if (page === 'consultdetail') {
+    return (
+      <>
+        <ModalOverlay visible={visible} />
+        <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
+          <ModalInner3 tabIndex={0}>
+            {closable && (
+              <>
+                <div className="modal-header">
+                  <img
+                    src={x}
+                    alt="x"
+                    onClick={() => {
+                      setModalVisible(false);
+                      setImgSave('');
+                    }}
+                  />
+                </div>
+              </>
+            )}
+            {children}
+          </ModalInner3>
+        </ModalWrapper>
+      </>
+    );
+  }
 }
 
 Modal.defaultProps = {
@@ -141,6 +176,42 @@ const ModalInner2 = styled.div`
   transform: translateY(-50%);
   margin: auto;
   margin-top: 450px;
+  .modal-header {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    img {
+      margin: 16px 16px 16px auto;
+      background-color: white;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const ModalInner3 = styled.div`
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+  background-color: white;
+  border-radius: 10px 10px 0 0;
+  width: 360px;
+  /* min-height: 254px; */
+  height: auto;
+  padding-bottom: 24px;
+  margin: auto auto 0 auto;
+
   .modal-header {
     width: 100%;
     height: 56px;

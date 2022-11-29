@@ -96,7 +96,9 @@ function MainPageArticle() {
           <div className="user_info" style={{ marginBottom: (sessionStorage.getItem('accountstate') === '0' && info) || (sessionStorage.getItem('accountstate') === '1' && waitData?.length) ? '80px' : '136px' }}>
             {sessionStorage.getItem('accountstate') === '0' ? (
               <>
-                <div className="user_info_1">상담 {requestlist?.length}건</div>
+                <div className="user_info_1" onClick={() => navigate('/myconsult')}>
+                  상담 {requestlist?.length}건
+                </div>
                 <div className="user_info_2">발품기록 {premisesData?.length}건</div>
               </>
             ) : null}
@@ -224,6 +226,7 @@ const ArticleContainer = styled.div`
       .user_info_1 {
         padding-right: 14px;
         border-right: 1px solid var(--primary2-400);
+        cursor: pointer;
       }
       .user_info_2 {
         padding-left: 14px;
