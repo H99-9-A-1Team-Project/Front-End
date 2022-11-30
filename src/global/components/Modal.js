@@ -90,6 +90,39 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
       </>
     );
   }
+  return (
+    <>
+      <ModalOverlay visible={visible} />
+      <ModalWrapper className={className} onClick={maskClosable ? onMaskClick : null} tabIndex={-1} visible={visible}>
+        <ModalInner tabIndex={0} className="modal-inner">
+          {closable && (
+            <>
+              <div className="modal-header">
+                <img
+                  src={x}
+                  alt="x"
+                  onClick={() => {
+                    setModalVisible(false);
+                  }}
+                />
+              </div>
+            </>
+          )}
+          {children}
+          <div className="modal_footer">
+            <div
+              className="modal_footer_button"
+              onClick={() => {
+                setModalVisible(false);
+              }}
+            >
+              확 인
+            </div>
+          </div>
+        </ModalInner>
+      </ModalWrapper>
+    </>
+  );
 }
 
 Modal.defaultProps = {
@@ -136,13 +169,12 @@ const ModalInner = styled.div`
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: white;
   border-radius: 10px;
-  width: 328px;
+  width: 360px;
   height: 364px;
   transform: translateY(-50%);
   margin: auto;
   margin-top: 380px;
   z-index: 20;
-
   .modal-header {
     width: 100%;
     height: 56px;
@@ -156,12 +188,37 @@ const ModalInner = styled.div`
       background-color: white;
       width: 24px;
       height: 24px;
+      cursor: pointer;
     }
   }
   .buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+  .modal_footer {
+    margin-top: auto;
+    box-sizing: border-box;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal_footer_button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 320px;
+      height: 40px;
+      border-radius: 8px;
+      color: white;
+      background-color: var(--primary2-400);
+      font-family: var(--headline-font-family);
+      font-size: var(--button_Medium-font-size);
+      font-weight: var(--button_Medium-font-weight);
+      line-height: var(--button_Medium-line-height);
+      letter-spacing: var(--button_Medium-letter-spacing);
+      cursor: pointer;
+    }
   }
 `;
 const ModalInner2 = styled.div`
@@ -191,6 +248,7 @@ const ModalInner2 = styled.div`
       background-color: white;
       width: 24px;
       height: 24px;
+      cursor: pointer;
     }
   }
   .buttons {
@@ -227,6 +285,7 @@ const ModalInner3 = styled.div`
       background-color: white;
       width: 24px;
       height: 24px;
+      cursor: pointer;
     }
   }
   .buttons {
