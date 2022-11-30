@@ -42,6 +42,10 @@ export default function AdminMyPageArticle() {
           계정 목록
           <img src={arrow} alt="arrow" />
         </div>
+        <div className="info-2" onClick={() => navigate('/deletelist')}>
+          탈퇴 계정 목록
+          <img src={arrow} alt="arrow" />
+        </div>
         <div className="info-3">계정</div>
         <div
           className="info-2"

@@ -22,8 +22,14 @@ import background from '../global/sources/background.png';
 import logo from '../global/sources/main_header_name.png';
 import right_arrow from '../global/sources/path_right.png';
 import DeleteId from '../pages/DeleteId';
+import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
+import ToastMessage from '../global/components/ToastMessage';
+import { useRecoilState } from 'recoil';
+import { toastVisible } from '../store/store';
 
 export default function Router() {
+  const [visible, setVisible] = useRecoilState(toastVisible);
+
   return (
     <>
       <Container>
@@ -46,6 +52,7 @@ export default function Router() {
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/myconsult" element={<MyPageMyConsult />} />
             <Route path="/admin" element={<MyPageAdmin />} />
+            <Route path="/deletelist" element={<MyPageAdminDeleteList />} />
             <Route path="/footstepmain" element={<FootstepMain />} />
             <Route path="/newfootstep" element={<NewFootStep />} />
             <Route path="/myconsultdetail/:id" element={<MyConsultDetail />} />
@@ -57,6 +64,8 @@ export default function Router() {
             <Route path="/deleteid" element={<DeleteId />} />
           </Routes>
           <MainPageSideBar />
+          {/* {visible && <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />} */}
+          <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />
         </App>
         <div className="right_container">
           <div className="right_container_button">
@@ -167,6 +176,7 @@ const App = styled.div`
   max-height: fit-content;
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
   background-color: white;
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;

@@ -216,7 +216,7 @@ function Login() {
           <BlankContainer2></BlankContainer2>
           <GoingSignUp onClick={onGoingLogIn}>회원가입 하기</GoingSignUp>
           <ButtonContainer>
-            <ButtonStyle type="submit" disabled={isValidLogin} onClick={onSubmitLoginData}>
+            <ButtonStyle type="submit" onClick={onSubmitLoginData}>
               시작하기
             </ButtonStyle>
           </ButtonContainer>

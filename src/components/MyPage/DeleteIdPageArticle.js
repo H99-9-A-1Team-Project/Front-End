@@ -2,16 +2,17 @@ import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { DeleteUser } from '../../api/apiPOST';
 
-import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
+import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor, toastVisible } from '../../store/store';
 import checked from './sources/checked_button.png';
 import unchecked from './sources/unchecked_button.png';
 
 export default function DeleteIdPageArticle() {
   const navigate = useNavigate();
+  const setVisible = useSetRecoilState(toastVisible);
   const appLogout = useResetRecoilState(isLogin);
   const changeSignUp = useResetRecoilState(ChangeSignUp);
   const nextMem = useResetRecoilState(NextMem);
@@ -65,6 +66,7 @@ export default function DeleteIdPageArticle() {
       goLogIn();
       appLogout();
       navigate('/');
+      setVisible(true);
     },
   });
   return (
