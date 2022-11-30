@@ -123,3 +123,5 @@ export const nfsImgState = atom({
     option: false,
   },
 });
+
+export const toastVisible = atom({ key: 'toastvisible', default: false });

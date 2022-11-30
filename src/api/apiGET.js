@@ -42,3 +42,10 @@ export async function ReadPremisesList() {
   const { data } = await api.get('v1/premises/allpost');
   return data;
 }
+
+//삭제 계정 조회
+export async function ReadDeleteList(page) {
+  // const { data } = await api.get(`v1/survey?page=${page}&size=5`);
+  const { data } = await api.get(`v1/survey`);
+  return data;
+}

@@ -208,6 +208,14 @@ const ArticleContainer = styled.div`
   background-color: var(--primary2-100);
   display: flex;
   flex-direction: column;
+  .modal_div {
+    font-family: var(--headline-font-family);
+    font-size: var(--headline_Medium-font-size);
+    font-weight: var(--headline_Medium-font-weight);
+    line-height: var(--headline_Medium-line-height);
+    letter-spacing: var(--headline_Medium-letter-spacing);
+    margin-top: 20px;
+  }
   .article_body_wrap {
     width: 328px;
     display: flex;

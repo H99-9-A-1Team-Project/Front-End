@@ -52,3 +52,9 @@ export async function RequestLike(arg) {
   const { data } = await api.post(`v1/like/${arg}`, '');
   return data;
 }
+
+//회원탈퇴
+export async function DeleteUser(arg) {
+  const res = await api.post('v1/user', arg);
+  return res;
+}

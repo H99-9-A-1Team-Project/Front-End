@@ -151,19 +151,7 @@ export default function LoginMyPageArticle() {
     refetchOnWindowFocus: false,
     enabled: sessionStorage.getItem('accountstate') !== '0',
   });
-  const { mutate: deleteUser } = useMutation(DeleteUser, {
-    onSuccess: () => {
-      sessionStorage.removeItem('access_token');
-      sessionStorage.removeItem('refresh_token');
-      sessionStorage.removeItem('accountstate');
-      sessionStorage.removeItem('nickname');
-      changeSignUp();
-      nextMem();
-      nextTor();
-      goLogIn();
-      appLogout();
-    },
-  });
+
   const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
@@ -299,8 +287,7 @@ export default function LoginMyPageArticle() {
         <div
           className="info-2"
           onClick={() => {
-            deleteUser();
-            navigate('/');
+            navigate('/deleteid');
           }}
         >
           회원탈퇴
