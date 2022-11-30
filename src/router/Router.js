@@ -21,6 +21,7 @@ import styled from 'styled-components';
 import background from '../global/sources/background.png';
 import logo from '../global/sources/main_header_name.png';
 import right_arrow from '../global/sources/path_right.png';
+import DeleteId from '../pages/DeleteId';
 
 export default function Router() {
   return (
@@ -53,6 +54,7 @@ export default function Router() {
             <Route path="footstepmain/:id" element={<FootStepDetail />} />
             <Route path="footstepmain/:id/:id" element={<FootStepDetailImg />} />
             <Route path="/introduce" element={<IntroducePage />} />
+            <Route path="/deleteid" element={<DeleteId />} />
           </Routes>
           <MainPageSideBar />
         </App>
