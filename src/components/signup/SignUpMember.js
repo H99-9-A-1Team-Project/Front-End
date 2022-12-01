@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2, isLogin, ToastOpen, TextToast } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2, isLogin, toastVisible, TextToast, LoginDatas } from '../../store/store';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
 import { MemberSignUp, EmailLoginData } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
-import Toast from '../../global/components/Toast';
-import InnerToast from './InnerToast';
 
 function SignUpMember() {
   const navigate = useNavigate();
@@ -19,9 +17,6 @@ function SignUpMember() {
 
   //로그인 유지를 위한 recoilstate
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
-
-  //이메일, 비밀번호 담을 usestate
-  // const [emailpassword, setEmailPassword] = useRecoilState();
 
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
@@ -34,11 +29,14 @@ function SignUpMember() {
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
 
-  // //toast 띄우는 state
-  const [toast, setToast] = useRecoilState(ToastOpen);
+  //이메일 주소만 (409에러 대비)
+  const [onlyemail, setOnlyEmail] = useRecoilState(LoginDatas);
+
+  // toast 띄우는 state
+  const setVisible = useSetRecoilState(toastVisible);
 
   // toast 에 들어갈 문구 recoilstate
-  const [toasttext, setToastText] = useState(TextToast);
+  const [toasttext, setToastText] = useRecoilState(TextToast);
 
   //데이터 전송용 initialstate
   const initialState = {
@@ -72,19 +70,13 @@ function SignUpMember() {
     setSecret(!secret);
   };
 
-  // toast 보여주기
-  const onShowToast = () => {
-    console.log('show toast');
-    setToast(true);
-    setToastText(`환영해요 ${UserName}님`);
-  };
-
   // 이메일  onchange
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
     const emailData = e.target.value;
+    setOnlyEmail(loginData.email);
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
@@ -143,57 +135,63 @@ function SignUpMember() {
   //회원가입
   const { mutate: memberSignUp } = useMutation(MemberSignUp, {
     onSuccess: () => {
-      setToastText(`환영해요 ${UserName}님`);
-      setToast(true);
+      // setToastText(`환영해요 ${UserName}님`);
+      // setVisible(true);
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
       setToastText(err.response.data.errorMessage);
-      alert(err.response.data.errorMessage);
+      if (err.response.status === 409) {
+        setToastText('이미 가입한 이메일로 로그인 시도합니다');
+        console.log(loginData);
+      } else {
+        return;
+      }
+      setVisible(true);
       setOpenSignUp(true);
     },
   });
 
-  //동시로그인
-  // const { mutate: emailLogin } = useMutation(EmailLoginData, {
-  //   onSuccess: (response) => {
-  //     sessionStorage.setItem('access_token', response.headers.access_token);
-  //     sessionStorage.setItem('refresh_token', response.headers.refresh_token);
-  //     sessionStorage.setItem('accountstate', response.data.accountState);
-  //     setAppLogin(true);
-  //     console.log(response);
-  //     setToast(true);
-  //     setToastText(`환영해요 ${UserName}님`);
-  //   },
-  //   onError: (err) => {
-  //     setReject(err.response.data.errorMessage);
-  //     setToast(true);
-  //     setToastText(reject);
-  //   },
-  // });
-  // const SameLogin = emailLogin();
+  //동시로그인;
+  const { mutate: emailLogin } = useMutation(EmailLoginData, {
+    onSuccess: (response) => {
+      sessionStorage.setItem('access_token', response.headers.access_token);
+      sessionStorage.setItem('refresh_token', response.headers.refresh_token);
+      sessionStorage.setItem('accountstate', response.data.accountState);
+      setAppLogin(true);
+      console.log(response);
+      setVisible(true);
+      setToastText(`환영해요 ${UserName}님`);
+      navigate('/');
+    },
+    onError: (err) => {
+      setReject(err.response.data.errorMessage);
+      setToastText(err.response.data.errorMessage);
+      if (err.response.status === 404) {
+        setToastText(['비밀번호가 일치하지 않습니다.\n 다시 작성해주세요']);
+      } else {
+        return;
+      }
+      setValid(false);
+      setPsValid(false);
+      setVisible(true);
+    },
+  });
 
   //회원가입 데이터 전송
   const onSubmitSignUpData = () => {
-    // setReject('');
+    setReject('');
     console.log(loginData.email);
     console.log('asdf', loginData);
     setOpenSignUp(false);
     memberSignUp(loginData);
-    // if (!toasttext == '') {
-    //   setTimeout(() => {
-    return;
-    // }, 5500);
-    // } else {
-    //   return;
-    // }
-    // if (reject === '') {
-    //   // setTimeout(() => {
-    //   emailLogin(LoginPocket);
-    //   // }, 200);
-    // } else {
-    //   return;
-    // }
+    if (reject !== '') {
+      return;
+    } else {
+      setTimeout(() => {
+        emailLogin(LoginPocket);
+      }, 1500);
+    }
   };
 
   return (
@@ -255,17 +253,11 @@ function SignUpMember() {
               </ErrorMsgPreview>
             </InputContainer>
             <BlankContainer></BlankContainer>
-            {toast && (
-              <Toast setToast={setToast}>
-                <InnerToast />
-              </Toast>
-            )}
             <ButtonContainer>
               <form>
                 <ButtonStyle
                   type="submit"
                   disabled={isValidLogin}
-                  // handleClick={() => onShowToast()}
                   onClick={() => {
                     onSubmitSignUpData();
                   }}

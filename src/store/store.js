@@ -1,7 +1,6 @@
 import { atom } from 'recoil';
 
 export const TabState = atom({ key: 'tabstate', default: 0 });
-export const ToastOpen = atom({ key: 'toastopen', default: false });
 
 // 회원가입,로그인
 export const ChoiceMem = atom({ key: 'choiceMem', default: false });
@@ -21,6 +20,7 @@ export const tabBarHome = atom({ key: 'tabbarhome', default: 0 });
 export const tabBarPin = atom({ key: 'tabbarpin', default: 0 });
 export const tabBarRequest = atom({ key: 'tabbarrequest', default: 0 });
 export const tabBarUser = atom({ key: 'tabbaruser', default: 0 });
+export const TabAccountState = atom({ key: 'tabaccountstate', default: 1 });
 
 // Side Tab Bar
 export const sideTabBar = atom({ key: 'sidetabbar', default: false });
@@ -124,4 +124,6 @@ export const nfsImgState = atom({
     option: false,
   },
 });
+
+export const toastVisible = atom({ key: 'toastvisible', default: false });
 

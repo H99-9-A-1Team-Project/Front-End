@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import Plus from '../signup/sources/plus.png';
-import { useRecoilState } from 'recoil';
-import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2, LoginDatas } from '../../store/store';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2, LoginDatas, toastVisible, TextToast } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import CompleteModal from './CompleteModal';
 import ViewPassword from '../signup/sources/View_password.png';
@@ -47,6 +47,15 @@ function SignUpRealtor() {
 
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
+
+  // toast 띄우는 state
+  const setVisible = useSetRecoilState(toastVisible);
+
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
+
+  //회원가입 오류 출력 state
+  const [reject, setReject] = useState('');
 
   //데이터 전송을 위한 state
   const [loginData, setLoginData] = useRecoilState(LoginDatas);
@@ -120,13 +129,17 @@ function SignUpRealtor() {
   //이메일 중복확인
   const { mutate: memberEmail } = useMutation(RequestEmail, {
     onSuccess: (response) => {
-      alert('가입이 가능한 이메일입니다!');
+      setVisible(true);
+      setToastText('가입이 가능한 이메일입니다');
       setOkEmail('가입이 가능한 이메일입니다');
+      onNextRealtorPage();
       setDoubleEmail('');
     },
     onError: (err) => {
-      alert('이메일을 다시 확인해주세요~!');
-      setDoubleEmail(err.response.data.error.message);
+      setVisible(true);
+      setToastText(err.response.data.errorMessage);
+      // alert(err.response.data.errorMessage);
+      setDoubleEmail(err.response.data.errorMessage);
     },
   });
   const onCheckEmailDouble = () => {
@@ -175,7 +188,8 @@ function SignUpRealtor() {
   const { mutate: postFormData } = useMutation(RealtorSignUpFormDatas, {
     onSuccess: (response) => {},
     onError: (error) => {
-      alert(error.response.data.errorMessage);
+      setVisible(true);
+      setToastText(error.response.data.errorMessage);
     },
   });
 

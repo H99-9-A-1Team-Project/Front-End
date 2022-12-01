@@ -69,3 +69,4 @@ const BannerImg2 = styled.img`
   background: none;
   cursor: pointer;
 `;
+

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { useRecoilState } from 'recoil';
-import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2 } from '../../store/store';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2, toastVisible, TextToast } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -23,10 +23,6 @@ function Login() {
   const [checkemail, setCheckemail] = useState('');
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
-  //이메일 잘못 입력 에러 출력 state
-  // const [errormail, setErrorMail] = useState('');
-  //비밀번호 잘못 입력 에러 출력 state
-  // const [errorpassword, setErrorPassWord] = useState('');
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
@@ -39,6 +35,15 @@ function Login() {
 
   //토큰용 state
   const [accessToken, setAccessToken] = useState('');
+
+  //회원가입 오류 출력 state
+  const [reject, setReject] = useState('');
+
+  // toast 띄우는 state
+  const setVisible = useSetRecoilState(toastVisible);
+
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
 
   //버튼 활성화 및 오류메시지 색상 활성화를 위한 state
   const [valid, setValid] = useRecoilState(itsNotOK);
@@ -93,9 +98,6 @@ function Login() {
       setIsEmail(true);
       setValid(true);
     }
-    // if (e.target.nextSibling) {
-    //   e.target.nextSibling.focus();
-    // }
   };
   const onChangePassword = (e) => {
     const { name, value } = e.target;
@@ -122,19 +124,24 @@ function Login() {
       onSubmitLoginData();
     }
   };
-
+  const UserName = loginData.email.split('@')[0];
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
     onSuccess: (response) => {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
-      // sessionStorage.setItem('nickname', response.data.nickname);
+      sessionStorage.setItem('nickname', response.data.nickname);
       setAppLogin(true);
       console.log(response);
       navigate('/');
+      setToastText(`환영해요 ${UserName}님`);
+      setVisible(true);
     },
     onError: (err) => {
-      alert(err.response.data.errorMessage);
+      // alert(err.response.data.errorMessage);
+      setReject(err.response.data.errorMessage);
+      setToastText(err.response.data.errorMessage);
+      setVisible(true);
     },
   });
 
@@ -227,7 +234,7 @@ function Login() {
           <BlankContainer2></BlankContainer2>
           <GoingSignUp onClick={onGoingLogIn}>회원가입 하기</GoingSignUp>
           <ButtonContainer>
-            <ButtonStyle type="submit" disabled={isValidLogin} onClick={onSubmitLoginData}>
+            <ButtonStyle type="submit" onClick={onSubmitLoginData}>
               시작하기
             </ButtonStyle>
           </ButtonContainer>

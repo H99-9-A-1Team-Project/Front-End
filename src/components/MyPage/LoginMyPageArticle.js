@@ -151,19 +151,7 @@ export default function LoginMyPageArticle() {
     refetchOnWindowFocus: false,
     enabled: sessionStorage.getItem('accountstate') !== '0',
   });
-  const { mutate: deleteUser } = useMutation(DeleteUser, {
-    onSuccess: () => {
-      sessionStorage.removeItem('access_token');
-      sessionStorage.removeItem('refresh_token');
-      sessionStorage.removeItem('accountstate');
-      sessionStorage.removeItem('nickname');
-      changeSignUp();
-      nextMem();
-      nextTor();
-      goLogIn();
-      appLogout();
-    },
-  });
+
   const { mutate: updateRealtorProfile } = useMutation((arg) => UpdateRealtorProfile(arg), {
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
@@ -281,10 +269,6 @@ export default function LoginMyPageArticle() {
           <img src={arrow} alt="arrow" />
         </div>
         <div className="info-2">
-          제작팀
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="info-2">
           설문 참여
           <img src={arrow} alt="arrow" />
         </div>
@@ -303,8 +287,7 @@ export default function LoginMyPageArticle() {
         <div
           className="info-2"
           onClick={() => {
-            deleteUser();
-            navigate('/');
+            navigate('/deleteid');
           }}
         >
           회원탈퇴
@@ -314,7 +297,7 @@ export default function LoginMyPageArticle() {
 
       <>
         {modalVisible ? (
-          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
+          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave} page={'profile'}>
             {sessionStorage.getItem('accountstate') === '1' ? (
               <form className="profileform" onSubmit={onSubmitUpdateRealtorProfileHandler}>
                 <label className="img-input-label" htmlFor="img_file">

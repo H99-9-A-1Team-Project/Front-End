@@ -5,6 +5,7 @@ import user_circle from '../MyPage/sources/userDefault.png';
 import edit_button_comment from './sources/edit_button_comment.png';
 import good from './sources/Good.png';
 import good2 from './sources/Good2.png';
+import userDefault from '../MyPage/sources/userDefault.png';
 import { Editor, Viewer } from '@toast-ui/react-editor'; // Editor
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor css
 import '@toast-ui/editor/dist/i18n/ko-kr'; // Editor 한국어
@@ -16,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
 import imageCompression from 'browser-image-compression';
+import Modal from '../../global/components/Modal';
 
 export default function ConsultDetailComment({ id }) {
   const queryClient = useQueryClient();
@@ -23,6 +25,7 @@ export default function ConsultDetailComment({ id }) {
   const [buttonActive, setbuttonActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
   const [likeActive, setLikeActive] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [contents, setContents] = useState({
     answerMessage: '',
   });
@@ -149,10 +152,10 @@ export default function ConsultDetailComment({ id }) {
   } else {
     return (
       data && (
-        <ConsultDetailCommentLayout>
+        <ConsultDetailCommentLayout3>
           <div className="comment_body_wrap_answer">
             <div className="header">{data.comments[0].nickname}님의 답변입니다.</div>
-            <div className="realtor_info">
+            <div className="realtor_info" onClick={() => setModalVisible(true)}>
               <div className="realtor_info_left">
                 <img src={data.comments[0].profile ? data.comments[0].profile : user_circle} alt="user_circle" />
               </div>
@@ -194,8 +197,28 @@ export default function ConsultDetailComment({ id }) {
                 </div>
               )
             ) : null}
+            {modalVisible ? (
+              <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} page={'consultdetail'}>
+                <div className="profile_container">
+                  <div className="profile_header">
+                    <div className="profile_header_left">
+                      <div className="profile_header_left_img">{data.comments[0].profile ? <img src={`${data.comments[0].profile}`} alt="userProfile" /> : <img src={userDefault} alt="userDefault" />}</div>
+                    </div>
+                    <div className="profile_header_right">
+                      <div className="profile_header_right_1">공인중개사</div>
+                      <div className="profile_header_right_2">{data.comments[0].nickname}</div>
+                      <div className="profile_header_right_3">
+                        <img src={good} alt="good" />
+                        {data.comments[0].realtorLike}명이 답변이 도움된다 답했습니다.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="profile_message">{data.comments[0].introMessage}</div>
+                </div>
+              </Modal>
+            ) : null}
           </div>
-        </ConsultDetailCommentLayout>
+        </ConsultDetailCommentLayout3>
       )
     );
   }
@@ -248,6 +271,7 @@ const ConsultDetailCommentLayout = styled.div`
       margin-top: 16px;
       margin-bottom: 12px;
       border-radius: 8px;
+      cursor: pointer;
       img {
         margin: 12px 8px 12px 12px;
         width: 40px;
@@ -408,6 +432,243 @@ const ConsultDetailCommentLayout2 = styled.div`
       font-weight: var(--button_Large-font-weight);
       line-height: var(--button_Large-line-height);
       letter-spacing: var(--button_Large-letter-spacing);
+    }
+  }
+`;
+const ConsultDetailCommentLayout3 = styled.div`
+  width: 360px;
+  height: fit-content;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .comment_body_wrap_wait {
+    margin: 52px auto 68px auto;
+    img {
+      margin-bottom: 16px;
+      width: 150px;
+      height: 120px;
+    }
+    .content_wait {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: var(--button-font-family);
+      font-size: var(--body_Medium-font-size);
+      font-weight: var(--body_Medium-font-weight);
+      line-height: var(--body_Medium-line-height);
+      letter-spacing: var(--body_Medium-letter-spacing);
+      color: var(--gray4);
+    }
+  }
+  .comment_body_wrap_answer {
+    width: 328px;
+    margin: 24px 16px 0px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .header {
+      font-family: var(--button-font-family);
+      font-size: var(--headline_Small-font-size);
+      font-weight: var(--headline_Small-font-weight);
+      line-height: var(--headline_Small-line-height);
+      letter-spacing: var(--headline_Small-letter-spacing);
+    }
+    .realtor_info {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      border: 1px solid var(--gray6);
+      margin-top: 16px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      img {
+        margin: 12px 8px 12px 12px;
+        width: 40px;
+        height: 40px;
+      }
+      .realtor_info_left {
+        img {
+          width: 40px;
+          height: 40px;
+          background-color: white;
+          border-radius: 50%;
+        }
+      }
+
+      .realtor_info_right {
+        display: flex;
+        flex-direction: column;
+        margin: 12px 12px 12px 0;
+        .realtor_info_right_top {
+          font-family: var(--button-font-family);
+          font-size: var(--body_Small-font-size);
+          font-weight: var(--body_Small-font-weight);
+          line-height: var(--body_Small-line-height);
+          letter-spacing: var(--body_Small-letter-spacing);
+          color: var(--primary2-300);
+        }
+        .realtor_info_right_middle {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          font-family: var(--button-font-family);
+          font-size: var(--headline_Small-font-size);
+          font-weight: var(--headline_Small-font-weight);
+          line-height: var(--headline_Small-line-height);
+          letter-spacing: var(--headline_Small-letter-spacing);
+          margin-bottom: 8px;
+          .realtor_like_num_img {
+            width: 16px;
+            height: 16px;
+            margin: 0 4px;
+            padding: 0;
+          }
+          .realtor_like_num {
+            font-family: var(--button-font-family);
+            font-size: var(--body_Small-font-size);
+            font-weight: var(--body_Small-font-weight);
+            line-height: var(--body_Small-line-height);
+            letter-spacing: var(--body_Small-letter-spacing);
+            color: var(--primary2-400);
+          }
+        }
+        .realtor_info_right_bottom {
+          white-space: nomal;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          font-family: var(--button-font-family);
+          font-size: var(--body_Small-font-size);
+          font-weight: var(--body_Small-font-weight);
+          line-height: var(--body_Small-line-height);
+          letter-spacing: var(--body_Small-letter-spacing);
+          color: var(--gray4);
+        }
+      }
+      .editor_viwer_wrap {
+        width: 100%;
+      }
+    }
+    .like,
+    .dis_like {
+      width: 328px;
+      height: 48px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--primary2-400);
+      border-radius: 8px;
+      box-shadow: var(--Shadow2-box-shadow);
+      margin: 44px 0;
+      gap: 4px;
+      font-family: var(--button-font-family);
+      font-size: var(--button_Medium-font-size);
+      font-weight: var(--button_Medium-font-weight);
+      line-height: var(--button_Medium-line-height);
+      letter-spacing: var(--button_Medium-letter-spacing);
+      color: var(--primary2-400);
+      cursor: pointer;
+    }
+    .like {
+      background-color: var(--primary2-400);
+      color: white;
+    }
+  }
+  .editor_wrap {
+    padding: 32px 0 0 0;
+    width: 328px;
+    flex-direction: column;
+    .buttons {
+      width: 328px;
+      height: 52px;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      margin-top: 32px;
+      margin-bottom: 24px;
+      button {
+        width: 160px;
+        border-radius: 8px;
+        font-family: var(--button-font-family);
+        font-size: var(--button_Large-font-size);
+        font-weight: var(--button_Large-font-weight);
+        line-height: var(--button_Large-line-height);
+        letter-spacing: var(--button_Large-letter-spacing);
+        cursor: pointer;
+      }
+      .cancle_button {
+        border: 1.5px solid var(--gray4);
+        color: var(--gray4);
+        background-color: white;
+      }
+      .submit_button {
+        border: 1px solid var(--primary2-400);
+        color: white;
+        background-color: var(--primary2-400);
+      }
+    }
+  }
+  .profile_container {
+    display: flex;
+    flex-direction: column;
+    width: 328px;
+    min-height: 194px;
+    max-height: fit-content;
+    .profile_header {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 12px;
+      .profile_header_left_img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+      .profile_header_right {
+        display: flex;
+        flex-direction: column;
+        .profile_header_right_1 {
+          font-family: var(--button-font-family);
+          font-size: var(--body_Small-font-size);
+          font-weight: var(--body_Small-font-weight);
+          line-height: var(--body_Small-line-height);
+          letter-spacing: var(--body_Small-letter-spacing);
+          color: var(--primary2-300);
+          margin-bottom: 8px;
+        }
+        .profile_header_right_2 {
+          font-family: var(--button-font-family);
+          font-size: var(--headline_Small-font-size);
+          font-weight: var(--headline_Small-font-weight);
+          line-height: var(--headline_Small-line-height);
+          letter-spacing: var(--headline_Small-letter-spacing);
+          margin-bottom: 8px;
+        }
+        .profile_header_right_3 {
+          display: flex;
+          align-items: center;
+          font-family: var(--button-font-family);
+          font-size: var(--body_Small-font-size);
+          font-weight: var(--body_Small-font-weight);
+          line-height: var(--body_Small-line-height);
+          letter-spacing: var(--body_Small-letter-spacing);
+          color: var(--primary2-300);
+          img {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+    .profile_message {
+      width: 100%;
+      height: fit-content;
+      background-color: white;
     }
   }
 `;

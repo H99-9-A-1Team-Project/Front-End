@@ -18,7 +18,7 @@ export default function MyConsultHeader({ text, page }) {
 }
 
 const MyConsultHeaderLayout = styled.div`
-  width: 100%;
+  width: 360px;
   height: 64px;
   background-color: white;
   border-bottom: 1px solid var(--gray6);

@@ -71,7 +71,7 @@ export default function IntroduceBody() {
       </div>
       <div className="information_container_6">
         <img src={deco} alt="deco" />
-        <ButtonLage text={'지금 바로 상담 받아보기'} />
+        <ButtonLage text={'지금 바로 상담 받아보기'} page={'/request1'} />
       </div>
     </StContainer>
   );

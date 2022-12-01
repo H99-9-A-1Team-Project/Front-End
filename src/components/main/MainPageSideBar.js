@@ -22,7 +22,6 @@ export default function MainPageSideBar() {
         >
           서비스 소개
         </div>
-        <div className="sidebar_menu_2">제작팀</div>
         <div className="sidebar_menu_3">설문 참여</div>
       </div>
     </StMainPageSideBarLayout>
@@ -77,6 +76,10 @@ const StMainPageSideBarLayout = styled.div`
     .sidebar_img {
       margin-top: 8px;
       border: none;
+    }
+    .sidebar_menu_1 {
+      margin-top: 16px;
+      border-top: none;
     }
   }
 `;
