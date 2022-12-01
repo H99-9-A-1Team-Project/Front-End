@@ -79,40 +79,47 @@ function Login() {
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
 
-    const emailData = loginData.email;
+    const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
+      if (e.target.value === '') {
+        setCheckemail('빈칸을 채워주세요');
+      }
       setIsEmail(false);
       setValid(false);
-      emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
     }
-    if (e.target.value === '') {
-      setCheckemail('빈칸을 채워주세요');
-    }
+    // if (e.target.nextSibling) {
+    //   e.target.nextSibling.focus();
+    // }
   };
   const onChangePassword = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
-    const passwordData = loginData.password;
+    const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
+      if (e.target.value === '') {
+        setCheckPassword('빈칸을 채워주세요');
+      }
       setIsPassword(false);
       setPsValid(false);
-      passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
     }
-    if (e.target.value === '') {
-      setCheckPassword('빈칸을 채워주세요');
+  };
+  console.log(loginData);
+  const onActiveEnter = (e) => {
+    if (e.key === 'Enter') {
+      onSubmitLoginData();
     }
   };
 
@@ -136,7 +143,7 @@ function Login() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
-      // localStorage.setItem('access_token', response.headers.access_token);
+      localStorage.setItem('access_token', response.headers.access_token);
       setAccessToken(response.headers.access_token);
       window.localStorage.setItem('jwt', '자동로그인');
       setAppLogin(true);
@@ -150,6 +157,7 @@ function Login() {
 
   const onSubmitLoginData = () => {
     if (checkAuto === false) {
+      console.log(checkAuto);
       setCheckPassword('');
       emailLogin(loginData);
     } else {
@@ -181,6 +189,7 @@ function Login() {
                   type="text"
                   name="email"
                   onChange={onChangeEmail}
+                  index="1"
                   style={{
                     border: isEmail === false ? '1px solid #d14343 ' : 'none',
                   }}
@@ -197,6 +206,8 @@ function Login() {
                 type={secret === false ? 'text' : 'password'}
                 autocomplete="current-password"
                 onChange={onChangePassword}
+                index="2"
+                onKeyDown={(e) => onActiveEnter(e)}
                 style={{
                   border: isPassword === false ? '1px solid #d14343 ' : 'none',
                 }}
@@ -508,3 +519,4 @@ const ButtonStyle = styled.button`
     color: white;
   }
 `;
+

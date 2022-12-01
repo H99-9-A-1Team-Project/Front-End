@@ -29,9 +29,15 @@ export default function RealtorConsult() {
     refetchOnMount: false,
     refetchOnReconnect: false,
     enabled: !!(window.location.pathname === '/waitlist'),
+    onSuccess: (config) => {
+      return config.reverse();
+    },
   });
   const { data: answeredData } = useQuery(['answeredlist'], ReadAnsweredList, {
     enabled: !!(window.location.pathname === '/answeredlist'),
+    onSuccess: (config) => {
+      return config.reverse();
+    },
   });
   return (
     <StMyPageBodyWrap>
@@ -64,6 +70,7 @@ const StMyPageBodyWrap = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
+  margin-bottom: auto;
   ul {
     display: flex;
     flex-direction: row;

@@ -5,8 +5,7 @@ import arrow_down from './sources/down_light.png';
 
 export default function ConsultDetailBodyContainer({ data, checkNum }) {
   const [visible, setVisible] = useState(false);
-  if (document.getElementById('div1')?.scrollHeight >= 73) console.log(document.getElementById('div1')?.scrollHeight);
-  console.log(document.getElementById('div1')?.scrollHeight);
+
   if (checkNum <= 2) {
     return (
       <ConsultDetailBodyContainerLayout>

@@ -9,13 +9,14 @@ import userProfile6 from './sources/userProfile6.png';
 import arrow from './sources/arrow.png';
 import User_cicrle from './sources/User_cicrle.png';
 import userDefault from './sources/userDefault.png';
+import good from './sources/Good.png';
 import { useResetRecoilState } from 'recoil';
 import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadProfile, ReadWaitList } from '../../api/apiGET';
 import { DeleteUser } from '../../api/apiDELETE';
-import MyPageModal from './MyPageModal';
+import Modal from '../../global/components/Modal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 import imageCompression from 'browser-image-compression';
 
@@ -190,7 +191,15 @@ export default function LoginMyPageArticle() {
 
           <div className="div2">
             <div className="div3">
-              <span className="span1">{userInfo.nickname}님</span>
+              <div className="div4">
+                <span className="span1">{userInfo.nickname}님</span>
+                {sessionStorage.getItem('accountstate') === '1' ? (
+                  <>
+                    <img src={good} alt="good" />
+                    {userInfo.likeCount}
+                  </>
+                ) : null}
+              </div>
               <span className="span2" onClick={() => setModalVisible(true)}>
                 수정
               </span>
@@ -266,6 +275,20 @@ export default function LoginMyPageArticle() {
           </>
         )}
 
+        <div className="info-3">등대지기 A to Z</div>
+        <div className="info-2" onClick={() => navigate('/introduce')}>
+          서비스 소개
+          <img src={arrow} alt="arrow" />
+        </div>
+        <div className="info-2">
+          제작팀
+          <img src={arrow} alt="arrow" />
+        </div>
+        <div className="info-2">
+          설문 참여
+          <img src={arrow} alt="arrow" />
+        </div>
+
         <div className="info-3">계정</div>
         <div
           className="info-2"
@@ -291,7 +314,7 @@ export default function LoginMyPageArticle() {
 
       <>
         {modalVisible ? (
-          <MyPageModal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
+          <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible} setImgSave={setImgSave}>
             {sessionStorage.getItem('accountstate') === '1' ? (
               <form className="profileform" onSubmit={onSubmitUpdateRealtorProfileHandler}>
                 <label className="img-input-label" htmlFor="img_file">
@@ -326,7 +349,7 @@ export default function LoginMyPageArticle() {
                 </form>
               </div>
             )}
-          </MyPageModal>
+          </Modal>
         ) : null}
       </>
     </Container>
@@ -344,6 +367,7 @@ const Container = styled.div`
     border-bottom: 4px solid var(--gray6);
     border-top: 1px solid var(--gray6);
     .head-article-inner-container {
+      width: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -361,6 +385,7 @@ const Container = styled.div`
       margin: 24px 16px;
     }
     .div2 {
+      width: 100%;
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -369,9 +394,28 @@ const Container = styled.div`
       gap: 8px;
     }
     .div3 {
+      width: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
+    }
+    .div4 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-family: var(--button-font-family);
+      font-size: var(--body_Small-font-size);
+      font-weight: var(--body_Small-font-weight);
+      line-height: var(--body_Small-line-height);
+      letter-spacing: var(--body_Small-letter-spacing);
+      color: var(--primary2-400);
+      img {
+        width: 16px;
+        height: 16px;
+        margin-left: 4px;
+        margin-right: 4px;
+      }
     }
     span {
       background-color: white;
@@ -382,6 +426,7 @@ const Container = styled.div`
       font-weight: var(--headline_Medium-font-weight);
       line-height: var(--headline_Medium-line-height);
       letter-spacing: var(--headline_Medium-letter-spacing);
+      color: black;
     }
     .span2 {
       margin-left: 4px;
@@ -410,7 +455,7 @@ const Container = styled.div`
     .info-3 {
       color: var(--gray4);
       background-color: white;
-      margin-left: 16px;
+      padding-left: 16px;
       margin-top: 24px;
       margin-bottom: 8px;
       font-family: var(--headline-font-family);
@@ -657,6 +702,7 @@ const Container = styled.div`
       font-weight: var(--button_Medium-font-weight);
       line-height: var(--button_Medium-line-height);
       letter-spacing: var(--button_Medium-letter-spacing);
+      cursor: pointer;
     }
   }
 `;

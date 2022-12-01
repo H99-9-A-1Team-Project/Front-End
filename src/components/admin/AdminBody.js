@@ -7,8 +7,13 @@ import AdminBodyItem from './AdminBodyItem';
 export default function AdminBody() {
   const { data } = useQuery(['signuplist'], ReadSignUpList, {
     refetchOnWindowFocus: false,
+    onSuccess: (config) => {
+      return config.reverse();
+    },
   });
-
+  if (data !== undefined) {
+    console.log(data);
+  }
   return (
     <StAdminBodyLayout>
       {data?.map((item) => {

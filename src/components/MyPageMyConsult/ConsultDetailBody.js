@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ConsultDetailBodyContainer from './ConsultDetailBodyContainer';
 import pin from './sources/Pin.png';
-import arrow3 from './sources/arrow3.png';
 import { useQuery } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
 

@@ -24,6 +24,7 @@ export default function MyConsultBody() {
           return (item.consultMessage = '전달메세지가 없습니다.');
         }
       });
+      return config.reverse();
     },
   });
   return (
@@ -53,6 +54,7 @@ const StMyPageBodyWrap = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
+  margin-bottom: auto;
   ul {
     display: flex;
     flex-direction: row;

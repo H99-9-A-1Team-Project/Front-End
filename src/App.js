@@ -2,7 +2,6 @@ import Router from './router/Router';
 import { useRecoilState } from 'recoil';
 import { isLogin } from './store/store';
 import { useEffect } from 'react';
-import './app.css';
 
 function App() {
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
@@ -15,7 +14,11 @@ function App() {
     console.log(AppLogin);
   }, [AppLogin]);
 
-  return <Router />;
+  return (
+    <>
+      <Router />
+    </>
+  );
 }
 
 export default App;

@@ -17,35 +17,39 @@ export default function RequestList() {
       <LastRequestContainer>
         <ListBox>
           <ListHeader>내 지난 상담</ListHeader>
-          {data?.map((item) => {
-            if (item.answerState === 'WAIT') {
-              return (
-                <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
-                  <MarkerImg src={RqLt_Marker} />
-                  <ContentText>{item.title}</ContentText>
-                  <div className="answer-icon-0">대기중</div>
-                </ListContent>
-              );
-            }
-            if (item.answerState === 'ANSWER') {
-              return (
-                <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
-                  <MarkerImg src={RqLt_Marker} />
-                  <ContentText>{item.title}</ContentText>
-                  <div className="answer-icon-1">답변함</div>
-                </ListContent>
-              );
-            }
-            if (item.answerState === 'FINISH') {
-              return (
-                <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
-                  <MarkerImg src={RqLt_Marker} />
-                  <ContentText>{item.title}</ContentText>
-                  <div className="answer-icon-2">답변함</div>
-                </ListContent>
-              );
-            }
-          })}
+          {data?.length > 0 ? (
+            data.map((item) => {
+              if (item.answerState === 'WAIT') {
+                return (
+                  <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
+                    <MarkerImg src={RqLt_Marker} />
+                    <ContentText>{item.title}</ContentText>
+                    <div className="answer-icon-0">대기중</div>
+                  </ListContent>
+                );
+              }
+              if (item.answerState === 'ANSWER') {
+                return (
+                  <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
+                    <MarkerImg src={RqLt_Marker} />
+                    <ContentText>{item.title}</ContentText>
+                    <div className="answer-icon-1">답변함</div>
+                  </ListContent>
+                );
+              }
+              if (item.answerState === 'FINISH') {
+                return (
+                  <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
+                    <MarkerImg src={RqLt_Marker} />
+                    <ContentText>{item.title}</ContentText>
+                    <div className="answer-icon-2">답변함</div>
+                  </ListContent>
+                );
+              }
+            })
+          ) : (
+            <div className="empty"> 없음</div>
+          )}
         </ListBox>
       </LastRequestContainer>
     </RqListContainer>
@@ -106,6 +110,20 @@ const ListBox = styled.div`
   display: flex;
   flex-direction: column;
   background: none;
+  .empty {
+    width: 300px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--button-font-family);
+    font-size: var(--body_Medium-font-size);
+    font-weight: var(--body_Medium-font-weight);
+    line-height: var(--body_Medium-line-height);
+    letter-spacing: var(--body_Medium-letter-spacing);
+    color: var(--gray5);
+  }
 `;
 
 const ListHeader = styled.p`

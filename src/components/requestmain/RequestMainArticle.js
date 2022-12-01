@@ -3,22 +3,34 @@ import styled from 'styled-components';
 import '../../global/global.css';
 import RqAt_Path_Right from './sources/rqm_article_right_light2.png';
 import RqAt_Question from './sources/RqmAt_Question.png';
+import tooltip from './sources/tooltip.png';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ReadRequestList } from '../../api/apiGET';
+import Modal from '../../global/components/Modal';
 
 export default function RequestArticle() {
   const navigate = useNavigate();
+  const [consultNum, setConsultNum] = useState(2);
   const [waitNum, setWaitNum] = useState(0);
   const [finishNum, setFinishNum] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const onClickRequestConsult = () => {
+    if (consultNum <= 0) {
+      setModalVisible(true);
+    } else {
+      navigate('/request1');
+    }
+  };
 
   const { data } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
     onSuccess: (response) => {
       const allNum = response.length;
       const waitList = response.filter((item) => item.answerState === 'WAIT');
-      setWaitNum(waitList.length);
-      setFinishNum(allNum - waitList.length);
+      setWaitNum(() => waitList.length);
+      setFinishNum(() => allNum - waitList.length);
+      setConsultNum(2 - allNum);
     },
   });
 
@@ -32,7 +44,7 @@ export default function RequestArticle() {
       <InfoContainer>
         <InfoBox>
           <InfoWrap1>
-            <InfoHead1>?회</InfoHead1>
+            <InfoHead1>{consultNum}회</InfoHead1>
             <InfoNav1>미사용</InfoNav1>
           </InfoWrap1>
           <InfoWrap2>
@@ -44,15 +56,24 @@ export default function RequestArticle() {
             <InfoNav2>완료</InfoNav2>
           </InfoWrap3>
         </InfoBox>
-        <RequestBtn onClick={() => navigate('/request1')}>
+        <RequestBtn onClick={onClickRequestConsult}>
           매물 상담 신청하기
           <RequestBtnPath src={RqAt_Path_Right} />
         </RequestBtn>
       </InfoContainer>
       <HelpBox>
-        <HelpP>미사용은 무엇인가요?</HelpP>
-        <HelpImg src={RqAt_Question} />
+        <div>
+          <HelpP>미사용은 무엇인가요?</HelpP>
+          <HelpImg src={RqAt_Question} />
+        </div>
+        <img className="tooltip" src={tooltip} alt="tooltip" />
       </HelpBox>
+
+      <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible}>
+        <div className="modal_div">상담 횟수 2회를 모두 사용하셨습니다.</div>
+        <div className="modal_div">추가 상담을 원하시면 </div>
+        <div className="modal_div">관리자에게 문의해주세요.</div>
+      </Modal>
     </RqArticleContainer>
   );
 }
@@ -63,6 +84,14 @@ const RqArticleContainer = styled.div`
   width: 100%;
   height: 324px;
   background-color: var(--primary2-100);
+  .modal_div {
+    font-family: var(--headline-font-family);
+    font-size: var(--headline_Medium-font-size);
+    font-weight: var(--headline_Medium-font-weight);
+    line-height: var(--headline_Medium-line-height);
+    letter-spacing: var(--headline_Medium-letter-spacing);
+    margin-top: 20px;
+  }
 `;
 
 const LikeText = styled.div`
@@ -180,14 +209,6 @@ const InfoNav2 = styled.p`
   cursor: default;
 `;
 
-const VerticalBar = styled.div`
-  width: 1px;
-  height: 25px;
-  color: var(gray5);
-  margin-left: 39px;
-  margin-top: 7.5px;
-`;
-
 const RequestBtn = styled.button`
   position: absolute;
   width: 280px;
@@ -221,13 +242,30 @@ const HelpBox = styled.div`
   width: 132px;
   height: 36px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   background: none;
   margin-top: 208px;
   margin-left: 214px;
   cursor: pointer;
+  div {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: none;
+  }
+  &:hover > .tooltip {
+    display: flex;
+  }
+  .tooltip {
+    display: none;
+    position: relative;
+    width: 192px;
+    height: 80px;
+    right: 38px;
+    bottom: 5px;
+  }
 `;
 
 const HelpP = styled.div`

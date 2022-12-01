@@ -93,20 +93,19 @@ function SignUpRealtor() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
-    const emailData = loginData.email;
+    const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
+      if (e.target.value === '') {
+        setCheckemail('빈칸을 채워주세요');
+      }
       setIsEmail(false);
       setValid(false);
-      emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
-    }
-    if (e.target.value === '') {
-      setCheckemail('빈칸을 채워주세요');
     }
   };
 
@@ -141,20 +140,19 @@ function SignUpRealtor() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
-    const passwordData = loginData.password;
+    const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
+      if (e.target.value === '') {
+        setCheckPassword('빈칸을 채워주세요');
+      }
       setIsPassword(false);
       setPsValid(false);
-      passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
-    }
-    if (e.target.value === '') {
-      setCheckPassword('빈칸을 채워주세요');
     }
   };
 
@@ -650,3 +648,4 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
+

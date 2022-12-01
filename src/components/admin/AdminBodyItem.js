@@ -4,26 +4,27 @@ import styled from 'styled-components';
 import { UpdateRealtorApproval } from '../../api/apiUPDATE';
 
 export default function AdminBodyItem({ item }) {
+  const queryClient = useQueryClient();
+
   const updateRealtorApproval = useMutation((arg) => UpdateRealtorApproval(arg), {
     onSuccess: () => {
       queryClient.invalidateQueries(['signuplist']);
     },
   });
-  const queryClient = useQueryClient();
   const onClickReject = () => {
     updateRealtorApproval.mutate({
-      accountCheck: 2,
+      accountCheck: 'APPROVE_REJECT',
       email: item.email,
     });
   };
   const onClickApprove = () => {
     updateRealtorApproval.mutate({
-      accountCheck: 1,
+      accountCheck: 'APPROVE_COMPLETE',
       email: item.email,
     });
   };
 
-  if (item.accountCheck === 0) {
+  if (item.accountCheck === 'APPROVE_WAIT') {
     return (
       <div className="container">
         <div className="img-box">
@@ -42,7 +43,7 @@ export default function AdminBodyItem({ item }) {
       </div>
     );
   }
-  if (item.accountCheck === 1) {
+  if (item.accountCheck === 'APPROVE_COMPLETE') {
     return (
       <div className="container">
         <div className="img-box">
@@ -60,7 +61,7 @@ export default function AdminBodyItem({ item }) {
       </div>
     );
   }
-  if (item.accountCheck === 2) {
+  if (item.accountCheck === 'APPROVE_REJECT') {
     return (
       <div className="container">
         <div className="img-box">

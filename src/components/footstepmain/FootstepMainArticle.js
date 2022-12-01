@@ -1,96 +1,77 @@
 /*global kakao*/
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import '../../global/global.css';
 import searchImg from './sources/Search.png';
 import pathDown from './sources/path_down.png';
+import pathUp from './sources/path_up.png';
 import WriteIcon from './sources/write.png';
+import { useQuery } from '@tanstack/react-query';
+import { ReadImgFootStep, ReadPremisesList } from '../../api/apiGET';
+import fstMarker from './sources/fstMarker.png';
+import CaroselImages from './sources/caroselImage.png';
+import CarouselMarker from './sources/carouselmarker.png';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Pagination } from 'swiper';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
+  const [fstData, setFstData] = useState([]);
+  const [sortName, setSortName] = useState('전체');
+  const [sortState, setSortState] = useState(true);
+
+  const { data: premisesData } = useQuery(['premisesData'], ReadPremisesList, {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (response) => {
+      console.log(response);
+    },
+  });
+  const onSortList = () => {
+    setSortState(false);
+  };
+
+  const onSorting = (sort) => {
+    if (sort === '상담') {
+      setSortName(sort);
+      setSortState(true);
+    }
+    if (sort === '발품기록') {
+      premisesData?.map((data) => {
+        let coord = { LatLng: new kakao.maps.LatLng(data.coordFX, data.coordFY) };
+        return setFstData([...fstData, coord]);
+      });
+      console.log(fstData);
+      setSortName(sort);
+      setSortState(true);
+    }
+    if (sort === '전체') {
+      setSortName(sort);
+      setSortState(true);
+    }
+  };
+  console.log(premisesData);
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
-      center: new kakao.maps.LatLng(37.696046, 127.081947),
-      level: 8,
+      center: new window.kakao.maps.LatLng(37.389777093851, 127.097880906475),
+      level: 7,
     };
-    const map = new kakao.maps.Map(container, options);
+    const map = new window.kakao.maps.Map(container, options);
 
-    //요소의 사이즈;
-    const list = document.querySelector('.list');
-    const listScrollWidth = list?.scrollWidth;
-    const listClientWidth = list?.clientWidth;
-
-    // 이벤트마다 갱신될 값
-    let startX = 0;
-    let nowX = 0;
-    let endX = 0;
-    let listX = 0;
-
-    const onScrollStart = (e) => {
-      startX = getClientX(e);
-      window.addEventListener('mousemove', onScrollMove);
-      window.addEventListener('touchmove', onScrollMove);
-      window.addEventListener('mouseup', onScrollEnd);
-      window.addEventListener('touchend', onScrollEnd);
-    };
-    const onScrollMove = (e) => {
-      nowX = getClientX(e);
-      setTranslateX(listX + nowX - startX);
-    };
-    const onScrollEnd = (e) => {
-      endX = getClientX(e);
-      listX = getTranslateX();
-      if (listX > 0) {
-        setTranslateX(0);
-        list.style.transition = `all 0.3s ease`;
-        listX = 0;
-      } else if (listX < listClientWidth - listScrollWidth) {
-        setTranslateX(listClientWidth - listScrollWidth);
-        list.style.transition = `all 0.3s ease`;
-        listX = listClientWidth - listScrollWidth;
-      }
-
-      window.removeEventListener('mousedown', onScrollStart);
-      window.removeEventListener('touchstart', onScrollStart);
-      window.removeEventListener('mousemove', onScrollMove);
-      window.removeEventListener('touchmove', onScrollMove);
-      window.removeEventListener('mouseup', onScrollEnd);
-      window.removeEventListener('touchend', onScrollEnd);
-      window.removeEventListener('click', onClick);
-
-      setTimeout(() => {
-        bindEvents();
-        list.style.transition = '';
-      }, 300);
-    };
-    const onClick = (e) => {
-      if (startX - endX !== 0) {
-        e.preventDefault();
-      }
-    };
-
-    const getClientX = (e) => {
-      const isToches = e.touches ? true : false;
-      return isToches ? e.touches[0].clientX : e.clientX;
-    };
-
-    const getTranslateX = () => {
-      return parseInt(getComputedStyle(list).transform.split(/[^\-0-9]+/g)[5]);
-    };
-
-    const setTranslateX = (x) => {
-      list.style.transform = `translateX(${x}px)`;
-    };
-
-    const bindEvents = () => {
-      list.addEventListener('mousedown', onScrollStart);
-      list.addEventListener('touchstart', onScrollStart);
-      list.addEventListener('click', onClick);
-    };
-
-    bindEvents();
+    // if (premisesData.length !== 0) {
+    //   for (let i = 0; i < fstData.length; i++) {
+    //     let imageSize = new kakao.maps.Size(44, 54);
+    //     let markerImage = new kakao.maps.MarkerImage(fstMarker, imageSize);
+    //     let marker = new kakao.maps.Marker({
+    //       map: map,
+    //       position: fstData[i].LatLng,
+    //       image: markerImage,
+    //     });
+    //   }
+    // }
   });
 
   return (
@@ -102,10 +83,45 @@ export default function FootstepMainArticle() {
           <SearchImg src={searchImg} />
         </AddressSearchBox>
         <ListBtn>목록</ListBtn>
-        <SortBox>
-          <SortName>전체</SortName>
-          <SortImg src={pathDown} />
-        </SortBox>
+        {sortState === false ? (
+          <SortList>
+            <SortHeadlineBox>
+              <SortHeadline>전체</SortHeadline>
+              <SortingImg src={pathUp} />
+            </SortHeadlineBox>
+            <SortRequest
+              onClick={() => {
+                onSorting('상담');
+              }}
+            >
+              상담
+            </SortRequest>
+            <SortNfs
+              onClick={() => {
+                onSorting('발품기록');
+              }}
+            >
+              발품기록
+            </SortNfs>
+            <SortAll
+              onClick={() => {
+                onSorting('전체');
+              }}
+            >
+              전체
+            </SortAll>
+          </SortList>
+        ) : (
+          <SortBox
+            onClick={() => {
+              onSortList();
+            }}
+          >
+            <SortName>{sortName}</SortName>
+            <SortImg src={pathDown} />
+          </SortBox>
+        )}
+
         <WriteBox>
           <WriteBtn
             onClick={() => {
@@ -115,51 +131,109 @@ export default function FootstepMainArticle() {
             <WriteImg src={WriteIcon} />
           </WriteBtn>
           <CarouselWrap>
-            <CarouselUl className="list">
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://w.namu.la/s/200b12d8096ace4b14fad5783b72ded273dd4eab1317b6a3455a7ab95e80d06d7d49f4dd92ffb9502afa4e9be50398e229fba3e3541e3a77f64d3e480d3e0e34e6fde40ed312e7bd168a4502ce694271202ac4f941d1448edc1c7ab47970d204"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://w.namu.la/s/f1dbb5118738ea9ae30b8dffe5e09aeeebe528b1023f67da317dd68c3e12ab14979925126dd0fd2948e18cd82d5c484e3438a6274f4b48c17a9fcf20817a7b08f014991d6484653d4b70e304e14004c502ddea8ad5fd0f28e77f3f8a296eb55d2eb9aefcd45842931dd2df1ae592b586"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem className="image" src="https://img4.yna.co.kr/photo/ap/2011/09/12/PAP20110912234101034_P4.jpg" alt="첫 번째 별나비" />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem className="image" src="https://img.insight.co.kr/static/2016/06/13/2000/s2q33j23pj02068k8j7v.jpg" alt="첫 번째 별나비" />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem className="image" src="http://image.yes24.com/blogimage/blog/k/i/kikine/czXNJ1Dr.gif" alt="첫 번째 별나비" />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://mblogthumb-phinf.pstatic.net/MjAxNzAyMThfMTMz/MDAxNDg3Mzk5MzExODYy.O6Ysc8jgkkdtuM1hA4v6Ko1Abmq3NAfuVOMYUlZEtpEg.bQyZllUpIL8y2QGz0fLm6UlEsPINWYgSE88l_uHz8MEg.JPEG.soso005/%EC%95%BC%EB%8F%88.jpg?type=w800"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-              <CarouselLi className="item">
-                <CarosulItem
-                  className="image"
-                  src="https://w.namu.la/s/799cc2ec018675e79efedb50c0750cd1a74e8bf79466c1eab9caec6ec59dd4681ed4deb364f7d3f5147e31d6ee0fa0f7ef42e9ea90b55370e87283e0faf2e5536b05fe73d64085efdd5d48a996b8cea7867fe5be249490ea521c4a84b89d21c4"
-                  alt="첫 번째 별나비"
-                />
-              </CarouselLi>
-            </CarouselUl>
+            <Swiper
+              slidesPerView={2}
+              spaceBetween={-40}
+              freeMode={true}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[FreeMode, Pagination]}
+              className="mySwiper"
+            >
+              <CarouselUl className="list">
+                {sortName === '발품기록' ? (
+                  <CarouselLi className="item">
+                    <CarouselBox
+                      onClick={() => {
+                        navigate(`${premisesData !== 'undefined' && premisesData.length !== '0' ? premisesData[0].id : null}`);
+                      }}
+                    >
+                      <CarouselImage src={CaroselImages} />
+                      <CarouselRightBox>
+                        <CarouselHeaderBox>
+                          <CarouselMarkerImg src={CarouselMarker} />
+                          <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP>
+                        </CarouselHeaderBox>
+                        <CarouselAddress>{premisesData.length !== 0 ? premisesData[0].title : null}</CarouselAddress>
+                        <CarouselReview>{premisesData.length !== 0 ? premisesData[0].review : null}</CarouselReview>
+                      </CarouselRightBox>
+                    </CarouselBox>
+                  </CarouselLi>
+                ) : null}
+              </CarouselUl>
+            </Swiper>
           </CarouselWrap>
         </WriteBox>
       </FootstepMainArticleContainer>
     </>
   );
 }
+
+const CarouselBox = styled.div`
+  width: 308px;
+  height: 120px;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--Shadow2-box-shadow);
+  margin-left: 16px;
+  -webkit-user-drag: none;
+  cursor: pointer;
+`;
+
+const CarouselImage = styled.img`
+  width: 84px;
+  height: 84px;
+  margin-top: 18px;
+  margin-left: 16px;
+`;
+const CarouselRightBox = styled.div`
+  margin-left: 12px;
+  margin-top: 16px;
+`;
+
+const CarouselHeaderBox = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const CarouselMarkerImg = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+const CarouselHeaderP = styled.div`
+  margin-left: 8px;
+  margin-top: 4px;
+  color: #3fb00a;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+`;
+
+const CarouselAddress = styled.div`
+  width: 180px;
+  margin-top: 4px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+`;
+
+const CarouselReview = styled.div`
+  margin-top: 4px;
+  color: var(--gray4);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Small-font-size);
+  font-weight: var(--body_Small-font-weight);
+  line-height: var(--body_Small-line-height);
+  letter-spacing: var(--body_Small-letter-spacing);
+`;
 
 const FootstepMainArticleContainer = styled.div`
   width: 360px;
@@ -230,6 +304,8 @@ const SortBox = styled.div`
   width: 70px;
   height: 36px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   border: 1px solid var(--gray5);
   border-radius: 8px;
@@ -239,8 +315,6 @@ const SortBox = styled.div`
 `;
 
 const SortName = styled.div`
-  margin-left: 12px;
-  margin-top: 10px;
   font-family: var(--button-font-family);
   font-size: var(--button_Small-font-size);
   font-weight: var(--button_Small-font-weight);
@@ -248,11 +322,97 @@ const SortName = styled.div`
   letter-spacing: var(--button_Small-letter-spacing);
 `;
 
+const SortList = styled.div`
+  position: absolute;
+  width: 70px;
+  height: 135px;
+  margin-top: 80px;
+  margin-left: 16px;
+  background-color: white;
+  border: 1px solid var(--gray5);
+  border-radius: 8px;
+`;
+
+const SortHeadlineBox = styled.div`
+  width: 60px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 12px;
+  margin-top: 8px;
+  color: var(--gray3);
+`;
+
+const SortHeadline = styled.div`
+  margin-top: 2px;
+  cursor: default;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+`;
+
+const SortRequest = styled.div`
+  width: 70px;
+  height: 32px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-top: 1px solid var(--gray5);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
+`;
+
+const SortNfs = styled.div`
+  width: 70px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-top: 1px solid var(--gray5);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
+`;
+
+const SortAll = styled.div`
+  width: 70px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-top: 1px solid var(--gray5);
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
+`;
+
+const SortingImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+`;
+
 const SortImg = styled.img`
   width: 20px;
   height: 20px;
   margin-left: 4px;
-  margin-top: 8px;
 `;
 
 const WriteBox = styled.div`
