@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // create BASE API
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_API}`,
+  baseURL: "https://www.blockchaingers.xyz",
 });
 
 // API TOKEN Intercepters
