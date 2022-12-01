@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2, isLogin } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2, isLogin, toastVisible, TextToast, LoginDatas } from '../../store/store';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
-import { MemberSignUp, RequestEmail, EmailLoginData } from '../../api/apiPOST';
+import { MemberSignUp, EmailLoginData } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpMember() {
@@ -18,9 +18,6 @@ function SignUpMember() {
   //로그인 유지를 위한 recoilstate
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
 
-  //이메일 비밀번호 담을 usestate
-  const [emailpassword, setEmailPassword] = useState('');
-
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
   //비밀번호 확인할 usestate
@@ -31,6 +28,15 @@ function SignUpMember() {
 
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
+
+  //이메일 주소만 (409에러 대비)
+  const [onlyemail, setOnlyEmail] = useRecoilState(LoginDatas);
+
+  // toast 띄우는 state
+  const setVisible = useSetRecoilState(toastVisible);
+
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
 
   //데이터 전송용 initialstate
   const initialState = {
@@ -69,20 +75,20 @@ function SignUpMember() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
-    const emailData = loginData.email;
+    const emailData = e.target.value;
+    setOnlyEmail(loginData.email);
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
+      if (emailData === '') {
+        setCheckemail('빈칸을 채워주세요');
+      }
       setIsEmail(false);
       setValid(false);
-      // emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
-    }
-    if (e.target.value === '') {
-      setCheckemail('빈칸을 채워주세요');
     }
   };
 
@@ -103,34 +109,50 @@ function SignUpMember() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
-    const passwordData = loginData.password;
-    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordData = e.target.value;
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
+      if (e.target.value === '') {
+        setCheckPassword('빈칸을 채워주세요');
+      }
       setIsPassword(false);
       setPsValid(false);
-      // passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
     }
-    if (e.target.value === '') {
-      setCheckPassword('빈칸을 채워주세요');
-    }
   };
 
+  const onActiveEnter = (e) => {
+    if (e.key === 'Enter') {
+      onSubmitSignUpData();
+    }
+  };
+  const { email, password } = loginData;
+  const UserName = loginData.nickname;
   //회원가입
   const { mutate: memberSignUp } = useMutation(MemberSignUp, {
     onSuccess: () => {
-      alert('회원가입완료!');
-      navigate('/');
+      // setToastText(`환영해요 ${UserName}님`);
+      // setVisible(true);
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
+      setToastText(err.response.data.errorMessage);
+      if (err.response.status === 409) {
+        setToastText('이미 가입한 이메일로 로그인 시도합니다');
+        console.log(loginData);
+      } else {
+        return;
+      }
+      setVisible(true);
+      setOpenSignUp(true);
     },
   });
-  //동시로그인
+
+  //동시로그인;
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
     onSuccess: (response) => {
       sessionStorage.setItem('access_token', response.headers.access_token);
@@ -138,10 +160,21 @@ function SignUpMember() {
       sessionStorage.setItem('accountstate', response.data.accountState);
       setAppLogin(true);
       console.log(response);
+      setVisible(true);
+      setToastText(`환영해요 ${UserName}님`);
       navigate('/');
     },
     onError: (err) => {
-      alert(err.response.data.errorMessage);
+      setReject(err.response.data.errorMessage);
+      setToastText(err.response.data.errorMessage);
+      if (err.response.status === 404) {
+        setToastText(['비밀번호가 일치하지 않습니다.\n 다시 작성해주세요']);
+      } else {
+        return;
+      }
+      setValid(false);
+      setPsValid(false);
+      setVisible(true);
     },
   });
 
@@ -152,9 +185,13 @@ function SignUpMember() {
     console.log('asdf', loginData);
     setOpenSignUp(false);
     memberSignUp(loginData);
-    setTimeout(() => {
-      emailLogin(LoginPocket);
-    }, 2000);
+    if (reject !== '') {
+      return;
+    } else {
+      setTimeout(() => {
+        emailLogin(LoginPocket);
+      }, 1500);
+    }
   };
 
   return (
@@ -178,8 +215,11 @@ function SignUpMember() {
                     placeholder="lighthouse@gmail.com"
                     name="email"
                     type="text"
+                    value={email}
                     onChange={onChangeEmail}
                     onBlur={onblurChange}
+                    autocomplete="on"
+                    index="1"
                     style={{
                       border: isEmail === false ? '1px solid #d14343 ' : 'none',
                     }}
@@ -189,17 +229,21 @@ function SignUpMember() {
               </InputBox>
               <InputBoxPassword>
                 <InputName>비밀번호</InputName>
-
-                <InputText
-                  placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합"
-                  autocomplete="current-password"
-                  name="password"
-                  onChange={onChangePassword}
-                  type={secret === false ? 'text' : 'password'}
-                  style={{
-                    border: isPassword === false ? '1px solid #d14343 ' : 'none',
-                  }}
-                ></InputText>
+                <form>
+                  <InputText
+                    placeholder="8-30자리 영대*소문자, 숫자, 특수문자 조합"
+                    autocomplete="new-password"
+                    name="password"
+                    value={password}
+                    onChange={onChangePassword}
+                    onKeyDown={(e) => onActiveEnter(e)}
+                    index="2"
+                    type={secret === false ? 'text' : 'password'}
+                    style={{
+                      border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                    }}
+                  ></InputText>
+                </form>
               </InputBoxPassword>
               <ErrorMsgPreview>
                 <InputErrorMessageBoxPassword>
@@ -210,18 +254,17 @@ function SignUpMember() {
             </InputContainer>
             <BlankContainer></BlankContainer>
             <ButtonContainer>
-              <ButtonStyle
-                // onClick={() => {
-                //   errormail === '' ? onSubmitSignUpData() : onCheckEmailDouble();
-                // }}
-                type="submit"
-                disabled={isValidLogin}
-                onClick={() => {
-                  onSubmitSignUpData();
-                }}
-              >
-                시작하기
-              </ButtonStyle>
+              <form>
+                <ButtonStyle
+                  type="submit"
+                  disabled={isValidLogin}
+                  onClick={() => {
+                    onSubmitSignUpData();
+                  }}
+                >
+                  시작하기
+                </ButtonStyle>
+              </form>
             </ButtonContainer>
           </ChoiceContainer>
         </>
@@ -444,3 +487,4 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
+

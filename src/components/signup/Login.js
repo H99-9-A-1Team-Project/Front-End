@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { useRecoilState } from 'recoil';
-import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2 } from '../../store/store';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2, toastVisible, TextToast } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -16,17 +16,13 @@ function Login() {
   const navigate = useNavigate();
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
-  const [nexttor, setNextTor] = useRecoilState(NextTor);
-  const [nextmem, setNextMem] = useRecoilState(NextMem);
+  // const [nexttor, setNextTor] = useRecoilState(NextTor);
+  // const [nextmem, setNextMem] = useRecoilState(NextMem);
 
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
   //비밀번호 확인할 usestate
   const [checkpassword, setCheckPassword] = useState('');
-  //이메일 잘못 입력 에러 출력 state
-  const [errormail, setErrorMail] = useState('');
-  //비밀번호 잘못 입력 에러 출력 state
-  const [errorpassword, setErrorPassWord] = useState('');
 
   //비밀번호 미리보기를 위한 state
   const [secret, setSecret] = useState(true);
@@ -39,6 +35,15 @@ function Login() {
 
   //토큰용 state
   const [accessToken, setAccessToken] = useState('');
+
+  //회원가입 오류 출력 state
+  const [reject, setReject] = useState('');
+
+  // toast 띄우는 state
+  const setVisible = useSetRecoilState(toastVisible);
+
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
 
   //버튼 활성화 및 오류메시지 색상 활성화를 위한 state
   const [valid, setValid] = useRecoilState(itsNotOK);
@@ -79,43 +84,47 @@ function Login() {
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
 
-    const emailData = loginData.email;
+    const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
+      if (e.target.value === '') {
+        setCheckemail('빈칸을 채워주세요');
+      }
       setIsEmail(false);
       setValid(false);
-      // emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
-    }
-    if (e.target.value === '') {
-      setCheckemail('빈칸을 채워주세요');
     }
   };
   const onChangePassword = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
-    const passwordData = loginData.password;
-    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordData = e.target.value;
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
+      if (e.target.value === '') {
+        setCheckPassword('빈칸을 채워주세요');
+      }
       setIsPassword(false);
       setPsValid(false);
-      // passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
     }
-    if (e.target.value === '') {
-      setCheckPassword('빈칸을 채워주세요');
+  };
+  console.log(loginData);
+  const onActiveEnter = (e) => {
+    if (e.key === 'Enter') {
+      onSubmitLoginData();
     }
   };
-
+  const UserName = loginData.email.split('@')[0];
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
     onSuccess: (response) => {
       sessionStorage.setItem('access_token', response.headers.access_token);
@@ -125,9 +134,14 @@ function Login() {
       setAppLogin(true);
       console.log(response);
       navigate('/');
+      setToastText(`환영해요 ${UserName}님`);
+      setVisible(true);
     },
     onError: (err) => {
-      alert(err.response.data.errorMessage);
+      // alert(err.response.data.errorMessage);
+      setReject(err.response.data.errorMessage);
+      setToastText(err.response.data.errorMessage);
+      setVisible(true);
     },
   });
 
@@ -136,7 +150,7 @@ function Login() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
-      // localStorage.setItem('access_token', response.headers.access_token);
+      localStorage.setItem('access_token', response.headers.access_token);
       setAccessToken(response.headers.access_token);
       window.localStorage.setItem('jwt', '자동로그인');
       setAppLogin(true);
@@ -150,6 +164,7 @@ function Login() {
 
   const onSubmitLoginData = () => {
     if (checkAuto === false) {
+      console.log(checkAuto);
       setCheckPassword('');
       emailLogin(loginData);
     } else {
@@ -181,6 +196,7 @@ function Login() {
                   type="text"
                   name="email"
                   onChange={onChangeEmail}
+                  index="1"
                   style={{
                     border: isEmail === false ? '1px solid #d14343 ' : 'none',
                   }}
@@ -197,6 +213,8 @@ function Login() {
                 type={secret === false ? 'text' : 'password'}
                 autocomplete="current-password"
                 onChange={onChangePassword}
+                index="2"
+                onKeyDown={(e) => onActiveEnter(e)}
                 style={{
                   border: isPassword === false ? '1px solid #d14343 ' : 'none',
                 }}
@@ -508,3 +526,4 @@ const ButtonStyle = styled.button`
     color: white;
   }
 `;
+

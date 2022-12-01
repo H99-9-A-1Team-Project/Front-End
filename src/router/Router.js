@@ -25,11 +25,12 @@ import DeleteId from '../pages/DeleteId';
 import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
 import ToastMessage from '../global/components/ToastMessage';
 import { useRecoilState } from 'recoil';
-import { toastVisible } from '../store/store';
+import { toastVisible, TextToast } from '../store/store';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
-
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
   return (
     <>
       <Container>
@@ -65,7 +66,7 @@ export default function Router() {
           </Routes>
           <MainPageSideBar />
           {/* {visible && <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />} */}
-          <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />
+          <ToastMessage text={toasttext} />
         </App>
         <div className="right_container">
           <div className="right_container_button">
@@ -181,3 +182,4 @@ const App = styled.div`
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
 `;
+

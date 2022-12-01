@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import Plus from '../signup/sources/plus.png';
-import { useRecoilState } from 'recoil';
-import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2, LoginDatas } from '../../store/store';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2, LoginDatas, toastVisible, TextToast } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import CompleteModal from './CompleteModal';
 import ViewPassword from '../signup/sources/View_password.png';
@@ -47,6 +47,15 @@ function SignUpRealtor() {
 
   //회원가입창의 시작과 전환을 위한 recoilstate
   const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
+
+  // toast 띄우는 state
+  const setVisible = useSetRecoilState(toastVisible);
+
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
+
+  //회원가입 오류 출력 state
+  const [reject, setReject] = useState('');
 
   //데이터 전송을 위한 state
   const [loginData, setLoginData] = useRecoilState(LoginDatas);
@@ -93,20 +102,19 @@ function SignUpRealtor() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
-    const emailData = loginData.email;
+    const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
+      if (e.target.value === '') {
+        setCheckemail('빈칸을 채워주세요');
+      }
       setIsEmail(false);
       setValid(false);
-      // emailData.focus();
     } else {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
-    }
-    if (e.target.value === '') {
-      setCheckemail('빈칸을 채워주세요');
     }
   };
 
@@ -121,13 +129,17 @@ function SignUpRealtor() {
   //이메일 중복확인
   const { mutate: memberEmail } = useMutation(RequestEmail, {
     onSuccess: (response) => {
-      alert('가입이 가능한 이메일입니다!');
+      setVisible(true);
+      setToastText('가입이 가능한 이메일입니다');
       setOkEmail('가입이 가능한 이메일입니다');
+      onNextRealtorPage();
       setDoubleEmail('');
     },
     onError: (err) => {
-      alert('이메일을 다시 확인해주세요~!');
-      setDoubleEmail(err.response.data.error.message);
+      setVisible(true);
+      setToastText(err.response.data.errorMessage);
+      // alert(err.response.data.errorMessage);
+      setDoubleEmail(err.response.data.errorMessage);
     },
   });
   const onCheckEmailDouble = () => {
@@ -141,20 +153,19 @@ function SignUpRealtor() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
-    const passwordData = loginData.password;
-    const expword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,30}$/;
+    const passwordData = e.target.value;
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
+      if (e.target.value === '') {
+        setCheckPassword('빈칸을 채워주세요');
+      }
       setIsPassword(false);
       setPsValid(false);
-      // passwordData.focus();
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
       setIsPassword(true);
       setPsValid(true);
-    }
-    if (e.target.value === '') {
-      setCheckPassword('빈칸을 채워주세요');
     }
   };
 
@@ -177,7 +188,8 @@ function SignUpRealtor() {
   const { mutate: postFormData } = useMutation(RealtorSignUpFormDatas, {
     onSuccess: (response) => {},
     onError: (error) => {
-      alert(error.response.data.errorMessage);
+      setVisible(true);
+      setToastText(error.response.data.errorMessage);
     },
   });
 
@@ -650,3 +662,4 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
+

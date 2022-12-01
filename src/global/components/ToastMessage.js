@@ -20,6 +20,7 @@ export default function ToastMessage({ text }) {
 const StToastMessageLayout = styled.div`
   position: relative;
   left: -298px;
+  z-index: 1000;
   transform: ${(props) => (props.visible ? 'translateY(-96px)' : 'translateY(0)')};
   opacity: ${(props) => (props.visible ? '1' : '0')};
   transition: transform 1s;
@@ -40,5 +41,7 @@ const StToastMessageLayout = styled.div`
     line-height: var(--body_Medium-line-height);
     letter-spacing: var(--body_Medium-letter-spacing);
     color: rgba(255, 255, 255, 1);
+    white-space: pre-line;
   }
 `;
+

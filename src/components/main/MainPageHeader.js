@@ -44,3 +44,4 @@ const StMenu = styled.img`
   margin-top: 20px;
   cursor: pointer;
 `;
+

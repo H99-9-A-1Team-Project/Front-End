@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
-import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp } from '../../store/store';
+import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp, TextToast } from '../../store/store';
 import { useRecoilState } from 'recoil';
 import Login from './Login';
 import SignUpMember from './SignUpMember';
@@ -29,6 +29,12 @@ function SignUpChoice() {
 
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+
+  //회원가입 오류 출력 state
+  const [reject, setReject] = useState('');
+
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useState(TextToast);
 
   // 메인페이지로 회귀
   const navigate = useNavigate();
@@ -230,3 +236,4 @@ const AlreadyIdBox = styled.div`
   color: var(--gray4);
   background-color: white;
 `;
+

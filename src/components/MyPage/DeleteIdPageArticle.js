@@ -2,11 +2,11 @@ import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState, useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { DeleteUser } from '../../api/apiPOST';
 
-import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor, toastVisible } from '../../store/store';
+import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor, toastVisible, TextToast } from '../../store/store';
 import checked from './sources/checked_button.png';
 import unchecked from './sources/unchecked_button.png';
 
@@ -54,6 +54,8 @@ export default function DeleteIdPageArticle() {
   const onChangeSurveyMessage = (e) => {
     setInfoState({ ...infoState, surveyMessage: e.target.value });
   };
+  // toast 에 들어갈 문구 recoilstate
+  const [toasttext, setToastText] = useRecoilState(TextToast);
   const { mutate: deleteUser } = useMutation(() => DeleteUser({ check1: infoState.check1, check2: infoState.check2, check3: infoState.check3, surveyMessage: infoState.surveyMessage }), {
     onSuccess: () => {
       sessionStorage.removeItem('access_token');
@@ -67,6 +69,7 @@ export default function DeleteIdPageArticle() {
       appLogout();
       navigate('/');
       setVisible(true);
+      setToastText('그동안 함께해서 즐거웠습니다');
     },
   });
   return (
@@ -270,3 +273,4 @@ const StDeleteIdPageLayout = styled.div`
     }
   }
 `;
+
