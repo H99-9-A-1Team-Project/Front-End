@@ -256,7 +256,7 @@ export default function LoginMyPageArticle() {
               <img src={arrow} alt="arrow" />
             </div>
             <div className="info-3">발품기록</div>
-            <div className="info-2">
+            <div className="info-2" onClick={() => navigate('/footstepmain')}>
               내기록
               <img src={arrow} alt="arrow" />
             </div>
@@ -575,6 +575,7 @@ const Container = styled.div`
     .select_img {
       width: 40px;
       height: 40px;
+      cursor: pointer;
     }
   }
   .profileform2 {

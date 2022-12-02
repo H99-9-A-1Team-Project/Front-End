@@ -68,8 +68,8 @@ function SignUpChoice() {
       <ChoiceContainer>
         {opensignup === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
           <>
-            <SignUpHeader>
-              <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
+            <SignUpHeader onClick={onGoingMainPage}>
+              <BackpageIconBox src={pathLeft} />
               <SignUpTitle>회원가입</SignUpTitle>
             </SignUpHeader>
             <WelcomeQuestionContainer>
@@ -138,6 +138,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: white;
+  cursor: pointer;
 `;
 
 const BackpageIconBox = styled.img`
@@ -203,6 +204,7 @@ const ButtonStyle = styled.div`
   border: 1px solid var(--primary2-400);
   border-radius: 8px;
   background-color: white;
+  cursor: pointer;
   :hover {
     background-color: #3c6eef;
     color: white;
@@ -235,5 +237,5 @@ const AlreadyIdBox = styled.div`
   text-decoration-line: underline;
   color: var(--gray4);
   background-color: white;
+  cursor: pointer;
 `;
-
