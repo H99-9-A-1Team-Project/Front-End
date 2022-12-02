@@ -177,8 +177,8 @@ function Login() {
     <>
       {goinglogin === 1 ? (
         <ChoiceContainer>
-          <SignUpHeader>
-            <BackpageIconBox src={pathLeft} onClick={onGoingLogIn} />
+          <SignUpHeader onClick={onGoingLogIn}>
+            <BackpageIconBox src={pathLeft} />
             <SignUpTitle>로그인</SignUpTitle>
           </SignUpHeader>
           <WelcomeQuestionContainer>
@@ -268,6 +268,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: var(--white);
+  cursor: pointer;
 `;
 
 const BackpageIconBox = styled.img`
@@ -526,4 +527,3 @@ const ButtonStyle = styled.button`
     color: white;
   }
 `;
-

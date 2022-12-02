@@ -144,6 +144,7 @@ const Container = styled.div`
       line-height: var(--button_Large-line-height);
       letter-spacing: var(--button_Large-letter-spacing);
       color: var(--primary2-400);
+      cursor: pointer;
       img {
         width: 24px;
         height: 24px;
@@ -182,4 +183,3 @@ const App = styled.div`
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
 `;
-

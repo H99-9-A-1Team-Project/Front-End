@@ -129,7 +129,7 @@ function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '0' ? (
               <div className="article_body_banner_wrap">
-                <div className="banner1">
+                <div className="banner1" onClick={() => navigate('/newfootstep')}>
                   <div className="div_1">
                     <div>발품</div>
                     <div className="div_3">
@@ -458,4 +458,3 @@ const ServiceQueMark = styled.img`
   margin-top: 8px;
   background: none;
 `;
-
