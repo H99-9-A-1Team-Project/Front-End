@@ -66,7 +66,7 @@ export default function Router() {
           </Routes>
           <MainPageSideBar />
           {/* {visible && <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />} */}
-          <ToastMessage text={toasttext} />
+          {/* <ToastMessage text={toasttext} /> */}
         </App>
         <div className="right_container">
           <div className="right_container_button">
@@ -174,9 +174,9 @@ const Container = styled.div`
 
 const App = styled.div`
   width: 360px;
-  min-height: 100vh;
-  max-height: fit-content;
-  display: flex;
+  height: 100vh;
+  /* max-height: fit-content; */
+  /* display: flex; */
   flex-direction: row;
   align-items: flex-end;
   background-color: white;

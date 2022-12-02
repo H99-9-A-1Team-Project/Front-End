@@ -1,5 +1,5 @@
 import React from 'react';
-import OverLayout from '../global/components/OverLayout';
+import Layout from '../global/components/Layout';
 import Header from '../components/footstepdetail/Header';
 import ImageList from '../components/footstepdetail/ImageList';
 import Address from '../components/footstepdetail/Address';
@@ -9,7 +9,7 @@ import CheckList from '../components/footstepdetail/CheckList';
 
 export default function FootStepDetail() {
   return (
-    <OverLayout>
+    <Layout>
       <>
         <Header />
         <ImageList />
@@ -18,6 +18,6 @@ export default function FootStepDetail() {
         <CheckList />
         <Basic />
       </>
-    </OverLayout>
+    </Layout>
   );
 }
