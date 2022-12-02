@@ -65,8 +65,7 @@ export default function Router() {
             <Route path="/deleteid" element={<DeleteId />} />
           </Routes>
           <MainPageSideBar />
-          {/* {visible && <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />} */}
-          {/* <ToastMessage text={toasttext} /> */}
+          <ToastMessage text={toasttext} />
         </App>
         <div className="right_container">
           <div className="right_container_button">

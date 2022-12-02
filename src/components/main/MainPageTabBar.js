@@ -25,7 +25,7 @@ export default function MainPageTabBar() {
   useEffect(() => {
     setTbAccountState(sessionStorage.getItem('accountstate'));
     console.log(tbAccountState);
-    if (tbAccountState === 0 || tbAccountState === null) {
+    if (tbAccountState === '0' || tbAccountState === null) {
       if (window.location.pathname === '/') {
         setTbHome(1);
         setTbPin(0);
@@ -44,7 +44,7 @@ export default function MainPageTabBar() {
         setTbRequest(0);
         setTbUser(1);
       }
-    } else if (tbAccountState === 1) {
+    } else if (tbAccountState === '1' && tbAccountState === '2') {
       if (window.location.pathname === '/') {
         setTbHome(1);
         setTbRequest(0);
@@ -95,7 +95,8 @@ export default function MainPageTabBar() {
         setTbRequest(0);
         setTbUser(1);
       }
-    } else if (tbAccountState === '1') {
+    } else if (tbAccountState === '1' || tbAccountState === '2') {
+      console.log('dd');
       if (click === 1) {
         navigate('/');
         setTbHome(1);
@@ -166,7 +167,6 @@ export default function MainPageTabBar() {
                 onClickTab(1);
               }}
             >
-              {' '}
               {tbHome === 0 ? <RealtorHomeImg src={imgHomeOFF} /> : <RealtorHomeImg src={imgHomeON} />}
               <RealtorHomeP tbHome={tbHome}>홈</RealtorHomeP>
             </RealtorHomeBox>
