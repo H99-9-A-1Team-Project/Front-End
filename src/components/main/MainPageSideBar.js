@@ -28,16 +28,15 @@ export default function MainPageSideBar() {
   );
 }
 const StMainPageSideBarLayout = styled.div`
+  position: absolute;
+  top: 0vh;
   height: 100%;
-  display: ${(props) => (props.visible ? 'flex' : 'none')};
   z-index: 1;
-  right: 360px;
   flex-direction: row;
-  position: relative;
-  /* display: flex; */
-  /* z-index: ${(props) => (props.visible ? '1' : '-1')}; */
-  /* transform: ${(props) => (props.visible ? 'translateX(-360px)' : 'translateX(0)')}; */
-  /* transition: transform 0.5s; */
+  opacity: ${(props) => (props.visible ? '1' : '0')};
+  pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
+  display: flex;
+  transition: opacity 0.2s;
   .sidebar_img {
     margin-top: 8px;
     border: none;

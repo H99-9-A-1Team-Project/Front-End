@@ -17,14 +17,15 @@ export default function RequestHeader() {
     navigate('/request');
   };
   return (
-    <HeaderContainer>
-      <HeaderPath src={Path} onClick={() => navigate(-1)} />
+    <HeaderContainer onClick={() => navigate(-1)}>
+      <HeaderPath src={Path} />
       <HeaderP>상담 신청하기</HeaderP>
     </HeaderContainer>
   );
 }
 
 const HeaderContainer = styled.div`
+  width: 360px;
   height: 64px;
   background: none;
   display: flex;
@@ -42,11 +43,11 @@ const HeaderPath = styled.img`
 const HeaderP = styled.p`
   background: none;
   margin-left: 8px;
-  margin-top: 22px;
+  margin: 22px 0 22px 8px;
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
   font-weight: var(--body_Medium-font-weight);
   line-height: var(--body_Medium-line-height);
   letter-spacing: var(--body_Medium-letter-spacing);
-  cursor: default;
+  cursor: pointer;
 `;
