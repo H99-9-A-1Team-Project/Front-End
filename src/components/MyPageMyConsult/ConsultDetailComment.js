@@ -371,6 +371,10 @@ const ConsultDetailCommentLayout = styled.div`
     padding: 32px 0 0 0;
     width: 328px;
     flex-direction: column;
+    .toastui-editor-popup {
+      width: 320px;
+    }
+
     .buttons {
       width: 328px;
       height: 52px;
@@ -577,40 +581,6 @@ const ConsultDetailCommentLayout3 = styled.div`
     .like {
       background-color: var(--primary2-400);
       color: white;
-    }
-  }
-  .editor_wrap {
-    padding: 32px 0 0 0;
-    width: 328px;
-    flex-direction: column;
-    .buttons {
-      width: 328px;
-      height: 52px;
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      margin-top: 32px;
-      margin-bottom: 24px;
-      button {
-        width: 160px;
-        border-radius: 8px;
-        font-family: var(--button-font-family);
-        font-size: var(--button_Large-font-size);
-        font-weight: var(--button_Large-font-weight);
-        line-height: var(--button_Large-line-height);
-        letter-spacing: var(--button_Large-letter-spacing);
-        cursor: pointer;
-      }
-      .cancle_button {
-        border: 1.5px solid var(--gray4);
-        color: var(--gray4);
-        background-color: white;
-      }
-      .submit_button {
-        border: 1px solid var(--primary2-400);
-        color: white;
-        background-color: var(--primary2-400);
-      }
     }
   }
   .profile_container {
