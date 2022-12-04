@@ -31,17 +31,52 @@ export default function NewFootStepOption() {
 
   const onFileUpdate = async (e, name) => {
     if (name === 'option' && nfscImgState.option === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, option: true });
     }
     if (name === 'destroy' && nfscImgState.destroy === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, destroy: true });
     }
     if (name === 'utiroom' && nfscImgState.utiRoom === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, utiRoom: true });
     }
+  };
+
+  const onImgCompress = async (file) => {
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log(compressedFile);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = async (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+
+      const file = new File([blob], 'image.jpg');
+      setNfscImgData([...nfscImgData, file]);
+      console.log(nfscImgData);
+    };
   };
 
   const onChangeData = (e) => {

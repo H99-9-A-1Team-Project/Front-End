@@ -49,25 +49,60 @@ export default function NewFootStepConven() {
 
   const onFileUpdate = async (e, name) => {
     if (name === 'hill' && nfscImgState.hill === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, hill: true });
     }
     if (name === 'mart' && nfscImgState.mart === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, mart: true });
     }
     if (name === 'hospital' && nfscImgState.hospital === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, hospital: true });
     }
     if (name === 'accessibility' && nfscImgState.accessibility === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, accessibility: true });
     }
     if (name === 'park' && nfscImgState.park === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, park: true });
     }
+  };
+
+  const onImgCompress = async (file) => {
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log(compressedFile);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = async (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+
+      const file = new File([blob], 'image.jpg');
+      setNfscImgData([...nfscImgData, file]);
+      console.log(nfscImgData);
+    };
   };
 
   return (

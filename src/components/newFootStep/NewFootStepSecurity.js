@@ -43,21 +43,56 @@ export default function NewFootStepSecurity() {
 
   const onFileUpdate = async (e, name) => {
     if (name === 'securitywindow' && nfscImgState.securityWindow === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, securityWindow: true });
     }
     if (name === 'noise' && nfscImgState.noise === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, noise: true });
     }
     if (name === 'loan' && nfscImgState.loan === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, loan: true });
     }
     if (name === 'cctv' && nfscImgState.cctv === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, cctv: true });
     }
+  };
+
+  const onImgCompress = async (file) => {
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log(compressedFile);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = async (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+
+      const file = new File([blob], 'image.jpg');
+      setNfscImgData([...nfscImgData, file]);
+      console.log(nfscImgData);
+    };
   };
 
   return (

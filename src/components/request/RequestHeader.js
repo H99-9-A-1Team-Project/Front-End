@@ -11,14 +11,16 @@ export default function RequestHeader() {
   const setRqhAddress = useSetRecoilState(requireAddress);
   const setRqhDetailAddress = useSetRecoilState(rqDetailAddress);
   const onBack = () => {
-    setRqhInfo({ title: '', coordX: '', coordY: '', check1: 0, check2: 0, check3: 0, check4: 0, check5: 0, check6: 0, consultMessage: '' });
-    setRqhAddress('도로명 주소 검색');
-    setRqhDetailAddress('');
     navigate('/request');
   };
   return (
-    <HeaderContainer onClick={() => navigate(-1)}>
-      <HeaderPath src={Path} />
+    <HeaderContainer>
+      <HeaderPath
+        src={Path}
+        onClick={() => {
+          onBack();
+        }}
+      />
       <HeaderP>상담 신청하기</HeaderP>
     </HeaderContainer>
   );

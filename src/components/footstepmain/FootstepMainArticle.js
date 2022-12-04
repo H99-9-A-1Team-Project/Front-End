@@ -14,12 +14,21 @@ import CaroselImages from './sources/caroselImage.png';
 import CarouselMarker from './sources/carouselmarker.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper';
+import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress } from '../../store/store';
+import { useSetRecoilState } from 'recoil';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
   const [fstData, setFstData] = useState([]);
   const [sortName, setSortName] = useState('전체');
   const [sortState, setSortState] = useState(true);
+  const setNfshData = useSetRecoilState(nfsData);
+  const setNfshImgData = useSetRecoilState(nfsImgData);
+  const setNfshPreviewImgData = useSetRecoilState(nfsPreviewImgData);
+  const setNfshrPath = useSetRecoilState(nfsrPath);
+  const setNfshImgState = useSetRecoilState(nfsImgState);
+  const setNfshRoadAddress = useSetRecoilState(nfsRoadAddress);
+  const setNfshDetailAddress = useSetRecoilState(nfsDetailAddress);
 
   const { data: premisesData } = useQuery(['premisesData'], ReadPremisesList, {
     onSuccess: (response) => {
@@ -60,19 +69,73 @@ export default function FootstepMainArticle() {
       level: 7,
     };
     const map = new window.kakao.maps.Map(container, options);
-
-    // if (premisesData.length !== 0) {
-    //   for (let i = 0; i < fstData.length; i++) {
-    //     let imageSize = new kakao.maps.Size(44, 54);
-    //     let markerImage = new kakao.maps.MarkerImage(fstMarker, imageSize);
-    //     let marker = new kakao.maps.Marker({
-    //       map: map,
-    //       position: fstData[i].LatLng,
-    //       image: markerImage,
-    //     });
-    //   }
-    // }
   });
+
+  const onNewFootStep = () => {
+    setNfshRoadAddress('도로명 주소 검색');
+    setNfshDetailAddress('');
+    setNfshData({
+      title: '',
+      coordFX: '',
+      coordFY: '',
+      price: '',
+      expenses: '',
+      size: '',
+      review: '',
+      sun: false,
+      mold: false,
+      vent: false,
+      water: false,
+      ventil: false,
+      drain: false,
+      draft: false,
+      extraMemo: '',
+      option: '',
+      destroy: false,
+      utiRoom: false,
+      securityWindow: false,
+      noise: false,
+      loan: false,
+      cctv: false,
+      hill: false,
+      mart: false,
+      hospital: false,
+      accessibility: false,
+      park: false,
+    });
+    setNfshImgData([]);
+    setNfshPreviewImgData([]);
+    setNfshrPath({
+      basic: false,
+      sun: false,
+      option: false,
+      security: false,
+      conven: false,
+    });
+    setNfshImgState({
+      sun: false,
+      mold: false,
+      vent: false,
+      water: false,
+      ventil: false,
+      drain: false,
+      draft: false,
+      destroy: false,
+      utiRoom: false,
+      securityWindow: false,
+      noise: false,
+      loan: false,
+      cctv: false,
+      hill: false,
+      mart: false,
+      hospital: false,
+      accessibility: false,
+      park: false,
+      extramemo: false,
+      option: false,
+    });
+    navigate('/newfootstep');
+  };
 
   return (
     <>
@@ -125,7 +188,7 @@ export default function FootstepMainArticle() {
         <WriteBox>
           <WriteBtn
             onClick={() => {
-              navigate('/newfootstep');
+              onNewFootStep();
             }}
           >
             <WriteImg src={WriteIcon} />
@@ -146,7 +209,7 @@ export default function FootstepMainArticle() {
                   <CarouselLi className="item">
                     <CarouselBox
                       onClick={() => {
-                        navigate(`${premisesData !== 'undefined' && premisesData.length !== '0' ? premisesData[0].id : null}`);
+                        navigate(`${premisesData !== undefined && premisesData.length !== '0' ? premisesData[0].id : null}`);
                       }}
                     >
                       <CarouselImage src={CaroselImages} />
@@ -155,8 +218,8 @@ export default function FootstepMainArticle() {
                           <CarouselMarkerImg src={CarouselMarker} />
                           <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP>
                         </CarouselHeaderBox>
-                        <CarouselAddress>{premisesData.length !== 0 ? premisesData[0].title : null}</CarouselAddress>
-                        <CarouselReview>{premisesData.length !== 0 ? premisesData[0].review : null}</CarouselReview>
+                        <CarouselAddress>{premisesData !== undefined && premisesData.length !== '0' ? premisesData[0].title : null}</CarouselAddress>
+                        <CarouselReview>{premisesData !== undefined && premisesData.length !== '0' ? premisesData[0].review : null}</CarouselReview>
                       </CarouselRightBox>
                     </CarouselBox>
                   </CarouselLi>
