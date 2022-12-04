@@ -39,68 +39,6 @@ export default function NewFootStepAddress() {
   };
 
   const onDefault = () => {
-    setNfshRoadAddress('도로명 주소 검색');
-    setNfshDetailAddress('');
-    setNfshData({
-      title: '',
-      coordFX: '',
-      coordFY: '',
-      price: '',
-      expenses: '',
-      size: '',
-      review: '',
-      sun: false,
-      mold: false,
-      vent: false,
-      water: false,
-      ventil: false,
-      drain: false,
-      draft: false,
-      extraMemo: '',
-      option: '',
-      destroy: false,
-      utiRoom: false,
-      securityWindow: false,
-      noise: false,
-      loan: false,
-      cctv: false,
-      hill: false,
-      mart: false,
-      hospital: false,
-      accessibility: false,
-      park: false,
-    });
-    setNfshImgData([]);
-    setNfshPreviewImgData([]);
-    setNfshrPath({
-      basic: false,
-      sun: false,
-      option: false,
-      security: false,
-      conven: false,
-    });
-    setNfshImgState({
-      sun: false,
-      mold: false,
-      vent: false,
-      water: false,
-      ventil: false,
-      drain: false,
-      draft: false,
-      destroy: false,
-      utiRoom: false,
-      securityWindow: false,
-      noise: false,
-      loan: false,
-      cctv: false,
-      hill: false,
-      mart: false,
-      hospital: false,
-      accessibility: false,
-      park: false,
-      extramemo: false,
-      option: false,
-    });
     navigate('/footstepmain');
   };
 
@@ -132,6 +70,7 @@ const Container = styled.div`
 const HeaderBox = styled.div`
   display: flex;
   flex-direction: row;
+  margin-bottom: 20px;
 `;
 
 const ImgPathLeft = styled.img`
@@ -164,6 +103,7 @@ const CreateBtn = styled.button`
   margin-top: 22px;
   margin-right: 16px;
   width: 40px;
+  background-color: white;
   font-family: var(--button-font-family);
   font-size: var(--button_Large-font-size);
   font-weight: var(--button_Large-font-weight);

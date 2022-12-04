@@ -63,74 +63,73 @@ export default function NewFootStepSun() {
 
   const onFileUpdate = async (e, name) => {
     if (name === 'sun' && nfscImgState.sun === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, sun: true });
     }
     if (name === 'mold' && nfscImgState.mold === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, mold: true });
     }
     if (name === 'vent' && nfscImgState.vent === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, vent: true });
     }
     if (name === 'water' && nfscImgState.water === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, water: true });
     }
     if (name === 'ventil' && nfscImgState.ventil === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, ventil: true });
     }
     if (name === 'drain' && nfscImgState.drain === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, drain: true });
     }
     if (name === 'draft' && nfscImgState.draft === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, draft: true });
     }
     if (name === 'extramemo' && nfscImgState.extramemo === false) {
-      setNfscImgData([...nfscImgData, e.target.files[0]]);
-      // await onImgCompress(e.target.files[0]);
-      // setNfscImgData([...nfscImgData, compressedFile]);
+      await onImgCompress(e.target.files[0]);
       setNfscImgState({ ...nfscImgState, extramemo: true });
     }
   };
 
-  // const onImgCompress = async (file) => {
-  //   const options = {
-  //     maxSizeMB: 0.2,
-  //     maxWidthOrHeight: 1200,
-  //     useWebWorker: true,
-  //   };
-  //   try {
-  //     const compressedFile = await imageCompression(file, options);
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(compressedFile);
-  //     reader.onloadend = () => {
-  //       const base64data = reader.result;
-  //       console.log('com', base64data);
-  //       setNfscImgData([...nfscImgData, base64data]);
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const onImgCompress = async (file) => {
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log(compressedFile);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = async (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+
+      const file = new File([blob], 'image.jpg');
+      setNfscImgData([...nfscImgData, file]);
+      console.log(nfscImgData);
+    };
+  };
 
   const onChangeData = (e) => {
     const { name, value } = e.target;

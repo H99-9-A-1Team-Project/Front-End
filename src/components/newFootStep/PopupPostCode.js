@@ -58,10 +58,11 @@ export default PopupPostCode;
 
 const Container = styled.div`
   position: absolute;
-  width: 350px;
+  width: 370px;
   background: none;
-  right: -336px;
+  right: -353.3px;
   bottom: -500px;
+  z-index: 1;
 `;
 
 const CloseBtn = styled.button`
