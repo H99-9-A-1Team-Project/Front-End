@@ -24,7 +24,6 @@ export default function MainPageTabBar() {
   //새로고침했을 때 툴바 유지를 위해 useEffect 사용, 발품기록 추가 필요
   useEffect(() => {
     setTbAccountState(sessionStorage.getItem('accountstate'));
-    console.log(tbAccountState);
     if (tbAccountState === '0' || tbAccountState === null) {
       if (window.location.pathname === '/') {
         setTbHome(1);

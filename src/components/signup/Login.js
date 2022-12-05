@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../signup/sources/article_path_left.png';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2, toastVisible, TextToast } from '../../store/store';
+import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2, toastVisible, TextToast, AutoLoginState } from '../../store/store';
 import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
@@ -31,7 +31,7 @@ function Login() {
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
 
   //자동로그인 체크박스용 state
-  const [checkAuto, setCheckAuto] = useState(false);
+  const [checkAuto, setCheckAuto] = useRecoilState(AutoLoginState);
 
   //토큰용 state
   const [accessToken, setAccessToken] = useState('');
@@ -82,8 +82,6 @@ function Login() {
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    console.log('def', loginData);
-
     const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
@@ -102,7 +100,6 @@ function Login() {
   const onChangePassword = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    console.log('ABC', loginData);
     const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
@@ -118,11 +115,15 @@ function Login() {
       setPsValid(true);
     }
   };
-  console.log(loginData);
   const onActiveEnter = (e) => {
     if (e.key === 'Enter') {
       onSubmitLoginData();
     }
+  };
+  const onSubmitLoginData = () => {
+    console.log(checkAuto);
+    setCheckPassword('');
+    emailLogin(loginData);
   };
   const UserName = loginData.email.split('@')[0];
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
@@ -132,10 +133,15 @@ function Login() {
       sessionStorage.setItem('accountstate', response.data.accountState);
       sessionStorage.setItem('nickname', response.data.nickname);
       setAppLogin(true);
-      console.log(response);
       navigate('/');
       setToastText(`환영해요 ${UserName}님`);
       setVisible(true);
+      if (checkAuto === true) {
+        document.cookie = `access_token=${response.headers.access_token}`;
+        document.cookie = `refresh_token=${response.headers.refresh_token}`;
+        document.cookie = `accountstate=${response.data.accountState}`;
+        document.cookie = `nickname=${response.data.nickname}`;
+      }
     },
     onError: (err) => {
       // alert(err.response.data.errorMessage);
@@ -144,34 +150,6 @@ function Login() {
       setVisible(true);
     },
   });
-
-  const { mutate: AutoLogin } = useMutation(EmailLoginData, {
-    onSuccess: (response) => {
-      sessionStorage.setItem('access_token', response.headers.access_token);
-      sessionStorage.setItem('refresh_token', response.headers.refresh_token);
-      sessionStorage.setItem('accountstate', response.data.accountState);
-      localStorage.setItem('access_token', response.headers.access_token);
-      setAccessToken(response.headers.access_token);
-      window.localStorage.setItem('jwt', '자동로그인');
-      setAppLogin(true);
-      console.log(response);
-      navigate('/');
-    },
-    onError: (err) => {
-      alert(err.response.data.errorMessage);
-    },
-  });
-
-  const onSubmitLoginData = () => {
-    if (checkAuto === false) {
-      console.log(checkAuto);
-      setCheckPassword('');
-      emailLogin(loginData);
-    } else {
-      setCheckPassword('');
-      AutoLogin(loginData);
-    }
-  };
 
   return (
     <>
@@ -227,8 +205,8 @@ function Login() {
               <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
             </ErrorMsgPreview>
           </InputContainer>
-          <AutoLoginContainer>
-            <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} onClick={onAutoLogin} />
+          <AutoLoginContainer onClick={onAutoLogin}>
+            <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} />
             <AutoLoginText>자동 로그인</AutoLoginText>
           </AutoLoginContainer>
           <BlankContainer2></BlankContainer2>
@@ -452,6 +430,7 @@ const AutoLoginContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
 `;
 const AutoLoginCheckImg = styled.img`
   width: 24px;

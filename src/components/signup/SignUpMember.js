@@ -158,8 +158,8 @@ function SignUpMember() {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
+      sessionStorage.setItem('nickname', response.data.nickname);
       setAppLogin(true);
-      console.log(response);
       setVisible(true);
       setToastText(`환영해요 ${UserName}님`);
       navigate('/');
@@ -181,8 +181,6 @@ function SignUpMember() {
   //회원가입 데이터 전송
   const onSubmitSignUpData = () => {
     setReject('');
-    console.log(loginData.email);
-    console.log('asdf', loginData);
     setOpenSignUp(false);
     memberSignUp(loginData);
     if (reject !== '') {

@@ -14,6 +14,7 @@ export const itsNotOK = atom({ key: 'itsnotok', default: false });
 export const itsNotOK2 = atom({ key: 'itsnotok2', default: false });
 export const LoginDatas = atom({ key: 'logindatas', default: '' });
 export const TextToast = atom({ key: 'texttoast', default: '' });
+export const AutoLoginState = atom({ key: 'autologinstate', default: false });
 
 // Tab Bar
 export const tabBarHome = atom({ key: 'tabbarhome', default: 0 });
@@ -126,4 +127,3 @@ export const nfsImgState = atom({
 });
 
 export const toastVisible = atom({ key: 'toastvisible', default: false });
-

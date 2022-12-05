@@ -44,6 +44,10 @@ export default function LoginMyPageArticle() {
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
     sessionStorage.removeItem('nickname');
+    document.cookie = 'nickname=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = 'accountstate=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = 'refresh_token=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = 'access_token=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
     changeSignUp();
     nextMem();
     nextTor();
