@@ -41,10 +41,10 @@ function MainPageArticle() {
       navigate('/request1');
     }
   };
-
+  console.log(AppLogin);
   const { data: readProfile } = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
-    enabled: !!AppLogin,
+    enabled: !!(sessionStorage.getItem('accountstate') === '0' || sessionStorage.getItem('accountstate') === '1'),
   });
   const { data: requestlist } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
@@ -80,7 +80,7 @@ function MainPageArticle() {
         <TextGuide>
           안녕하세요
           <br />
-          {readProfile?.data.nickname}님!
+          {readProfile?.nickname}님!
         </TextGuide>
       ) : (
         <TextGuide>
