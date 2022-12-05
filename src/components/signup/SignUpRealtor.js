@@ -138,7 +138,6 @@ function SignUpRealtor() {
     onError: (err) => {
       setVisible(true);
       setToastText(err.response.data.errorMessage);
-      // alert(err.response.data.errorMessage);
       setDoubleEmail(err.response.data.errorMessage);
     },
   });

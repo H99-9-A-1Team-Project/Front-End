@@ -7,7 +7,7 @@ import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
-import { EmailLoginData } from '../../api/apiPOST';
+import { EmailLoginData, AutoLoginData } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
 import Check from '../signup/sources/Check.png';
 import Check2 from '../signup/sources/Check2.png';
@@ -138,27 +138,34 @@ function Login() {
       setVisible(true);
     },
     onError: (err) => {
-      // alert(err.response.data.errorMessage);
       setReject(err.response.data.errorMessage);
       setToastText(err.response.data.errorMessage);
       setVisible(true);
     },
   });
 
-  const { mutate: AutoLogin } = useMutation(EmailLoginData, {
+  const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
+
+  const { mutate: AutoLogin } = useMutation(AutoLoginData, {
     onSuccess: (response) => {
       sessionStorage.setItem('access_token', response.headers.access_token);
       sessionStorage.setItem('refresh_token', response.headers.refresh_token);
       sessionStorage.setItem('accountstate', response.data.accountState);
-      localStorage.setItem('access_token', response.headers.access_token);
-      setAccessToken(response.headers.access_token);
-      window.localStorage.setItem('jwt', '자동로그인');
+      sessionStorage.setItem('nickname', response.data.nickname);
+      // localStorage.setItem('access_token', response.headers.access_token);
+      setTimeout(AutoLoginData, JWT_EXPIRY_TIME - 60000);
+      // setAccessToken(response.headers.access_token);
+      // window.localStorage.setItem('jwt', '자동로그인');
       setAppLogin(true);
       console.log(response);
       navigate('/');
+      setToastText(`환영해요 ${UserName}님`);
+      setVisible(true);
     },
     onError: (err) => {
-      alert(err.response.data.errorMessage);
+      setReject(err.response.data.errorMessage);
+      setToastText(err.response.data.errorMessage);
+      setVisible(true);
     },
   });
 

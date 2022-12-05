@@ -1,4 +1,5 @@
 import api from './api';
+import axiosInstance from './axiosInstance';
 
 //일반회원 회원가입
 export async function MemberSignUp(MemberInfo) {
@@ -21,6 +22,13 @@ export async function RealtorSignUpFormDatas(RealtorInfo) {
 // 로그인
 export async function EmailLoginData(EmailData) {
   const data = await api.post('v1/login', EmailData);
+  console.log(data);
+  return data;
+}
+
+//자동 로그인
+export async function AutoLoginData(EmailData) {
+  const data = await axiosInstance.post('v1/login', EmailData);
   console.log(data);
   return data;
 }
@@ -58,3 +66,4 @@ export async function DeleteUser(arg) {
   const res = await api.post('v1/user', arg);
   return res;
 }
+

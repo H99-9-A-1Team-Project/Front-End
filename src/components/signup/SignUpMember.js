@@ -135,8 +135,8 @@ function SignUpMember() {
   //회원가입
   const { mutate: memberSignUp } = useMutation(MemberSignUp, {
     onSuccess: () => {
-      // setToastText(`환영해요 ${UserName}님`);
-      // setVisible(true);
+      setToastText(`가입 가능한 이메일로 로그인 합니다`);
+      setVisible(true);
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
@@ -167,11 +167,11 @@ function SignUpMember() {
     onError: (err) => {
       setReject(err.response.data.errorMessage);
       setToastText(err.response.data.errorMessage);
-      if (err.response.status === 404) {
-        setToastText(['비밀번호가 일치하지 않습니다.\n 다시 작성해주세요']);
-      } else {
-        return;
-      }
+      // if (err.response.status === 404) {
+      //   setToastText(['비밀번호가 일치하지 않습니다.\n 다시 작성해주세요']);
+      // } else {
+      //   return;
+      // }
       setValid(false);
       setPsValid(false);
       setVisible(true);
