@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import search from './sources/search.png';
+import search from '../../global/sources/Search.svg';
 import { ReadSearchAnsweredList, ReadSearchMyConsult, ReadSearchWaitList } from '../../api/apiGET';
 
 export default function MyConsultSearch() {

@@ -6,16 +6,15 @@ import userProfile3 from './sources/userProfile3.png';
 import userProfile4 from './sources/userProfile4.png';
 import userProfile5 from './sources/userProfile5.png';
 import userProfile6 from './sources/userProfile6.png';
-import arrow from './sources/arrow.png';
-import User_cicrle from './sources/User_cicrle.png';
-import userDefault from './sources/userDefault.png';
-import good from './sources/Good.png';
+import arrow from '../../global/sources/Expand_right_light.svg';
+import User_cicrle from '../../global/sources/User_edit.svg';
+import userDefault from '../../global/sources/user.svg';
+import good from '../../global/sources/Smile_outlined.svg';
 import { useResetRecoilState } from 'recoil';
 import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReadProfile, ReadWaitList } from '../../api/apiGET';
-import { DeleteUser } from '../../api/apiDELETE';
 import Modal from '../../global/components/Modal';
 import { UpdateRealtorProfile, UpdateUserProfile } from '../../api/apiUPDATE';
 import imageCompression from 'browser-image-compression';
@@ -468,9 +467,6 @@ const Container = styled.div`
       letter-spacing: var(--button_Medium-letter-spacing);
       cursor: pointer;
       img {
-        background-color: white;
-        width: 7.59px;
-        height: 13.06px;
       }
       .box {
         background-color: white;

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import img from '../MyPageMyConsult/sources/deco.png';
 import deco from './sources/deco.png';
 import service_info from './sources/service_info.png';
 import service_info_phone_1 from './sources/service_info_phone_1.png';
@@ -170,7 +169,7 @@ const StContainer = styled.div`
     align-items: center;
     justify-content: center;
     img {
-      width: 140px;
+      width: 180px;
       height: 307px;
     }
   }

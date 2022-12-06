@@ -23,7 +23,7 @@ api.interceptors.response.use(
     return config;
   },
   async (error) => {
-    if (error.response.status === 401) {
+    if (error.response.status === 423) {
       const originalRequestConfig = error.config;
       try {
         const data = await api.post('v1/login', '');

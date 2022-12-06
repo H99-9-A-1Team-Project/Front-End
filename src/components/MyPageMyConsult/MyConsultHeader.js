@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import arrow2 from './sources/arrow2.png';
+import left_light from '../../global/sources/Expand_left_light.svg';
 
 export default function MyConsultHeader({ text, page }) {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function MyConsultHeader({ text, page }) {
     <MyConsultHeaderLayout>
       <div className="div1">
         <div onClick={() => navigate(page)}>
-          <img src={arrow2} alt="arrow2" />
+          <img src={left_light} alt="left_light" />
           {text}
         </div>
       </div>
@@ -46,8 +46,6 @@ const MyConsultHeaderLayout = styled.div`
   }
   img {
     background-color: white;
-    width: 6px;
-    height: 12px;
-    margin: 26px 17px 26px 25px;
+    margin: 20px 8px 20px 16px;
   }
 `;

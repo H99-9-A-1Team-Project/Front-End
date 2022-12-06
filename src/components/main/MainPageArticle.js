@@ -149,7 +149,9 @@ function MainPageArticle() {
                       <img src={path_Light_Right} alt="path_Right" />
                     </div>
                   </div>
-                  <div></div>
+                  <div>
+                    <img className="deco_2" src={lighthouse} alt="map" />
+                  </div>
                 </div>
               </div>
             ) : null}
