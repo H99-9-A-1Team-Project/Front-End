@@ -121,7 +121,6 @@ function Login() {
     }
   };
   const onSubmitLoginData = () => {
-    console.log(checkAuto);
     setCheckPassword('');
     emailLogin(loginData);
   };
