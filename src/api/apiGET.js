@@ -1,9 +1,10 @@
+import axios from 'axios';
 import api from './api';
 
 //프로필 조회
 export async function ReadProfile() {
-  const response = await api.get('v1/myprofile');
-  return response;
+  const { data } = await api.get('v1/myprofile');
+  return data;
 }
 //공인중개사 회원가입 목록 조회
 export async function ReadSignUpList() {
@@ -47,5 +48,23 @@ export async function ReadPremisesList() {
 export async function ReadDeleteList(page) {
   // const { data } = await api.get(`v1/survey?page=${page}&size=5`);
   const { data } = await api.get(`v1/survey`);
+  return data;
+}
+
+//내상담 검색
+export async function ReadSearchMyConsult(arg) {
+  const { data } = await api.get(`v1/myconsult/search?keyword=${arg}`);
+  return data;
+}
+
+//대기중인상담검색
+export async function ReadSearchWaitList(arg) {
+  const { data } = await api.get(`v1/waitcustomer/search?keyword=${arg}`);
+  return data;
+}
+
+//대기중인상담검색
+export async function ReadSearchAnsweredList(arg) {
+  const { data } = await api.get(`v1/replied/search?keyword=${arg}`);
   return data;
 }

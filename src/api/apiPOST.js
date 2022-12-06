@@ -21,7 +21,6 @@ export async function RealtorSignUpFormDatas(RealtorInfo) {
 // 로그인
 export async function EmailLoginData(EmailData) {
   const data = await api.post('v1/login', EmailData);
-  console.log(data);
   return data;
 }
 

@@ -19,7 +19,7 @@ import FootStepDetailImg from '../pages/FootStepDetailImg';
 import MainPageSideBar from '../components/main/MainPageSideBar';
 import styled from 'styled-components';
 import background from '../global/sources/background.png';
-import logo from '../global/sources/main_header_name.png';
+import logo from '../global/sources/logo.svg';
 import right_arrow from '../global/sources/path_right.png';
 import DeleteId from '../pages/DeleteId';
 import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
@@ -96,7 +96,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  @media (max-width: 900px) {
+  @media (max-width: 1280px) {
     background-image: none;
   }
   background-color: var(--gray6);
@@ -108,7 +108,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media (max-width: 900px) {
+    @media (max-width: 1280px) {
       display: none;
     }
     .left_container_text_1 {
@@ -133,7 +133,7 @@ const Container = styled.div`
     align-items: flex-end;
     justify-content: flex-end;
     margin: auto 32px 24px auto;
-    @media (max-width: 900px) {
+    @media (max-width: 1280px) {
       display: none;
     }
     .right_container_button {

@@ -44,6 +44,10 @@ export default function LoginMyPageArticle() {
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('accountstate');
     sessionStorage.removeItem('nickname');
+    document.cookie = 'nickname=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = 'accountstate=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = 'refresh_token=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = 'access_token=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
     changeSignUp();
     nextMem();
     nextTor();
@@ -117,31 +121,31 @@ export default function LoginMyPageArticle() {
   const getProfile = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
-      setUserInfo(config.data);
-      if (config.data.profileImg === 1 || config.data.profileImg === 0) {
+      setUserInfo(config);
+      if (config.profileImg === 1 || config.profileImg === 0) {
         setUserProfile({ state: 1, userProfile: userProfile1 });
       }
-      if (config.data.profileImg === 2) {
+      if (config.profileImg === 2) {
         setUserProfile({ state: 2, userProfile: userProfile2 });
       }
-      if (config.data.profileImg === 3) {
+      if (config.profileImg === 3) {
         setUserProfile({ state: 3, userProfile: userProfile3 });
       }
-      if (config.data.profileImg === 4) {
+      if (config.profileImg === 4) {
         setUserProfile({ state: 4, userProfile: userProfile4 });
       }
-      if (config.data.profileImg === 5) {
+      if (config.profileImg === 5) {
         setUserProfile({ state: 5, userProfile: userProfile5 });
       }
-      if (config.data.profileImg === 6) {
+      if (config.profileImg === 6) {
         setUserProfile({ state: 6, userProfile: userProfile6 });
       }
-      if (config.data.introMessage === null) {
-        config.data.introMessage = '소개 메세지가 없습니다.';
+      if (config.introMessage === null) {
+        config.introMessage = '소개 메세지가 없습니다.';
       }
       setNewProfile({
-        nickname: config.data.nickname,
-        introMessage: config.data.introMessage,
+        nickname: config.nickname,
+        introMessage: config.introMessage,
       });
     },
   });
