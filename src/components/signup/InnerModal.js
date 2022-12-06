@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import CompleteM from '../signup/sources/completemodal.png';
-import ModalClose from '../signup/sources/x.png';
+import CompleteM from '../../global/sources/sign_in_modal_img.png';
+import ModalClose from '../../global/sources/Close.svg';
 import { CloseModal, LoginDatas } from '../../store/store';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -183,3 +183,4 @@ const ButtonStyle = styled.div`
   align-items: center;
   background-color: var(--primary2-400);
 `;
+

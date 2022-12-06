@@ -57,3 +57,4 @@ export async function DeleteUser(arg) {
   const res = await api.post('v1/user', arg);
   return res;
 }
+

@@ -26,6 +26,7 @@ import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
 import ToastMessage from '../global/components/ToastMessage';
 import { useRecoilState } from 'recoil';
 import { toastVisible, TextToast } from '../store/store';
+import PublicRoute from '../components/signup/publicRoute';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
@@ -43,7 +44,14 @@ export default function Router() {
         <App>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <SignUp />
+                </PublicRoute>
+              }
+            />
             <Route path="request" element={<Request />} />
             <Route path="mypage" element={<MyPage />} />
             <Route path="request1" element={<Request1 />} />
@@ -182,3 +190,4 @@ const App = styled.div`
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
 `;
+

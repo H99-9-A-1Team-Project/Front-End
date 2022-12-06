@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import pathLeft from '../signup/sources/article_path_left.png';
+import pathLeft from '../../global/sources/Expand_left_light.svg';
 import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp, TextToast } from '../../store/store';
 import { useRecoilState } from 'recoil';
 import Login from './Login';
@@ -141,14 +141,14 @@ const SignUpHeader = styled.div`
 `;
 
 const BackpageIconBox = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-color: white;
-  margin-left: 20px;
+  margin-left: 16px;
 `;
 const SignUpTitle = styled.div`
   background-color: white;
-  width: 70px;
+  width: 296px;
   height: 20px;
   font-style: normal;
   font-family: var(--body-font-family);
@@ -200,6 +200,11 @@ const ButtonStyle = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-family: var(--button-font-family);
+  font-size: var(--button_Large-font-size);
+  font-weight: var(--button_Large-font-weight);
+  line-height: var(--button_Large-line-height);
+  letter-spacing: var(--button_Large-letter-spacing);
   border: 1px solid var(--primary2-400);
   border-radius: 8px;
   background-color: white;
@@ -238,3 +243,4 @@ const AlreadyIdBox = styled.div`
   background-color: white;
   cursor: pointer;
 `;
+
