@@ -77,27 +77,27 @@ export default function RequestCheck() {
       <HozBar />
       <ContentBox>
         {rqcInfo.check2 === 1 ? <CheckImg src={CheckON} /> : <CheckImg src={CheckOFF} />}
-        <ContentP>불법 건축물인지 확인하고 싶어요</ContentP>
+        <ContentP>건축물의 층별 구조와 용도를 알고싶어요</ContentP>
       </ContentBox>
       <HozBar />
       <ContentBox>
         {rqcInfo.check3 === 1 ? <CheckImg src={CheckON} /> : <CheckImg src={CheckOFF} />}
-        <ContentP>불법 건축물인지 확인하고 싶어요</ContentP>
+        <ContentP>건축물의 소유자 현황을 알고싶어요</ContentP>
       </ContentBox>
       <HozBar />
       <ContentBox>
         {rqcInfo.check4 === 1 ? <CheckImg src={CheckON} /> : <CheckImg src={CheckOFF} />}
-        <ContentP>불법 건축물인지 확인하고 싶어요</ContentP>
+        <ContentP>언제 지어졌는지 알고싶어요</ContentP>
       </ContentBox>
       <HozBar />
       <ContentBox>
         {rqcInfo.check5 === 1 ? <CheckImg src={CheckON} /> : <CheckImg src={CheckOFF} />}
-        <ContentP>불법 건축물인지 확인하고 싶어요</ContentP>
+        <ContentP>전반적인 등기 정보를 알고싶어요</ContentP>
       </ContentBox>
       <HozBar />
       <ContentBox>
         {rqcInfo.check6 === 1 ? <CheckImg src={CheckON} /> : <CheckImg src={CheckOFF} />}
-        <ContentP>불법 건축물인지 확인하고 싶어요</ContentP>
+        <ContentP>전/월세 계약하는데 안전할지 점검받고 싶어요</ContentP>
       </ContentBox>
       <MsgBox>
         <BoxHeader>전달메세지</BoxHeader>
@@ -169,7 +169,7 @@ const BoxHeader = styled.div`
 const ModifyBtn = styled.div`
   width: 54px;
   height: 40px;
-  margin-right: 16px;
+  margin-right: 8px;
   display: flex;
   align-items: center;
   justify-content: center;

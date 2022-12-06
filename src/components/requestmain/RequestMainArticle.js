@@ -16,6 +16,7 @@ export default function RequestArticle() {
   const [consultNum, setConsultNum] = useState(2);
   const [waitNum, setWaitNum] = useState(0);
   const [finishNum, setFinishNum] = useState(0);
+  const [toolTipState, setToolTipState] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const setRqhInfo = useSetRecoilState(rqInfo);
   const setRqhAddress = useSetRecoilState(requireAddress);
@@ -41,6 +42,11 @@ export default function RequestArticle() {
       setConsultNum(2 - allNum);
     },
   });
+
+  const onToolTipClick = () => {
+    if (toolTipState === false) setToolTipState(true);
+    if (toolTipState === true) setToolTipState(false);
+  };
 
   return (
     <RqArticleContainer>
@@ -69,12 +75,16 @@ export default function RequestArticle() {
           <RequestBtnPath src={RqAt_Path_Right} />
         </RequestBtn>
       </InfoContainer>
-      <HelpBox>
+      <HelpBox
+        onClick={() => {
+          onToolTipClick();
+        }}
+      >
         <div>
           <HelpP>미사용은 무엇인가요?</HelpP>
           <HelpImg src={RqAt_Question} />
         </div>
-        <img className="tooltip" src={tooltip} alt="tooltip" />
+        {toolTipState === true ? <img className="tooltip" src={tooltip} alt="tooltip" /> : null}
       </HelpBox>
 
       <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible}>
@@ -263,15 +273,12 @@ const HelpBox = styled.div`
     justify-content: center;
     background: none;
   }
-  &:hover > .tooltip {
-    display: flex;
-  }
   .tooltip {
-    display: none;
+    display: flex;
     position: relative;
     width: 192px;
     height: 80px;
-    right: 38px;
+    right: 52px;
     bottom: 5px;
   }
 `;
