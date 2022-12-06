@@ -185,22 +185,37 @@ function MainPageArticle() {
           </Modal>
         </div>
       ) : (
-        <>
-          <LoginBtnBox>
-            <LoginBtn onClick={onStartLogin}>로그인 하러가기</LoginBtn>
-            <ImgPathRight src={path_Right} />
-          </LoginBtnBox>
-          <ImgLoginDeco src={login_Deco} />
-          <ServcieGuideBox>
-            <ServiceGuideP onClick={() => navigate('/introduce')}>어떤 서비스인가요?</ServiceGuideP>
-            <ServiceQueMark src={QueMark} />
-          </ServcieGuideBox>
-        </>
+        <AAA>
+          <CCC>
+            <LoginBtnBox>
+              <LoginBtn onClick={onStartLogin}>로그인 하러가기</LoginBtn>
+              <ImgPathRight src={path_Right} />
+            </LoginBtnBox>
+            <ServcieGuideBox>
+              <ServiceGuideP onClick={() => navigate('/introduce')}>어떤 서비스인가요?</ServiceGuideP>
+              <ServiceQueMark src={QueMark} />
+            </ServcieGuideBox>
+          </CCC>
+          <BBB>
+            <ImgLoginDeco src={login_Deco} />
+          </BBB>
+        </AAA>
       )}
     </ArticleContainer>
   );
 }
 export default React.memo(MainPageArticle);
+
+const AAA = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const CCC = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const BBB = styled.div``;
 
 const ArticleContainer = styled.div`
   width: 360px;
@@ -390,7 +405,9 @@ const TextGuide = styled.div`
 `;
 
 const LoginBtnBox = styled.div`
-  width: 120px;
+  display: flex;
+  flex-direction: row;
+  width: 129px;
   height: 48px;
   margin-left: 16px;
   margin-top: 8px;
@@ -399,7 +416,7 @@ const LoginBtnBox = styled.div`
 `;
 
 const LoginBtn = styled.button`
-  margin-top: 16px;
+  padding: 0;
   font-family: var(--button-font-family);
   font-size: var(--button_Medium-font-size);
   font-weight: var(--button_Medium-font-weight);
@@ -412,7 +429,6 @@ const LoginBtn = styled.button`
 `;
 
 const ImgPathRight = styled.img`
-  position: absolute;
   margin-top: 12px;
   width: 24px;
   height: 24px;
@@ -420,21 +436,13 @@ const ImgPathRight = styled.img`
   cursor: pointer;
 `;
 
-const ImgLoginDeco = styled.img`
-  position: absolute;
-  width: 230px;
-  height: 254px;
-  background: none;
-  margin-left: 130px;
-  margin-top: 161px;
-`;
+const ImgLoginDeco = styled.img``;
 
 const ServcieGuideBox = styled.div`
-  position: absolute;
-  margin-left: 16px;
-  margin-top: 396px;
   width: 121px;
   height: 36px;
+  margin-left: 16px;
+  margin-top: 196px;
   background: none;
   display: flex;
   flex-direction: row;
