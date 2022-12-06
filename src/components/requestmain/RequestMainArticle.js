@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ReadRequestList } from '../../api/apiGET';
 import Modal from '../../global/components/Modal';
+import { rqInfo, requireAddress, rqDetailAddress } from '../../store/store';
+import { useSetRecoilState } from 'recoil';
 
 export default function RequestArticle() {
   const navigate = useNavigate();
@@ -15,10 +17,16 @@ export default function RequestArticle() {
   const [waitNum, setWaitNum] = useState(0);
   const [finishNum, setFinishNum] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const setRqhInfo = useSetRecoilState(rqInfo);
+  const setRqhAddress = useSetRecoilState(requireAddress);
+  const setRqhDetailAddress = useSetRecoilState(rqDetailAddress);
   const onClickRequestConsult = () => {
     if (consultNum <= 0) {
       setModalVisible(true);
     } else {
+      setRqhInfo({ title: '', coordX: '', coordY: '', check1: 0, check2: 0, check3: 0, check4: 0, check5: 0, check6: 0, consultMessage: '' });
+      setRqhAddress('도로명 주소 검색');
+      setRqhDetailAddress('');
       navigate('/request1');
     }
   };

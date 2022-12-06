@@ -19,7 +19,8 @@ export default function ToastMessage({ text }) {
 }
 const StToastMessageLayout = styled.div`
   position: relative;
-  left: -298px;
+  left: 62px;
+  bottom: 52px;
   z-index: 1000;
   transform: ${(props) => (props.visible ? 'translateY(-96px)' : 'translateY(0)')};
   opacity: ${(props) => (props.visible ? '1' : '0')};

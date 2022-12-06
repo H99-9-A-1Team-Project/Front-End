@@ -11,6 +11,7 @@ import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
 import { RealtorSignUpFormDatas, RequestEmail } from '../../api/apiPOST';
 import InnerModal from '../signup/InnerModal';
+import imageCompression from 'browser-image-compression';
 
 function SignUpRealtor() {
   const welcometext = '사용할 회원 정보를\n 입력해주세요';
@@ -88,6 +89,7 @@ function SignUpRealtor() {
     setNextTor(nexttor - 1);
     setValid(false);
     setPsValid(false);
+
     setPreviewImage('');
   };
 
@@ -95,10 +97,12 @@ function SignUpRealtor() {
     setNextTor(nexttor + 1);
     setValid(false);
     setPsValid(false);
+    setLoginData(loginData);
   };
 
   // 이메일 비밀번호 onchange // 닉네임 생성
   const onChangeEmail = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('def', loginData);
@@ -144,11 +148,13 @@ function SignUpRealtor() {
   const onCheckEmailDouble = () => {
     setOkEmail('');
     memberEmail(doubleEmail);
+    setLoginData(loginData);
   };
 
   console.log(doubleEmail);
 
   const onChangePassword = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     console.log('ABC', loginData);
@@ -167,19 +173,27 @@ function SignUpRealtor() {
       setPsValid(true);
     }
   };
+  const onClick = () => {
+    doubleEmail === '' ? onNextRealtorPage() : onCheckEmailDouble();
+  };
+  const onActiveEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClick();
+    }
+  };
 
-  //이미지 입력 및 미리보기
+  //이미지 미리보기
 
   const [licenseimage, setLicenseImage] = useState('');
   const onFileChangeHandler = (e) => {
     let reader = new FileReader();
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
-      setLicenseImage(e.target.files[0]);
     }
     reader.onloadend = () => {
       const resultImage = reader.result;
       setPreviewImage(resultImage);
+      console.log(resultImage);
     };
   };
 
@@ -192,9 +206,9 @@ function SignUpRealtor() {
     },
   });
 
-  //가입하기
-  const onSubmit = () => {
-    const blob = new Blob(
+  //가입하기 (이미지 압축)
+  const onSubmit = async (e) => {
+    const blob0 = new Blob(
       [
         JSON.stringify({
           email: loginData.email,
@@ -207,12 +221,43 @@ function SignUpRealtor() {
       }
     );
     const image = document.getElementById('file');
-    setLicenseImage(image);
-    let formData = new FormData();
-    formData.append('license', image.files[0]);
-    formData.append('content', blob);
-    postFormData(formData);
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(image.files[0], options);
+      console.log('압축결과', compressedFile);
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        onHandlingDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    const onHandlingDataForm = async (dataURI) => {
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ia], {
+        type: 'image/jpeg',
+      });
+      const file = new File([blob], 'image.jpg');
+      setLicenseImage(...licenseimage, file);
+      let formData = new FormData();
+      formData.append('license', file);
+      formData.append('content', blob0);
+      postFormData(formData);
+      console.log(file);
+    };
   };
+
   const isVaildPhoto = !previewimage;
   console.log(nexttor);
   return (
@@ -256,6 +301,7 @@ function SignUpRealtor() {
                 autocomplete="current-password"
                 name="password"
                 onChange={onChangePassword}
+                onKeyDown={(e) => onActiveEnter(e)}
                 type={secret === false ? 'text' : 'password'}
                 style={{
                   border: isPassword === false ? '1px solid #d14343 ' : 'none',
@@ -272,7 +318,7 @@ function SignUpRealtor() {
           <BlankContainer></BlankContainer>
           <ButtonContainer>
             <ButtonStyle
-              type="submit"
+              type="button"
               disabled={isValidLogin}
               onClick={() => {
                 doubleEmail === '' ? onNextRealtorPage() : onCheckEmailDouble();

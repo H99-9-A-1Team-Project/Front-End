@@ -26,6 +26,7 @@ import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
 import ToastMessage from '../global/components/ToastMessage';
 import { useRecoilState } from 'recoil';
 import { toastVisible, TextToast } from '../store/store';
+import PublicRoute from '../components/signup/publicRoute';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
@@ -43,7 +44,14 @@ export default function Router() {
         <App>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <SignUp />
+                </PublicRoute>
+              }
+            />
             <Route path="request" element={<Request />} />
             <Route path="mypage" element={<MyPage />} />
             <Route path="request1" element={<Request1 />} />
@@ -65,7 +73,6 @@ export default function Router() {
             <Route path="/deleteid" element={<DeleteId />} />
           </Routes>
           <MainPageSideBar />
-          {/* {visible && <ToastMessage text={'그동안 함께해서 즐거웠습니다!'} />} */}
           <ToastMessage text={toasttext} />
         </App>
         <div className="right_container">
@@ -144,6 +151,7 @@ const Container = styled.div`
       line-height: var(--button_Large-line-height);
       letter-spacing: var(--button_Large-letter-spacing);
       color: var(--primary2-400);
+      cursor: pointer;
       img {
         width: 24px;
         height: 24px;
@@ -173,9 +181,9 @@ const Container = styled.div`
 
 const App = styled.div`
   width: 360px;
-  min-height: 100vh;
-  max-height: fit-content;
-  display: flex;
+  height: 100vh;
+  /* max-height: fit-content; */
+  /* display: flex; */
   flex-direction: row;
   align-items: flex-end;
   background-color: white;

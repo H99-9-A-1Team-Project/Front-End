@@ -7,7 +7,7 @@ import Title from '../signup/sources/Title.png';
 import ViewPassword from '../signup/sources/View_password.png';
 import HidePassword from '../signup/sources/View_hide_password.png';
 import { useMutation } from '@tanstack/react-query';
-import { EmailLoginData, AutoLoginData } from '../../api/apiPOST';
+import { EmailLoginData } from '../../api/apiPOST';
 import { useNavigate } from 'react-router-dom';
 import Check from '../signup/sources/Check.png';
 import Check2 from '../signup/sources/Check2.png';
@@ -144,30 +144,30 @@ function Login() {
     },
   });
 
-  const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
+  // const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
 
-  const { mutate: AutoLogin } = useMutation(AutoLoginData, {
-    onSuccess: (response) => {
-      sessionStorage.setItem('access_token', response.headers.access_token);
-      sessionStorage.setItem('refresh_token', response.headers.refresh_token);
-      sessionStorage.setItem('accountstate', response.data.accountState);
-      sessionStorage.setItem('nickname', response.data.nickname);
-      // localStorage.setItem('access_token', response.headers.access_token);
-      setTimeout(AutoLoginData, JWT_EXPIRY_TIME - 60000);
-      // setAccessToken(response.headers.access_token);
-      // window.localStorage.setItem('jwt', '자동로그인');
-      setAppLogin(true);
-      console.log(response);
-      navigate('/');
-      setToastText(`환영해요 ${UserName}님`);
-      setVisible(true);
-    },
-    onError: (err) => {
-      setReject(err.response.data.errorMessage);
-      setToastText(err.response.data.errorMessage);
-      setVisible(true);
-    },
-  });
+  // const { mutate: AutoLogin } = useMutation(AutoLoginData, {
+  //   onSuccess: (response) => {
+  //     sessionStorage.setItem('access_token', response.headers.access_token);
+  //     sessionStorage.setItem('refresh_token', response.headers.refresh_token);
+  //     sessionStorage.setItem('accountstate', response.data.accountState);
+  //     sessionStorage.setItem('nickname', response.data.nickname);
+  //     // localStorage.setItem('access_token', response.headers.access_token);
+  //     setTimeout(AutoLoginData, JWT_EXPIRY_TIME - 60000);
+  //     // setAccessToken(response.headers.access_token);
+  //     // window.localStorage.setItem('jwt', '자동로그인');
+  //     setAppLogin(true);
+  //     console.log(response);
+  //     navigate('/');
+  //     setToastText(`환영해요 ${UserName}님`);
+  //     setVisible(true);
+  //   },
+  //   onError: (err) => {
+  //     setReject(err.response.data.errorMessage);
+  //     setToastText(err.response.data.errorMessage);
+  //     setVisible(true);
+  //   },
+  // });
 
   const onSubmitLoginData = () => {
     if (checkAuto === false) {
@@ -176,7 +176,7 @@ function Login() {
       emailLogin(loginData);
     } else {
       setCheckPassword('');
-      AutoLogin(loginData);
+      // AutoLogin(loginData);
     }
   };
 
@@ -184,8 +184,8 @@ function Login() {
     <>
       {goinglogin === 1 ? (
         <ChoiceContainer>
-          <SignUpHeader>
-            <BackpageIconBox src={pathLeft} onClick={onGoingLogIn} />
+          <SignUpHeader onClick={onGoingLogIn}>
+            <BackpageIconBox src={pathLeft} />
             <SignUpTitle>로그인</SignUpTitle>
           </SignUpHeader>
           <WelcomeQuestionContainer>
@@ -275,6 +275,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: var(--white);
+  cursor: pointer;
 `;
 
 const BackpageIconBox = styled.img`

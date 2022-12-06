@@ -1,5 +1,5 @@
 import React from 'react';
-import OverLayout from '../global/components/OverLayout';
+import Layout from '../global/components/Layout';
 import MainPageTabBar from '../components/main/MainPageTabBar';
 import NewFootStepHeader from '../components/newFootStep/NewFootStepHeader';
 import NewFootStepAddress from '../components/newFootStep/NewFootStepAddress';
@@ -17,7 +17,7 @@ import NewFootStepConven from '../components/newFootStep/NewFootStepConven';
 
 export default function NewFootStep() {
   return (
-    <OverLayout>
+    <Layout>
       <NewFootStepHeader />
       <NewFootStepAddress />
       <NewFootStepImg />
@@ -31,6 +31,6 @@ export default function NewFootStep() {
       <NewFootStepSecurity />
       <NewFootStepConvenState />
       <NewFootStepConven />
-    </OverLayout>
+    </Layout>
   );
 }

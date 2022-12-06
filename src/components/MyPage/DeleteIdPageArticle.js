@@ -55,7 +55,8 @@ export default function DeleteIdPageArticle() {
     setInfoState({ ...infoState, surveyMessage: e.target.value });
   };
   // toast 에 들어갈 문구 recoilstate
-  const [toasttext, setToastText] = useRecoilState(TextToast);
+
+  const setToastText = useSetRecoilState(TextToast);
   const { mutate: deleteUser } = useMutation(() => DeleteUser({ check1: infoState.check1, check2: infoState.check2, check3: infoState.check3, surveyMessage: infoState.surveyMessage }), {
     onSuccess: () => {
       sessionStorage.removeItem('access_token');
@@ -273,4 +274,3 @@ const StDeleteIdPageLayout = styled.div`
     }
   }
 `;
-

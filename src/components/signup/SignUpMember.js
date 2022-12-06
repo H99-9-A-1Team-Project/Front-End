@@ -199,8 +199,8 @@ function SignUpMember() {
       {nextmem === 2 ? (
         <>
           <ChoiceContainer>
-            <SignUpHeader>
-              <BackpageIconBox src={pathLeft} onClick={onPrevMemberPage} />
+            <SignUpHeader onClick={onPrevMemberPage}>
+              <BackpageIconBox src={pathLeft} />
               <SignUpTitle>회원가입</SignUpTitle>
             </SignUpHeader>
             <WelcomeQuestionContainer>
@@ -297,6 +297,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: var(--white);
+  cursor: pointer;
 `;
 
 const BackpageIconBox = styled.img`
@@ -479,6 +480,7 @@ const ButtonStyle = styled.button`
   font-weight: var(--button_Large-font-weight);
   line-height: var(--button_Large-line-height);
   letter-spacing: var(--button_Large-letter-spacing);
+  cursor: pointer;
   :disabled {
     background-color: var(--gray5);
   }
@@ -487,4 +489,3 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
-
