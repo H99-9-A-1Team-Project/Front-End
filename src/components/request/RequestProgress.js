@@ -42,6 +42,6 @@ const RqProgress = styled.progress`
   }
 
   ::-webkit-progress-value {
-    background-color: orange;
+    background-color: #ffe178;
   }
 `;

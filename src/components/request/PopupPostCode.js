@@ -27,7 +27,7 @@ const PopupPostCode = (props) => {
     height: '400px',
     left: '0px',
     padding: '7px',
-    background: '#fae1e1',
+    background: '#edf3fa',
   };
 
   return (

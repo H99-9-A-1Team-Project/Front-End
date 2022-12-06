@@ -156,7 +156,7 @@ const DetailAddressBox = styled.div`
 
 const DetailAddressInput = styled.input`
   width: 304px;
-  height: 44px;
+  height: 42px;
   background-color: white;
   border: none;
   margin-left: 12px;
