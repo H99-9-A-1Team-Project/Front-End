@@ -2,13 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useResetRecoilState, useSetRecoilState, useRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { DeleteUser } from '../../api/apiPOST';
-
 import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor, toastVisible, TextToast } from '../../store/store';
-import checked from './sources/checked_button.png';
-import unchecked from './sources/unchecked_button.png';
+import { ReactComponent as RadioCheck } from '../../global/sources/Radio_check.svg';
+import { ReactComponent as RadioUnCheck } from '../../global/sources/Radio_uncheck.svg';
 
 export default function DeleteIdPageArticle() {
   const navigate = useNavigate();
@@ -99,20 +98,20 @@ export default function DeleteIdPageArticle() {
       <div className="body_info">
         <div className="body_info_title">무엇이 불편하셨나요?</div>
         <div className="body_info_1" onClick={() => onChangeInfo(1)}>
-          <img src={infoState.check1 ? checked : unchecked} alt="check1" />
+          {infoState.check1 ? <RadioCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} /> : <RadioUnCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} />}
           <div className="body_info_1_text"> 개인정보 노출이 우려됩니다.</div>
         </div>
         <div className="body_info_2" onClick={() => onChangeInfo(2)}>
-          <img src={infoState.check2 ? checked : unchecked} alt="check2" />
+          {infoState.check2 ? <RadioCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} /> : <RadioUnCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} />}
           <div className="body_info_2_text"> 매물 계약을 해서 필요가 없습니다.</div>
         </div>
         <div className="body_info_3" onClick={() => onChangeInfo(3)}>
-          <img src={infoState.check3 ? checked : unchecked} alt="check3" />
+          {infoState.check3 ? <RadioCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} /> : <RadioUnCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} />}
           <div className="body_info_3_text"> UI/UX가 불편합니다.</div>
         </div>
         <div className="body_info_4">
           <div className="body_info_4_inner" onClick={() => onChangeInfo(4)}>
-            <img src={infoState.check4 ? checked : unchecked} alt="check4" />
+            {infoState.check4 ? <RadioCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} /> : <RadioUnCheck fill="rgba(60, 110, 239, 1)" style={{ marginRight: '12px' }} />}
             <div className="body_info_4_text"> 직접 입력</div>
           </div>
           {infoState.check4 ? <textarea className="body_info_4_textarea" onChange={onChangeSurveyMessage} maxLength={120} placeholder="불편하신 점을 입력해주세요"></textarea> : null}

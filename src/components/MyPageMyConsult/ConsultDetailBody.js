@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ConsultDetailBodyContainer from './ConsultDetailBodyContainer';
-import pin from './sources/Pin.png';
+import { ReactComponent as Pin } from '../../global/sources/Pin_fill.svg';
 import { useQuery } from '@tanstack/react-query';
 import { ReadConsultDetail } from '../../api/apiGET';
 
@@ -24,7 +24,7 @@ export default function ConsultDetailBody({ id }) {
           <div className="answer_body_title_wrap">
             <div className="title">주소</div>
             <div className="title_body">
-              <img src={pin} alt="pin" />
+              <Pin fill="rgba(60, 110, 239, 1)" style={{ marginRight: '8px' }} />
               {data.title}
             </div>
           </div>

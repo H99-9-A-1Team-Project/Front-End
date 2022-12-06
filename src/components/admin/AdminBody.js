@@ -12,7 +12,6 @@ export default function AdminBody() {
     },
   });
   if (data !== undefined) {
-    console.log(data);
   }
   return (
     <StAdminBodyLayout>

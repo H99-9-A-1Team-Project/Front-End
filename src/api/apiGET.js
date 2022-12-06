@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from './api';
 
 //프로필 조회

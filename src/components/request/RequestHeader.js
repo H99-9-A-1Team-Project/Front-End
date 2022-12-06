@@ -21,7 +21,13 @@ export default function RequestHeader() {
           onBack();
         }}
       />
-      <HeaderP>상담 신청하기</HeaderP>
+      <HeaderP
+        onClick={() => {
+          onBack();
+        }}
+      >
+        상담 신청하기
+      </HeaderP>
     </HeaderContainer>
   );
 }

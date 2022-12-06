@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../global/global.css';
-import arrow from './sources/arrow.png';
+import arrow from '../../global/sources/Expand_right_light.svg';
 
 export default function LogoutMyPageArticle() {
   const navigate = useNavigate();
@@ -104,8 +104,6 @@ const Container = styled.div`
       cursor: pointer;
       img {
         background-color: white;
-        width: 7.59px;
-        height: 13.06px;
       }
     }
   }
