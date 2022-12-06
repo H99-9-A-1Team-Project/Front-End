@@ -267,7 +267,6 @@ const ModalInner3 = styled.div`
   background-color: white;
   border-radius: 10px 10px 0 0;
   width: 360px;
-  /* min-height: 254px; */
   height: auto;
   padding-bottom: 24px;
   margin: auto auto 0 auto;

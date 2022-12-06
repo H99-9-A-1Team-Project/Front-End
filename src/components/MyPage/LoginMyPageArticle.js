@@ -74,7 +74,9 @@ export default function LoginMyPageArticle() {
         onHandlingDataForm(base64data);
       };
     } catch (error) {
-      console.log(error);
+      let formData = new FormData();
+      formData.append('content', new Blob([JSON.stringify(newProfile)], { type: 'application/json' }));
+      updateRealtorProfile(formData);
     }
     const onHandlingDataForm = (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);

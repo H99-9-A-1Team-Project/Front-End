@@ -43,7 +43,9 @@ export default function MainPageTabBar() {
         setTbRequest(0);
         setTbUser(1);
       }
-    } else if (tbAccountState === '1' && tbAccountState === '2') {
+    }
+
+    if (tbAccountState === '1' || tbAccountState === '2') {
       if (window.location.pathname === '/') {
         setTbHome(1);
         setTbRequest(0);

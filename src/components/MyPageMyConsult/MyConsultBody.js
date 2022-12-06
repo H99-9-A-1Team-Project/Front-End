@@ -1,10 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { ReadRequestList } from '../../api/apiGET';
+import { searchConsult, searchState } from '../../store/store';
 import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function MyConsultBody() {
+  const [searchStateData, setSearchState] = useRecoilState(searchState);
+  const serchData = useRecoilValue(searchConsult);
   const [listState, setListState] = useState(0);
   const onClickListAll = () => {
     setListState(0);
@@ -41,9 +45,13 @@ export default function MyConsultBody() {
         </li>
       </ul>
       <div className="consulting-wrap">
-        {data?.map((item) => {
-          return <MyConsultBodyContainer key={item.id} listState={listState} item={item} />;
-        })}
+        {searchStateData
+          ? serchData?.map((item) => {
+              return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
+            })
+          : data?.map((item) => {
+              return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
+            })}
       </div>
     </StMyPageBodyWrap>
   );
