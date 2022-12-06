@@ -21,7 +21,6 @@ function App() {
 
   return (
     <>
-      <button>테스트123</button>
       <Router />
     </>
   );

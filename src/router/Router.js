@@ -19,7 +19,7 @@ import FootStepDetailImg from '../pages/FootStepDetailImg';
 import MainPageSideBar from '../components/main/MainPageSideBar';
 import styled from 'styled-components';
 import background from '../global/sources/background.png';
-import logo from '../global/sources/main_header_name.png';
+import logo from '../global/sources/logo.svg';
 import right_arrow from '../global/sources/path_right.png';
 import DeleteId from '../pages/DeleteId';
 import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
