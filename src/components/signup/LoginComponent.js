@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Check from '../../global/sources/Check_outlined.svg';
 import Check2 from '../../global/sources/Check_fill.svg';
 
-function Login() {
+function LoginComponent() {
   const navigate = useNavigate();
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
@@ -63,11 +63,16 @@ function Login() {
   const onAutoLogin = (e) => {
     setCheckAuto(!checkAuto);
   };
-  // 이미 가입된 회원 모달 이전으로 넘기는 버튼용 함수
-  const onGoingLogIn = () => {
-    setGoingLogin(0);
-    // navigate('/');
+  // 이전화면으로 이동
+  const onGoingHome = () => {
+    // setGoingLogin(0);
+    navigate('/');
     window.location.reload();
+  };
+
+  //회원가입 화면으로 이동
+  const onGoingSignUp = () => {
+    navigate('/signup');
   };
 
   // 데이터 전송을 위한 initialState
@@ -153,84 +158,82 @@ function Login() {
 
   return (
     <>
-      {goinglogin === 1 ? (
-        <ChoiceContainer>
-          <SignUpHeader onClick={onGoingLogIn}>
-            <BackpageIconBox src={pathLeft} />
-            <SignUpTitle>로그인</SignUpTitle>
-          </SignUpHeader>
-          <WelcomeQuestionContainer>
-            <WelcomeQuestionbox>
-              <SmallFont>등본 대신 해석해주는</SmallFont>
-              <BigFontImage src={Title} />
-            </WelcomeQuestionbox>
-          </WelcomeQuestionContainer>
-          <InputContainer>
-            <InputBox>
-              <InputName>아이디</InputName>
-              <>
-                <InputTextBox>
-                  <InputText
-                    placeholder="아이디를 입력해주세요"
-                    type="text"
-                    name="email"
-                    onChange={onChangeEmail}
-                    index="1"
-                    style={{
-                      border: isEmail === false ? '1px solid #d14343 ' : 'none',
-                    }}
-                  ></InputText>
-                </InputTextBox>
-                <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
-              </>
-            </InputBox>
-            <InputBoxPassword>
-              <InputName>비밀번호</InputName>
+      <ChoiceContainer>
+        <SignUpHeader onClick={onGoingHome}>
+          <BackpageIconBox src={pathLeft} />
+          <SignUpTitle>로그인</SignUpTitle>
+        </SignUpHeader>
+        <WelcomeQuestionContainer>
+          <WelcomeQuestionbox>
+            <SmallFont>등본 대신 해석해주는</SmallFont>
+            <BigFontImage src={Title} />
+          </WelcomeQuestionbox>
+        </WelcomeQuestionContainer>
+        <InputContainer>
+          <InputBox>
+            <InputName>아이디</InputName>
+            <>
               <InputTextBox>
                 <InputText
-                  placeholder="비밀번호를 입력해주세요"
-                  name="password"
-                  type={secret === false ? 'text' : 'password'}
-                  autocomplete="current-password"
-                  onChange={onChangePassword}
-                  index="2"
-                  onKeyDown={(e) => onActiveEnter(e)}
+                  placeholder="아이디를 입력해주세요"
+                  type="text"
+                  name="email"
+                  onChange={onChangeEmail}
+                  index="1"
                   style={{
-                    border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                    border: isEmail === false ? '1px solid #d14343 ' : 'none',
                   }}
                 ></InputText>
               </InputTextBox>
-            </InputBoxPassword>
-            <PasswordContainer>
-              <ErrorMsgPreview>
-                <InputErrorMessageBoxPassword>
-                  <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
-                </InputErrorMessageBoxPassword>
-                <InputErrorMessageBoxPassword>
-                  <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
-                </InputErrorMessageBoxPassword>
-              </ErrorMsgPreview>
-              <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-            </PasswordContainer>
-          </InputContainer>
-          <AutoLoginContainer onClick={onAutoLogin}>
-            <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} />
-            <AutoLoginText>자동 로그인</AutoLoginText>
-          </AutoLoginContainer>
-          <BlankContainer2></BlankContainer2>
-          <GoingSignUp onClick={onGoingLogIn}>회원가입 하기</GoingSignUp>
-          <ButtonContainer>
-            <ButtonStyle type="submit" onClick={onSubmitLoginData}>
-              시작하기
-            </ButtonStyle>
-          </ButtonContainer>
-        </ChoiceContainer>
-      ) : null}
+              <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+            </>
+          </InputBox>
+          <InputBoxPassword>
+            <InputName>비밀번호</InputName>
+            <InputTextBox>
+              <InputText
+                placeholder="비밀번호를 입력해주세요"
+                name="password"
+                type={secret === false ? 'text' : 'password'}
+                autocomplete="current-password"
+                onChange={onChangePassword}
+                index="2"
+                onKeyDown={(e) => onActiveEnter(e)}
+                style={{
+                  border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                }}
+              ></InputText>
+            </InputTextBox>
+          </InputBoxPassword>
+          <PasswordContainer>
+            <ErrorMsgPreview>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
+              </InputErrorMessageBoxPassword>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
+              </InputErrorMessageBoxPassword>
+            </ErrorMsgPreview>
+            <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+          </PasswordContainer>
+        </InputContainer>
+        <AutoLoginContainer onClick={onAutoLogin}>
+          <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} />
+          <AutoLoginText>자동 로그인</AutoLoginText>
+        </AutoLoginContainer>
+        <BlankContainer2></BlankContainer2>
+        <GoingSignUp onClick={onGoingSignUp}>회원가입 하기</GoingSignUp>
+        <ButtonContainer>
+          <ButtonStyle type="submit" onClick={onSubmitLoginData}>
+            시작하기
+          </ButtonStyle>
+        </ButtonContainer>
+      </ChoiceContainer>
     </>
   );
 }
 
-export default Login;
+export default LoginComponent;
 
 const ChoiceContainer = styled.div`
   width: 360px;

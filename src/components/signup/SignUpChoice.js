@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
 import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp, TextToast } from '../../store/store';
 import { useRecoilState } from 'recoil';
-import Login from './Login';
+import LoginComponent from './LoginComponent';
 import SignUpMember from './SignUpMember';
 import SignUpRealtor from './SignUpRealtor';
 import { useNavigate } from 'react-router-dom';
@@ -53,7 +53,7 @@ function SignUpChoice() {
     console.log(nexttor);
   };
   const onGoingLogIn = () => {
-    setGoingLogin(goinglogin + 1);
+    navigate('/login');
     setOpenSignUp(true);
     setAlreadySignIn(true);
     console.log(goinglogin);
@@ -105,7 +105,7 @@ function SignUpChoice() {
                 )}
               </>
             ) : (
-              <Login />
+              <LoginComponent />
             )}
           </>
         )}
