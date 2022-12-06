@@ -56,7 +56,6 @@ function SignUpChoice() {
     setGoingLogin(goinglogin + 1);
     setOpenSignUp(true);
     setAlreadySignIn(true);
-    console.log(goinglogin);
   };
 
   const onGoingMainPage = () => {

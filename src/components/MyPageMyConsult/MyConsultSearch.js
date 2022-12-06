@@ -2,47 +2,89 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import search from '../../global/sources/Search.svg';
+import close from '../../global/sources/Close.svg';
+
 import { ReadSearchAnsweredList, ReadSearchMyConsult, ReadSearchWaitList } from '../../api/apiGET';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { searchAnswered, searchConsult, searchState, searchWait } from '../../store/store';
+import { useEffect } from 'react';
 
 export default function MyConsultSearch() {
   const [keyword, setKeyword] = useState('');
-  const [a, b] = useState(false);
+  const setSearchConsultData = useSetRecoilState(searchConsult);
+  const setSearchWaitData = useSetRecoilState(searchWait);
+  const setSearchAnsweredData = useSetRecoilState(searchAnswered);
+  const [searchStateData, setSearchState] = useRecoilState(searchState);
+
   const onChangeKeyword = (e) => {
     setKeyword(e.target.value);
   };
   const onSubmitHandler = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     if (window.location.pathname === '/waitlist') {
       onSearchWaitConsult();
-    }
-    if (window.location.pathname === '/answeredlist') {
+    } else {
       onSearchAnsweredConsult();
-    }
-    if (window.location.pathname === '/myconsult') {
       onSearchMyConsult();
     }
+    // if (window.location.pathname === '/answeredlist'||) {
+    //   onSearchAnsweredConsult();
+    // }
+    // if (window.location.pathname === '/myconsult') {
+    //   onSearchMyConsult();
+    // }
   };
-  const { data: searchMyConsult, mutate: onSearchMyConsult } = useMutation(() => ReadSearchMyConsult(keyword), {
+  useEffect(() => {
+    setSearchState(false);
+  }, []);
+  const { mutate: onSearchMyConsult } = useMutation(() => ReadSearchMyConsult(keyword), {
     onSuccess: (config) => {
-      console.log(config);
+      setSearchConsultData(config);
     },
   });
-  const { data: searchWaitConsult, mutate: onSearchWaitConsult } = useMutation(() => ReadSearchWaitList(keyword), {
+  const { mutate: onSearchWaitConsult } = useMutation(() => ReadSearchWaitList(keyword), {
     onSuccess: (config) => {
-      console.log(config);
+      setSearchWaitData(config);
     },
   });
-  const { data: searchAnsweredConsult, mutate: onSearchAnsweredConsult } = useMutation(() => ReadSearchAnsweredList(keyword), {
+  const { mutate: onSearchAnsweredConsult } = useMutation(() => ReadSearchAnsweredList(keyword), {
     onSuccess: (config) => {
-      console.log(config);
+      setSearchAnsweredData(config);
     },
   });
   return (
     <StMyConsultSearchLayout>
-      <form className="search" onSubmit={onSubmitHandler}>
-        <input type="text" name="keyword" placeholder="주소를 입력하여 검색" onChange={onChangeKeyword} />
-        <button className="search-button">
-          <img src={search} alt="" onClick={onSubmitHandler}></img>
+      <form
+        className="search"
+        onSubmit={(e) => {
+          onSubmitHandler(e);
+          setSearchState(true);
+        }}
+      >
+        <input id="searchinput" type="text" name="keyword" placeholder="주소를 입력하여 검색" value={keyword} onChange={onChangeKeyword} />
+        <button className="search-button" type="button">
+          {searchStateData ? (
+            <img
+              className="close_button"
+              src={close}
+              alt="close"
+              onClick={() => {
+                setSearchState(false);
+                setKeyword('');
+              }}
+            ></img>
+          ) : (
+            <img
+              src={search}
+              alt="search"
+              onClick={() => {
+                onSubmitHandler();
+                setSearchState(true);
+              }}
+            ></img>
+          )}
         </button>
       </form>
     </StMyConsultSearchLayout>

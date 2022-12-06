@@ -201,7 +201,7 @@ export default function ConsultDetailComment({ id }) {
                 <div className="profile_container">
                   <div className="profile_header">
                     <div className="profile_header_left">
-                      <div className="profile_header_left_img">{data.comments[0].profile ? <img src={`${data.comments[0].profile}`} alt="userProfile" /> : <img className="default_img" src={userDefault} alt="userDefault" />}</div>
+                      <div className="profile_header_left_img">{data.comments[0].profile ? <img className="real_img" src={`${data.comments[0].profile}`} alt="userProfile" /> : <img className="default_img" src={userDefault} alt="userDefault" />}</div>
                     </div>
                     <div className="profile_header_right">
                       <div className="profile_header_right_1">공인중개사</div>
@@ -593,9 +593,12 @@ const ConsultDetailCommentLayout3 = styled.div`
       flex-direction: row;
       margin-bottom: 12px;
       .profile_header_left_img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
+        .real_img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          margin-right: 18px;
+        }
         .default_img {
           width: 80px;
           height: 80px;

@@ -104,7 +104,9 @@ function MainPageArticle() {
             ) : null}
             {sessionStorage.getItem('accountstate') === '1' ? (
               <>
-                <div className="user_info_3">답변한 상담 {answeredData?.length}건</div>
+                <div className="user_info_3" onClick={() => navigate('/answeredlist ')}>
+                  답변한 상담 {answeredData?.length}건
+                </div>
               </>
             ) : null}
           </div>
@@ -240,6 +242,9 @@ const ArticleContainer = styled.div`
       }
       .user_info_2 {
         padding-left: 14px;
+      }
+      .user_info_3 {
+        cursor: pointer;
       }
     }
     .article_body {
