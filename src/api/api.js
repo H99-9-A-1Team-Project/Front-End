@@ -14,17 +14,16 @@ api.interceptors.request.use((config) => {
     config.headers['access-token'] = `Bearer ${access_token}`;
     config.headers['refresh-token'] = `${refresh_token}`;
   }
+
   return config;
 });
 
 api.interceptors.response.use(
   (config) => {
-    console.log('정상', config);
     return config;
   },
   async (error) => {
     if (error.response.status === 401) {
-      console.log('비정상', error);
       const originalRequestConfig = error.config;
       try {
         const data = await api.post('v1/login', '');

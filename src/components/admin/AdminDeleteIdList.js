@@ -16,7 +16,7 @@ export default function AdminDeleteIdList() {
   }
   return (
     <StAdminBodyLayout>
-      {data.map((item, idx) => {
+      {data?.map((item, idx) => {
         return (
           <div className="container">
             {item.check1 && <div>개인정보 노출이 우려됩니다.</div>}
