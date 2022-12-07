@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import arrow_up from './sources/up_light.png';
-import arrow_down from './sources/down_light.png';
+import arrow_up from '../../global/sources/Expand_up_light.svg';
+import arrow_down from '../../global/sources/Expand_down_light.svg';
 
 export default function ConsultDetailBodyContainer({ data, checkNum }) {
   const [visible, setVisible] = useState(false);

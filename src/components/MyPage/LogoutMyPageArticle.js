@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../global/global.css';
-import arrow from './sources/arrow.png';
+import arrow from '../../global/sources/Expand_right_light.svg';
 
 export default function LogoutMyPageArticle() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function LogoutMyPageArticle() {
     <Container>
       <div className="head-article-container">
         <div className="div1">
-          <span className="span" onClick={() => navigate('/signup')}>
+          <span className="span" onClick={() => navigate('/login')}>
             로그인
           </span>
           <span className="span1"> 혹은</span>
@@ -104,9 +104,8 @@ const Container = styled.div`
       cursor: pointer;
       img {
         background-color: white;
-        width: 7.59px;
-        height: 13.06px;
       }
     }
   }
 `;
+

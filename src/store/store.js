@@ -127,3 +127,7 @@ export const nfsImgState = atom({
 });
 
 export const toastVisible = atom({ key: 'toastvisible', default: false });
+export const searchState = atom({ key: 'searchstate', default: false });
+export const searchConsult = atom({ key: 'searchconsult', default: [] });
+export const searchWait = atom({ key: 'searchwait', default: [] });
+export const searchAnswered = atom({ key: 'searchanswered', default: [] });

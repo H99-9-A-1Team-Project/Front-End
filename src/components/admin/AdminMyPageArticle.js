@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import userProfile6 from '../MyPage/sources/userProfile6.png';
-import arrow from '../MyPage/sources/arrow.png';
+import arrow from '../../global/sources/Expand_right_light.svg';
 import styled from 'styled-components';
 import { useResetRecoilState } from 'recoil';
 import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor } from '../../store/store';
@@ -199,8 +199,6 @@ const Container = styled.div`
       cursor: pointer;
       img {
         background-color: white;
-        width: 7.59px;
-        height: 13.06px;
       }
     }
     .info-3 {

@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
 import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp, TextToast } from '../../store/store';
 import { useRecoilState } from 'recoil';
-import LoginComponent from './LoginComponent';
 import SignUpMember from './SignUpMember';
-import SignUpRealtor from './SignUpRealtor';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpChoice() {
@@ -46,7 +44,8 @@ function SignUpChoice() {
     console.log(nextmem);
   };
   const onNextRealtorPage = () => {
-    setNextTor(nexttor + 1);
+    navigate('/signup/realtor');
+    // setNextTor(nexttor + 1);
     setChoiceBool(false);
     setOpenSignUp(true);
 
@@ -56,7 +55,6 @@ function SignUpChoice() {
     navigate('/login');
     setOpenSignUp(true);
     setAlreadySignIn(true);
-    console.log(goinglogin);
   };
 
   const onGoingMainPage = () => {
@@ -68,8 +66,8 @@ function SignUpChoice() {
       <ChoiceContainer>
         {opensignup === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
           <>
-            <SignUpHeader onClick={onGoingMainPage}>
-              <BackpageIconBox src={pathLeft} />
+            <SignUpHeader>
+              <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
               <SignUpTitle>회원가입</SignUpTitle>
             </SignUpHeader>
             <WelcomeQuestionContainer>
@@ -88,25 +86,15 @@ function SignUpChoice() {
           </>
         ) : (
           <>
-            {alreadysignin === false ? (
-              <>
-                {choiceBool === true ? (
-                  <>
-                    <ChoiceContainer>
-                      <SignUpMember />
-                    </ChoiceContainer>
-                  </>
-                ) : (
-                  <>
-                    <ChoiceContainer>
-                      <SignUpRealtor />
-                    </ChoiceContainer>
-                  </>
-                )}
-              </>
-            ) : (
-              <LoginComponent />
-            )}
+            <>
+              {choiceBool === true ? (
+                <>
+                  <ChoiceContainer>
+                    <SignUpMember />
+                  </ChoiceContainer>
+                </>
+              ) : null}
+            </>
           </>
         )}
       </ChoiceContainer>

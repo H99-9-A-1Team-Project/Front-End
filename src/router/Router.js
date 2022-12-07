@@ -28,6 +28,7 @@ import { useRecoilState } from 'recoil';
 import { toastVisible, TextToast } from '../store/store';
 import PublicRoute from '../components/signup/publicRoute';
 import LoginPage from '../pages/LoginPage';
+import SignUpRealtorPage from '../pages/SignUpRealtorPage';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
@@ -58,6 +59,15 @@ export default function Router() {
               element={
                 <PublicRoute>
                   <SignUp />
+                </PublicRoute>
+              }
+            />
+
+            <Route
+              path="/signup/realtor"
+              element={
+                <PublicRoute>
+                  <SignUpRealtorPage />
                 </PublicRoute>
               }
             />

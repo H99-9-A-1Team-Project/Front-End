@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import deco from './sources/deco.png';
-import user_circle from '../MyPage/sources/userDefault.png';
 import edit_button_comment from './sources/edit_button_comment.png';
-import good from './sources/Good.png';
-import good2 from './sources/Good2.png';
-import userDefault from '../MyPage/sources/userDefault.png';
+import good from '../../global/sources/Smile_outlined.svg';
+import good2 from '../../global/sources/Smile_fill.svg';
+import userDefault from '../../global/sources/user.svg';
 import { Editor, Viewer } from '@toast-ui/react-editor'; // Editor
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor css
 import '@toast-ui/editor/dist/i18n/ko-kr'; // Editor 한국어
@@ -157,7 +156,7 @@ export default function ConsultDetailComment({ id }) {
             <div className="header">{data.comments[0].nickname}님의 답변입니다.</div>
             <div className="realtor_info" onClick={() => setModalVisible(true)}>
               <div className="realtor_info_left">
-                <img src={data.comments[0].profile ? data.comments[0].profile : user_circle} alt="user_circle" />
+                <img src={data.comments[0].profile ? data.comments[0].profile : userDefault} alt="user_circle" />
               </div>
               <div className="realtor_info_right">
                 <div className="realtor_info_right_top">공인중개사</div>
@@ -202,7 +201,7 @@ export default function ConsultDetailComment({ id }) {
                 <div className="profile_container">
                   <div className="profile_header">
                     <div className="profile_header_left">
-                      <div className="profile_header_left_img">{data.comments[0].profile ? <img src={`${data.comments[0].profile}`} alt="userProfile" /> : <img src={userDefault} alt="userDefault" />}</div>
+                      <div className="profile_header_left_img">{data.comments[0].profile ? <img className="real_img" src={`${data.comments[0].profile}`} alt="userProfile" /> : <img className="default_img" src={userDefault} alt="userDefault" />}</div>
                     </div>
                     <div className="profile_header_right">
                       <div className="profile_header_right_1">공인중개사</div>
@@ -594,9 +593,16 @@ const ConsultDetailCommentLayout3 = styled.div`
       flex-direction: row;
       margin-bottom: 12px;
       .profile_header_left_img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
+        .real_img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          margin-right: 18px;
+        }
+        .default_img {
+          width: 80px;
+          height: 80px;
+        }
       }
       .profile_header_right {
         display: flex;

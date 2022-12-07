@@ -29,6 +29,9 @@ function LoginComponent() {
   //비밀번호 양식 다시 짚어줄 useState
   const [checkvalid, setCheckValid] = useState('');
 
+  //비밀번호 유효성 검사를 위한 usestate
+  const [onvalid, setOnValid] = useState('');
+
   //로그인 유지를 위한 recoilstate
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
 
@@ -51,8 +54,8 @@ function LoginComponent() {
   const [valid, setValid] = useRecoilState(itsNotOK);
   const [psvalid, setPsValid] = useRecoilState(itsNotOK2);
   const isValidLogin = !(valid && psvalid);
-  const [isEmail, setIsEmail] = useState();
-  const [isPassword, setIsPassword] = useState();
+  const [isEmail, setIsEmail] = useState('');
+  const [isPassword, setIsPassword] = useState('');
 
   //비밀번호 미리보기 이벤트 핸들러
   const onPreviewPW = (e) => {
@@ -67,7 +70,6 @@ function LoginComponent() {
   const onGoingHome = () => {
     // setGoingLogin(0);
     navigate('/');
-    window.location.reload();
   };
 
   //회원가입 화면으로 이동
@@ -91,10 +93,23 @@ function LoginComponent() {
     setLoginData({ ...loginData, [name]: value });
     const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (exptext.test(emailData) == true) {
+      setCheckemail('알맞은 형식입니다 :) ');
+      setIsEmail(true);
+      setValid(true);
+    }
+    if (e.target.value === '') {
+      setCheckemail('');
+      setIsEmail('');
+    }
+  };
+  const onblurChange = () => {
+    const emailData = loginData.email;
+    const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
-      if (e.target.value === '') {
-        setCheckemail('빈칸을 채워주세요');
+      if (emailData === '') {
+        setCheckemail('이메일을 입력하세요');
       }
       setIsEmail(false);
       setValid(false);
@@ -104,33 +119,38 @@ function LoginComponent() {
       setValid(true);
     }
   };
+
   const onChangePassword = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    const passwordData = e.target.value;
+    setPsValid(true);
+    setOnValid(false);
+    if (e.target.value === '') {
+      setCheckPassword('');
+      setIsPassword('');
+      setCheckValid('');
+    } else {
+      setCheckPassword('');
+    }
+  };
+
+  const onValidLoginData = () => {
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
-    if (expword.test(passwordData) == false) {
+    if (expword.test(loginData.password) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
-      if (e.target.value === '') {
-        setCheckPassword('빈칸을 채워주세요');
-      }
+      setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
       setIsPassword(false);
       setPsValid(false);
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
+      setCheckValid('');
       setIsPassword(true);
       setPsValid(true);
+      setOnValid(true);
     }
   };
-  const onActiveEnter = (e) => {
-    if (e.key === 'Enter') {
-      onSubmitLoginData();
-    }
-  };
-  const onSubmitLoginData = () => {
-    setCheckPassword('');
-    emailLogin(loginData);
-  };
+
   const UserName = loginData.email.split('@')[0];
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
     onSuccess: (response) => {
@@ -150,11 +170,27 @@ function LoginComponent() {
       }
     },
     onError: (err) => {
-      setReject(err.response.data.errorMessage);
-      setToastText(err.response.data.errorMessage);
-      setVisible(true);
+      setReject('비밀번호를 확인해주세요');
+      setCheckemail('이메일을 확인해주세요');
+      setCheckPassword('비밀번호를 확인해주세요');
+      setIsEmail(false);
+      setIsPassword(false);
     },
   });
+
+  console.log(checkvalid);
+  const onClick = () => {
+    onvalid === false ? onValidLoginData() : onSubmitLoginData();
+  };
+  const onActiveEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClick();
+    }
+  };
+  const onSubmitLoginData = () => {
+    // setCheckPassword('');
+    emailLogin(loginData);
+  };
 
   return (
     <>
@@ -179,6 +215,7 @@ function LoginComponent() {
                   type="text"
                   name="email"
                   onChange={onChangeEmail}
+                  onBlur={onblurChange}
                   index="1"
                   style={{
                     border: isEmail === false ? '1px solid #d14343 ' : 'none',
@@ -224,7 +261,12 @@ function LoginComponent() {
         <BlankContainer2></BlankContainer2>
         <GoingSignUp onClick={onGoingSignUp}>회원가입 하기</GoingSignUp>
         <ButtonContainer>
-          <ButtonStyle type="submit" onClick={onSubmitLoginData}>
+          <ButtonStyle
+            type="submit"
+            onClick={() => {
+              onvalid === false ? onValidLoginData() : onSubmitLoginData();
+            }}
+          >
             시작하기
           </ButtonStyle>
         </ButtonContainer>
@@ -465,6 +507,7 @@ const AutoLoginContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 8px;
   gap: 4px;
   cursor: pointer;
 `;
@@ -472,6 +515,7 @@ const AutoLoginCheckImg = styled.img`
   width: 24px;
   height: 24px;
   background-color: var(--white);
+  position: relative;
 `;
 const AutoLoginText = styled.div`
   width: 68px;

@@ -1,12 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { ReadAnsweredList, ReadWaitList } from '../../api/apiGET';
+import { searchAnswered, searchState, searchWait } from '../../store/store';
 import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function RealtorConsult() {
   const navigate = useNavigate();
+  const [searchStateData, setSearchState] = useRecoilState(searchState);
+  const serchDataWait = useRecoilValue(searchWait);
+  const serchDataAnswered = useRecoilValue(searchAnswered);
   const [realtorListState, setRealtorListState] = useState(0);
   const onClickListAll = () => {
     setRealtorListState(0);
@@ -49,18 +54,45 @@ export default function RealtorConsult() {
           답변한 상담
         </li>
       </ul>
-      <div className="consulting-wrap">
+      {searchStateData ? (
+        <div className="consulting-wrap">
+          {window.location.pathname === '/waitlist'
+            ? serchDataWait?.map((item) => {
+                return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
+              })
+            : null}
+          {window.location.pathname === '/answeredlist'
+            ? serchDataAnswered?.map((item) => {
+                return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
+              })
+            : null}
+        </div>
+      ) : (
+        <div className="consulting-wrap">
+          {window.location.pathname === '/waitlist'
+            ? waitData?.map((item) => {
+                return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
+              })
+            : null}
+          {window.location.pathname === '/answeredlist'
+            ? answeredData?.map((item) => {
+                return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
+              })
+            : null}
+        </div>
+      )}
+      {/* <div className="consulting-wrap">
         {window.location.pathname === '/waitlist'
           ? waitData?.map((item) => {
-              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} />;
+              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
             })
           : null}
         {window.location.pathname === '/answeredlist'
           ? answeredData?.map((item) => {
-              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} />;
+              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState}/>;
             })
           : null}
-      </div>
+      </div> */}
     </StMyPageBodyWrap>
   );
 }
