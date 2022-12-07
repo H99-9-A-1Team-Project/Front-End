@@ -31,7 +31,7 @@ export default function NewFootStepImg() {
     };
     try {
       const compressedFile = await imageCompression(file, options);
-      console.log(compressedFile);
+      console.log('압축결과', compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
@@ -215,3 +215,4 @@ const CarosulItem = styled.img`
   height: 128px;
   -webkit-user-drag: none;
 `;
+
