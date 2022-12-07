@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import x from '../../global/sources/x.png';
 import { sideTabBar } from '../../store/store';
 
 export default function MainPageSideBar() {
