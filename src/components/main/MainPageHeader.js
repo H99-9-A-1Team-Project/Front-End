@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../global/sources/logo.svg';
-import Menu from './sources/main_header_menu.png';
+import Menu from '../../global/sources/Menu.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { sideTabBar } from '../../store/store';
@@ -36,11 +36,10 @@ const StLogo = styled.img`
 `;
 
 const StMenu = styled.img`
-  position: absolute;
   width: 24px;
   height: 24px;
-  background-color: #ffffff;
-  margin-left: 320px;
+  margin: 20px 16px 0 auto;
+  margin-left: auto;
   margin-top: 20px;
   cursor: pointer;
 `;
