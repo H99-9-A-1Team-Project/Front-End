@@ -10,7 +10,7 @@ import WriteIcon from '../../global/sources/Edit.svg';
 import { useQuery } from '@tanstack/react-query';
 import { SearchFstMain } from '../../api/apiGET';
 import CaroselImages from './sources/caroselImage.png';
-import Marker_All from '../../global/sources/Pin_All.svg';
+import Marker_All from '../../global/sources/Pin_all.svg';
 import Marker_FootStep from '../../global/sources/Pin_Footstep.svg';
 import Marker_request from '../../global/sources/Pin_Request.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -132,14 +132,15 @@ export default function FootstepMainArticle() {
     let ImgMarkerRequest = Marker_request;
     let ImgMarkerFootstep = Marker_FootStep;
 
-    if (searchData && searchData.length !== 0) {
+    if (searchData !== undefined) {
       let options = {};
-      if (sortName === '전체') {
+      if (sortName === '전체' && searchData.length !== 0) {
         options = {
           center: new window.kakao.maps.LatLng(searchData[0].coordX, searchData[0].coordY),
           level: levelValue,
         };
-      } else if (sortName === '발품' && footstepData.length !== 0) {
+      }
+      if (sortName === '발품' && footstepData.length !== 0) {
         options = {
           center: new window.kakao.maps.LatLng(footstepData[0].coordX, footstepData[0].coordY),
           level: levelValue,
