@@ -36,11 +36,10 @@ const StLogo = styled.img`
 `;
 
 const StMenu = styled.img`
-  position: absolute;
   width: 24px;
   height: 24px;
-  background-color: #ffffff;
-  margin-left: 320px;
+  margin: 20px 16px 0 auto;
+  margin-left: auto;
   margin-top: 20px;
   cursor: pointer;
 `;

@@ -195,8 +195,8 @@ function MainPageArticle() {
               <LoginBtn onClick={onStartLogin}>로그인 하러가기</LoginBtn>
               <ImgPathRight src={path_Right} />
             </LoginBtnBox>
-            <ServcieGuideBox>
-              <ServiceGuideP onClick={() => navigate('/introduce')}>어떤 서비스인가요?</ServiceGuideP>
+            <ServcieGuideBox onClick={() => navigate('/introduce')}>
+              <ServiceGuideP>어떤 서비스인가요?</ServiceGuideP>
               <ServiceQueMark src={QueMark} />
             </ServcieGuideBox>
           </ECPWrap>
