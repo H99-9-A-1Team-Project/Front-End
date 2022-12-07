@@ -41,7 +41,6 @@ function MainPageArticle() {
       navigate('/request1');
     }
   };
-  console.log(AppLogin);
   const { data: readProfile } = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '0' || sessionStorage.getItem('accountstate') === '1'),

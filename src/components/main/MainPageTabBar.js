@@ -103,7 +103,6 @@ export default function MainPageTabBar() {
         setTbUser(1);
       }
     } else if (tbAccountState === '1' || tbAccountState === '2') {
-      console.log('dd');
       if (click === 1) {
         navigate('/');
         setTbHome(1);
