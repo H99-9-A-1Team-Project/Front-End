@@ -216,7 +216,7 @@ function SignUpMember() {
     } else {
       setTimeout(() => {
         emailLogin(LoginPocket);
-      }, 1500);
+      }, 1000);
     }
   };
   return (
