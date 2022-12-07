@@ -171,10 +171,10 @@ function LoginComponent() {
     },
     onError: (err) => {
       setReject('비밀번호를 확인해주세요');
-      setCheckemail('이메일을 확인해주세요');
-      setCheckPassword('비밀번호를 확인해주세요');
       setIsEmail(false);
       setIsPassword(false);
+      setCheckemail('인증되지 않았습니다');
+      setCheckPassword('비밀번호를 확인해주세요');
     },
   });
 
