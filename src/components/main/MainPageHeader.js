@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../global/sources/logo.svg';
-import Menu from './sources/main_header_menu.png';
+import Menu from '../../global/sources/Menu.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { sideTabBar } from '../../store/store';

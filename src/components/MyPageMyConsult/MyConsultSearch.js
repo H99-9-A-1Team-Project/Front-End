@@ -23,11 +23,11 @@ export default function MyConsultSearch() {
     if (e) {
       e.preventDefault();
     }
-    if (window.location.pathname === '/waitlist') {
-      onSearchWaitConsult();
+    if (window.location.pathname === '/myconsult') {
+      onSearchMyConsult();
     } else {
       onSearchAnsweredConsult();
-      onSearchMyConsult();
+      onSearchWaitConsult();
     }
     // if (window.location.pathname === '/answeredlist'||) {
     //   onSearchAnsweredConsult();
@@ -38,7 +38,19 @@ export default function MyConsultSearch() {
   };
   useEffect(() => {
     setSearchState(false);
+    setSearchConsultData([]);
+    setSearchWaitData([]);
+    setSearchAnsweredData([]);
   }, []);
+  useEffect(() => {
+    if (!keyword) {
+      setSearchState(false);
+      setSearchConsultData([]);
+      setSearchWaitData([]);
+      setSearchAnsweredData([]);
+    }
+  }, [keyword]);
+
   const { mutate: onSearchMyConsult } = useMutation(() => ReadSearchMyConsult(keyword), {
     onSuccess: (config) => {
       setSearchConsultData(config);
@@ -54,6 +66,7 @@ export default function MyConsultSearch() {
       setSearchAnsweredData(config);
     },
   });
+
   return (
     <StMyConsultSearchLayout>
       <form

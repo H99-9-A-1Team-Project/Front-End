@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
-import imgHomeOFF from '../../global/tabBar/Home_OFF.png';
-import imgHomeON from '../../global/tabBar/Home_ON.png';
-import imgPinOFF from '../../global/tabBar/Pin_OFF.png';
-import imgPinON from '../../global/tabBar/Pin_ON.png';
-import imgRequestOFF from '../../global/tabBar/Request_OFF.png';
-import imgRequestON from '../../global/tabBar/Request_ON.png';
-import imgUserOFF from '../../global/tabBar/User_OFF.png';
-import imgUserON from '../../global/tabBar/User_ON.png';
+import imgHomeOFF from '../../global/sources/Home_outlined.svg';
+import imgHomeON from '../../global/sources/Home_fill.svg';
+import imgPinOFF from '../../global/sources/Pin_outlined.svg';
+import { ReactComponent as ImgPinOn } from '../../global/sources/Pin_fill.svg';
+import imgRequestOFF from '../../global/sources/Chat_outlined.svg';
+import imgRequestON from '../../global/sources/Chat_fill.svg';
+import imgUserOFF from '../../global/sources/User_outlined.svg';
+import imgUserON from '../../global/sources/User_fill.svg';
 import { TabAccountState, tabBarHome, tabBarPin, tabBarRequest, tabBarUser } from '../../store/store';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -135,7 +135,7 @@ export default function MainPageTabBar() {
           </HomeContainer>
           <PinContainer>
             <PinBox onClick={() => onClickTab(2)}>
-              <PinImgBox>{tbPin === 0 ? <PinImgOFF src={imgPinOFF} /> : <PinImgON src={imgPinON} />}</PinImgBox>
+              <PinImgBox>{tbPin === 0 ? <PinImgOFF src={imgPinOFF} /> : <ImgPinOn fill="#3c6eef" />}</PinImgBox>
               <PinP tbPin={tbPin}>발품기록</PinP>
             </PinBox>
           </PinContainer>
@@ -287,8 +287,6 @@ const PinImgBox = styled.div`
 `;
 
 const PinImgOFF = styled.img`
-  width: 15px;
-  height: 16.9px;
   background: none;
 `;
 

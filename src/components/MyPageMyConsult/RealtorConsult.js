@@ -44,6 +44,7 @@ export default function RealtorConsult() {
       return config.reverse();
     },
   });
+
   return (
     <StMyPageBodyWrap>
       <ul>
@@ -56,43 +57,47 @@ export default function RealtorConsult() {
       </ul>
       {searchStateData ? (
         <div className="consulting-wrap">
-          {window.location.pathname === '/waitlist'
-            ? serchDataWait?.map((item) => {
+          {window.location.pathname === '/waitlist' ? (
+            serchDataWait.length !== 0 ? (
+              serchDataWait.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
-            : null}
-          {window.location.pathname === '/answeredlist'
-            ? serchDataAnswered?.map((item) => {
+            ) : (
+              <div className="consulting-wrap2">검색하신 단어와 일치하는 정보가 없습니다.</div>
+            )
+          ) : null}
+          {window.location.pathname === '/answeredlist' ? (
+            serchDataAnswered.length !== 0 ? (
+              serchDataAnswered.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
-            : null}
+            ) : (
+              <div className="consulting-wrap2">검색하신 단어와 일치하는 정보가 없습니다.</div>
+            )
+          ) : null}
         </div>
       ) : (
         <div className="consulting-wrap">
-          {window.location.pathname === '/waitlist'
-            ? waitData?.map((item) => {
+          {window.location.pathname === '/waitlist' ? (
+            waitData.length !== 0 ? (
+              waitData.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
-            : null}
-          {window.location.pathname === '/answeredlist'
-            ? answeredData?.map((item) => {
+            ) : (
+              <div className="consulting-wrap2">대기중인 상담이 없습니다.</div>
+            )
+          ) : null}
+          {window.location.pathname === '/answeredlist' ? (
+            answeredData.length !== 0 ? (
+              answeredData.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
-            : null}
+            ) : (
+              <div className="consulting-wrap2">답변한 상담이 없습니다.</div>
+            )
+          ) : null}
         </div>
       )}
-      {/* <div className="consulting-wrap">
-        {window.location.pathname === '/waitlist'
-          ? waitData?.map((item) => {
-              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
-            })
-          : null}
-        {window.location.pathname === '/answeredlist'
-          ? answeredData?.map((item) => {
-              return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState}/>;
-            })
-          : null}
-      </div> */}
     </StMyPageBodyWrap>
   );
 }
@@ -138,6 +143,19 @@ const StMyPageBodyWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  .consulting-wrap2 {
+    width: 328px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--gray6);
+    font-family: var(--button-font-family);
+    font-size: var(--button_Large-font-size);
+    font-weight: var(--button_Large-font-weight);
+    line-height: var(--button_Large-line-height);
+    letter-spacing: var(--button_Large-letter-spacing);
   }
   .consulting-container-0,
   .consulting-container-1,
