@@ -6,20 +6,26 @@ import '../../global/global.css';
 import searchImg from './sources/Search.png';
 import pathDown from './sources/path_down.png';
 import pathUp from './sources/path_up.png';
-import WriteIcon from './sources/write.png';
+import WriteIcon from '../../global/sources/Edit.svg';
 import { useQuery } from '@tanstack/react-query';
-import { ReadImgFootStep, ReadPremisesList } from '../../api/apiGET';
-import fstMarker from './sources/fstMarker.png';
+import { SearchFstMain } from '../../api/apiGET';
 import CaroselImages from './sources/caroselImage.png';
-import CarouselMarker from './sources/carouselmarker.png';
+import Marker_All from '../../global/sources/Pin_All.svg';
+import Marker_FootStep from '../../global/sources/Pin_Footstep.svg';
+import Marker_request from '../../global/sources/Pin_Request.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper';
-import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress } from '../../store/store';
+import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, FstCloseModal, NfsToast } from '../../store/store';
 import { useSetRecoilState } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
+import BottomSheet from './BottomSheet';
+import { useRecoilState } from 'recoil';
+import Toast from '../newFootStep/ToastNotification';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
-  const [fstData, setFstData] = useState([]);
+  const queryClient = useQueryClient();
+  const [fstData, setFstData] = useState();
   const [sortName, setSortName] = useState('전체');
   const [sortState, setSortState] = useState(true);
   const setNfshData = useSetRecoilState(nfsData);
@@ -29,8 +35,12 @@ export default function FootstepMainArticle() {
   const setNfshImgState = useSetRecoilState(nfsImgState);
   const setNfshRoadAddress = useSetRecoilState(nfsRoadAddress);
   const setNfshDetailAddress = useSetRecoilState(nfsDetailAddress);
+  const [modalOverLab, setModalOverLab] = useState();
+  const [modalId, setModalId] = useState();
+  const [ToastState, setToastState] = useRecoilState(NfsToast);
+  const [levelValue, setLevelValue] = useState(2);
 
-  const { data: premisesData } = useQuery(['premisesData'], ReadPremisesList, {
+  const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain('판교'), {
     onSuccess: (response) => {
       console.log(response);
     },
@@ -38,21 +48,16 @@ export default function FootstepMainArticle() {
       console.log(response);
     },
   });
+
   const onSortList = () => {
     setSortState(false);
   };
-
   const onSorting = (sort) => {
     if (sort === '상담') {
       setSortName(sort);
       setSortState(true);
     }
-    if (sort === '발품기록') {
-      premisesData?.map((data) => {
-        let coord = { LatLng: new kakao.maps.LatLng(data.coordFX, data.coordFY) };
-        return setFstData([...fstData, coord]);
-      });
-      console.log(fstData);
+    if (sort === '발품') {
       setSortName(sort);
       setSortState(true);
     }
@@ -61,15 +66,130 @@ export default function FootstepMainArticle() {
       setSortState(true);
     }
   };
-  console.log(premisesData);
+  const onSortHeadline = () => {
+    if (sortName === '상담') {
+      setSortName('상담');
+      setSortState(true);
+    }
+    if (sortName === '발품') {
+      setSortName('발품');
+      setSortState(true);
+    }
+    if (sortName === '전체') {
+      setSortName('전체');
+      setSortState(true);
+    }
+  };
+  let positions = [];
+  let footstepData = [];
+  let requestData = [];
+
+  if (searchData !== undefined && searchData.length !== 0) {
+    if (sortName === '전체') {
+      positions = searchData.map((data) => {
+        console.log(data.overLab);
+        return { overLab: data.overLab, id: data.id, LatLng: new kakao.maps.LatLng(data.coordX, data.coordY) };
+      });
+    } else if (sortName === '발품') {
+      for (let i = 0; i < searchData.length; i++) {
+        if (searchData[i].overLab === 1) {
+          positions.push({ overLab: searchData[i].overLab, id: searchData[i].id, LatLng: new kakao.maps.LatLng(searchData[i].coordX, searchData[i].coordY) });
+          footstepData.push(searchData[i]);
+        }
+      }
+    } else if (sortName === '상담') {
+      for (let i = 0; i < searchData.length; i++) {
+        if (searchData[i].overLab === 2) {
+          positions.push({ overLab: searchData[i].overLab, id: searchData[i].id, LatLng: new kakao.maps.LatLng(searchData[i].coordX, searchData[i].coordY) });
+          requestData.push(searchData[i]);
+        }
+      }
+    }
+  }
+  console.log('po', positions);
+  console.log('fsd', footstepData);
+  console.log('rqd', requestData);
+
+  const onLevelClick = (value) => {
+    if (value === '+' && levelValue < 14) {
+      setLevelValue(levelValue + 1);
+    }
+    if (value === '-' && levelValue > 1) {
+      setLevelValue(levelValue - 1);
+    }
+  };
+  console.log(levelValue);
+
   useEffect(() => {
+    if (ToastState) {
+      setTimeout(() => setToastState(false), 1000);
+    }
+
     const container = document.getElementById('myMap');
-    const options = {
-      center: new window.kakao.maps.LatLng(37.389777093851, 127.097880906475),
-      level: 7,
-    };
-    const map = new window.kakao.maps.Map(container, options);
-  });
+    let map = '';
+
+    let ImgMarkerAll = Marker_All;
+    let ImgMarkerRequest = Marker_request;
+    let ImgMarkerFootstep = Marker_FootStep;
+
+    if (searchData && searchData.length !== 0) {
+      let options = {};
+      if (sortName === '전체') {
+        options = {
+          center: new window.kakao.maps.LatLng(searchData[0].coordX, searchData[0].coordY),
+          level: levelValue,
+        };
+      } else if (sortName === '발품' && footstepData.length !== 0) {
+        options = {
+          center: new window.kakao.maps.LatLng(footstepData[0].coordX, footstepData[0].coordY),
+          level: levelValue,
+        };
+      } else if (sortName === '상담' && requestData.length !== 0) {
+        options = {
+          center: new window.kakao.maps.LatLng(requestData[0].coordX, requestData[0].coordY),
+          level: levelValue,
+        };
+      } else {
+        options = {
+          center: new window.kakao.maps.LatLng(37.497928, 127.027583),
+          level: levelValue,
+        };
+      }
+
+      map = new window.kakao.maps.Map(container, options);
+      for (let i = 0; i < positions.length; i++) {
+        let imageSize = new kakao.maps.Size(44, 54);
+        let MarkerImg;
+        if (positions[i].overLab === 1) {
+          MarkerImg = new kakao.maps.MarkerImage(ImgMarkerFootstep, imageSize);
+        } else if (positions[i].overLab === 2) {
+          MarkerImg = new kakao.maps.MarkerImage(ImgMarkerRequest, imageSize);
+        } else if (positions[i].overLab === 3) {
+          MarkerImg = new kakao.maps.MarkerImage(ImgMarkerAll, imageSize);
+        }
+
+        let marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].LatLng,
+          image: MarkerImg,
+        });
+
+        let overlay = new kakao.maps.CustomOverlay({
+          yAnchor: 1.5,
+          position: marker.getPosition(),
+        });
+
+        let content = document.createElement('div');
+        overlay.setContent(content);
+
+        kakao.maps.event.addListener(marker, 'click', function () {
+          onOpenModal();
+          setModalOverLab(positions[i].overLab);
+          setModalId(positions[i].id);
+        });
+      }
+    }
+  }, [searchData, sortName, ToastState, levelValue]);
 
   const onNewFootStep = () => {
     setNfshRoadAddress('도로명 주소 검색');
@@ -137,9 +257,29 @@ export default function FootstepMainArticle() {
     navigate('/newfootstep');
   };
 
+  const onContentNavigate = (overLab, id) => {
+    if (overLab === 1 || overLab === 3) {
+      navigate(`${id}`);
+    }
+    if (overLab === 2) {
+      navigate(`/myconsultdetail/${id}`);
+    }
+  };
+  const [modalOpen, setModalOpen] = useRecoilState(FstCloseModal);
+  const onOpenModal = () => {
+    setModalOpen(true);
+  };
+  const onCloseModal = () => {
+    setModalOpen(false);
+    navigate('/footstepmain');
+  };
+
   return (
     <>
       <FootstepMainArticleContainer>
+        {ToastState && <Toast msg="추가 완료" />}
+        {modalOpen && <BottomSheet modalOverLab={modalOverLab} modalId={modalId} visible={onOpenModal} maskCloseable={true} closeable={true} onClose={onCloseModal} />}
+
         <MapContainer id="myMap" />
         <AddressSearchBox>
           <AddressSearchInput placeholder="주소로 기록을 검색해보세요" />
@@ -148,8 +288,12 @@ export default function FootstepMainArticle() {
         <ListBtn>목록</ListBtn>
         {sortState === false ? (
           <SortList>
-            <SortHeadlineBox>
-              <SortHeadline>전체</SortHeadline>
+            <SortHeadlineBox
+              onClick={() => {
+                onSortHeadline();
+              }}
+            >
+              <SortHeadline>{sortName}</SortHeadline>
               <SortingImg src={pathUp} />
             </SortHeadlineBox>
             <SortRequest
@@ -161,7 +305,7 @@ export default function FootstepMainArticle() {
             </SortRequest>
             <SortNfs
               onClick={() => {
-                onSorting('발품기록');
+                onSorting('발품');
               }}
             >
               발품기록
@@ -196,7 +340,7 @@ export default function FootstepMainArticle() {
           <CarouselWrap>
             <Swiper
               slidesPerView={2}
-              spaceBetween={-40}
+              spaceBetween={300}
               freeMode={true}
               pagination={{
                 clickable: true,
@@ -204,34 +348,152 @@ export default function FootstepMainArticle() {
               modules={[FreeMode, Pagination]}
               className="mySwiper"
             >
-              <CarouselUl className="list">
-                {sortName === '발품기록' ? (
-                  <CarouselLi className="item">
-                    <CarouselBox
-                      onClick={() => {
-                        navigate(`${premisesData !== undefined && premisesData.length !== '0' ? premisesData[0].id : null}`);
-                      }}
-                    >
-                      <CarouselImage src={CaroselImages} />
-                      <CarouselRightBox>
-                        <CarouselHeaderBox>
-                          <CarouselMarkerImg src={CarouselMarker} />
-                          <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP>
-                        </CarouselHeaderBox>
-                        <CarouselAddress>{premisesData !== undefined && premisesData.length !== '0' ? premisesData[0].title : null}</CarouselAddress>
-                        <CarouselReview>{premisesData !== undefined && premisesData.length !== '0' ? premisesData[0].review : null}</CarouselReview>
-                      </CarouselRightBox>
-                    </CarouselBox>
-                  </CarouselLi>
-                ) : null}
-              </CarouselUl>
+              {sortName === '전체'
+                ? searchData?.map((data) => {
+                    return (
+                      <CarouselLi>
+                        <SwiperSlide
+                          onClick={() => {
+                            onContentNavigate(data.overLab, data.id);
+                          }}
+                        >
+                          <CarouselBox>
+                            <CarouselImage src={CaroselImages} />
+                            <CarouselRightBox>
+                              <CarouselHeaderBox>
+                                {data.overLab === 1 ? <CarouselMarkerImg src={Marker_FootStep} /> : data.overLab === 2 ? <CarouselMarkerImg src={Marker_request} /> : data.overLab === 3 ? <CarouselMarkerImg src={Marker_All} /> : null}
+                                {data.overLab === 1 ? <CarouselHeaderP>발품기록</CarouselHeaderP> : data.overLab === 2 ? <CarouselHeaderP>상담</CarouselHeaderP> : data.overLab === 3 ? <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP> : null}
+                              </CarouselHeaderBox>
+                              <CarouselAddress>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
+                              <CarouselReview>{data !== undefined && data.length !== '0' ? data.review : null}</CarouselReview>
+                            </CarouselRightBox>
+                          </CarouselBox>
+                        </SwiperSlide>
+                      </CarouselLi>
+                    );
+                  })
+                : sortName === '발품'
+                ? footstepData?.map((data) => {
+                    return (
+                      <CarouselLi>
+                        <SwiperSlide
+                          onClick={() => {
+                            onContentNavigate(data.overLab, data.id);
+                          }}
+                        >
+                          <CarouselBox>
+                            <CarouselImage src={CaroselImages} />
+                            <CarouselRightBox>
+                              <CarouselHeaderBox>
+                                <CarouselMarkerImg src={Marker_FootStep} />
+                                <CarouselHeaderP>발품기록</CarouselHeaderP>
+                              </CarouselHeaderBox>
+                              <CarouselAddress>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
+                              <CarouselReview>{data !== undefined && data.length !== '0' ? data.review : null}</CarouselReview>
+                            </CarouselRightBox>
+                          </CarouselBox>
+                        </SwiperSlide>
+                      </CarouselLi>
+                    );
+                  })
+                : sortName === '상담'
+                ? requestData?.map((data) => {
+                    return (
+                      <CarouselLi>
+                        <SwiperSlide
+                          onClick={() => {
+                            onContentNavigate(data.overLab, data.id);
+                          }}
+                        >
+                          <CarouselBox>
+                            <CarouselImage src={CaroselImages} />
+                            <CarouselRightBox>
+                              <CarouselHeaderBox>
+                                <CarouselMarkerImg src={Marker_request} />
+                                <CarouselHeaderP>상담</CarouselHeaderP>
+                              </CarouselHeaderBox>
+                              <CarouselAddress>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
+                              <CarouselReview>{data !== undefined && data.length !== '0' ? data.review : null}</CarouselReview>
+                            </CarouselRightBox>
+                          </CarouselBox>
+                        </SwiperSlide>
+                      </CarouselLi>
+                    );
+                  })
+                : null}
             </Swiper>
           </CarouselWrap>
+          <LevelBar>
+            <LevelPlus
+              onClick={() => {
+                onLevelClick('+');
+              }}
+            >
+              +
+            </LevelPlus>
+            <LevelBr />
+            <LevelMinus
+              onClick={() => {
+                onLevelClick('-');
+              }}
+            >
+              -
+            </LevelMinus>
+          </LevelBar>
         </WriteBox>
       </FootstepMainArticleContainer>
     </>
   );
 }
+
+const LevelBar = styled.div`
+  width: 40px;
+  height: 65px;
+  position: absolute;
+  background: white;
+  margin-left: 305px;
+  margin-bottom: 315px;
+  border: 1px solid var(--gray5);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const LevelPlus = styled.div`
+  width: 12px;
+  height: 20px;
+  margin-left: 14px;
+  margin-top: 8px;
+  font-family: var(--headline-font-family);
+  font-size: var(--headline_Small-font-size);
+  font-weight: var(--headline_Small-font-weight);
+  line-height: var(--headline_Small-line-height);
+  letter-spacing: var(--headline_Small-letter-spacing);
+  color: var(--gray3);
+  cursor: pointer;
+`;
+
+const LevelMinus = styled.div`
+  width: 9px;
+  height: 20px;
+  margin-left: 15.5px;
+  margin-top: 4px;
+  font-family: var(--headline-font-family);
+  font-size: var(--headline_Small-font-size);
+  font-weight: var(--headline_Small-font-weight);
+  line-height: var(--headline_Small-line-height);
+  letter-spacing: var(--headline_Small-letter-spacing);
+  color: var(--gray3);
+  cursor: pointer;
+`;
+
+const LevelBr = styled.div`
+  width: 16px;
+  height: 1px;
+  margin-left: 12px;
+  margin-top: 4px;
+  background: #d9d9d9;
+`;
 
 const CarouselBox = styled.div`
   width: 308px;
@@ -383,6 +645,7 @@ const SortName = styled.div`
   font-weight: var(--button_Small-font-weight);
   line-height: var(--button_Small-line-height);
   letter-spacing: var(--button_Small-letter-spacing);
+  cursor: pointer;
 `;
 
 const SortList = styled.div`
@@ -394,6 +657,7 @@ const SortList = styled.div`
   background-color: white;
   border: 1px solid var(--gray5);
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 const SortHeadlineBox = styled.div`
@@ -405,16 +669,17 @@ const SortHeadlineBox = styled.div`
   margin-left: 12px;
   margin-top: 8px;
   color: var(--gray3);
+  cursor: pointer;
 `;
 
 const SortHeadline = styled.div`
   margin-top: 2px;
-  cursor: default;
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
   font-weight: var(--body_Medium-font-weight);
   line-height: var(--body_Medium-line-height);
   letter-spacing: var(--body_Medium-letter-spacing);
+  cursor: pointer;
 `;
 
 const SortRequest = styled.div`
@@ -424,7 +689,6 @@ const SortRequest = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
   border-top: 1px solid var(--gray5);
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
@@ -440,7 +704,6 @@ const SortNfs = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
   border-top: 1px solid var(--gray5);
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
@@ -456,7 +719,6 @@ const SortAll = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
   border-top: 1px solid var(--gray5);
   font-family: var(--body-font-family);
   font-size: var(--body_Medium-font-size);
@@ -488,22 +750,22 @@ const WriteBox = styled.div`
 
 const WriteBtn = styled.div`
   position: absolute;
-  width: 40px;
-  height: 40px;
-  margin-left: 305px;
-  margin-bottom: 235px;
+  width: 60px;
+  height: 60px;
+  margin-left: 285px;
+  margin-bottom: 239px;
   display: flex;
-  background-color: var(--primary1-400);
+  background-color: var(--primary2-400);
   border-radius: 8px;
   box-shadow: var(--Shadow3-box-shadow);
   cursor: pointer;
 `;
 
 const WriteImg = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-left: 8px;
-  margin-top: 8px;
+  width: 32px;
+  height: 32px;
+  margin-left: 14px;
+  margin-top: 14px;
 `;
 
 // const CarouselBox = styled.div`
@@ -524,9 +786,9 @@ const CarouselWrap = styled.div`
 `;
 
 const CarouselUl = styled.ul`
-  width: 100%;
+  /* width: 100%;
   display: flex;
-  transform: translate(0, 0);
+  transform: translate(0, 0); */
 `;
 
 const CarouselLi = styled.li`
