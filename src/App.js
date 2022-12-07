@@ -12,7 +12,12 @@ function App() {
       setAppLogin(false);
     }
   }, [AppLogin]);
-  if (document.cookie) {
+  console.log(document.cookie);
+  console.log(Boolean(document.cookie));
+  console.log(document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)'));
+  console.log(Boolean(document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')));
+
+  if (document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')) {
     sessionStorage.setItem('access_token', document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')[2]);
     sessionStorage.setItem('refresh_token', document.cookie.match('(^|;) ?' + 'refresh_token' + '=([^;]*)(;|$)')[2]);
     sessionStorage.setItem('accountstate', document.cookie.match('(^|;) ?' + 'accountstate' + '=([^;]*)(;|$)')[2]);
@@ -27,4 +32,3 @@ function App() {
 }
 
 export default App;
-
