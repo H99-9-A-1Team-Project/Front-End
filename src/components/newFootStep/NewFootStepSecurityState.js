@@ -14,23 +14,13 @@ export default function NewFootStepSecurityState() {
     if (securityPathState.security === true) setSecurityPathState({ ...securityPathState, security: false });
   };
   return (
-    <Container>
+    <Container
+      onClick={() => {
+        onSunStateChange();
+      }}
+    >
       <Headline>안전</Headline>
-      {securityPathState.security === false ? (
-        <PathImg
-          src={path_down}
-          onClick={() => {
-            onSunStateChange();
-          }}
-        />
-      ) : (
-        <PathImg
-          src={path_up}
-          onClick={() => {
-            onSunStateChange();
-          }}
-        />
-      )}
+      {securityPathState.security === false ? <PathImg src={path_down} /> : <PathImg src={path_up} />}
     </Container>
   );
 }
@@ -45,6 +35,7 @@ const Container = styled.div`
   border-style: solid;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Headline = styled.div`
@@ -57,7 +48,7 @@ const Headline = styled.div`
   line-height: var(--button_Medium-line-height);
   letter-spacing: var(--button_Medium-letter-spacing);
   color: var(--gray1);
-  cursor: default;
+  cursor: pointer;
 `;
 
 const PathImg = styled.img`

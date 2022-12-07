@@ -14,23 +14,13 @@ export default function NewFootStepBasicState() {
     if (basicPathState.basic === true) setBasicPathState({ ...basicPathState, basic: false });
   };
   return (
-    <Container>
+    <Container
+      onClick={() => {
+        onBasicStateChange();
+      }}
+    >
       <Headline>기본 매물 정보</Headline>
-      {basicPathState.basic === false ? (
-        <PathImg
-          src={path_down}
-          onClick={() => {
-            onBasicStateChange();
-          }}
-        />
-      ) : (
-        <PathImg
-          src={path_up}
-          onClick={() => {
-            onBasicStateChange();
-          }}
-        />
-      )}
+      {basicPathState.basic === false ? <PathImg src={path_down} /> : <PathImg src={path_up} />}
     </Container>
   );
 }
@@ -46,6 +36,7 @@ const Container = styled.div`
   border-style: solid;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Headline = styled.div`
@@ -58,7 +49,7 @@ const Headline = styled.div`
   line-height: var(--button_Medium-line-height);
   letter-spacing: var(--button_Medium-letter-spacing);
   color: var(--gray1);
-  cursor: default;
+  cursor: pointer;
 `;
 
 const PathImg = styled.img`

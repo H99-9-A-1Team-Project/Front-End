@@ -15,23 +15,13 @@ export default function NewFootStepOptionState() {
     console.log(optionPathState);
   };
   return (
-    <Container>
+    <Container
+      onClick={() => {
+        onOptionStateChange();
+      }}
+    >
       <Headline>구조/가구</Headline>
-      {optionPathState.option === false ? (
-        <PathImg
-          src={path_down}
-          onClick={() => {
-            onOptionStateChange();
-          }}
-        />
-      ) : (
-        <PathImg
-          src={path_up}
-          onClick={() => {
-            onOptionStateChange();
-          }}
-        />
-      )}
+      {optionPathState.option === false ? <PathImg src={path_down} /> : <PathImg src={path_up} />}
     </Container>
   );
 }
@@ -46,6 +36,7 @@ const Container = styled.div`
   border-style: solid;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Headline = styled.div`
@@ -58,7 +49,7 @@ const Headline = styled.div`
   line-height: var(--button_Medium-line-height);
   letter-spacing: var(--button_Medium-letter-spacing);
   color: var(--gray1);
-  cursor: default;
+  cursor: pointer;
 `;
 
 const PathImg = styled.img`

@@ -67,3 +67,13 @@ export async function ReadSearchAnsweredList(arg) {
   const { data } = await api.get(`v1/replied/search?keyword=${arg}`);
   return data;
 }
+
+export async function ReadFootStep() {
+  const { data } = await api.get(`v1/premises/29`);
+  return data;
+}
+
+export async function SearchFstMain(keyword) {
+  const { data } = await api.get(`v1/premises/advicerequest/search?keyword=${keyword}`);
+  return data;
+}
