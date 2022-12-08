@@ -220,10 +220,13 @@ const AlreadyIdContainer = styled.div`
 const AlreadyIdBox = styled.div`
   width: 148px;
   height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   font-style: normal;
   font-family: var(--button-font-family);
-  font-size: var(--button_Large-font-size);
+  font-size: 15px;
   font-weight: var(--button_Large-font-weight);
   line-height: var(--button_Large-line-height);
   letter-spacing: var(--button_Large-letter-spacing);
