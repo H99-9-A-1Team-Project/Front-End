@@ -12,7 +12,8 @@ function App() {
       setAppLogin(false);
     }
   }, [AppLogin]);
-  if (document.cookie) {
+
+  if (document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')) {
     sessionStorage.setItem('access_token', document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')[2]);
     sessionStorage.setItem('refresh_token', document.cookie.match('(^|;) ?' + 'refresh_token' + '=([^;]*)(;|$)')[2]);
     sessionStorage.setItem('accountstate', document.cookie.match('(^|;) ?' + 'accountstate' + '=([^;]*)(;|$)')[2]);
@@ -27,4 +28,3 @@ function App() {
 }
 
 export default App;
-

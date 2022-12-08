@@ -8,7 +8,7 @@ import MyConsultBodyContainer from './MyConsultBodyContainer';
 
 export default function MyConsultBody() {
   const [searchStateData, setSearchState] = useRecoilState(searchState);
-  const serchData = useRecoilValue(searchConsult);
+  const searchData = useRecoilValue(searchConsult);
   const [listState, setListState] = useState(0);
   const onClickListAll = () => {
     setListState(0);
@@ -44,15 +44,25 @@ export default function MyConsultBody() {
           완료
         </li>
       </ul>
-      <div className="consulting-wrap">
-        {searchStateData
-          ? serchData?.map((item) => {
-              return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
-            })
-          : data?.map((item) => {
+      {searchStateData ? (
+        searchData.length !== 0 ? (
+          <div className="consulting-wrap">
+            {searchData?.map((item) => {
               return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
             })}
-      </div>
+          </div>
+        ) : (
+          <div className="consulting-wrap2">검색하신 단어와 일치하는 정보가 없습니다.</div>
+        )
+      ) : data.length !== 0 ? (
+        <div className="consulting-wrap">
+          {data?.map((item) => {
+            return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
+          })}
+        </div>
+      ) : (
+        <div className="consulting-wrap2">상담신청 내역이 없습니다.</div>
+      )}
     </StMyPageBodyWrap>
   );
 }
@@ -98,6 +108,19 @@ const StMyPageBodyWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  .consulting-wrap2 {
+    width: 328px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--gray6);
+    font-family: var(--button-font-family);
+    font-size: var(--button_Large-font-size);
+    font-weight: var(--button_Large-font-weight);
+    line-height: var(--button_Large-line-height);
+    letter-spacing: var(--button_Large-letter-spacing);
   }
   .consulting-container-0,
   .consulting-container-1,

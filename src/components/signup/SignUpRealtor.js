@@ -758,4 +758,3 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
-

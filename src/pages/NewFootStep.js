@@ -14,6 +14,7 @@ import NewFootStepSecurityState from '../components/newFootStep/NewFootStepSecur
 import NewFootStepSecurity from '../components/newFootStep/NewFootStepSecurity';
 import NewFootStepConvenState from '../components/newFootStep/NewFootStepConvenState';
 import NewFootStepConven from '../components/newFootStep/NewFootStepConven';
+import styled from 'styled-components';
 
 export default function NewFootStep() {
   return (
@@ -31,6 +32,11 @@ export default function NewFootStep() {
       <NewFootStepSecurity />
       <NewFootStepConvenState />
       <NewFootStepConven />
+      <Blank />
     </Layout>
   );
 }
+
+const Blank = styled.div`
+  height: 200px;
+`;

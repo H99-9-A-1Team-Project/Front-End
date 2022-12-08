@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import imgCreate from './sources/imgcreate.png';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { nfsPreviewImgData, nfsImgData } from '../../store/store';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { nfsPreviewImgData, nfsImgData, nfsImgEssentialState } from '../../store/store';
 import imageCompression from 'browser-image-compression';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper';
 import './carousel.css';
 
 export default function NewFootStepImg() {
+  const nfsImgEssential = useRecoilValue(nfsImgEssentialState);
   const [nfscPreviewImgData, setNfscPreviewImgData] = useRecoilState(nfsPreviewImgData);
   const [nfscImgData, setNfscImgData] = useRecoilState(nfsImgData);
 
@@ -85,7 +86,7 @@ export default function NewFootStepImg() {
               <SwiperSlide>
                 <ImgCreateInput id="imgCreate" type="file" onChange={onFileUpdate} />
                 <ImgCreateLabel htmlFor="imgCreate">
-                  <CarosulItem src={imgCreate} />
+                  <CreateCarosulItem nfsImgEssential={nfsImgEssential} src={imgCreate} />
                 </ImgCreateLabel>
               </SwiperSlide>
             </CarouselLi>
@@ -190,17 +191,11 @@ const ImgCreateInput = styled.input`
 const CarouselWrap = styled.div`
   position: relative;
   width: 330px;
-  height: 120px;
+  height: 130px;
   margin-bottom: 32px;
   overflow: hidden;
   z-index: 0;
 `;
-
-// const CarouselUl = styled.ul`
-//   width: 100%;
-//   display: flex;
-//   transform: translate(0, 0);
-// `;
 
 const CarouselLi = styled.li`
   width: 308px;
@@ -210,9 +205,16 @@ const CarouselLi = styled.li`
   padding-right: 20px;
 `;
 
+const CreateCarosulItem = styled.img`
+  width: 128px;
+  height: 128px;
+  -webkit-user-drag: none;
+
+  border: ${({ nfsImgEssential }) => `${nfsImgEssential === false ? 'none' : '1px solid #f0766e'}`};
+`;
+
 const CarosulItem = styled.img`
   width: 128px;
   height: 128px;
   -webkit-user-drag: none;
 `;
-

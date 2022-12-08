@@ -67,6 +67,7 @@ const Container = styled.div`
     .span {
       text-decoration-line: underline;
       color: var(--primary2-400);
+      cursor: pointer;
     }
   }
   .body-article-container {

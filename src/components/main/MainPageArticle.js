@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
-import path_Right from './sources/main_article_path_right.png';
+import path_Right from '../../global/sources/Expand_right_gray.svg';
 import login_Deco from './sources/main_article_login_deco.png';
 import map from './sources/main_article_map.png';
 import lighthouse from './sources/main_article_lighthouse.png';
-import QueMark from './sources/main_article_question.png';
-import path_Light_Right from './sources/main_article_right_light.png';
+import QueMark from '../../global/sources/Question.svg';
+import path_Light_Right from '../../global/sources/Expand_right_light.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
@@ -41,7 +41,6 @@ function MainPageArticle() {
       navigate('/request1');
     }
   };
-  console.log(AppLogin);
   const { data: readProfile } = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     enabled: !!(sessionStorage.getItem('accountstate') === '0' || sessionStorage.getItem('accountstate') === '1'),
@@ -195,8 +194,8 @@ function MainPageArticle() {
               <LoginBtn onClick={onStartLogin}>로그인 하러가기</LoginBtn>
               <ImgPathRight src={path_Right} />
             </LoginBtnBox>
-            <ServcieGuideBox>
-              <ServiceGuideP onClick={() => navigate('/introduce')}>어떤 서비스인가요?</ServiceGuideP>
+            <ServcieGuideBox onClick={() => navigate('/introduce')}>
+              <ServiceGuideP>어떤 서비스인가요?</ServiceGuideP>
               <ServiceQueMark src={QueMark} />
             </ServcieGuideBox>
           </ECPWrap>
@@ -379,6 +378,8 @@ const ArticleContainer = styled.div`
           color: var(--gray4);
           cursor: pointer;
           img {
+            width: 20px;
+            height: 20px;
             margin-left: 4px;
           }
         }

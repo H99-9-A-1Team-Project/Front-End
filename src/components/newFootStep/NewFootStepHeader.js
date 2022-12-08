@@ -4,11 +4,17 @@ import Path_left from './sources/path_left.png';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { SendNfsc } from '../../api/apiPOST';
-import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress } from '../../store/store';
+import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, NfsToast, nfsRoadEssentialState, nfsDetailEssentialState, nfsImgEssentialState } from '../../store/store';
 import { useForm } from 'react-hook-form';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
+import ToastMsg from '../../global/components/ToastMessage';
+import { useEffect } from 'react';
+import { useState } from 'react';
+
 export default function NewFootStepAddress() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { handleSubmit } = useForm();
   const nfscData = useRecoilValue(nfsData);
   const nfscImgData = useRecoilValue(nfsImgData);
@@ -19,10 +25,18 @@ export default function NewFootStepAddress() {
   const [nfshImgState, setNfshImgState] = useRecoilState(nfsImgState);
   const [nfshRoadAddress, setNfshRoadAddress] = useRecoilState(nfsRoadAddress);
   const [nfshDetailAddress, setNfshDetailAddress] = useRecoilState(nfsDetailAddress);
+  const [ToastState, setToastState] = useRecoilState(NfsToast);
+  const setRoadEssential = useSetRecoilState(nfsRoadEssentialState);
+  const setDetailEssential = useSetRecoilState(nfsDetailEssentialState);
+  const setImgEssential = useSetRecoilState(nfsImgEssentialState);
+  const handleToast = () => {
+    setToastState(true);
+  };
 
   const { mutate: nfsMutate } = useMutation(SendNfsc, {
     onSuccess: (response) => {
-      console.log(response);
+      console.log('zsdd', response);
+      handleToast();
     },
     onError: (response) => {
       console.log(response);
@@ -30,15 +44,23 @@ export default function NewFootStepAddress() {
   });
 
   const onSendData = () => {
-    const formData = new FormData();
-    const blob = new Blob([JSON.stringify(nfscData)], { type: 'application/json' });
-    nfscImgData.map((prop) => formData.append('file', prop));
-    formData.append('post', blob);
-    nfsMutate(formData);
-    onDefault();
+    if (nfshRoadAddress !== '도로명 주소 검색' && nfshDetailAddress !== '' && nfshImgData.length !== 0) {
+      const formData = new FormData();
+      const blob = new Blob([JSON.stringify(nfscData)], { type: 'application/json' });
+      nfscImgData.map((prop) => formData.append('file', prop));
+      formData.append('post', blob);
+      nfsMutate(formData);
+      onDefault();
+    } else {
+      if (nfshRoadAddress === '도로명 주소 검색') setRoadEssential(true);
+      if (nfshDetailAddress === '') setDetailEssential(true);
+      if (nfshImgData.length === 0) setImgEssential(true);
+    }
   };
 
   const onDefault = () => {
+    queryClient.invalidateQueries(['premisesData']);
+    queryClient.invalidateQueries(['fstsearchData']);
     navigate('/footstepmain');
   };
 
@@ -51,6 +73,7 @@ export default function NewFootStepAddress() {
             onDefault();
           }}
         />
+
         <HeadlineBox>
           <HeaderHeadline>발품기록</HeaderHeadline>
           <CreateBtn onClick={() => onSendData()}>추가</CreateBtn>

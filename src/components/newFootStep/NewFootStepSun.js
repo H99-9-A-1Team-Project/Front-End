@@ -425,7 +425,7 @@ const MemoHeadline = styled.div`
 
 const MemoInputBox = styled.div`
   width: 328px;
-  height: 44px;
+  height: 45.8px;
   margin-left: 16px;
   margin-bottom: 32px;
   border: 1px solid var(--gray6);
