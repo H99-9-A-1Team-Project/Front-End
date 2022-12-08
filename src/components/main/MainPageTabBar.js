@@ -37,6 +37,12 @@ export default function MainPageTabBar() {
         setTbRequest(1);
         setTbUser(0);
       }
+      if (window.location.pathname === '/footstepmain') {
+        setTbHome(0);
+        setTbPin(1);
+        setTbRequest(0);
+        setTbUser(0);
+      }
       if (window.location.pathname === '/mypage' || window.location.pathname === '/myconsult' || window.location.pathname === '/waitlist' || window.location.pathname === '/answeredlist') {
         setTbHome(0);
         setTbPin(0);
@@ -97,7 +103,6 @@ export default function MainPageTabBar() {
         setTbUser(1);
       }
     } else if (tbAccountState === '1' || tbAccountState === '2') {
-      console.log('dd');
       if (click === 1) {
         navigate('/');
         setTbHome(1);

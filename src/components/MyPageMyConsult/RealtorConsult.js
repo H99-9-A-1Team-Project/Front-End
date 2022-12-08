@@ -58,8 +58,8 @@ export default function RealtorConsult() {
       {searchStateData ? (
         <div className="consulting-wrap">
           {window.location.pathname === '/waitlist' ? (
-            serchDataWait.length !== 0 ? (
-              serchDataWait.map((item) => {
+            serchDataWait?.length !== 0 ? (
+              serchDataWait?.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
             ) : (
@@ -67,8 +67,8 @@ export default function RealtorConsult() {
             )
           ) : null}
           {window.location.pathname === '/answeredlist' ? (
-            serchDataAnswered.length !== 0 ? (
-              serchDataAnswered.map((item) => {
+            serchDataAnswered?.length !== 0 ? (
+              serchDataAnswered?.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
             ) : (
@@ -79,8 +79,8 @@ export default function RealtorConsult() {
       ) : (
         <div className="consulting-wrap">
           {window.location.pathname === '/waitlist' ? (
-            waitData.length !== 0 ? (
-              waitData.map((item) => {
+            waitData?.length !== 0 ? (
+              waitData?.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
             ) : (
@@ -88,8 +88,8 @@ export default function RealtorConsult() {
             )
           ) : null}
           {window.location.pathname === '/answeredlist' ? (
-            answeredData.length !== 0 ? (
-              answeredData.map((item) => {
+            answeredData?.length !== 0 ? (
+              answeredData?.map((item) => {
                 return <MyConsultBodyContainer key={item.id} realtorListState={realtorListState} item={item} setSearchState={setSearchState} />;
               })
             ) : (

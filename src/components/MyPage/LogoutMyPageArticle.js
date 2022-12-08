@@ -9,7 +9,7 @@ export default function LogoutMyPageArticle() {
     <Container>
       <div className="head-article-container">
         <div className="div1">
-          <span className="span" onClick={() => navigate('/signup')}>
+          <span className="span" onClick={() => navigate('/login')}>
             로그인
           </span>
           <span className="span1"> 혹은</span>
@@ -109,3 +109,4 @@ const Container = styled.div`
     }
   }
 `;
+

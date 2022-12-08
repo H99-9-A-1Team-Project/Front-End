@@ -9,7 +9,7 @@ import { ChangeSignUp, GoLogIn, isLogin, NextMem, NextTor, toastVisible, TextToa
 import { ReactComponent as RadioCheck } from '../../global/sources/Radio_check.svg';
 import { ReactComponent as RadioUnCheck } from '../../global/sources/Radio_uncheck.svg';
 
-export default function DeleteIdPageArticle() {
+function DeleteIdPageArticle() {
   const navigate = useNavigate();
   const setVisible = useSetRecoilState(toastVisible);
   const appLogout = useResetRecoilState(isLogin);
@@ -17,34 +17,35 @@ export default function DeleteIdPageArticle() {
   const nextMem = useResetRecoilState(NextMem);
   const nextTor = useResetRecoilState(NextTor);
   const goLogIn = useResetRecoilState(GoLogIn);
-  const [infoState, setInfoState] = useState({
+  const initialState = {
     check1: false,
     check2: false,
     check3: false,
     check4: false,
     surveyMessage: '',
-  });
+  };
+  const [infoState, setInfoState] = useState(initialState);
   const onChangeInfo = (num) => {
     if (num === 1 && infoState.check1 === false) {
-      setInfoState({ ...infoState, check1: true });
+      setInfoState({ ...initialState, check1: true });
     }
     if (num === 1 && infoState.check1 === true) {
       setInfoState({ ...infoState, check1: false });
     }
     if (num === 2 && infoState.check2 === false) {
-      setInfoState({ ...infoState, check2: true });
+      setInfoState({ ...initialState, check2: true });
     }
     if (num === 2 && infoState.check2 === true) {
       setInfoState({ ...infoState, check2: false });
     }
     if (num === 3 && infoState.check3 === false) {
-      setInfoState({ ...infoState, check3: true });
+      setInfoState({ ...initialState, check3: true });
     }
     if (num === 3 && infoState.check3 === true) {
       setInfoState({ ...infoState, check3: false });
     }
     if (num === 4 && infoState.check4 === false) {
-      setInfoState({ ...infoState, check4: true });
+      setInfoState({ ...initialState, check4: true });
     }
     if (num === 4 && infoState.check4 === true) {
       setInfoState({ ...infoState, check4: false });
@@ -132,7 +133,7 @@ export default function DeleteIdPageArticle() {
     </StDeleteIdPageLayout>
   );
 }
-
+export default React.memo(DeleteIdPageArticle);
 const StDeleteIdPageLayout = styled.div`
   display: flex;
   flex-direction: column;
