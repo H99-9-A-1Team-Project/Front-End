@@ -297,7 +297,7 @@ function SignUpRealtor() {
                     onChange={onChangeEmail}
                     onBlur={onblurChange}
                     style={{
-                      border: isEmail === false ? '1px solid #d14343 ' : 'none',
+                      border: isEmail === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
                     }}
                   ></InputText>
                 </InputTextBox>
@@ -319,7 +319,7 @@ function SignUpRealtor() {
                   onKeyDown={(e) => onActiveEnter(e)}
                   type={secret === false ? 'text' : 'password'}
                   style={{
-                    border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                    border: isPassword === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
                   }}
                 ></InputText>
               </InputTextBox>
@@ -633,7 +633,7 @@ const InputTextBox = styled.div`
   justify-content: center;
 `;
 const InputText = styled.input`
-  width: 304px;
+  width: 328px;
   height: 44px;
   border-radius: 8px;
   padding-left: 8px;
@@ -645,7 +645,7 @@ const InputText = styled.input`
 `;
 
 const InputErrorMessageBox = styled.div`
-  width: 304px;
+  width: 328px;
   height: 16px;
   margin-top: 4px;
   margin-bottom: 2px;
