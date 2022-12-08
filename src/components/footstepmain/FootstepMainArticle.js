@@ -46,7 +46,7 @@ export default function FootstepMainArticle() {
 
   const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain(''), {
     onSuccess: (response) => {
-      console.log('abbb', response);
+      console.log(response);
     },
     onError: (response) => {
       console.log(response);
@@ -91,7 +91,6 @@ export default function FootstepMainArticle() {
   if (searchData !== undefined && searchData.length !== 0) {
     if (sortName === '전체') {
       positions = searchData.map((data) => {
-        console.log(data.overLab);
         return { overLab: data.overLab, id: data.id, LatLng: new kakao.maps.LatLng(data.coordX, data.coordY) };
       });
     } else if (sortName === '발품') {
@@ -110,10 +109,7 @@ export default function FootstepMainArticle() {
       }
     }
   }
-  console.log('po', positions);
-  console.log('fsd', footstepData);
-  console.log('rqd', requestData);
-
+  console.log(positions);
   const onLevelClick = (value) => {
     if (value === '+' && levelValue < 14) {
       setLevelValue(levelValue + 1);
@@ -122,7 +118,6 @@ export default function FootstepMainArticle() {
       setLevelValue(levelValue - 1);
     }
   };
-  console.log(levelValue);
 
   useEffect(() => {
     if (ToastState) {
@@ -138,10 +133,13 @@ export default function FootstepMainArticle() {
 
     if (searchData !== undefined) {
       let options = {};
-      if (sortName === '전체' && searchData.length !== 0) {
+      if (sortName === '전체' && searchData?.length !== 0) {
         setVisible(true);
+        console.log('!!!');
+        console.log('@@@', searchData[0].coordX);
+        console.log('###', searchData[0].coordY);
         options = {
-          center: new window.kakao.maps.LatLng(searchData[0].coordX, searchData[0].coordY),
+          center: new window.kakao.maps.LatLng(searchData[0]?.coordX, searchData[0]?.coordY),
           level: levelValue,
         };
       } else if (sortName === '발품' && footstepData.length !== 0) {
@@ -157,8 +155,8 @@ export default function FootstepMainArticle() {
           level: levelValue,
         };
       } else {
+        console.log('$$$');
         setVisible(false);
-        console.log('abcd');
         options = {
           center: new window.kakao.maps.LatLng(37.497928, 127.027583),
           level: levelValue,
@@ -781,15 +779,6 @@ const WriteImg = styled.img`
   margin-top: 14px;
 `;
 
-// const CarouselBox = styled.div`
-//   position: absolute;
-//   height: 100%;
-//   display: flex;
-//   flex-direction: column-reverse;
-//   overflow: hidden;
-//   z-index: 0;
-// `;
-
 const CarouselWrap = styled.div`
   position: absolute;
   width: 360px;
@@ -797,12 +786,7 @@ const CarouselWrap = styled.div`
   margin-bottom: 110px;
   overflow: hidden;
   pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
-`;
 
-const CarouselUl = styled.ul`
-  /* width: 100%;
-  display: flex;
-  transform: translate(0, 0); */
 `;
 
 const CarouselLi = styled.li`
@@ -811,10 +795,4 @@ const CarouselLi = styled.li`
   list-style: none;
   user-select: none;
   padding-right: 20px;
-`;
-
-const CarosulItem = styled.img`
-  width: 200px;
-  height: 120px;
-  -webkit-user-drag: none;
 `;
