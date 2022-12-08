@@ -134,7 +134,8 @@ export const searchAnswered = atom({ key: 'searchanswered', default: [] });
 
 export const FstCloseModal = atom({ key: 'fstclosemodal', default: false });
 
-export const modalIdData = atom({ key: 'modaliddata', default: '' });
+export const modalFootstepId = atom({ key: 'modaliddata', default: '' });
+export const modalRequestId = atom({ key: 'modalrequestid', default: '' });
 
 export const NfsToast = atom({ key: 'nfstoast', default: false });
 export const nfsRoadEssentialState = atom({ key: 'nfsroadessentialstate', default: false });

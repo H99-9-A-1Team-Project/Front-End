@@ -33,7 +33,7 @@ export async function ReadImgFootStep() {
 
 //상담 상세페이지 조회
 export async function ReadConsultDetail(id) {
-  const data = await api.get(`v1/consult/${id}`);
+  const { data } = await api.get(`v1/consult/${id}`);
   console.log('상담상세api데이터', data);
   return data;
 }
@@ -69,8 +69,9 @@ export async function ReadSearchAnsweredList(arg) {
   return data;
 }
 
-export async function ReadFootStep() {
-  const { data } = await api.get(`v1/premises/69/detail`);
+export async function ReadFootStep(id) {
+  console.log('idid', id);
+  const { data } = await api.get(`v1/premises/${id}/detail`);
   return data;
 }
 
