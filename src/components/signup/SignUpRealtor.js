@@ -95,6 +95,10 @@ function SignUpRealtor() {
 
     setPreviewImage('');
   };
+  const onPrevRealtorChoicePage = () => {
+    navigate('/signup');
+    setNextTor(0);
+  };
 
   const onNextRealtorPage = () => {
     setNextTor(nexttor + 1);
@@ -108,12 +112,30 @@ function SignUpRealtor() {
     e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    const emailData = e.target.value;
+    const Email = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(emailData) == false) {
+    if (exptext.test(Email) == true) {
+      setCheckemail('알맞은 형식입니다 :) ');
+      setIsEmail(true);
+      setValid(true);
+    }
+
+    if (e.target.value === '') {
+      setCheckemail('');
+      setIsEmail('');
+    }
+  };
+
+  const onblurChange = () => {
+    const Email = loginData.email;
+    const Nickname = loginData.email.split('@')[0];
+    setLoginData({ ...loginData, nickname: Nickname });
+    setDoubleEmail({ ...loginData, email: Email });
+    const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (exptext.test(Email) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
-      if (e.target.value === '') {
-        setCheckemail('빈칸을 채워주세요');
+      if (Email === '') {
+        setCheckemail('이메일을 입력하세요');
       }
       setIsEmail(false);
       setValid(false);
@@ -124,26 +146,17 @@ function SignUpRealtor() {
     }
   };
 
-  const onblurChange = () => {
-    const Email = loginData.email;
-    const Nickname = loginData.email.split('@')[0];
-    setLoginData({ ...loginData, nickname: Nickname });
-    setDoubleEmail({ ...loginData, email: Email });
-  };
-
   //이메일 중복확인
   const { mutate: memberEmail } = useMutation(RequestEmail, {
     onSuccess: (response) => {
-      setVisible(true);
-      setToastText('가입이 가능한 이메일입니다');
       setOkEmail('가입이 가능한 이메일입니다');
       onNextRealtorPage();
       setDoubleEmail('');
     },
     onError: (err) => {
-      setVisible(true);
-      setToastText(err.response.data.errorMessage);
-      setDoubleEmail(err.response.data.errorMessage);
+      setCheckemail('이미 가입된 이메일입니다');
+      setIsEmail(false);
+      setDoubleEmail('이미 가입된 이메일입니다');
     },
   });
   const onCheckEmailDouble = () => {
@@ -156,23 +169,26 @@ function SignUpRealtor() {
     e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    console.log('ABC', loginData);
     const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(passwordData) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
       if (e.target.value === '') {
-        setCheckPassword('빈칸을 채워주세요');
+        setCheckPassword('비밀번호를 입력하세요');
+        setIsPassword('');
+        setCheckValid('');
       }
       setIsPassword(false);
       setPsValid(false);
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
+      setCheckValid('');
       setIsPassword(true);
       setPsValid(true);
     }
   };
+
   const onClick = () => {
     doubleEmail === '' ? onNextRealtorPage() : onCheckEmailDouble();
   };
@@ -258,13 +274,12 @@ function SignUpRealtor() {
   };
 
   const isVaildPhoto = !previewimage;
-  console.log(nexttor);
   return (
     <>
-      {nexttor === 1 ? (
+      {nexttor === 0 ? (
         <ChoiceContainer>
           <SignUpHeader>
-            <BackpageIconBox src={pathLeft} onClick={onPrevRealtorPage} />
+            <BackpageIconBox src={pathLeft} onClick={onPrevRealtorChoicePage} />
             <SignUpTitle>회원가입</SignUpTitle>
           </SignUpHeader>
           <WelcomeQuestionContainer>
@@ -335,7 +350,7 @@ function SignUpRealtor() {
           </ButtonContainer>
         </ChoiceContainer>
       ) : null}
-      {nexttor === 2 ? (
+      {nexttor === 1 ? (
         <ChoiceContainer>
           <SignUpHeader>
             <BackpageIconBox src={pathLeft} onClick={onPrevRealtorPage} />

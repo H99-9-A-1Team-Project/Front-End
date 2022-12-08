@@ -27,6 +27,8 @@ import ToastMessage from '../global/components/ToastMessage';
 import { useRecoilState } from 'recoil';
 import { toastVisible, TextToast } from '../store/store';
 import PublicRoute from '../components/signup/publicRoute';
+import LoginPage from '../pages/LoginPage';
+import SignUpRealtorPage from '../pages/SignUpRealtorPage';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
@@ -45,10 +47,27 @@ export default function Router() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
               path="/signup"
               element={
                 <PublicRoute>
                   <SignUp />
+                </PublicRoute>
+              }
+            />
+
+            <Route
+              path="/signup/realtor"
+              element={
+                <PublicRoute>
+                  <SignUpRealtorPage />
                 </PublicRoute>
               }
             />

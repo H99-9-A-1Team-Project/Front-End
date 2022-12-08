@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Check from '../../global/sources/Check_outlined.svg';
 import Check2 from '../../global/sources/Check_fill.svg';
 
-function Login() {
+function LoginComponent() {
   const navigate = useNavigate();
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
@@ -28,6 +28,9 @@ function Login() {
   const [secret, setSecret] = useState(true);
   //비밀번호 양식 다시 짚어줄 useState
   const [checkvalid, setCheckValid] = useState('');
+
+  //비밀번호 유효성 검사를 위한 usestate
+  const [onvalid, setOnValid] = useState('');
 
   //로그인 유지를 위한 recoilstate
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
@@ -51,8 +54,8 @@ function Login() {
   const [valid, setValid] = useRecoilState(itsNotOK);
   const [psvalid, setPsValid] = useRecoilState(itsNotOK2);
   const isValidLogin = !(valid && psvalid);
-  const [isEmail, setIsEmail] = useState();
-  const [isPassword, setIsPassword] = useState();
+  const [isEmail, setIsEmail] = useState('');
+  const [isPassword, setIsPassword] = useState('');
 
   //비밀번호 미리보기 이벤트 핸들러
   const onPreviewPW = (e) => {
@@ -63,11 +66,15 @@ function Login() {
   const onAutoLogin = (e) => {
     setCheckAuto(!checkAuto);
   };
-  // 이미 가입된 회원 모달 이전으로 넘기는 버튼용 함수
-  const onGoingLogIn = () => {
-    setGoingLogin(0);
-    // navigate('/');
-    window.location.reload();
+  // 이전화면으로 이동
+  const onGoingHome = () => {
+    // setGoingLogin(0);
+    navigate('/');
+  };
+
+  //회원가입 화면으로 이동
+  const onGoingSignUp = () => {
+    navigate('/signup');
   };
 
   // 데이터 전송을 위한 initialState
@@ -86,10 +93,23 @@ function Login() {
     setLoginData({ ...loginData, [name]: value });
     const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (exptext.test(emailData) == true) {
+      setCheckemail('알맞은 형식입니다 :) ');
+      setIsEmail(true);
+      setValid(true);
+    }
+    if (e.target.value === '') {
+      setCheckemail('');
+      setIsEmail('');
+    }
+  };
+  const onblurChange = () => {
+    const emailData = loginData.email;
+    const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     if (exptext.test(emailData) == false) {
       setCheckemail('잘못된 이메일 형식입니다.');
-      if (e.target.value === '') {
-        setCheckemail('빈칸을 채워주세요');
+      if (emailData === '') {
+        setCheckemail('이메일을 입력하세요');
       }
       setIsEmail(false);
       setValid(false);
@@ -99,33 +119,38 @@ function Login() {
       setValid(true);
     }
   };
+
   const onChangePassword = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    const passwordData = e.target.value;
+    setPsValid(true);
+    setOnValid(false);
+    if (e.target.value === '') {
+      setCheckPassword('');
+      setIsPassword('');
+      setCheckValid('');
+    } else {
+      setCheckPassword('');
+    }
+  };
+
+  const onValidLoginData = () => {
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
-    if (expword.test(passwordData) == false) {
+    if (expword.test(loginData.password) == false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
-      if (e.target.value === '') {
-        setCheckPassword('빈칸을 채워주세요');
-      }
+      setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
       setIsPassword(false);
       setPsValid(false);
     } else {
       setCheckPassword('알맞은 형식입니다 :)');
+      setCheckValid('');
       setIsPassword(true);
       setPsValid(true);
+      setOnValid(true);
     }
   };
-  const onActiveEnter = (e) => {
-    if (e.key === 'Enter') {
-      onSubmitLoginData();
-    }
-  };
-  const onSubmitLoginData = () => {
-    setCheckPassword('');
-    emailLogin(loginData);
-  };
+
   const UserName = loginData.email.split('@')[0];
   const { mutate: emailLogin } = useMutation(EmailLoginData, {
     onSuccess: (response) => {
@@ -145,92 +170,112 @@ function Login() {
       }
     },
     onError: (err) => {
-      setReject(err.response.data.errorMessage);
-      setToastText(err.response.data.errorMessage);
-      setVisible(true);
+      setReject('비밀번호를 확인해주세요');
+      setIsEmail(false);
+      setIsPassword(false);
+      setCheckemail('인증되지 않았습니다');
+      setCheckPassword('비밀번호를 확인해주세요');
     },
   });
 
+  console.log(checkvalid);
+  const onClick = () => {
+    onvalid === false ? onValidLoginData() : onSubmitLoginData();
+  };
+  const onActiveEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClick();
+    }
+  };
+  const onSubmitLoginData = () => {
+    // setCheckPassword('');
+    emailLogin(loginData);
+  };
+
   return (
     <>
-      {goinglogin === 1 ? (
-        <ChoiceContainer>
-          <SignUpHeader onClick={onGoingLogIn}>
-            <BackpageIconBox src={pathLeft} />
-            <SignUpTitle>로그인</SignUpTitle>
-          </SignUpHeader>
-          <WelcomeQuestionContainer>
-            <WelcomeQuestionbox>
-              <SmallFont>등본 대신 해석해주는</SmallFont>
-              <BigFontImage src={Title} />
-            </WelcomeQuestionbox>
-          </WelcomeQuestionContainer>
-          <InputContainer>
-            <InputBox>
-              <InputName>아이디</InputName>
-              <>
-                <InputTextBox>
-                  <InputText
-                    placeholder="아이디를 입력해주세요"
-                    type="text"
-                    name="email"
-                    onChange={onChangeEmail}
-                    index="1"
-                    style={{
-                      border: isEmail === false ? '1px solid #d14343 ' : 'none',
-                    }}
-                  ></InputText>
-                </InputTextBox>
-                <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
-              </>
-            </InputBox>
-            <InputBoxPassword>
-              <InputName>비밀번호</InputName>
+      <ChoiceContainer>
+        <SignUpHeader onClick={onGoingHome}>
+          <BackpageIconBox src={pathLeft} />
+          <SignUpTitle>로그인</SignUpTitle>
+        </SignUpHeader>
+        <WelcomeQuestionContainer>
+          <WelcomeQuestionbox>
+            <SmallFont>등본 대신 해석해주는</SmallFont>
+            <BigFontImage src={Title} />
+          </WelcomeQuestionbox>
+        </WelcomeQuestionContainer>
+        <InputContainer>
+          <InputBox>
+            <InputName>아이디</InputName>
+            <>
               <InputTextBox>
                 <InputText
-                  placeholder="비밀번호를 입력해주세요"
-                  name="password"
-                  type={secret === false ? 'text' : 'password'}
-                  autocomplete="current-password"
-                  onChange={onChangePassword}
-                  index="2"
-                  onKeyDown={(e) => onActiveEnter(e)}
+                  placeholder="아이디를 입력해주세요"
+                  type="text"
+                  name="email"
+                  onChange={onChangeEmail}
+                  onBlur={onblurChange}
+                  index="1"
                   style={{
-                    border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                    border: isEmail === false ? '1px solid #d14343 ' : 'none',
                   }}
                 ></InputText>
               </InputTextBox>
-            </InputBoxPassword>
-            <PasswordContainer>
-              <ErrorMsgPreview>
-                <InputErrorMessageBoxPassword>
-                  <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
-                </InputErrorMessageBoxPassword>
-                <InputErrorMessageBoxPassword>
-                  <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
-                </InputErrorMessageBoxPassword>
-              </ErrorMsgPreview>
-              <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-            </PasswordContainer>
-          </InputContainer>
-          <AutoLoginContainer onClick={onAutoLogin}>
-            <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} />
-            <AutoLoginText>자동 로그인</AutoLoginText>
-          </AutoLoginContainer>
-          <BlankContainer2></BlankContainer2>
-          <GoingSignUp onClick={onGoingLogIn}>회원가입 하기</GoingSignUp>
-          <ButtonContainer>
-            <ButtonStyle type="submit" onClick={onSubmitLoginData}>
-              시작하기
-            </ButtonStyle>
-          </ButtonContainer>
-        </ChoiceContainer>
-      ) : null}
+              <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+            </>
+          </InputBox>
+          <InputBoxPassword>
+            <InputName>비밀번호</InputName>
+            <InputTextBox>
+              <InputText
+                placeholder="비밀번호를 입력해주세요"
+                name="password"
+                type={secret === false ? 'text' : 'password'}
+                autocomplete="current-password"
+                onChange={onChangePassword}
+                index="2"
+                onKeyDown={(e) => onActiveEnter(e)}
+                style={{
+                  border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                }}
+              ></InputText>
+            </InputTextBox>
+          </InputBoxPassword>
+          <PasswordContainer>
+            <ErrorMsgPreview>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
+              </InputErrorMessageBoxPassword>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
+              </InputErrorMessageBoxPassword>
+            </ErrorMsgPreview>
+            <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+          </PasswordContainer>
+        </InputContainer>
+        <AutoLoginContainer onClick={onAutoLogin}>
+          <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} />
+          <AutoLoginText>자동 로그인</AutoLoginText>
+        </AutoLoginContainer>
+        <BlankContainer2></BlankContainer2>
+        <GoingSignUp onClick={onGoingSignUp}>회원가입 하기</GoingSignUp>
+        <ButtonContainer>
+          <ButtonStyle
+            type="submit"
+            onClick={() => {
+              onvalid === false ? onValidLoginData() : onSubmitLoginData();
+            }}
+          >
+            시작하기
+          </ButtonStyle>
+        </ButtonContainer>
+      </ChoiceContainer>
     </>
   );
 }
 
-export default Login;
+export default LoginComponent;
 
 const ChoiceContainer = styled.div`
   width: 360px;
@@ -462,6 +507,7 @@ const AutoLoginContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 8px;
   gap: 4px;
   cursor: pointer;
 `;
@@ -469,6 +515,7 @@ const AutoLoginCheckImg = styled.img`
   width: 24px;
   height: 24px;
   background-color: var(--white);
+  position: relative;
 `;
 const AutoLoginText = styled.div`
   width: 68px;
