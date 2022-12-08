@@ -34,7 +34,10 @@ export async function ReadImgFootStep() {
 //상담 상세페이지 조회
 export async function ReadConsultDetail(id) {
   const { data } = await api.get(`v1/consult/${id}`);
+<<<<<<< HEAD
   console.log('상담상세api데이터', data);
+=======
+>>>>>>> f9f32ff305afeab8e85c6a4247fc6f9e977ab673
   return data;
 }
 

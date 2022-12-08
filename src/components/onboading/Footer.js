@@ -25,6 +25,8 @@ export default function Footer() {
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 360px;
   height: 100%;
   margin-top: auto;

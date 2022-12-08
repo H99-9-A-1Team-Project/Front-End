@@ -8,9 +8,9 @@ import lighthouse from './sources/main_article_lighthouse.png';
 import QueMark from '../../global/sources/Question.svg';
 import path_Light_Right from '../../global/sources/Expand_right_light.svg';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
-import { NextMem, NextTor, GoLogIn, isLogin } from '../../store/store';
+import { NextMem, NextTor, GoLogIn, isLogin, consultNumber } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
 import Modal from '../../global/components/Modal';
 
@@ -22,6 +22,7 @@ function MainPageArticle() {
   const [nexttor, setNextTor] = useRecoilState(NextTor);
   //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
   const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+  const setRecoilConsultNum = useSetRecoilState(consultNumber);
 
   const [info, setInfo] = useState(false);
   const AppLogin = useRecoilValue(isLogin);
@@ -54,6 +55,7 @@ function MainPageArticle() {
         setInfo(true);
       }
       const allNum = config.length;
+      setRecoilConsultNum(allNum);
       setConsultNum(2 - allNum);
     },
   });

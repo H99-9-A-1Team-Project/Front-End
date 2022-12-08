@@ -217,7 +217,7 @@ function LoginComponent() {
                   onBlur={onblurChange}
                   index="1"
                   style={{
-                    border: isEmail === false ? '1px solid #d14343 ' : 'none',
+                    border: isEmail === false ? '1px solid #d14343 ' : '1px solid var(--gray6);',
                   }}
                 ></InputText>
               </InputTextBox>
@@ -237,7 +237,7 @@ function LoginComponent() {
                 index="2"
                 onKeyDown={(e) => onActiveEnter(e)}
                 style={{
-                  border: isPassword === false ? '1px solid #d14343 ' : 'none',
+                  border: isPassword === false ? '1px solid #d14343 ' : '1px solid var(--gray6);',
                 }}
               ></InputText>
             </InputTextBox>
@@ -418,11 +418,11 @@ const InputTextBox = styled.div`
   justify-content: center;
 `;
 const InputText = styled.input`
-  width: 304px;
+  width: 328px;
   height: 44px;
   border-radius: 8px;
   padding-left: 8px;
-  border: none;
+  border: 1px solid var(--gray6);
   background-color: var(--white);
   :focus {
     outline: none;
@@ -430,7 +430,7 @@ const InputText = styled.input`
 `;
 
 const InputErrorMessageBox = styled.div`
-  width: 304px;
+  width: 328px;
   height: 16px;
   margin-top: 4px;
   margin-bottom: 2px;

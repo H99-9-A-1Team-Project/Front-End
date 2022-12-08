@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper';
+import { Pagination, Autoplay } from 'swiper';
 import slideImg1 from './sources/slide1.png';
 import slideImg2 from './sources/Slide2.png';
 
@@ -21,6 +21,7 @@ export default function Article() {
           }}
           modules={[Pagination]}
           className="mySwiper"
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
         >
           <SwiperSlide>
             <SlideImg src={slideImg1} />
