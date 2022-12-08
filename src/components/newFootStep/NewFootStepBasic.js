@@ -31,9 +31,9 @@ export default function NewFootStepBasic() {
             <DataInput placeholder="1평당 대략 3.3제곱미터에요" name="size" onChange={onChangeData} />
           </InputBox>
           <Headline>한줄 평</Headline>
-          <InputBox>
+          <InputBox2>
             <DataInput placeholder="전체적으로 매물이 어떠셨나요?" name="review" onChange={onChangeData} />
-          </InputBox>
+          </InputBox2>
         </Container>
       ) : null}
     </>
@@ -43,7 +43,7 @@ export default function NewFootStepBasic() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  margin-top: 0 auto;
 `;
 
 const Headline = styled.div`
@@ -60,7 +60,7 @@ const Headline = styled.div`
 const InputBox = styled.div`
   margin-left: 16px;
   width: 328px;
-  height: 44px;
+  height: 45.8px;
   border: 1px solid #edf0f3;
   border-radius: 8px;
 `;
@@ -69,7 +69,7 @@ const InputBox2 = styled.div`
   margin-left: 16px;
   margin-bottom: 32px;
   width: 328px;
-  height: 44px;
+  height: 45.5px;
   border: 1px solid #edf0f3;
   border-radius: 8px;
 `;

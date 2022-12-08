@@ -29,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "aws s3 sync ./build s3://lighthousefriends-s3 --profile=lighthouse-admin",
-    "invalidate": "aws cloudfront create-invalidation --profile=lighthouse-admin --distribution-id E3VXIDX2DFYFTA --paths /*"
+    "invalidate": "aws cloudfront create-invalidation --profile=lighthouse-admin --distribution-id E1NG0N5L37ZOUY --paths /*"
   },
   "eslintConfig": {
     "extends": [
