@@ -29,6 +29,7 @@ import { toastVisible, TextToast } from '../store/store';
 import PublicRoute from '../components/signup/publicRoute';
 import LoginPage from '../pages/LoginPage';
 import SignUpRealtorPage from '../pages/SignUpRealtorPage';
+import OnBoading from '../pages/OnBoading';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
@@ -90,6 +91,7 @@ export default function Router() {
             <Route path="footstepmain/:id/:id" element={<FootStepDetailImg />} />
             <Route path="/introduce" element={<IntroducePage />} />
             <Route path="/deleteid" element={<DeleteId />} />
+            <Route path="/onboading" element={<OnBoading />} />
           </Routes>
           <MainPageSideBar />
           <ToastMessage text={toasttext} />
@@ -209,4 +211,3 @@ const App = styled.div`
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
 `;
-

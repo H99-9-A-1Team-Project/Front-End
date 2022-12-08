@@ -93,7 +93,7 @@ export default function MainPageTabBar() {
         } else if ((localToken !== null && localAccountState !== '0') || (sessToken !== null && sessAccountState !== '0')) {
           alert('일반 회원만 접근 가능합니다.');
         } else if (localToken === null && sessToken === null) {
-          navigate('/signup');
+          navigate('/onboading');
         }
       } else if (click === 4) {
         navigate('/mypage');
