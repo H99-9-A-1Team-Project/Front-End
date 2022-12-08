@@ -14,8 +14,11 @@ export default function BottomSheet({ modalOverLab, modalId, visible, maskClosea
     }
   };
   let testid = 40;
-  if (modalOverLab === 1) {
+  console.log('overlab', modalOverLab);
+  console.log('modalid', modalId);
+  if (modalOverLab === 1 || modalOverLab === 3) {
     setModalIdData(modalId);
+    console.log('asdf', modalIdDatas);
   }
 
   const { data: footstepData } = useQuery(['modalFootStepData'], ReadFootStep, {
@@ -39,10 +42,6 @@ export default function BottomSheet({ modalOverLab, modalId, visible, maskClosea
       console.log('상담상세테스트');
     },
   });
-
-  if (requestData !== undefined) {
-    console.log('상담상세데이터', requestData.title);
-  }
 
   return (
     <>

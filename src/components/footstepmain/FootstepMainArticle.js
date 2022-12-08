@@ -786,7 +786,6 @@ const CarouselWrap = styled.div`
   margin-bottom: 110px;
   overflow: hidden;
   pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
-
 `;
 
 const CarouselLi = styled.li`
