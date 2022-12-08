@@ -144,8 +144,7 @@ export default function FootstepMainArticle() {
           center: new window.kakao.maps.LatLng(searchData[0].coordX, searchData[0].coordY),
           level: levelValue,
         };
-      }
-      if (sortName === '발품' && footstepData.length !== 0) {
+      } else if (sortName === '발품' && footstepData.length !== 0) {
         setVisible(true);
         options = {
           center: new window.kakao.maps.LatLng(footstepData[0].coordX, footstepData[0].coordY),
@@ -344,6 +343,7 @@ export default function FootstepMainArticle() {
 
         <WriteBox>
           <WriteBtn
+            visible={visible}
             onClick={() => {
               onNewFootStep();
             }}
@@ -436,7 +436,7 @@ export default function FootstepMainArticle() {
                 : null}
             </Swiper>
           </CarouselWrap>
-          <LevelBar>
+          <LevelBar visible={visible}>
             <LevelPlus
               onClick={() => {
                 onLevelClick('+');
@@ -465,7 +465,7 @@ const LevelBar = styled.div`
   position: absolute;
   background: white;
   margin-left: 305px;
-  margin-bottom: 315px;
+  margin-bottom: ${(props) => (props.visible ? '315px' : '180px')};
   border: 1px solid var(--gray5);
   border-radius: 8px;
   display: flex;
@@ -766,7 +766,7 @@ const WriteBtn = styled.div`
   width: 60px;
   height: 60px;
   margin-left: 285px;
-  margin-bottom: 139px;
+  margin-bottom: ${(props) => (props.visible ? '239px' : '104px')};
   display: flex;
   background-color: var(--primary2-400);
   border-radius: 8px;
@@ -796,8 +796,7 @@ const CarouselWrap = styled.div`
   height: 120px;
   margin-bottom: 110px;
   overflow: hidden;
-  display: none;
-  /* pointer-events: ${(props) => (props.visible ? 'auto' : 'none')}; */
+  pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
 `;
 
 const CarouselUl = styled.ul`

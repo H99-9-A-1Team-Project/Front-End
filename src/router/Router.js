@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import MainPage from '../pages/MainPage';
 import SignUp from '../pages/SignUp';
 import MyPage from '../pages/MyPage';
@@ -35,6 +35,10 @@ export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
   // toast 에 들어갈 문구 recoilstate
   const [toasttext, setToastText] = useRecoilState(TextToast);
+
+  const onLinkto = () => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
+  };
   return (
     <>
       <Container>
@@ -97,7 +101,12 @@ export default function Router() {
           <ToastMessage text={toasttext} />
         </App>
         <div className="right_container">
-          <div className="right_container_button">
+          <div
+            className="right_container_button"
+            onClick={() => {
+              onLinkto();
+            }}
+          >
             베타 서비스 설문 참여하기
             <img src={right_arrow} alt="" />
           </div>
@@ -137,6 +146,7 @@ const Container = styled.div`
       font-size: 32px;
       font-weight: 500;
       line-height: 48.9px;
+      cursor: default;
     }
     img {
       width: 167px;
@@ -192,9 +202,11 @@ const Container = styled.div`
       line-height: var(--body_Medium-line-height);
       letter-spacing: var(--body_Medium-letter-spacing);
       color: var(--gray3);
+      cursor: default;
       .right_container_text_1,
       .right_container_text_2 {
         margin-right: 16px;
+        cursor: default;
       }
     }
   }
