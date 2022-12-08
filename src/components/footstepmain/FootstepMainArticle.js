@@ -46,7 +46,7 @@ export default function FootstepMainArticle() {
 
   const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain(''), {
     onSuccess: (response) => {
-      console.log('abbb', response);
+      console.log(response);
     },
     onError: (response) => {
       console.log(response);
@@ -91,7 +91,6 @@ export default function FootstepMainArticle() {
   if (searchData !== undefined && searchData.length !== 0) {
     if (sortName === '전체') {
       positions = searchData.map((data) => {
-        console.log(data.overLab);
         return { overLab: data.overLab, id: data.id, LatLng: new kakao.maps.LatLng(data.coordX, data.coordY) };
       });
     } else if (sortName === '발품') {
@@ -110,10 +109,7 @@ export default function FootstepMainArticle() {
       }
     }
   }
-  console.log('po', positions);
-  console.log('fsd', footstepData);
-  console.log('rqd', requestData);
-
+  console.log(positions);
   const onLevelClick = (value) => {
     if (value === '+' && levelValue < 14) {
       setLevelValue(levelValue + 1);
@@ -122,7 +118,6 @@ export default function FootstepMainArticle() {
       setLevelValue(levelValue - 1);
     }
   };
-  console.log(levelValue);
 
   useEffect(() => {
     if (ToastState) {
@@ -138,14 +133,16 @@ export default function FootstepMainArticle() {
 
     if (searchData !== undefined) {
       let options = {};
-      if (sortName === '전체' && searchData.length !== 0) {
+      if (sortName === '전체' && searchData?.length !== 0) {
         setVisible(true);
+        console.log('!!!');
+        console.log('@@@', searchData[0].coordX);
+        console.log('###', searchData[0].coordY);
         options = {
-          center: new window.kakao.maps.LatLng(searchData[0].coordX, searchData[0].coordY),
+          center: new window.kakao.maps.LatLng(searchData[0]?.coordX, searchData[0]?.coordY),
           level: levelValue,
         };
-      }
-      if (sortName === '발품' && footstepData.length !== 0) {
+      } else if (sortName === '발품' && footstepData.length !== 0) {
         setVisible(true);
         options = {
           center: new window.kakao.maps.LatLng(footstepData[0].coordX, footstepData[0].coordY),
@@ -158,8 +155,8 @@ export default function FootstepMainArticle() {
           level: levelValue,
         };
       } else {
+        console.log('$$$');
         setVisible(false);
-        console.log('abcd');
         options = {
           center: new window.kakao.maps.LatLng(37.497928, 127.027583),
           level: levelValue,
@@ -344,6 +341,7 @@ export default function FootstepMainArticle() {
 
         <WriteBox>
           <WriteBtn
+            visible={visible}
             onClick={() => {
               onNewFootStep();
             }}
@@ -436,7 +434,7 @@ export default function FootstepMainArticle() {
                 : null}
             </Swiper>
           </CarouselWrap>
-          <LevelBar>
+          <LevelBar visible={visible}>
             <LevelPlus
               onClick={() => {
                 onLevelClick('+');
@@ -465,7 +463,7 @@ const LevelBar = styled.div`
   position: absolute;
   background: white;
   margin-left: 305px;
-  margin-bottom: 315px;
+  margin-bottom: ${(props) => (props.visible ? '315px' : '180px')};
   border: 1px solid var(--gray5);
   border-radius: 8px;
   display: flex;
@@ -766,7 +764,7 @@ const WriteBtn = styled.div`
   width: 60px;
   height: 60px;
   margin-left: 285px;
-  margin-bottom: 139px;
+  margin-bottom: ${(props) => (props.visible ? '239px' : '104px')};
   display: flex;
   background-color: var(--primary2-400);
   border-radius: 8px;
@@ -781,29 +779,13 @@ const WriteImg = styled.img`
   margin-top: 14px;
 `;
 
-// const CarouselBox = styled.div`
-//   position: absolute;
-//   height: 100%;
-//   display: flex;
-//   flex-direction: column-reverse;
-//   overflow: hidden;
-//   z-index: 0;
-// `;
-
 const CarouselWrap = styled.div`
   position: absolute;
   width: 360px;
   height: 120px;
   margin-bottom: 110px;
   overflow: hidden;
-  display: none;
-  /* pointer-events: ${(props) => (props.visible ? 'auto' : 'none')}; */
-`;
-
-const CarouselUl = styled.ul`
-  /* width: 100%;
-  display: flex;
-  transform: translate(0, 0); */
+  pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
 `;
 
 const CarouselLi = styled.li`
@@ -812,10 +794,4 @@ const CarouselLi = styled.li`
   list-style: none;
   user-select: none;
   padding-right: 20px;
-`;
-
-const CarosulItem = styled.img`
-  width: 200px;
-  height: 120px;
-  -webkit-user-drag: none;
 `;

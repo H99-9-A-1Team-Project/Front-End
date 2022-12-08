@@ -79,6 +79,16 @@ export default function MainPageTabBar() {
         setTbPin(1);
         setTbRequest(0);
         setTbUser(0);
+        const localToken = localStorage.getItem('access_token');
+        const sessToken = sessionStorage.getItem('access_token');
+        const localAccountState = localStorage.getItem('accountstate');
+        const sessAccountState = sessionStorage.getItem('accountstate');
+        if ((localToken !== null && localAccountState === '0') || (sessToken !== null && sessAccountState === '0')) {
+        } else if ((localToken !== null && localAccountState !== '0') || (sessToken !== null && sessAccountState !== '0')) {
+          alert('일반 회원만 접근 가능합니다.');
+        } else if (localToken === null && sessToken === null) {
+          navigate('/onboading');
+        }
       } else if (click === 3) {
         navigate('/request');
         setTbHome(0);
