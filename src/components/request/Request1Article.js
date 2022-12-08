@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import PopupPostCode from './PopupPostCode';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { requireAddress, rqInfo, rqDetailAddress } from '../../store/store';
+import { requireAddress, rqInfo, rqDetailAddress, consultNumber } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Request1Article() {
@@ -15,6 +15,7 @@ export default function Request1Article() {
   const requAddress = useRecoilValue(requireAddress);
   const [rq1Info, setRq1Info] = useRecoilState(rqInfo);
   const [rq1DetailAddress, setRq1DetailAddress] = useRecoilState(rqDetailAddress);
+  const consultNum = useRecoilValue(consultNumber);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [btnState, setBtnState] = useState(0);
   let geocoder = new kakao.maps.services.Geocoder();
@@ -54,6 +55,11 @@ export default function Request1Article() {
       navigate('/request2');
     }
   };
+  useEffect(() => {
+    if (consultNum >= 2) {
+      navigate('/request');
+    }
+  }, []);
 
   return (
     <Rq1ArticleContainer>

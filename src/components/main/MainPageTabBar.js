@@ -150,7 +150,7 @@ export default function MainPageTabBar() {
           </HomeContainer>
           <PinContainer>
             <PinBox onClick={() => onClickTab(2)}>
-              <PinImgBox>{tbPin === 0 ? <PinImgOFF src={imgPinOFF} /> : <ImgPinOn fill="#3c6eef" />}</PinImgBox>
+              <PinImgBox>{tbPin === 0 ? <PinImgOFF src={imgPinOFF} /> : <ImgPinOn fill="#3c6eef" width="32px" height="32px" />}</PinImgBox>
               <PinP tbPin={tbPin}>발품기록</PinP>
             </PinBox>
           </PinContainer>
@@ -220,6 +220,8 @@ const TabBarContainer = styled.div`
   border-top: 1px solid var(--gray6);
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   margin-top: auto;
 `;
 
@@ -227,6 +229,8 @@ const HomeContainer = styled.div`
   width: 90px;
   height: 84px;
   background: none;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 `;
 
@@ -234,6 +238,8 @@ const PinContainer = styled.div`
   width: 90px;
   height: 84px;
   background: none;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 `;
 
@@ -241,6 +247,8 @@ const RequestContainer = styled.div`
   width: 90px;
   height: 84px;
   background: none;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 `;
 
@@ -248,17 +256,19 @@ const UserContainer = styled.div`
   width: 90px;
   height: 84px;
   background: none;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 `;
 
 const HomeBox = styled.div`
-  width: 32px;
-  height: 52px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: none;
-  margin-left: 29px;
-  margin-top: 16px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const HomeImg = styled.img`
@@ -280,15 +290,13 @@ const HomeP = styled.p`
 `;
 
 const PinBox = styled.div`
-  width: 43px;
-  height: 52px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: none;
-  margin-left: 23.5px;
-  margin-top: 16px;
 `;
 
 const PinImgBox = styled.div`
@@ -298,10 +306,11 @@ const PinImgBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 1px;
 `;
 
 const PinImgOFF = styled.img`
+  width: 32px;
+  height: 32px;
   background: none;
 `;
 
@@ -317,7 +326,6 @@ const PinImgON = styled.img`
 const PinP = styled.p`
   width: 44px;
   background: none;
-  margin-bottom: 4px;
   font-family: var(--button-font-family);
   font-size: var(--button_Small-font-size);
   font-weight: var(--button_Small-font-weight);
@@ -327,13 +335,13 @@ const PinP = styled.p`
 `;
 
 const RequestBox = styled.div`
-  width: 43px;
-  height: 52px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: none;
-  margin-left: 23.5px;
-  margin-top: 16px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const RequestImg = styled.img`
@@ -356,18 +364,18 @@ const RequestP = styled.p`
 `;
 
 const UserBox = styled.div`
-  width: 54px;
-  height: 44px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: none;
-  margin-left: 18px;
-  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const UserImg = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   background: none;
   margin: 0 auto;
 `;
@@ -376,7 +384,6 @@ const UserP = styled.p`
   width: 55px;
   background: none;
   margin: 0 auto;
-  margin-top: 4px;
   font-family: var(--button-font-family);
   font-size: var(--button_Small-font-size);
   font-weight: var(--button_Small-font-weight);
@@ -390,6 +397,8 @@ const RealtorHomeContainer = styled.div`
   height: 84px;
   background: none;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RealtorRequestContainer = styled.div`
@@ -397,6 +406,8 @@ const RealtorRequestContainer = styled.div`
   height: 84px;
   background: none;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RealtorUserContainer = styled.div`
@@ -404,16 +415,18 @@ const RealtorUserContainer = styled.div`
   height: 84px;
   background: none;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RealtorHomeBox = styled.div`
-  width: 32px;
-  height: 52px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: none;
-  margin-left: 44px;
-  margin-top: 16px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RealtorHomeImg = styled.img`
@@ -435,13 +448,13 @@ const RealtorHomeP = styled.p`
 `;
 
 const RealtorRequestBox = styled.div`
-  width: 43px;
-  height: 52px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: none;
-  margin-left: 38.5px;
-  margin-top: 16px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RealtorRequestImg = styled.img`
@@ -464,18 +477,18 @@ const RealtorRequestP = styled.p`
 `;
 
 const RealtorUserBox = styled.div`
-  width: 54px;
-  height: 44px;
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: none;
-  margin-left: 33px;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RealtorUserImg = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   background: none;
   margin: 0 auto;
 `;
@@ -484,7 +497,6 @@ const RealtorUserP = styled.p`
   width: 55px;
   background: none;
   margin: 0 auto;
-  margin-top: 4px;
   font-family: var(--button-font-family);
   font-size: var(--button_Small-font-size);
   font-weight: var(--button_Small-font-weight);

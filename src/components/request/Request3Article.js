@@ -2,19 +2,24 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
 import { useNavigate } from 'react-router-dom';
-import { rqInfo } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { consultNumber, rqInfo } from '../../store/store';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function Request3Article() {
   const navigate = useNavigate();
   const [rq3Info, setRq3Info] = useRecoilState(rqInfo);
+  const consultNum = useRecoilValue(consultNumber);
   const [placeMsg, setPlaceMsg] = useState('');
   useEffect(() => {
     if (rq3Info.consultMessage === '') {
       setPlaceMsg('더 궁금한 것들, 혹은 알고싶었던 것들이 있다면 입력해주세요.');
     }
   }, [rq3Info]);
-
+  useEffect(() => {
+    if (consultNum >= 2) {
+      navigate('/request');
+    }
+  }, []);
   const onChangeMsg = (e) => {
     const { name, value } = e.target;
     setRq3Info({ ...rq3Info, [name]: value });

@@ -5,7 +5,6 @@ import arrow_down from '../../global/sources/Expand_down_light.svg';
 
 export default function ConsultDetailBodyContainer({ data, checkNum }) {
   const [visible, setVisible] = useState(false);
-
   if (checkNum <= 2) {
     return (
       <ConsultDetailBodyContainerLayout>
