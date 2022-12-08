@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ReadRequestList } from '../../api/apiGET';
 import Modal from '../../global/components/Modal';
-import { rqInfo, requireAddress, rqDetailAddress } from '../../store/store';
-import { useSetRecoilState } from 'recoil';
+import { rqInfo, requireAddress, rqDetailAddress, consultNumber } from '../../store/store';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 export default function RequestArticle() {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export default function RequestArticle() {
   const setRqhInfo = useSetRecoilState(rqInfo);
   const setRqhAddress = useSetRecoilState(requireAddress);
   const setRqhDetailAddress = useSetRecoilState(rqDetailAddress);
+  const setRecoilConsultNum = useSetRecoilState(consultNumber);
   const onClickRequestConsult = () => {
     if (consultNum <= 0) {
       setModalVisible(true);
@@ -40,6 +41,7 @@ export default function RequestArticle() {
       setWaitNum(() => waitList.length);
       setFinishNum(() => allNum - waitList.length);
       setConsultNum(2 - allNum);
+      setRecoilConsultNum(allNum);
     },
   });
 

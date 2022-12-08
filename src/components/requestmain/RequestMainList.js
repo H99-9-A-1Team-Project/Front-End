@@ -10,7 +10,9 @@ export default function RequestList() {
   const navigate = useNavigate();
   const { data } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
-    onSuccess: (response) => {},
+    onSuccess: (response) => {
+      console.log(response);
+    },
   });
   return (
     <RqListContainer>
@@ -144,6 +146,7 @@ const ListContent = styled.div`
   margin-top: 16px;
   background: none;
   cursor: pointer;
+  border-bottom: 1px solid var(--gray6);
 `;
 
 const MarkerImg = styled.img`
