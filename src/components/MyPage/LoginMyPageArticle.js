@@ -107,11 +107,6 @@ export default function LoginMyPageArticle() {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = textRef.current.scrollHeight - 38 + 'px';
   }, []);
-  useEffect(() => {
-    if (textRef.current !== null) {
-      textRef.current.focus();
-    }
-  }, [modalVisible]);
   const onChangeHandler = (e) => {
     onChangeProfileHandler(e);
     onResizeHandler(e);
@@ -119,6 +114,14 @@ export default function LoginMyPageArticle() {
   const onSaveFileImage = (e) => {
     setImgSave(URL.createObjectURL(e.target.files[0]));
   };
+  const onLinkto = () => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
+  };
+  useEffect(() => {
+    if (textRef.current !== null) {
+      textRef.current.focus();
+    }
+  }, [modalVisible]);
   const getProfile = useQuery(['profile'], ReadProfile, {
     refetchOnWindowFocus: false,
     onSuccess: (config) => {
@@ -273,7 +276,7 @@ export default function LoginMyPageArticle() {
           서비스 소개
           <img src={arrow} alt="arrow" />
         </div>
-        <div className="info-2">
+        <div className="info-2" onClick={() => onLinkto()}>
           설문 참여
           <img src={arrow} alt="arrow" />
         </div>
