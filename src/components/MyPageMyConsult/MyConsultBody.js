@@ -45,7 +45,7 @@ export default function MyConsultBody() {
         </li>
       </ul>
       {searchStateData ? (
-        searchData.length !== 0 ? (
+        searchData?.length !== 0 ? (
           <div className="consulting-wrap">
             {searchData?.map((item) => {
               return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
@@ -54,7 +54,7 @@ export default function MyConsultBody() {
         ) : (
           <div className="consulting-wrap2">검색하신 단어와 일치하는 정보가 없습니다.</div>
         )
-      ) : data.length !== 0 ? (
+      ) : data?.length !== 0 ? (
         <div className="consulting-wrap">
           {data?.map((item) => {
             return <MyConsultBodyContainer key={item.id} listState={listState} item={item} setSearchState={setSearchState} />;
