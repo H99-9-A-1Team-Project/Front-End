@@ -59,7 +59,7 @@ function SignUpMember() {
 
   // 뒤로가기 버튼용
   const onPrevMemberPage = (e) => {
-    setNextMem(nextmem - 2);
+    navigate('/signup');
     setValid(false);
     setPsValid(false);
   };
@@ -165,23 +165,24 @@ function SignUpMember() {
   };
   const { email, password } = loginData;
   const UserName = loginData.nickname;
+
+  const onAutoLoginFunction = () => {
+    emailLogin(LoginPocket);
+  };
+
   //회원가입
   const { mutate: memberSignUp } = useMutation(MemberSignUp, {
-    onSuccess: () => {
-      setToastText(`가입 가능한 이메일로 로그인 합니다`);
-      setVisible(true);
+    onSuccess: (response) => {
+      onAutoLoginFunction();
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
-      setToastText(err.response.data.errorMessage);
-      if (err.response.status === 409) {
-        setToastText('이미 가입한 이메일로 로그인 시도합니다');
-        console.log(loginData);
-      } else {
-        return;
-      }
-      setVisible(true);
-      setOpenSignUp(true);
+      setCheckemail(err.response.data.errorMessage);
+      setCheckPassword(err.response.data.errorMessage);
+      setValid(false);
+      setIsEmail(false);
+      setPsValid(false);
+      setIsPassword(false);
     },
   });
 
@@ -199,106 +200,89 @@ function SignUpMember() {
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
-      setToastText(err.response.data.errorMessage);
+      setCheckemail(err.response.data.errorMessage);
+      setCheckPassword(err.response.data.errorMessage);
       setValid(false);
+      setIsEmail(false);
       setPsValid(false);
-      setVisible(true);
+      setIsPassword(false);
     },
   });
 
   //회원가입 데이터 전송
-  const onSubmitSignUpData = () => {
-    setReject('');
-    setOpenSignUp(false);
+  const onSubmitSignUpData = (e) => {
     memberSignUp(loginData);
-    if (reject !== '') {
-      return;
-    } else {
-      setTimeout(() => {
-        emailLogin(LoginPocket);
-      }, 1000);
-    }
   };
   return (
     <>
-      {nextmem === 2 ? (
-        <ChoiceContainer>
-          <SignUpHeader onClick={onPrevMemberPage}>
-            <BackpageIconBox src={pathLeft} />
-            <SignUpTitle>회원가입</SignUpTitle>
-          </SignUpHeader>
-          <WelcomeQuestionContainer>
-            <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
-          </WelcomeQuestionContainer>
-          <InputContainer>
-            <InputBox>
-              <InputName>아이디(이메일)</InputName>
+      <ChoiceContainer>
+        <SignUpHeader onClick={onPrevMemberPage}>
+          <BackpageIconBox src={pathLeft} />
+          <SignUpTitle>회원가입</SignUpTitle>
+        </SignUpHeader>
+        <WelcomeQuestionContainer>
+          <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
+        </WelcomeQuestionContainer>
+        <InputContainer>
+          <InputBox>
+            <InputName>아이디(이메일)</InputName>
 
-              <>
-                <InputTextBox>
-                  <InputText
-                    placeholder="lighthouse@gmail.com"
-                    name="email"
-                    type="text"
-                    value={email}
-                    onChange={onChangeEmail}
-                    onBlur={onblurChange}
-                    autocomplete="on"
-                    style={{
-                      border: isEmail === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
-                    }}
-                  ></InputText>
-                </InputTextBox>
-                <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
-              </>
-            </InputBox>
-            <InputBoxPassword>
-              <InputName>비밀번호</InputName>
-              <form>
-                <InputTextBox>
-                  <InputText
-                    placeholder="8-30자리 영대・소문자, 숫자, 특수문자 조합"
-                    autocomplete="new-password"
-                    name="password"
-                    value={password}
-                    onChange={onChangePassword}
-                    onKeyDown={(e) => onActiveEnter(e)}
-                    type={secret === false ? 'text' : 'password'}
-                    style={{
-                      border: isPassword === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
-                    }}
-                  ></InputText>
-                </InputTextBox>
-              </form>
-            </InputBoxPassword>
-            <PasswordContainer>
-              <ErrorMsgPreview>
-                <InputErrorMessageBoxPassword>
-                  <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
-                </InputErrorMessageBoxPassword>
-                <InputErrorMessageBoxPassword>
-                  <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
-                </InputErrorMessageBoxPassword>
-              </ErrorMsgPreview>
-              <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
-            </PasswordContainer>
-          </InputContainer>
-          <BlankContainer></BlankContainer>
-          <ButtonContainer>
+            <>
+              <InputTextBox>
+                <InputText
+                  placeholder="lighthouse@gmail.com"
+                  name="email"
+                  type="text"
+                  value={email}
+                  onChange={onChangeEmail}
+                  onBlur={onblurChange}
+                  autocomplete="on"
+                  style={{
+                    border: isEmail === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
+                  }}
+                ></InputText>
+              </InputTextBox>
+              <InputErrorMessageBox>{isEmail === false ? <InputErrorMessage>{checkemail === '' ? null : checkemail}</InputErrorMessage> : <InputMessage>{checkemail === '' ? null : checkemail}</InputMessage>}</InputErrorMessageBox>
+            </>
+          </InputBox>
+          <InputBoxPassword>
+            <InputName>비밀번호</InputName>
             <form>
-              <ButtonStyle
-                type="submit"
-                disabled={isValidLogin}
-                onClick={() => {
-                  onSubmitSignUpData();
-                }}
-              >
-                시작하기
-              </ButtonStyle>
+              <InputTextBox>
+                <InputText
+                  placeholder="8-30자리 영대・소문자, 숫자, 특수문자 조합"
+                  autocomplete="new-password"
+                  name="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  onKeyDown={(e) => onActiveEnter(e)}
+                  type={secret === false ? 'text' : 'password'}
+                  style={{
+                    border: isPassword === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
+                  }}
+                ></InputText>
+              </InputTextBox>
             </form>
-          </ButtonContainer>
-        </ChoiceContainer>
-      ) : null}
+          </InputBoxPassword>
+          <PasswordContainer>
+            <ErrorMsgPreview>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
+              </InputErrorMessageBoxPassword>
+              <InputErrorMessageBoxPassword>
+                <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
+              </InputErrorMessageBoxPassword>
+            </ErrorMsgPreview>
+            <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
+          </PasswordContainer>
+        </InputContainer>
+        <BlankContainer></BlankContainer>
+        <ButtonContainer>
+          <ButtonStyle type="submit" disabled={isValidLogin} onClick={onSubmitSignUpData}>
+            시작하기
+          </ButtonStyle>
+        </ButtonContainer>
+      </ChoiceContainer>
     </>
   );
 }
@@ -495,7 +479,7 @@ const PasswordViewButtonImg = styled.img`
 `;
 
 const ErrorMsgPreview = styled.div`
-  width: 304px;
+  width: 328px;
   height: 24px;
   background-color: transparent;
   display: flex;
@@ -504,7 +488,7 @@ const ErrorMsgPreview = styled.div`
 `;
 
 const PasswordContainer = styled.div`
-  width: 304px;
+  width: 328px;
   height: 40px;
   display: flex;
   flex-direction: row;
