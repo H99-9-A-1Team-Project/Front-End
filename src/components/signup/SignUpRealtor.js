@@ -704,7 +704,7 @@ const PasswordViewButtonImg = styled.img`
 `;
 
 const ErrorMsgPreview = styled.div`
-  width: 304px;
+  width: 328px;
   height: 24px;
   background-color: transparent;
   display: flex;
@@ -712,7 +712,7 @@ const ErrorMsgPreview = styled.div`
   align-items: flex-start;
 `;
 const PasswordContainer = styled.div`
-  width: 304px;
+  width: 328px;
   height: 40px;
   display: flex;
   flex-direction: row;
