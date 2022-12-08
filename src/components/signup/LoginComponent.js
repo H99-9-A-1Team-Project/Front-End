@@ -267,7 +267,7 @@ function LoginComponent() {
               onvalid === false ? onValidLoginData() : onSubmitLoginData();
             }}
           >
-            시작하기
+            로그인
           </ButtonStyle>
         </ButtonContainer>
       </ChoiceContainer>
