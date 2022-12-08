@@ -110,6 +110,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: white;
+  border-bottom: 1px solid var(--gray6);
   cursor: pointer;
 `;
 

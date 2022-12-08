@@ -311,6 +311,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: var(--white);
+  border-bottom: 1px solid var(--gray6);
 `;
 
 const BackpageIconBox = styled.img`
@@ -391,6 +392,8 @@ const InputName = styled.div`
   height: 20px;
   display: flex;
   justify-content: left;
+
+  margin-bottom: 2px;
   background-color: var(--white);
   font-style: normal;
   font-family: var(--body-font-family);
@@ -411,7 +414,7 @@ const InputText = styled.input`
   width: 328px;
   height: 44px;
   border-radius: 8px;
-  padding-left: 8px;
+  padding-left: 12px;
   border: none;
   background-color: var(--white);
   :focus {
