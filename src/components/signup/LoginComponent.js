@@ -129,9 +129,11 @@ function LoginComponent() {
     if (e.target.value === '') {
       setCheckPassword('비밀번호를 입력하세요');
       setIsPassword(false);
+      setPsValid(false);
       setCheckValid('');
     } else {
       setCheckPassword('');
+      setPsValid(true);
     }
   };
 
@@ -170,25 +172,22 @@ function LoginComponent() {
       }
     },
     onError: (err) => {
-      setReject('비밀번호를 확인해주세요');
+      setReject(err.response.data.errorMessage);
       setIsEmail(false);
       setIsPassword(false);
-      setCheckemail('인증되지 않았습니다');
-      setCheckPassword('비밀번호를 확인해주세요');
+      setCheckemail(err.response.data.errorMessage);
+      setCheckPassword(err.response.data.errorMessage);
     },
   });
 
   console.log(checkvalid);
-  const onClick = () => {
-    onvalid === false ? onValidLoginData() : onSubmitLoginData();
-  };
+
   const onActiveEnter = (e) => {
     if (e.key === 'Enter') {
-      onClick();
+      onSubmitLoginData();
     }
   };
   const onSubmitLoginData = () => {
-    // setCheckPassword('');
     emailLogin(loginData);
   };
 
@@ -233,6 +232,7 @@ function LoginComponent() {
                 name="password"
                 type={secret === false ? 'text' : 'password'}
                 autocomplete="current-password"
+                onblur={onValidLoginData}
                 onChange={onChangePassword}
                 index="2"
                 onKeyDown={(e) => onActiveEnter(e)}
@@ -263,8 +263,9 @@ function LoginComponent() {
         <ButtonContainer>
           <ButtonStyle
             type="submit"
+            disabled={isValidLogin}
             onClick={() => {
-              onvalid === false ? onValidLoginData() : onSubmitLoginData();
+              onSubmitLoginData();
             }}
           >
             로그인
@@ -555,6 +556,7 @@ const GoingSignUp = styled.div`
   text-decoration-line: underline;
   color: var(--gray4);
   background-color: white;
+  cursor: pointer;
 `;
 
 const ButtonContainer = styled.div`
@@ -579,12 +581,14 @@ const ButtonStyle = styled.button`
   font-weight: var(--button_Large-font-weight);
   line-height: var(--button_Large-line-height);
   letter-spacing: var(--button_Large-letter-spacing);
+
   :disabled {
     background-color: var(--gray5);
   }
   :enabled {
     background-color: var(--primary2-400);
     color: white;
+    cursor: pointer;
   }
 `;
 
