@@ -15,7 +15,7 @@ import Marker_FootStep from '../../global/sources/Pin_Footstep.svg';
 import Marker_request from '../../global/sources/Pin_Request.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper';
-import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, FstCloseModal, NfsToast } from '../../store/store';
+import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, FstCloseModal, NfsToast, nfsRoadEssentialState, nfsDetailEssentialState, nfsImgEssentialState } from '../../store/store';
 import { useSetRecoilState } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import BottomSheet from './BottomSheet';
@@ -39,10 +39,14 @@ export default function FootstepMainArticle() {
   const [modalId, setModalId] = useState();
   const [ToastState, setToastState] = useRecoilState(NfsToast);
   const [levelValue, setLevelValue] = useState(2);
+  const [visible, setVisible] = useState(false);
+  const setRoadEssential = useSetRecoilState(nfsRoadEssentialState);
+  const setDetailEssential = useSetRecoilState(nfsDetailEssentialState);
+  const setImgEssential = useSetRecoilState(nfsImgEssentialState);
 
   const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain(''), {
     onSuccess: (response) => {
-      console.log(response);
+      console.log('abbb', response);
     },
     onError: (response) => {
       console.log(response);
@@ -135,22 +139,27 @@ export default function FootstepMainArticle() {
     if (searchData !== undefined) {
       let options = {};
       if (sortName === '전체' && searchData.length !== 0) {
+        setVisible(true);
         options = {
           center: new window.kakao.maps.LatLng(searchData[0].coordX, searchData[0].coordY),
           level: levelValue,
         };
       }
       if (sortName === '발품' && footstepData.length !== 0) {
+        setVisible(true);
         options = {
           center: new window.kakao.maps.LatLng(footstepData[0].coordX, footstepData[0].coordY),
           level: levelValue,
         };
       } else if (sortName === '상담' && requestData.length !== 0) {
+        setVisible(true);
         options = {
           center: new window.kakao.maps.LatLng(requestData[0].coordX, requestData[0].coordY),
           level: levelValue,
         };
       } else {
+        setVisible(false);
+        console.log('abcd');
         options = {
           center: new window.kakao.maps.LatLng(37.497928, 127.027583),
           level: levelValue,
@@ -195,6 +204,9 @@ export default function FootstepMainArticle() {
   const onNewFootStep = () => {
     setNfshRoadAddress('도로명 주소 검색');
     setNfshDetailAddress('');
+    setRoadEssential(false);
+    setDetailEssential(false);
+    setImgEssential(false);
     setNfshData({
       title: '',
       coordFX: '',
@@ -338,7 +350,7 @@ export default function FootstepMainArticle() {
           >
             <WriteImg src={WriteIcon} />
           </WriteBtn>
-          <CarouselWrap>
+          <CarouselWrap visible={visible}>
             <Swiper
               slidesPerView={0.98}
               spaceBetween={-40}
@@ -754,7 +766,7 @@ const WriteBtn = styled.div`
   width: 60px;
   height: 60px;
   margin-left: 285px;
-  margin-bottom: 239px;
+  margin-bottom: 139px;
   display: flex;
   background-color: var(--primary2-400);
   border-radius: 8px;
@@ -784,6 +796,8 @@ const CarouselWrap = styled.div`
   height: 120px;
   margin-bottom: 110px;
   overflow: hidden;
+  display: none;
+  /* pointer-events: ${(props) => (props.visible ? 'auto' : 'none')}; */
 `;
 
 const CarouselUl = styled.ul`
