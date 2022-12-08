@@ -427,6 +427,7 @@ const InputText = styled.input`
   width: 304px;
   height: 44px;
   border-radius: 8px;
+  padding-left: 8px;
   border: none;
   background-color: var(--white);
   :focus {

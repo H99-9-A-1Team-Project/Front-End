@@ -127,8 +127,8 @@ function LoginComponent() {
     setPsValid(true);
     setOnValid(false);
     if (e.target.value === '') {
-      setCheckPassword('');
-      setIsPassword('');
+      setCheckPassword('비밀번호를 입력하세요');
+      setIsPassword(false);
       setCheckValid('');
     } else {
       setCheckPassword('');
@@ -420,6 +420,7 @@ const InputText = styled.input`
   width: 304px;
   height: 44px;
   border-radius: 8px;
+  padding-left: 8px;
   border: none;
   background-color: var(--white);
   :focus {
