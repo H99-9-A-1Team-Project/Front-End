@@ -40,7 +40,7 @@ export default function FootstepMainArticle() {
   const [ToastState, setToastState] = useRecoilState(NfsToast);
   const [levelValue, setLevelValue] = useState(2);
 
-  const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain('판교'), {
+  const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain(''), {
     onSuccess: (response) => {
       console.log(response);
     },
@@ -340,13 +340,13 @@ export default function FootstepMainArticle() {
           </WriteBtn>
           <CarouselWrap>
             <Swiper
-              slidesPerView={2}
-              spaceBetween={300}
-              freeMode={true}
+              slidesPerView={0.98}
+              spaceBetween={-40}
+              centeredSlides={true}
               pagination={{
                 clickable: true,
               }}
-              modules={[FreeMode, Pagination]}
+              modules={[Pagination]}
               className="mySwiper"
             >
               {sortName === '전체'
@@ -505,7 +505,7 @@ const CarouselBox = styled.div`
   border-radius: 8px;
   box-shadow: var(--Shadow2-box-shadow);
   margin-left: 16px;
-  -webkit-user-drag: none;
+
   cursor: pointer;
 `;
 

@@ -29,18 +29,19 @@ export default function BottomSheet({ modalOverLab, modalId, visible, maskClosea
     },
   });
 
-  const { data: requestData } = useQuery(['requestDatass'], ReadConsultDetail(testid), {
+  const { data: requestData } = useQuery(['requestDatass'], () => ReadConsultDetail(testid), {
     onSuccess: (response) => {
-      console.log('req1', response);
-      console.log('abc');
+      console.log('상담상세성공', response);
+      console.log('상담상세테스트');
     },
     onError: (response) => {
-      console.log('req2', response);
-      console.log('abcd');
+      console.log('상담상세실패', response);
+      console.log('상담상세테스트');
     },
   });
+
   if (requestData !== undefined) {
-    console.log('zxc', requestData.title);
+    console.log('상담상세데이터', requestData.title);
   }
 
   return (
