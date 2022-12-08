@@ -5,14 +5,16 @@ import PopupDom from './PopupDom';
 import PopupPostCode from './PopupPostCode';
 import nfsSearchImg from './sources/searchIcon.png';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { nfsData, nfsRoadAddress, nfsDetailAddress } from '../../store/store';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { nfsData, nfsRoadAddress, nfsDetailAddress, nfsRoadEssentialState, nfsDetailEssentialState } from '../../store/store';
 
 export default function NewFootStepAddress() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [nfscRoadAddress, setNfscRoadAddress] = useRecoilState(nfsRoadAddress);
   const [nfscDetailAddress, setNfscDetailAddress] = useRecoilState(nfsDetailAddress);
   const [nfscData, setNfscData] = useRecoilState(nfsData);
+  const nfsRoadEsscential = useRecoilValue(nfsRoadEssentialState);
+  const nfsDetailEsscential = useRecoilValue(nfsDetailEssentialState);
 
   const openPostCode = () => {
     setIsPopupOpen(true);
@@ -37,13 +39,13 @@ export default function NewFootStepAddress() {
         <HeadlineNav>필수</HeadlineNav>
       </HeadlineBox>
       <RoadAddressBox type="button" onClick={openPostCode}>
-        <RoadAddressWrap>
+        <RoadAddressWrap nfsRoadEsscential={nfsRoadEsscential}>
           <RoadAddressP>{nfscRoadAddress}</RoadAddressP>
           <SearchImg src={nfsSearchImg} />
         </RoadAddressWrap>
       </RoadAddressBox>
       <DetailHeadline>이하 상세주소</DetailHeadline>
-      <DetailAddressBox>
+      <DetailAddressBox nfsDetailEsscential={nfsDetailEsscential}>
         <PopDom id="popupDom">
           {isPopupOpen && (
             <popupDom>
@@ -105,7 +107,7 @@ const RoadAddressWrap = styled.div`
   width: 328px;
   height: 48px;
   box-shadow: var(--Shadow1-box-shadow);
-  border: 1px solid var(--primary1-400);
+  border: ${({ nfsRoadEsscential }) => `${nfsRoadEsscential === false ? '1px solid var(--primary1-400);' : '1px solid #f0766e'}`};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -154,9 +156,9 @@ const DetailHeadline = styled.div`
 
 const DetailAddressBox = styled.div`
   width: 328px;
-  height: 44px;
+  height: 45.5px;
   background-color: white;
-  border: 1px solid var(--gray6);
+  border: ${({ nfsDetailEsscential }) => `${nfsDetailEsscential === false ? '1px solid var(--gray6);' : '1px solid #f0766e'}`};
   border-radius: 8px;
   margin-left: 16px;
 `;
