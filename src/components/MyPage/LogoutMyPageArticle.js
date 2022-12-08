@@ -5,6 +5,9 @@ import arrow from '../../global/sources/Expand_right_light.svg';
 
 export default function LogoutMyPageArticle() {
   const navigate = useNavigate();
+  const onLinkto = () => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
+  };
   return (
     <Container>
       <div className="head-article-container">
@@ -28,7 +31,7 @@ export default function LogoutMyPageArticle() {
           <img src={arrow} alt="arrow" />
         </div>
 
-        <div className="info-3">
+        <div className="info-3" onClick={() => onLinkto()}>
           설문 참여
           <img src={arrow} alt="arrow" />
         </div>
@@ -109,4 +112,3 @@ const Container = styled.div`
     }
   }
 `;
-
