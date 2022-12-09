@@ -209,7 +209,6 @@ function SignUpRealtor() {
     reader.onloadend = () => {
       const resultImage = reader.result;
       setPreviewImage(resultImage);
-      console.log(resultImage);
     };
   };
 
@@ -244,16 +243,13 @@ function SignUpRealtor() {
     };
     try {
       const compressedFile = await imageCompression(image.files[0], options);
-      console.log('압축결과', compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result;
         onHandlingDataForm(base64data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     const onHandlingDataForm = async (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);
       const ab = new ArrayBuffer(byteString.length);
@@ -452,7 +448,7 @@ const WelcomeQuestionContainer = styled.div`
 `;
 
 const WelcomeQuestionbox = styled.div`
-  width: 183px;
+  width: 200px;
   height: 84px;
   background-color: var(--white);
   position: absolute;
@@ -730,11 +726,11 @@ const BlankContainer2 = styled.div`
 `;
 const ButtonContainer = styled.div`
   width: 360px;
-  min-height: 92px;
+  min-height: 122px;
   background-color: var(--white);
   display: flex;
+  align-items: center;
   justify-content: center;
-  /* background-color: green; */
 `;
 
 const ButtonStyle = styled.button`
@@ -760,4 +756,3 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
-

@@ -39,8 +39,6 @@ export default function Request1Article() {
     const { name, value } = e.target;
     setRq1Info({ ...rq1Info, [name]: requAddress + ' ' + value });
     setRq1DetailAddress(value);
-    console.log('rq1dt', rqDetailAddress);
-    console.log(rq1Info);
   };
 
   const onNextBtn = () => {
@@ -49,7 +47,6 @@ export default function Request1Article() {
         if (status === kakao.maps.services.Status.OK) {
           let coords = new kakao.maps.LatLng(result[0].x, result[0].y);
           setRq1Info({ ...rq1Info, coordX: coords.La, coordY: coords.Ma });
-          console.log(rq1Info);
         }
       });
       navigate('/request2');

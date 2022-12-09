@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import NoneState from './sources/none_circle.png';
 import OnState from './sources/on_circle.png';
 import NoneImg from './sources/none_img.png';
+import { ReactComponent as OnState2 } from '../../global/sources/Radio_check.svg';
+import { ReactComponent as NoneImg2 } from '../../global/sources/Radio_uncheck.svg';
 import OnImg from './sources/on_img.png';
 import imageCompression from 'browser-image-compression';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -13,9 +15,6 @@ export default function NewFootStepSun() {
   const [nfscImgState, setNfscImgState] = useRecoilState(nfsImgState);
   const [nfscImgData, setNfscImgData] = useRecoilState(nfsImgData);
   const SunState = useRecoilValue(nfsrPath);
-
-  console.log(nfscImgData);
-  console.log(nfscData);
   const onCheckStateChange = (name) => {
     if (name === 'sun' && nfscData.sun === false) {
       setNfscData({ ...nfscData, sun: true });
@@ -104,16 +103,13 @@ export default function NewFootStepSun() {
     };
     try {
       const compressedFile = await imageCompression(file, options);
-      console.log(compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result;
         onHandlingDataForm(base64data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     const onHandlingDataForm = async (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);
       const ab = new ArrayBuffer(byteString.length);
@@ -127,14 +123,12 @@ export default function NewFootStepSun() {
 
       const file = new File([blob], 'image.jpg');
       setNfscImgData([...nfscImgData, file]);
-      console.log(nfscImgData);
     };
   };
 
   const onChangeData = (e) => {
     const { name, value } = e.target;
     setNfscData({ ...nfscData, [name]: value });
-    console.log(nfscData);
   };
 
   return (
@@ -151,12 +145,23 @@ export default function NewFootStepSun() {
                   }}
                 />
               ) : (
+                // <NoneImg2 fill="red"
+                //   onClick={() => {
+                //     onCheckStateChange('sun');
+                //   }}
+                // />
                 <CheckImg
                   src={OnState}
                   onClick={() => {
                     onCheckStateChange('sun');
                   }}
                 />
+                // <OnState2
+                //   fill="red"
+                //   onClick={() => {
+                //     onCheckStateChange('sun');
+                //   }}
+                // />
               )}
               <CheckTextBox>
                 <CheckTextHeadline>채광 잘 듦</CheckTextHeadline>

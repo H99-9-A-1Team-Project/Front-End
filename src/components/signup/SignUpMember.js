@@ -322,7 +322,7 @@ const WelcomeQuestionContainer = styled.div`
 `;
 
 const WelcomeQuestionbox = styled.div`
-  width: 183px;
+  width: 200px;
   height: 84px;
   background-color: var(--white);
   position: absolute;
@@ -483,9 +483,10 @@ const BlankContainer = styled.div`
 
 const ButtonContainer = styled.div`
   width: 360px;
-  min-height: 92px;
+  min-height: 122px;
   background-color: var(--white);
   display: flex;
+  align-items: center;
   justify-content: center;
   margin: 10px;
 `;

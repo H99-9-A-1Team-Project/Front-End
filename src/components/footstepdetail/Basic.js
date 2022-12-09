@@ -8,12 +8,8 @@ import { useParams } from 'react-router-dom';
 export default function Basic() {
   const { id } = useParams();
   const { data: premisesData } = useQuery(['fstdata'], () => ReadFootStep(id), {
-    onSuccess: (response) => {
-      console.log(response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   const TabStates = useRecoilValue(TabState);
   return (
@@ -22,7 +18,7 @@ export default function Basic() {
         <>
           <Box1>
             <Title>매물 가격</Title>
-            <Body>{premisesData && premisesData.price}</Body>
+            {premisesData && premisesData.price === '' ? <Body>-</Body> : <Body>{premisesData && premisesData.price}</Body>}
           </Box1>
           <Box1>
             <Title>관리비</Title>

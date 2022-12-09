@@ -11,11 +11,6 @@ import Marker_request from '../../global/sources/Pin_Request.svg';
 import defaultImg from './sources/detaildefault.png';
 
 export default function FullBottomSheet({ sortName, searchData, requestData, footStepData, Fbvisible, FbmaskCloseable, FbonClose, Fbcloseable }) {
-  console.log('SearchData', searchData);
-  console.log('Footstep', footStepData);
-  console.log('request', requestData);
-  console.log('sortName', sortName);
-
   const navigate = useNavigate();
 
   const onMaskClicks = (e) => {
@@ -25,11 +20,11 @@ export default function FullBottomSheet({ sortName, searchData, requestData, foo
   };
 
   const onNavigate = (state, id) => {
-    if (state === '상담' || 1) {
+    if (state === '상담' || state === 2) {
       FbonClose();
       navigate(`/myconsultdetail/${id}`);
     }
-    if (state === '발품' || 2 || 3) {
+    if (state === '발품' || state === 1 || state === 3) {
       FbonClose();
       navigate(`${id}`);
     }

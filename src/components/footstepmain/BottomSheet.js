@@ -11,34 +11,23 @@ import Marker_request from '../../global/sources/Pin_Request.svg';
 import defaultImg from './sources/detaildefault.png';
 
 export default function BottomSheet({ modalOverLab, modalId, visible, maskCloseable, onClose, closeable }) {
-  console.log('state', modalOverLab);
-  console.log('id', modalId);
   const navigate = useNavigate();
   const onMaskClicks = (e) => {
     if (e.target === e.currentTarget) {
-      console.log('ee', e);
       onClose(e);
     }
   };
 
   const { data: footstepData } = useQuery(['fstdata'], () => ReadFootStep(modalId), {
     enabled: !!(modalOverLab === 1 || modalOverLab === 3),
-    onSuccess: (response) => {
-      console.log('zz', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
 
   const { data: requestData } = useQuery(['reqdata'], () => ReadConsultDetail(modalId), {
     enabled: !!(modalOverLab === 2),
-    onSuccess: (response) => {
-      console.log(response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
 
   const onDetailPage = () => {

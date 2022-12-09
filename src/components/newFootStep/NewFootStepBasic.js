@@ -11,7 +11,6 @@ export default function NewFootStepBasic() {
   const onChangeData = (e) => {
     const { name, value } = e.target;
     setNfscData({ ...nfscData, [name]: value });
-    console.log(nfscData);
   };
 
   return (

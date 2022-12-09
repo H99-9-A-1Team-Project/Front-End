@@ -43,14 +43,14 @@ export default function FootstepMainArticle() {
   const [levelValue, setLevelValue] = useState(2);
   const [search, setSearch] = useState('');
 
-  const { data: searchData, mutate: searchMutate } = useMutation(SearchFstMain, {
-    onSuccess: (response) => {
-      console.log(response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+  const { data: searchData, mutate: searchMutate } = useMutation([], SearchFstMain, {
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
+
+  useEffect(() => {
+    searchMutate('');
+  }, []);
 
   const onSortList = () => {
     setSortState(false);
@@ -90,7 +90,6 @@ export default function FootstepMainArticle() {
   if (searchData !== undefined && searchData.length !== 0) {
     if (sortName === '전체') {
       positions = searchData.map((data) => {
-        console.log(data.overLab);
         return { overLab: data.overLab, id: data.id, LatLng: new kakao.maps.LatLng(data.coordX, data.coordY) };
       });
     } else if (sortName === '발품') {
@@ -109,23 +108,15 @@ export default function FootstepMainArticle() {
       }
     }
   }
-  console.log('po', positions);
-  console.log('fsd', footstepData);
-  console.log('rqd', requestData);
 
   const onLevelClick = (value) => {
-    if (value === '+' && levelValue < 14) {
-      setLevelValue(levelValue + 1);
-    }
-    if (value === '-' && levelValue > 1) {
+    if (value === '+' && levelValue > 1) {
       setLevelValue(levelValue - 1);
     }
+    if (value === '-' && levelValue < 14) {
+      setLevelValue(levelValue + 1);
+    }
   };
-  console.log(levelValue);
-
-  useEffect(() => {
-    searchMutate('');
-  }, []);
 
   useEffect(() => {
     if (ToastState) {
@@ -143,9 +134,7 @@ export default function FootstepMainArticle() {
       let options = {};
       if (sortName === '전체' && searchData?.length !== 0) {
         setVisible(true);
-        console.log('!!!');
-        console.log('@@@', searchData[0].coordX);
-        console.log('###', searchData[0].coordY);
+
         options = {
           center: new window.kakao.maps.LatLng(searchData[0]?.coordX, searchData[0]?.coordY),
           level: levelValue,
@@ -163,7 +152,6 @@ export default function FootstepMainArticle() {
           level: levelValue,
         };
       } else {
-        console.log('$$$');
         setVisible(false);
         options = {
           center: new window.kakao.maps.LatLng(37.497928, 127.027583),
@@ -173,7 +161,7 @@ export default function FootstepMainArticle() {
 
       map = new window.kakao.maps.Map(container, options);
       for (let i = 0; i < positions.length; i++) {
-        let imageSize = new kakao.maps.Size(44, 54);
+        let imageSize = new kakao.maps.Size(60, 70);
         let MarkerImg;
         if (positions[i].overLab === 1) {
           MarkerImg = new kakao.maps.MarkerImage(ImgMarkerFootstep, imageSize);
@@ -300,7 +288,6 @@ export default function FootstepMainArticle() {
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
-    console.log(search);
   };
 
   const onSearchBtn = () => {

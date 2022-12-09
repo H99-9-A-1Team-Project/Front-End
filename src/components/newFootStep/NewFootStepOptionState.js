@@ -12,7 +12,6 @@ export default function NewFootStepOptionState() {
   const onOptionStateChange = () => {
     if (optionPathState.option === false) setOptionPathState({ ...optionPathState, option: true });
     if (optionPathState.option === true) setOptionPathState({ ...optionPathState, option: false });
-    console.log(optionPathState);
   };
   return (
     <Container

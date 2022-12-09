@@ -8,12 +8,8 @@ export default function Address() {
   const { id } = useParams();
 
   const { data: premisesData } = useQuery(['fstdata'], () => ReadFootStep(id), {
-    onSuccess: (response) => {
-      console.log('zzz', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   return (
     <Container>
