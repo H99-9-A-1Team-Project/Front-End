@@ -67,7 +67,7 @@ export default function FootstepMainArticle() {
       setWidth2(width2);
       setViewprot(viewPort);
       setPreviewNum(1.1);
-      setBeteen(0);
+      setBeteen(10);
     }
   }, []);
 
@@ -321,7 +321,7 @@ export default function FootstepMainArticle() {
 
         <MapContainer id="myMap" />
         <AddressSearchBox>
-          <AddressSearchInput placeholder="주소로 기록을 검색해보세요" onChange={onChangeSearch} />
+          <AddressSearchInput FbmodalOpen={FbmodalOpen} placeholder="주소로 기록을 검색해보세요" onChange={onChangeSearch} />
           <SearchImg
             src={searchImg}
             onClick={() => {
@@ -562,7 +562,7 @@ const CarouselBox = styled.div`
   -webkit-user-drag: none;
   cursor: pointer;
   @media (max-width: 500px) {
-    width: ${(props) => props.viewport * 0.9 + 'px'};
+    width: ${(props) => props.viewport * 0.85 + 'px'};
   }
 `;
 
@@ -666,6 +666,7 @@ const AddressSearchInput = styled.input`
   margin-top: 16px;
   border: none;
   outline: none;
+  pointer-events: ${(props) => (props.FbmodalOpen ? 'none' : 'auto')};
 `;
 
 const SearchImg = styled.img`
