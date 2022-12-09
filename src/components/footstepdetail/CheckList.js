@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { TabState } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
-import { ReadPremisesList, ReadFootStep } from '../../api/apiGET';
+import { ReadFootStep, ReadPremisesList } from '../../api/apiGET';
 import path_down from './sources/path_down.png';
 import path_up from './sources/path_up.png';
 import Check_On from './sources/Check_On.png';
@@ -17,7 +17,7 @@ export default function CheckList() {
     security: false,
     conven: false,
   });
-  const { data: premisesData } = useQuery(['fstdata'], () => ReadFootStep(id), {
+  const { data: premisesData } = useQuery(['premisesData'], () => ReadFootStep(id), {
     onSuccess: (response) => {},
     onError: (response) => {},
   });
@@ -312,19 +312,9 @@ const MemoBody = styled.div`
   margin-top: 8px;
   margin-left: 16px;
   margin-bottom: 56px;
-  font-family: var(--body-font-family);
-  font-size: var(--body_Medium-font-size);
-  font-weight: var(--body_Medium-font-weight);
-  line-height: var(--body_Medium-line-height);
-  letter-spacing: var(--body_Medium-letter-spacing);
 `;
 const MemoBody2 = styled.div`
   margin-top: 8px;
   margin-left: 16px;
   margin-bottom: 24px;
-  font-family: var(--body-font-family);
-  font-size: var(--body_Medium-font-size);
-  font-weight: var(--body_Medium-font-weight);
-  line-height: var(--body_Medium-line-height);
-  letter-spacing: var(--body_Medium-letter-spacing);
 `;

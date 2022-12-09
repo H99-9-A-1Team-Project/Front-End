@@ -22,15 +22,15 @@ export default function Basic() {
           </Box1>
           <Box1>
             <Title>관리비</Title>
-            <Body>{premisesData && premisesData.expenses}</Body>
+            {premisesData && premisesData.expenses === '' ? <Body>-</Body> : <Body>{premisesData && premisesData.expenses}</Body>}
           </Box1>
           <Box1>
             <Title>방 크기</Title>
-            <Body>{premisesData && premisesData.size}</Body>
+            {premisesData && premisesData.size === '' ? <Body>-</Body> : <Body>{premisesData && premisesData.size}</Body>}
           </Box1>
           <Box1>
             <Title>한 줄 평</Title>
-            <Body>{premisesData && premisesData.review}</Body>
+            {premisesData && premisesData.review === '' ? <Body>-</Body> : <Body>{premisesData && premisesData.review}</Body>}
           </Box1>
           <Box1>
             <Title>상담 유무</Title>
