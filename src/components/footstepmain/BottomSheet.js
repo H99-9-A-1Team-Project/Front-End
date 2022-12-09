@@ -76,9 +76,6 @@ export default function BottomSheet({ modalOverLab, modalId, visible, maskClosea
 
 const ModalBackground = styled.div`
   position: absolute;
-  top: 50%;
-  left: 49.15%;
-  transform: translate(-50%, -50%);
   width: 360px;
   height: 100%;
   background-color: black;
