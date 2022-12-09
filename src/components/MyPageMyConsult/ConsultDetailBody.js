@@ -48,6 +48,9 @@ const ConsultDetailBodyLayout = styled.div`
   background-color: var(--primary2-100);
   display: flex;
   flex-direction: column;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 
   .answer_body_wrap {
     width: 328px;
@@ -55,6 +58,9 @@ const ConsultDetailBodyLayout = styled.div`
     background-color: white;
     margin: 24px 16px 4px 16px;
     border-radius: 8px;
+    @media (max-width: 500px) {
+      width: 93%;
+    }
     .title {
       font-family: var(--button-font-family);
       font-size: var(--headline_Small-font-size);

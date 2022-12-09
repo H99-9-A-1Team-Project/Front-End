@@ -64,8 +64,6 @@ const Container = styled.div`
   background: none;
   right: -336px;
   bottom: -500px;
-  @media (max-width: 500px) {
-  }
 `;
 
 const CloseBtn = styled.button`

@@ -103,8 +103,11 @@ export default function ImageList() {
 
 const Container = styled.div`
   width: 360px;
-  margin-top: 20px;
   display: flex;
+  border-top: 1px solid var(--gray6);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BannerImg = styled.img`
@@ -114,6 +117,8 @@ const BannerImg = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;

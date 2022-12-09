@@ -13,7 +13,7 @@ function App() {
     }
   }, [AppLogin]);
 
-  if (document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')) {
+  if (!!document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')) {
     console.log('쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감쿠키들어감');
     sessionStorage.setItem('access_token', document.cookie.match('(^|;) ?' + 'access_token' + '=([^;]*)(;|$)')[2]);
     sessionStorage.setItem('refresh_token', document.cookie.match('(^|;) ?' + 'refresh_token' + '=([^;]*)(;|$)')[2]);

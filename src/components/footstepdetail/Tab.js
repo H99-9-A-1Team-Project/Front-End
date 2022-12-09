@@ -35,13 +35,22 @@ export default function Tab() {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   margin-top: 24px;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const TabBox = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 500px) {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-top: 1px solid var(--gray6);
+    border-bottom: 1px solid var(--gray6);
+  }
 `;
 
 const Tabs = styled.div`
@@ -52,7 +61,7 @@ const Tabs = styled.div`
   justify-content: center;
   color: ${({ tabStates }) => `${tabStates === 0 ? 'var(--primary2-400)' : 'black'}`};
   border-top: 1px solid var(--gray6);
-  border-bottom: ${({ tabStates }) => `${tabStates === 0 ? '2px solid var(--primary2-400);' : '1px solid var(--gray6)'}`};
+  border-bottom: ${({ tabStates }) => `${tabStates === 0 ? '2px solid var(--primary2-400);' : null}`};
   font-family: var(--button-font-family);
   font-size: var(--button_Large-font-size);
   font-weight: var(--button_Large-font-weight);
@@ -69,7 +78,7 @@ const Tabs2 = styled.div`
   justify-content: center;
   color: ${({ tabStates }) => `${tabStates === 1 ? 'var(--primary2-400)' : 'black'}`};
   border-top: 1px solid var(--gray6);
-  border-bottom: ${({ tabStates }) => `${tabStates === 1 ? '2px solid var(--primary2-400);' : '1px solid var(--gray6)'}`};
+  border-bottom: ${({ tabStates }) => `${tabStates === 1 ? '2px solid var(--primary2-400);' : null}`};
   font-family: var(--button-font-family);
   font-size: var(--button_Large-font-size);
   font-weight: var(--button_Large-font-weight);

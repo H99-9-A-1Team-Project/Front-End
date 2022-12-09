@@ -28,8 +28,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 360px;
-  height: 100%;
-  margin-top: auto;
+  margin-bottom: 32px;
+  @media (max-width: 500px) {
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 const SignUpBtn = styled.div`
@@ -49,6 +52,9 @@ const SignUpBtn = styled.div`
   line-height: var(--button_Large-line-height);
   letter-spacing: var(--button_Large-letter-spacing);
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin-left: 0;
+  }
 `;
 
 const LoginBtn = styled.div`
@@ -68,4 +74,7 @@ const LoginBtn = styled.div`
   text-decoration-line: underline;
   color: var(--gray4);
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin-left: 0;
+  }
 `;

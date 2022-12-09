@@ -229,6 +229,9 @@ const ConsultDetailCommentLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .comment_body_wrap_wait {
     margin: 52px auto 68px auto;
     img {
@@ -255,6 +258,9 @@ const ConsultDetailCommentLayout = styled.div`
     flex-direction: column;
     align-items: flex-start;
 
+    @media (max-width: 500px) {
+      width: 95%;
+    }
     .header {
       font-family: var(--button-font-family);
       font-size: var(--headline_Small-font-size);
@@ -338,6 +344,8 @@ const ConsultDetailCommentLayout = styled.div`
       }
       .editor_viwer_wrap {
         width: 100%;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
     .like,
@@ -372,6 +380,9 @@ const ConsultDetailCommentLayout = styled.div`
     flex-direction: column;
     .toastui-editor-popup {
       width: 320px;
+      @media (max-width: 500px) {
+        width: 95%;
+      }
     }
 
     .buttons {
@@ -413,6 +424,9 @@ const ConsultDetailCommentLayout2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .edit__comment_button {
     display: flex;
     flex-direction: column;
@@ -445,6 +459,9 @@ const ConsultDetailCommentLayout3 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .comment_body_wrap_wait {
     margin: 52px auto 68px auto;
     img {
@@ -470,7 +487,9 @@ const ConsultDetailCommentLayout3 = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
+    @media (max-width: 500px) {
+      width: 95%;
+    }
     .header {
       font-family: var(--button-font-family);
       font-size: var(--headline_Small-font-size);
@@ -576,6 +595,10 @@ const ConsultDetailCommentLayout3 = styled.div`
       letter-spacing: var(--button_Medium-letter-spacing);
       color: var(--primary2-400);
       cursor: pointer;
+      @media (max-width: 500px) {
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
     .like {
       background-color: var(--primary2-400);
@@ -588,6 +611,9 @@ const ConsultDetailCommentLayout3 = styled.div`
     width: 328px;
     min-height: 194px;
     max-height: fit-content;
+    @media (max-width: 500px) {
+      width: 95%;
+    }
     .profile_header {
       display: flex;
       flex-direction: row;

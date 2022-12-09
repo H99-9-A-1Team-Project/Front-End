@@ -22,7 +22,10 @@ const HeaderContainer = styled.div`
   width: 360px;
   height: 64px;
   border-bottom: 1px solid var(--gray6);
-  margin-top: auto;
+  margin-bottom: 0;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BackBtn = styled.img`

@@ -36,6 +36,9 @@ const StMainPageSideBarLayout = styled.div`
   pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
   display: flex;
   transition: opacity 0.2s;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .sidebar_img {
     margin-top: 8px;
     border: none;
@@ -51,6 +54,9 @@ const StMainPageSideBarLayout = styled.div`
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
+    @media (max-width: 500px) {
+      width: 40%;
+    }
   }
   .right_layout {
     width: 200px;
@@ -61,6 +67,9 @@ const StMainPageSideBarLayout = styled.div`
     font-weight: var(--button_Medium-font-weight);
     line-height: var(--button_Medium-line-height);
     letter-spacing: var(--button_Medium-letter-spacing);
+    @media (max-width: 500px) {
+      width: 60%;
+    }
     div {
       box-sizing: border-box;
       padding: 20px 8px;

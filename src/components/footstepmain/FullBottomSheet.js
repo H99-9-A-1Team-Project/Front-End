@@ -136,6 +136,12 @@ const ModalBackground = styled.div`
   background-color: black;
   opacity: 0.5;
   z-index: 1;
+  @media (max-width: 500px) {
+    width: 100%;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -150,6 +156,10 @@ const ModalWrapper = styled.div`
   /* overflow:auto; */
   outline: 0;
   background-color: rgba(0, 0, 0, 0);
+  @media (max-width: 500px) {
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+  }
 `;
 const ModalInner = styled.div`
   z-index: 2;

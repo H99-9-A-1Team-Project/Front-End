@@ -37,11 +37,20 @@ export default function Article() {
 
 const Container = styled.div`
   width: 360px;
-  height: 100%;
-  margin-top: auto;
+  margin-top: 0;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
-const ImgSlide = styled.div``;
+const ImgSlide = styled.div`
+  margin-top: auto;
+  @media (max-width: 500px) {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
 
 const Headline = styled.div`
   margin-top: 24px;
@@ -58,4 +67,7 @@ const SlideImg = styled.img`
   margin-top: 48px;
   width: 360px;
   height: 480px;
+  @media (max-width: 500px) {
+    width: 90%;
+  }
 `;

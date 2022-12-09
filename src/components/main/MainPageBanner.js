@@ -45,6 +45,12 @@ const BannerBox = styled.div`
   background-color: white;
   width: 328px;
   height: 132px;
+  @media (max-width: 500px) {
+    margin-left: 0;
+    box-sizing: border-box;
+    padding: 0 16px 0 16px;
+    width: 100%;
+  }
   .images {
     width: 328px;
     margin: 0px;
@@ -69,6 +75,9 @@ const BannerImg1 = styled.img`
   height: 132px;
   background: none;
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BannerImg2 = styled.img`
@@ -76,4 +85,7 @@ const BannerImg2 = styled.img`
   height: 132px;
   background: none;
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;

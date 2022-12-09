@@ -222,6 +222,9 @@ const ArticleContainer = styled.div`
   background-color: var(--primary2-100);
   display: flex;
   flex-direction: column;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .modal_div {
     font-family: var(--headline-font-family);
     font-size: var(--headline_Medium-font-size);
@@ -242,6 +245,13 @@ const ArticleContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 16px auto 0 auto;
+    @media (max-width: 500px) {
+      width: 100%;
+      box-sizing: border-box;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
     .user_info {
       display: flex;
       flex-direction: row;
@@ -269,6 +279,10 @@ const ArticleContainer = styled.div`
       display: flex;
       flex-direction: column;
       margin: 16px auto 0 auto;
+      @media (max-width: 500px) {
+        width: 100%;
+        box-sizing: border-box;
+      }
       .article_body_notice_wrap {
         display: flex;
         flex-direction: row;
@@ -278,6 +292,11 @@ const ArticleContainer = styled.div`
         background-color: white;
         border-radius: 4px;
         margin-bottom: 16px;
+        @media (max-width: 500px) {
+          box-sizing: border-box;
+          width: 100%;
+        }
+
         cursor: pointer;
         .notice_title {
           width: 22px;
@@ -288,6 +307,10 @@ const ArticleContainer = styled.div`
           line-height: var(--button_Small-line-height);
           letter-spacing: var(--button_Small-letter-spacing);
           color: var(--primary2-400);
+          @media (max-width: 500px) {
+            width: 32px;
+            margin-right: 0px;
+          }
         }
         .notice_content {
           width: 272px;
@@ -300,6 +323,9 @@ const ArticleContainer = styled.div`
           font-weight: var(--body_Medium-font-weight);
           line-height: var(--body_Medium-line-height);
           letter-spacing: var(--body_Medium-letter-spacing);
+          @media (max-width: 500px) {
+            width: 100%;
+          }
         }
       }
       .article_body_banner_wrap {
@@ -307,6 +333,9 @@ const ArticleContainer = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        @media (max-width: 500px) {
+          width: 100%;
+        }
         .banner1,
         .banner2 {
           width: 148px;
@@ -321,6 +350,9 @@ const ArticleContainer = styled.div`
           font-weight: var(--button_Large-font-weight);
           line-height: var(--button_Large-line-height);
           letter-spacing: var(--button_Large-letter-spacing);
+          @media (max-width: 500px) {
+            width: 45%;
+          }
           cursor: pointer;
           .deco_1 {
             margin-top: -12px;
@@ -360,6 +392,9 @@ const ArticleContainer = styled.div`
           font-weight: var(--button_Large-font-weight);
           line-height: var(--button_Large-line-height);
           letter-spacing: var(--button_Large-letter-spacing);
+          @media (max-width: 500px) {
+            width: 100%;
+          }
           cursor: pointer;
           .deco_3 {
             margin-top: -17px;
@@ -384,6 +419,9 @@ const ArticleContainer = styled.div`
         letter-spacing: var(--button_Small-letter-spacing);
         margin-bottom: 12px;
         margin-top: 6px;
+        @media (max-width: 500px) {
+          width: 100%;
+        }
         .guide_content {
           height: 36px;
           display: flex;
@@ -486,5 +524,8 @@ const ElementContainer = styled.div`
 const ECPWrap = styled.div`
   display: flex;
   flex-direction: column;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 const ECImgWrap = styled.div``;
