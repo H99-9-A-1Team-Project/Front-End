@@ -75,6 +75,10 @@ const LoginBtn = styled.div`
   color: var(--gray4);
   cursor: pointer;
   @media (max-width: 500px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 0;
+    width: 160px;
   }
 `;
