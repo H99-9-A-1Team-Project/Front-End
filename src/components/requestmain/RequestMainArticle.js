@@ -200,6 +200,8 @@ const InfoHead3 = styled.p`
   color: black;
   background: none;
   margin-left: -2px;
+  width: fit-content;
+  flex-wrap: nowrap;
   font-family: var(--headline-font-family);
   font-size: var(--headline_Small-font-size);
   font-weight: var(--headline_Small-font-weight);
