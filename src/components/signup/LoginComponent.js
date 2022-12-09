@@ -24,9 +24,6 @@ function LoginComponent() {
   //비밀번호 양식 다시 짚어줄 useState
   const [checkvalid, setCheckValid] = useState('');
 
-  //비밀번호 유효성 검사를 위한 usestate
-  const [onvalid, setOnValid] = useState('');
-
   //로그인 유지를 위한 recoilstate
   const [AppLogin, setAppLogin] = useRecoilState(isLogin);
 
@@ -113,27 +110,40 @@ function LoginComponent() {
   };
 
   const onChangePassword = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     setPsValid(true);
-    setOnValid(false);
-    if (e.target.value === '') {
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
+    if (expword.test(e.target.value) === true) {
+      setCheckPassword('알맞은 형식입니다 :)');
+      setCheckValid('');
+      setIsPassword(true);
+      setPsValid(true);
+    } else if (e.target.value === '') {
       setCheckPassword('비밀번호를 입력하세요');
       setIsPassword(false);
       setPsValid(false);
       setCheckValid('');
-    } else {
+    } else if (e.target.value !== '') {
       setCheckPassword('');
+      setIsPassword(true);
       setPsValid(true);
+      setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
     }
+  };
+  const onEmailLoginData = () => {
+    emailLogin(loginData);
   };
 
   const onValidLoginData = () => {
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
     if (expword.test(loginData.password) === false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
+      setTimeout(setCheckPassword, 1000);
       setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
+      if (loginData.password === '') {
+        setCheckPassword('비밀번호를 입력하세요');
+      }
       setIsPassword(false);
       setPsValid(false);
     } else {
@@ -141,7 +151,7 @@ function LoginComponent() {
       setCheckValid('');
       setIsPassword(true);
       setPsValid(true);
-      setOnValid(true);
+      onEmailLoginData();
     }
   };
 
@@ -156,12 +166,12 @@ function LoginComponent() {
       navigate('/');
       setToastText(`환영해요 ${UserName}님`);
       setVisible(true);
-      if (checkAuto === true) {
-        document.cookie = `access_token=${response.headers.access_token}`;
-        document.cookie = `refresh_token=${response.headers.refresh_token}`;
-        document.cookie = `accountstate=${response.data.accountState}`;
-        document.cookie = `nickname=${response.data.nickname}`;
-      }
+      // if (checkAuto === true) {
+      //   document.cookie = `access_token=${response.headers.access_token}`;
+      //   document.cookie = `refresh_token=${response.headers.refresh_token}`;
+      //   document.cookie = `accountstate=${response.data.accountState}`;
+      //   document.cookie = `nickname=${response.data.nickname}`;
+      // }
     },
     onError: (err) => {
       setReject(err.response.data.errorMessage);
@@ -174,12 +184,12 @@ function LoginComponent() {
 
   const onActiveEnter = (e) => {
     if (e.key === 'Enter') {
-      onSubmitLoginData();
+      onValidLoginData();
     }
   };
   const onSubmitLoginData = (e) => {
     e.preventDefault();
-    emailLogin(loginData);
+    onValidLoginData();
   };
 
   return (
@@ -238,9 +248,9 @@ function LoginComponent() {
               <InputErrorMessageBoxPassword>
                 <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
               </InputErrorMessageBoxPassword>
-              {/* <InputErrorMessageBoxPassword>
+              <InputErrorMessageBoxPassword>
                 <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
-              </InputErrorMessageBoxPassword> */}
+              </InputErrorMessageBoxPassword>
             </ErrorMsgPreview>
             <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
           </PasswordContainer>
@@ -428,6 +438,17 @@ const InputErrorMessageBox = styled.div`
   margin-bottom: 2px;
   display: flex;
   align-items: center;
+  background-color: transparent;
+`;
+
+const InputErrorMessageValid = styled.div`
+  width: 265px;
+  height: 16px;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   background-color: transparent;
 `;
 
