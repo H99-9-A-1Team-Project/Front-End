@@ -36,7 +36,9 @@ export default function NewFootStepAddress() {
   const { mutate: nfsMutate } = useMutation(SendNfsc, {
     onSuccess: (response) => {
       console.log('zsdd', response);
+      queryClient.invalidateQueries(['qqq']);
       handleToast();
+      navigate('/footstepmain');
     },
     onError: (response) => {
       console.log(response);
@@ -50,7 +52,8 @@ export default function NewFootStepAddress() {
       nfscImgData.map((prop) => formData.append('file', prop));
       formData.append('post', blob);
       nfsMutate(formData);
-      onDefault();
+
+      // onDefault();
     } else {
       if (nfshRoadAddress === '도로명 주소 검색') setRoadEssential(true);
       if (nfshDetailAddress === '') setDetailEssential(true);
@@ -58,11 +61,9 @@ export default function NewFootStepAddress() {
     }
   };
 
-  const onDefault = () => {
-    queryClient.invalidateQueries(['premisesData']);
-    queryClient.invalidateQueries(['fstsearchData']);
-    navigate('/footstepmain');
-  };
+  // const onDefault = () => {
+
+  // };
 
   return (
     <Container>
@@ -70,7 +71,7 @@ export default function NewFootStepAddress() {
         <ImgPathLeft
           src={Path_left}
           onClick={() => {
-            onDefault();
+            navigate('/footstepmain');
           }}
         />
 
@@ -85,8 +86,8 @@ export default function NewFootStepAddress() {
 
 const Container = styled.div`
   height: 64px;
-  display: flex;
-  flex-direction: column;
+  position: fixed;
+  background-color: white;
   border-bottom: 1px solid var(--gray6);
 `;
 
@@ -124,7 +125,7 @@ const HeaderHeadline = styled.p`
 
 const CreateBtn = styled.button`
   margin-top: 22px;
-  margin-right: 16px;
+  margin-left: 207px;
   width: 40px;
   background-color: white;
   font-family: var(--button-font-family);

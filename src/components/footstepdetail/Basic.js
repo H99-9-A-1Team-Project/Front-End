@@ -22,7 +22,7 @@ export default function Basic() {
         <>
           <Box1>
             <Title>매물 가격</Title>
-            <Body>{premisesData && premisesData.price}</Body>
+            {premisesData && premisesData.price === '' ? <Body>-</Body> : <Body>{premisesData && premisesData.price}</Body>}
           </Box1>
           <Box1>
             <Title>관리비</Title>

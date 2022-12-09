@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import NoneState from './sources/none_circle.png';
 import OnState from './sources/on_circle.png';
 import NoneImg from './sources/none_img.png';
+import { ReactComponent as OnState2 } from '../../global/sources/Radio_check.svg';
+import { ReactComponent as NoneImg2 } from '../../global/sources/Radio_uncheck.svg';
 import OnImg from './sources/on_img.png';
 import imageCompression from 'browser-image-compression';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -151,12 +153,23 @@ export default function NewFootStepSun() {
                   }}
                 />
               ) : (
+                // <NoneImg2 fill="red"
+                //   onClick={() => {
+                //     onCheckStateChange('sun');
+                //   }}
+                // />
                 <CheckImg
                   src={OnState}
                   onClick={() => {
                     onCheckStateChange('sun');
                   }}
                 />
+                // <OnState2
+                //   fill="red"
+                //   onClick={() => {
+                //     onCheckStateChange('sun');
+                //   }}
+                // />
               )}
               <CheckTextBox>
                 <CheckTextHeadline>채광 잘 듦</CheckTextHeadline>

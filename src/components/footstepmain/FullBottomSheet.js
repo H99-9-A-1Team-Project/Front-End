@@ -25,11 +25,13 @@ export default function FullBottomSheet({ sortName, searchData, requestData, foo
   };
 
   const onNavigate = (state, id) => {
-    if (state === '상담' || 1) {
+    console.log(state);
+    console.log(id);
+    if (state === '상담' || state === 2) {
       FbonClose();
       navigate(`/myconsultdetail/${id}`);
     }
-    if (state === '발품' || 2 || 3) {
+    if (state === '발품' || state === 1 || state === 3) {
       FbonClose();
       navigate(`${id}`);
     }

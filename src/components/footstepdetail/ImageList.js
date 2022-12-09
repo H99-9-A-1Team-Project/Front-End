@@ -15,7 +15,7 @@ export default function ImageList() {
   const [swiperRef, setSwiperRef] = useState(null);
   const { data: FstImgData0 } = useQuery(['fstImgData0'], () => ReadImgFootStep0(id), {
     onSuccess: (response) => {
-      console.log('0', response);
+      return response.shift();
     },
     onError: (response) => {
       console.log(response);
