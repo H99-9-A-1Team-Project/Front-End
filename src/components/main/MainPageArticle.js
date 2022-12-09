@@ -8,20 +8,15 @@ import lighthouse from './sources/main_article_lighthouse.png';
 import QueMark from '../../global/sources/Question.svg';
 import path_Light_Right from '../../global/sources/Expand_right_light.svg';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ReadAnsweredList, ReadPremisesList, ReadProfile, ReadRequestList, ReadWaitList } from '../../api/apiGET';
-import { NextMem, NextTor, GoLogIn, isLogin, consultNumber } from '../../store/store';
+import { isLogin, consultNumber } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
 import Modal from '../../global/components/Modal';
 
 function MainPageArticle() {
   const navigate = useNavigate();
-  //일반회원 다음으로 넘어가기 위한 recoilState
-  const [nextmem, setNextMem] = useRecoilState(NextMem);
-  //공인중개사 회원 다음으로 넘어가기 위한 recoilState
-  const [nexttor, setNextTor] = useRecoilState(NextTor);
-  //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
-  const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
+
   const setRecoilConsultNum = useSetRecoilState(consultNumber);
 
   const [info, setInfo] = useState(false);
@@ -31,9 +26,6 @@ function MainPageArticle() {
 
   const onStartLogin = () => {
     navigate('/signup');
-    setNextMem(0);
-    setNextTor(0);
-    setGoingLogin(0);
   };
   const onClickRequestConsult = () => {
     if (consultNum <= 0) {
@@ -529,3 +521,4 @@ const ECPWrap = styled.div`
   }
 `;
 const ECImgWrap = styled.div``;
+

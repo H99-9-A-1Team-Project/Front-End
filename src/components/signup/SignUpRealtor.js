@@ -40,8 +40,8 @@ function SignUpRealtor() {
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
-  //비밀번호 잘못 입력 에러 출력 state
-  const [errorpassword, setErrorPassWord] = useState('');
+  // //비밀번호 잘못 입력 에러 출력 state
+  // const [errorpassword, setErrorPassWord] = useState('');
 
   //이미지 미리보기용 state
   const [previewimage, setPreviewImage] = useState('');
@@ -49,17 +49,14 @@ function SignUpRealtor() {
   // 모달 오픈용 recoilstate
   const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
 
-  //회원가입창의 시작과 전환을 위한 recoilstate
-  const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
-
   // toast 띄우는 state
   const setVisible = useSetRecoilState(toastVisible);
 
   // toast 에 들어갈 문구 recoilstate
   const [toasttext, setToastText] = useRecoilState(TextToast);
 
-  //회원가입 오류 출력 state
-  const [reject, setReject] = useState('');
+  // //회원가입 오류 출력 state
+  // const [reject, setReject] = useState('');
 
   //데이터 전송을 위한 state
   const [loginData, setLoginData] = useRecoilState(LoginDatas);
@@ -90,6 +87,9 @@ function SignUpRealtor() {
   //페이지 넘기기
   const onPrevRealtorPage = () => {
     setNextTor(nexttor - 1);
+    setOkEmail('');
+    setCheckPassword('');
+    setCheckemail('');
     setValid(false);
     setPsValid(false);
 
@@ -149,12 +149,13 @@ function SignUpRealtor() {
   //이메일 중복확인
   const { mutate: memberEmail } = useMutation(RequestEmail, {
     onSuccess: (response) => {
-      setOkEmail('가입이 가능한 이메일입니다');
+      console.log(response);
+      setOkEmail('가입이 가능한 이메일 입니다');
       onNextRealtorPage();
       setDoubleEmail('');
     },
     onError: (err) => {
-      setCheckemail('이미 가입된 이메일입니다');
+      setCheckemail(err.response.data.errorMessage);
       setIsEmail(false);
       setDoubleEmail('이미 가입된 이메일입니다');
     },
@@ -428,9 +429,7 @@ const BackpageIconBox = styled.img`
   width: 24px;
   height: 24px;
   background-color: var(--white);
-
   margin-left: 16px;
-
   cursor: pointer;
 `;
 const SignUpTitle = styled.div`
@@ -484,7 +483,6 @@ const WelcomeQuestionbox2 = styled.div`
   width: 198px;
   height: 56px;
   background-color: var(--white);
-  /* background-color: blue; */
   position: absolute;
   left: 16px;
   top: 24px;
@@ -498,7 +496,6 @@ const WelcomeQuestionbox2 = styled.div`
 const WelcomeInfobox = styled.div`
   width: 206px;
   height: 40px;
-  /* background-color: red; */
   left: 16px;
   top: 96px;
   position: absolute;
@@ -581,8 +578,6 @@ const ImagePreview = styled.img`
   background-color: var(--white);
   border: 1px solid var(--primary2-400);
   border-radius: 8px;
-  //   justify-content: center;
-  //   align-items: center;
 `;
 
 const InputContainer = styled.div`
@@ -763,3 +758,4 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
+
