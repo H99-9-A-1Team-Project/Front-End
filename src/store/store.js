@@ -133,10 +133,14 @@ export const searchWait = atom({ key: 'searchwait', default: [] });
 export const searchAnswered = atom({ key: 'searchanswered', default: [] });
 
 export const FstCloseModal = atom({ key: 'fstclosemodal', default: false });
+export const FullFstCloseModal = atom({ key: 'fullfstclosemodal', default: false });
 
-export const modalIdData = atom({ key: 'modaliddata', default: '' });
+export const modalFootstepId = atom({ key: 'modaliddata', default: '' });
+export const modalRequestId = atom({ key: 'modalrequestid', default: '' });
 
 export const NfsToast = atom({ key: 'nfstoast', default: false });
 export const nfsRoadEssentialState = atom({ key: 'nfsroadessentialstate', default: false });
 export const nfsDetailEssentialState = atom({ key: 'nfsdetailessentialstate', default: false });
 export const nfsImgEssentialState = atom({ key: 'nfsimgessentialstate', default: false });
+
+export const consultNumber = atom({ key: 'consultnumber', default: 0 });

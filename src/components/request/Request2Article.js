@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CheckOFF from './source/rq2CheckOFF.png';
 import CheckON from './source/rq2CheckON.png';
-import { rqInfo } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { consultNumber, rqInfo } from '../../store/store';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import '../../global/global.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function Request2Article() {
   const navigate = useNavigate();
   const [rq2Info, setRq2Info] = useRecoilState(rqInfo);
+  const consultNum = useRecoilValue(consultNumber);
   const [btnState, setBtnState] = useState(0);
 
   useEffect(() => {
@@ -65,6 +66,11 @@ export default function Request2Article() {
       navigate('/request3');
     }
   };
+  useEffect(() => {
+    if (consultNum >= 2) {
+      navigate('/request');
+    }
+  }, []);
 
   return (
     <Rq2Container>

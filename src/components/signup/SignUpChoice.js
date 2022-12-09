@@ -95,7 +95,7 @@ const ChoiceContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: pink;
+  background-color: white;
 `;
 
 const SignUpHeader = styled.div`

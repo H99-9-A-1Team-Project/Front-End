@@ -25,15 +25,44 @@ export async function ReadAnsweredList() {
   const { data } = await api.get('v1/replied');
   return data;
 }
+// 이미지 0
+export async function ReadImgFootStep0(id) {
+  const { data } = await api.get(`v1/premises/${id}?page=0&size=5`);
+  return data;
+}
+// 이미지 1
+export async function ReadImgFootStep1(id) {
+  const { data } = await api.get(`v1/premises/${id}?page=1&size=5`);
+  return data;
+}
 
-export async function ReadImgFootStep() {
-  const { data } = await api.get('v1/premises/27?page=1&size=5');
+// 이미지 2
+export async function ReadImgFootStep2(id) {
+  const { data } = await api.get(`v1/premises/${id}?page=2&size=5`);
+  return data;
+}
+
+// 이미지 3
+export async function ReadImgFootStep3(id) {
+  const { data } = await api.get(`v1/premises/${id}?page=3&size=5`);
+  return data;
+}
+
+// 이미지 4
+export async function ReadImgFootStep4(id) {
+  const { data } = await api.get(`v1/premises/${id}?page=4&size=5`);
+  return data;
+}
+
+// 이미지 5
+export async function ReadImgFootStep5(id) {
+  const { data } = await api.get(`v1/premises/${id}?page=5&size=5`);
   return data;
 }
 
 //상담 상세페이지 조회
 export async function ReadConsultDetail(id) {
-  const data = await api.get(`v1/consult/${id}`);
+  const { data } = await api.get(`v1/consult/${id}`);
   console.log('상담상세api데이터', data);
   return data;
 }
@@ -69,8 +98,9 @@ export async function ReadSearchAnsweredList(arg) {
   return data;
 }
 
-export async function ReadFootStep() {
-  const { data } = await api.get(`v1/premises/69/detail`);
+export async function ReadFootStep(id) {
+  console.log('idid', id);
+  const { data } = await api.get(`v1/premises/${id}/detail`);
   return data;
 }
 

@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import MarkerImg from './sources/carouselmarker.png';
 import { useQuery } from '@tanstack/react-query';
-import { ReadPremisesList } from '../../api/apiGET';
-
+import { ReadPremisesList, ReadFootStep } from '../../api/apiGET';
+import { useParams } from 'react-router-dom';
 export default function Address() {
-  const { data: premisesData } = useQuery(['premisesData'], ReadPremisesList, {
+  const { id } = useParams();
+
+  const { data: premisesData } = useQuery(['fstdata'], () => ReadFootStep(id), {
     onSuccess: (response) => {
-      console.log(response);
+      console.log('zzz', response);
     },
     onError: (response) => {
       console.log(response);
@@ -17,9 +19,10 @@ export default function Address() {
     <Container>
       <HeadlineBox>
         <HeadlineImg src={MarkerImg} />
-        <HeadlineP>발품기록 | 상담</HeadlineP>
+
+        {premisesData?.yesOrNo === true ? <HeadlineP>발품기록 | 상담</HeadlineP> : <HeadlineP>발품기록</HeadlineP>}
       </HeadlineBox>
-      <AddressP>{premisesData && premisesData[0].title}</AddressP>
+      <AddressP>{premisesData && premisesData?.title}</AddressP>
     </Container>
   );
 }

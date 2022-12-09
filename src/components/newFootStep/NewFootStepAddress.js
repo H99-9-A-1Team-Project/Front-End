@@ -36,7 +36,7 @@ export default function NewFootStepAddress() {
     <Container>
       <HeadlineBox>
         <Headline>매물 주소</Headline>
-        <HeadlineNav>필수</HeadlineNav>
+        <HeadlineNav nfsDetailEsscential={nfsDetailEsscential}>필수</HeadlineNav>
       </HeadlineBox>
       <RoadAddressBox type="button" onClick={openPostCode}>
         <RoadAddressWrap nfsRoadEsscential={nfsRoadEsscential}>
@@ -63,6 +63,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 204px;
+  margin-top: 64px;
 `;
 
 const HeadlineBox = styled.div`
@@ -86,7 +87,7 @@ const Headline = styled.div`
 const HeadlineNav = styled.div`
   margin-left: 8px;
   margin-top: 5.5px;
-  color: var(--primary1-500);
+  color: ${({ nfsDetailEsscential }) => `${nfsDetailEsscential === false ? 'var(--primary1-500);' : '#f0766e'}`};
   font-family: var(--body-font-family);
   font-size: var(--body_Small-font-size);
   font-weight: var(--body_Small-font-weight);

@@ -64,7 +64,7 @@ export default function NewFootStepImg() {
     <Container>
       <HeadlineBox>
         <Headline>매물 사진</Headline>
-        <HeadlineNav>필수</HeadlineNav>
+        <HeadlineNav nfsImgEssential={nfsImgEssential}>필수</HeadlineNav>
       </HeadlineBox>
       <NavBox>
         <Nav>최대 10개까지 등록이 가능해요</Nav>
@@ -131,7 +131,7 @@ const Headline = styled.div`
 const HeadlineNav = styled.div`
   margin-left: 8px;
   margin-top: 5.5px;
-  color: var(--primary1-500);
+  color: ${({ nfsImgEssential }) => `${nfsImgEssential === false ? 'var(--primary1-500);' : '#f0766e'}`};
   font-family: var(--body-font-family);
   font-size: var(--body_Small-font-size);
   font-weight: var(--body_Small-font-weight);
@@ -209,12 +209,12 @@ const CreateCarosulItem = styled.img`
   width: 128px;
   height: 128px;
   -webkit-user-drag: none;
-
   border: ${({ nfsImgEssential }) => `${nfsImgEssential === false ? 'none' : '1px solid #f0766e'}`};
 `;
 
 const CarosulItem = styled.img`
   width: 128px;
   height: 128px;
+  border-radius: 8px;
   -webkit-user-drag: none;
 `;
