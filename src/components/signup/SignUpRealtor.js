@@ -701,7 +701,7 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: var(--white);
   margin-right: 2px;
-  margin-top: 2px;
+  margin-top: 4px;
 `;
 
 const ErrorMsgPreview = styled.div`

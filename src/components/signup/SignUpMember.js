@@ -73,27 +73,6 @@ function SignUpMember() {
   };
 
   // 이메일  onchange
-  // const onChangeEmail = (e) => {
-  //   const { name, value } = e.target;
-  //   setLoginData({ ...loginData, [name]: value });
-  //   const emailData = e.target.value;
-  //   setOnlyEmail(loginData.email);
-  //   const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-  //   if (exptext.test(emailData) == false) {
-  //     setCheckemail('잘못된 이메일 형식입니다.');
-  //     if (emailData === '') {
-  //       setCheckemail('빈칸을 채워주세요');
-  //     }
-  //     setIsEmail(false);
-  //     setValid(false);
-  //   } else {
-  //     setCheckemail('알맞은 형식입니다 :) ');
-  //     setIsEmail(true);
-  //     setValid(true);
-  //   }
-  // };
-
-  // 이메일  onchange
   const onChangeEmail = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -478,7 +457,7 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: var(--white);
   margin-right: 2px;
-  margin-top: 2px;
+  margin-top: 4px;
 `;
 
 const ErrorMsgPreview = styled.div`
