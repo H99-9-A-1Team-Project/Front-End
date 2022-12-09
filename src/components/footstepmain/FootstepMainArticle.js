@@ -7,7 +7,7 @@ import searchImg from './sources/Search.png';
 import pathDown from './sources/path_down.png';
 import pathUp from './sources/path_up.png';
 import WriteIcon from '../../global/sources/Edit.svg';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { SearchFstMain } from '../../api/apiGET';
 import CaroselImages from './sources/caroselImage.png';
 import Marker_All from '../../global/sources/Pin_all.svg';
@@ -15,10 +15,11 @@ import Marker_FootStep from '../../global/sources/Pin_Footstep.svg';
 import Marker_request from '../../global/sources/Pin_Request.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper';
-import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, FstCloseModal, NfsToast, nfsRoadEssentialState, nfsDetailEssentialState, nfsImgEssentialState } from '../../store/store';
+import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, FstCloseModal, FullFstCloseModal, NfsToast } from '../../store/store';
 import { useSetRecoilState } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import BottomSheet from './BottomSheet';
+import FullBottomSheet from './FullBottomSheet';
 import { useRecoilState } from 'recoil';
 import Toast from '../newFootStep/ToastNotification';
 
@@ -37,14 +38,12 @@ export default function FootstepMainArticle() {
   const setNfshDetailAddress = useSetRecoilState(nfsDetailAddress);
   const [modalOverLab, setModalOverLab] = useState();
   const [modalId, setModalId] = useState();
+  const [visible, setVisible] = useState(false);
   const [ToastState, setToastState] = useRecoilState(NfsToast);
   const [levelValue, setLevelValue] = useState(2);
-  const [visible, setVisible] = useState(false);
-  const setRoadEssential = useSetRecoilState(nfsRoadEssentialState);
-  const setDetailEssential = useSetRecoilState(nfsDetailEssentialState);
-  const setImgEssential = useSetRecoilState(nfsImgEssentialState);
+  const [search, setSearch] = useState('');
 
-  const { data: searchData } = useQuery(['fstsearchData'], () => SearchFstMain(''), {
+  const { data: searchData, mutate: searchMutate } = useMutation(SearchFstMain, {
     onSuccess: (response) => {
       console.log(response);
     },
@@ -91,6 +90,7 @@ export default function FootstepMainArticle() {
   if (searchData !== undefined && searchData.length !== 0) {
     if (sortName === '전체') {
       positions = searchData.map((data) => {
+        console.log(data.overLab);
         return { overLab: data.overLab, id: data.id, LatLng: new kakao.maps.LatLng(data.coordX, data.coordY) };
       });
     } else if (sortName === '발품') {
@@ -109,7 +109,10 @@ export default function FootstepMainArticle() {
       }
     }
   }
-  console.log(positions);
+  console.log('po', positions);
+  console.log('fsd', footstepData);
+  console.log('rqd', requestData);
+
   const onLevelClick = (value) => {
     if (value === '+' && levelValue < 14) {
       setLevelValue(levelValue + 1);
@@ -118,6 +121,11 @@ export default function FootstepMainArticle() {
       setLevelValue(levelValue - 1);
     }
   };
+  console.log(levelValue);
+
+  useEffect(() => {
+    searchMutate('');
+  }, []);
 
   useEffect(() => {
     if (ToastState) {
@@ -201,9 +209,6 @@ export default function FootstepMainArticle() {
   const onNewFootStep = () => {
     setNfshRoadAddress('도로명 주소 검색');
     setNfshDetailAddress('');
-    setRoadEssential(false);
-    setDetailEssential(false);
-    setImgEssential(false);
     setNfshData({
       title: '',
       coordFX: '',
@@ -284,18 +289,47 @@ export default function FootstepMainArticle() {
     navigate('/footstepmain');
   };
 
+  const [FbmodalOpen, setFbModalOpen] = useRecoilState(FullFstCloseModal);
+  const onFbOpenModal = () => {
+    setFbModalOpen(true);
+  };
+  const onFbCloseModal = () => {
+    setFbModalOpen(false);
+    navigate('/footstepmain');
+  };
+
+  const onChangeSearch = (e) => {
+    setSearch(e.target.value);
+    console.log(search);
+  };
+
+  const onSearchBtn = () => {
+    searchMutate(search);
+  };
   return (
     <>
       <FootstepMainArticleContainer>
         {ToastState && <Toast msg="추가 완료" />}
         {modalOpen && <BottomSheet modalOverLab={modalOverLab} modalId={modalId} visible={onOpenModal} maskCloseable={true} closeable={true} onClose={onCloseModal} />}
+        {FbmodalOpen && <FullBottomSheet sortName={sortName} searchData={searchData} requestData={requestData} footStepData={footstepData} Fbvisible={onFbOpenModal} FbmaskCloseable={true} Fbcloseable={true} FbonClose={onFbCloseModal} />}
 
         <MapContainer id="myMap" />
         <AddressSearchBox>
-          <AddressSearchInput placeholder="주소로 기록을 검색해보세요" />
-          <SearchImg src={searchImg} />
+          <AddressSearchInput placeholder="주소로 기록을 검색해보세요" onChange={onChangeSearch} />
+          <SearchImg
+            src={searchImg}
+            onClick={() => {
+              onSearchBtn();
+            }}
+          />
         </AddressSearchBox>
-        <ListBtn>목록</ListBtn>
+        <ListBtn
+          onClick={() => {
+            onFbOpenModal();
+          }}
+        >
+          목록
+        </ListBtn>
         {sortState === false ? (
           <SortList>
             <SortHeadlineBox
@@ -350,9 +384,8 @@ export default function FootstepMainArticle() {
           </WriteBtn>
           <CarouselWrap visible={visible}>
             <Swiper
-              slidesPerView={0.98}
-              spaceBetween={-40}
-              centeredSlides={true}
+              slidesPerView={1}
+              spaceBetween={-30}
               pagination={{
                 clickable: true,
               }}
@@ -515,7 +548,7 @@ const CarouselBox = styled.div`
   border-radius: 8px;
   box-shadow: var(--Shadow2-box-shadow);
   margin-left: 16px;
-
+  -webkit-user-drag: none;
   cursor: pointer;
 `;
 

@@ -3,32 +3,28 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { TabState } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
-import { ReadPremisesList } from '../../api/apiGET';
+import { ReadPremisesList, ReadFootStep } from '../../api/apiGET';
 import path_down from './sources/path_down.png';
 import path_up from './sources/path_up.png';
 import Check_On from './sources/Check_On.png';
 import Check_None from './sources/Check_None.png';
-
+import { useParams } from 'react-router-dom';
 export default function CheckList() {
+  const { id } = useParams();
   const [pathState, setPathState] = useState({
     sun: false,
     option: false,
     security: false,
     conven: false,
   });
-  const { data: premisesData } = useQuery(
-    ['premisesData'],
-
-    ReadPremisesList,
-    {
-      onSuccess: (response) => {
-        console.log(response);
-      },
-      onError: (response) => {
-        console.log(response);
-      },
-    }
-  );
+  const { data: premisesData } = useQuery(['fstdata'], () => ReadFootStep(id), {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (response) => {
+      console.log(response);
+    },
+  });
   const TabStates = useRecoilValue(TabState);
 
   const onStateChange = (state) => {
@@ -78,35 +74,35 @@ export default function CheckList() {
           {pathState.sun === true ? (
             <>
               <CheckBox1>
-                {premisesData && premisesData[0].sun === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.sun === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>채광 잘 듦</CheckBody>
               </CheckBox1>
               <CheckBox2>
-                {premisesData && premisesData[0].mold === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.mold === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>곰팡이 있음</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].vent === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.vent === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>습도가 높음</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].water === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.water === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>물 잘 나옴</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].ventil === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.ventil === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>배수 잘 됨</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].drain === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.drain === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>외풍 있음</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].draft === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.draft === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>환기 잘 됨</CheckBody>
               </CheckBox2>
               <MemoHeadline>추가 메모</MemoHeadline>
-              <MemoBody>{premisesData && premisesData[0].extraMemo}</MemoBody>
+              <MemoBody>{premisesData && premisesData.extraMemo}</MemoBody>
             </>
           ) : null}
           <>
@@ -134,13 +130,13 @@ export default function CheckList() {
           {pathState.option === true ? (
             <>
               <MemoHeadline>옵션 종류 및 상태</MemoHeadline>
-              <MemoBody2>{premisesData && premisesData[0].option}</MemoBody2>
+              <MemoBody2>{premisesData && premisesData.option}</MemoBody2>
               <CheckBox2>
-                {premisesData && premisesData[0].destroy === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.destroy === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>파손된 가구 있음</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].utiRoom === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.utiRoom === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>다용도실 있음</CheckBody>
               </CheckBox2>
             </>
@@ -170,19 +166,19 @@ export default function CheckList() {
           {pathState.security === true ? (
             <>
               <CheckBox1>
-                {premisesData && premisesData[0].securityWindow === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.securityWindow === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>방범창 설치되어 있음</CheckBody>
               </CheckBox1>
               <CheckBox2>
-                {premisesData && premisesData[0].noise === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.noise === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>방음 안됨</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].loan === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.loan === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>대출 가능함</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].cctv === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.cctv === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>CCTV, 중앙현관 있음</CheckBody>
               </CheckBox2>
             </>
@@ -212,23 +208,23 @@ export default function CheckList() {
           {pathState.conven === true ? (
             <>
               <CheckBox1>
-                {premisesData && premisesData[0].hill === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.hill === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>언덕 높음</CheckBody>
               </CheckBox1>
               <CheckBox2>
-                {premisesData && premisesData[0].mart === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.mart === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>편의점, 시장, 마트 근처에 있음</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].hospital === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.hospital === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>병원, 약국이 근처에 있음</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].accessibility === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.accessibility === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>대중교통이 편리함</CheckBody>
               </CheckBox2>
               <CheckBox2>
-                {premisesData && premisesData[0].park === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
+                {premisesData && premisesData.park === false ? <CheckImg src={Check_None} /> : <CheckImg src={Check_On} />}
                 <CheckBody>주차장 있음</CheckBody>
               </CheckBox2>
             </>
@@ -320,9 +316,19 @@ const MemoBody = styled.div`
   margin-top: 8px;
   margin-left: 16px;
   margin-bottom: 56px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;
 const MemoBody2 = styled.div`
   margin-top: 8px;
   margin-left: 16px;
   margin-bottom: 24px;
+  font-family: var(--body-font-family);
+  font-size: var(--body_Medium-font-size);
+  font-weight: var(--body_Medium-font-weight);
+  line-height: var(--body_Medium-line-height);
+  letter-spacing: var(--body_Medium-letter-spacing);
 `;

@@ -133,6 +133,7 @@ export const searchWait = atom({ key: 'searchwait', default: [] });
 export const searchAnswered = atom({ key: 'searchanswered', default: [] });
 
 export const FstCloseModal = atom({ key: 'fstclosemodal', default: false });
+export const FullFstCloseModal = atom({ key: 'fullfstclosemodal', default: false });
 
 export const modalFootstepId = atom({ key: 'modaliddata', default: '' });
 export const modalRequestId = atom({ key: 'modalrequestid', default: '' });

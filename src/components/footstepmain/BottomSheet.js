@@ -24,7 +24,7 @@ export default function BottomSheet({ modalOverLab, modalId, visible, maskClosea
   const { data: footstepData } = useQuery(['fstdata'], () => ReadFootStep(modalId), {
     enabled: !!(modalOverLab === 1 || modalOverLab === 3),
     onSuccess: (response) => {
-      console.log(response);
+      console.log('zz', response);
     },
     onError: (response) => {
       console.log(response);
@@ -44,7 +44,7 @@ export default function BottomSheet({ modalOverLab, modalId, visible, maskClosea
   const onDetailPage = () => {
     if (modalOverLab === 1 || modalOverLab === 3) {
       onClose();
-      navigate(`${footstepData?.id}`);
+      navigate(`${modalId}`);
     }
     if (modalOverLab === 2) {
       onClose();
