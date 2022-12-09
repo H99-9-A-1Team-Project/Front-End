@@ -24,7 +24,6 @@ const PopupPostCode = (props) => {
         setPopNfsInfo({ ...popNfsInfo, coordFX: coords.La, coordFY: coords.Ma });
       }
     });
-    console.log(popNfsInfo);
     props.onClose();
   };
 

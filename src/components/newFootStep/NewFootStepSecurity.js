@@ -68,16 +68,13 @@ export default function NewFootStepSecurity() {
     };
     try {
       const compressedFile = await imageCompression(file, options);
-      console.log(compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result;
         onHandlingDataForm(base64data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     const onHandlingDataForm = async (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);
       const ab = new ArrayBuffer(byteString.length);
@@ -91,7 +88,6 @@ export default function NewFootStepSecurity() {
 
       const file = new File([blob], 'image.jpg');
       setNfscImgData([...nfscImgData, file]);
-      console.log(nfscImgData);
     };
   };
 

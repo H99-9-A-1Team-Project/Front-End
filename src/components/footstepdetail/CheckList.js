@@ -18,12 +18,8 @@ export default function CheckList() {
     conven: false,
   });
   const { data: premisesData } = useQuery(['fstdata'], () => ReadFootStep(id), {
-    onSuccess: (response) => {
-      console.log(response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   const TabStates = useRecoilValue(TabState);
 

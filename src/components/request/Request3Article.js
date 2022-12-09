@@ -23,7 +23,6 @@ export default function Request3Article() {
   const onChangeMsg = (e) => {
     const { name, value } = e.target;
     setRq3Info({ ...rq3Info, [name]: value });
-    console.log(rq3Info);
   };
 
   const onNextBtn = () => {

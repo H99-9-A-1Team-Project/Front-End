@@ -58,7 +58,6 @@ export default function Request2Article() {
     if (num === 6 && rq2Info.check6 === 1) {
       setRq2Info({ ...rq2Info, check6: 0 });
     }
-    console.log(rq2Info);
   };
 
   const onNextBtn = () => {

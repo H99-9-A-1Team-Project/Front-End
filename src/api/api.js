@@ -35,7 +35,6 @@ api.interceptors.response.use(
         document.cookie = `refresh_token=${data.headers.refresh_token}`;
         return await axios(originalRequestConfig);
       } catch (err) {
-        console.log(err);
         new Error(err);
       }
     }

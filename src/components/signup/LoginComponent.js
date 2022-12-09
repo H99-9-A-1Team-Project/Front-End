@@ -180,8 +180,6 @@ function LoginComponent() {
     },
   });
 
-  console.log(checkvalid);
-
   const onActiveEnter = (e) => {
     if (e.key === 'Enter') {
       onSubmitLoginData();
@@ -592,4 +590,3 @@ const ButtonStyle = styled.button`
     cursor: pointer;
   }
 `;
-

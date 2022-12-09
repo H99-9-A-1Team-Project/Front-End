@@ -40,16 +40,12 @@ function SignUpChoice() {
     // setNextMem(nextmem + 2);
     setOpenSignUp(true);
     setChoiceBool(true);
-
-    console.log(nextmem);
   };
   const onNextRealtorPage = () => {
     navigate('/signup/realtor');
     // setNextTor(nexttor + 1);
     setChoiceBool(false);
     setOpenSignUp(true);
-
-    console.log(nexttor);
   };
   const onGoingLogIn = () => {
     navigate('/login');
@@ -220,4 +216,3 @@ const AlreadyIdBox = styled.div`
   background-color: white;
   cursor: pointer;
 `;
-

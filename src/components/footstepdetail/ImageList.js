@@ -17,49 +17,27 @@ export default function ImageList() {
     onSuccess: (response) => {
       return response.shift();
     },
-    onError: (response) => {
-      console.log(response);
-    },
+    onError: (response) => {},
   });
   const { data: FstImgData1 } = useQuery(['fstImgData1'], () => ReadImgFootStep1(id), {
-    onSuccess: (response) => {
-      console.log('1', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   const { data: FstImgData2 } = useQuery(['fstImgData2'], () => ReadImgFootStep2(id), {
-    onSuccess: (response) => {
-      console.log('2', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   const { data: FstImgData3 } = useQuery(['fstImgData3'], () => ReadImgFootStep3(id), {
-    onSuccess: (response) => {
-      console.log('3', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   const { data: FstImgData4 } = useQuery(['fstImgData4'], () => ReadImgFootStep4(id), {
-    onSuccess: (response) => {
-      console.log('4', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
   const { data: FstImgData5 } = useQuery(['fstImgData5'], () => ReadImgFootStep5(id), {
-    onSuccess: (response) => {
-      console.log('5', response);
-    },
-    onError: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
+    onError: (response) => {},
   });
 
   return (
@@ -79,7 +57,7 @@ export default function ImageList() {
         {FstImgData0?.map((data) => {
           return (
             <SwiperSlide>
-              <BannerImg src={data.postImgUrl} />
+              <BannerImg src={data.postImgUrl} />{' '}
             </SwiperSlide>
           );
         })}

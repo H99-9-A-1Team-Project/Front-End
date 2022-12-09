@@ -35,14 +35,11 @@ export default function NewFootStepAddress() {
 
   const { mutate: nfsMutate } = useMutation(SendNfsc, {
     onSuccess: (response) => {
-      console.log('zsdd', response);
       queryClient.invalidateQueries(['qqq']);
       handleToast();
       navigate('/footstepmain');
     },
-    onError: (response) => {
-      console.log(response);
-    },
+    onError: (response) => {},
   });
 
   const onSendData = () => {

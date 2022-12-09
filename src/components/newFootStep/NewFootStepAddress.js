@@ -29,7 +29,6 @@ export default function NewFootStepAddress() {
     // setNfscData({ ...nfscData, post: { ...nfscData.post, [name]: nfscRoadAddress + ' ' + value } });
     setNfscData({ ...nfscData, [name]: nfscRoadAddress + ' ' + value });
     setNfscDetailAddress(value);
-    console.log(nfscData);
   };
 
   return (

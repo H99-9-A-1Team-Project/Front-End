@@ -50,7 +50,6 @@ export default function FootstepMainArticle() {
 
   useEffect(() => {
     searchMutate('');
-    console.log('zzztest');
   }, []);
 
   const onSortList = () => {

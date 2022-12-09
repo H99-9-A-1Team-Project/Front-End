@@ -209,7 +209,6 @@ function SignUpRealtor() {
     reader.onloadend = () => {
       const resultImage = reader.result;
       setPreviewImage(resultImage);
-      console.log(resultImage);
     };
   };
 
@@ -244,16 +243,13 @@ function SignUpRealtor() {
     };
     try {
       const compressedFile = await imageCompression(image.files[0], options);
-      console.log('압축결과', compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result;
         onHandlingDataForm(base64data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     const onHandlingDataForm = async (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);
       const ab = new ArrayBuffer(byteString.length);
@@ -760,4 +756,3 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
-

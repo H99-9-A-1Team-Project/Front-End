@@ -15,9 +15,6 @@ export default function NewFootStepSun() {
   const [nfscImgState, setNfscImgState] = useRecoilState(nfsImgState);
   const [nfscImgData, setNfscImgData] = useRecoilState(nfsImgData);
   const SunState = useRecoilValue(nfsrPath);
-
-  console.log(nfscImgData);
-  console.log(nfscData);
   const onCheckStateChange = (name) => {
     if (name === 'sun' && nfscData.sun === false) {
       setNfscData({ ...nfscData, sun: true });
@@ -106,16 +103,13 @@ export default function NewFootStepSun() {
     };
     try {
       const compressedFile = await imageCompression(file, options);
-      console.log(compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result;
         onHandlingDataForm(base64data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     const onHandlingDataForm = async (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);
       const ab = new ArrayBuffer(byteString.length);
@@ -129,14 +123,12 @@ export default function NewFootStepSun() {
 
       const file = new File([blob], 'image.jpg');
       setNfscImgData([...nfscImgData, file]);
-      console.log(nfscImgData);
     };
   };
 
   const onChangeData = (e) => {
     const { name, value } = e.target;
     setNfscData({ ...nfscData, [name]: value });
-    console.log(nfscData);
   };
 
   return (

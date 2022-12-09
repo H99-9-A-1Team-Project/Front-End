@@ -21,13 +21,9 @@ export default function RequestCheck() {
       setRqcInfo({ title: '', coordX: '', coordY: '', check1: 0, check2: 0, check3: 0, check4: 0, check5: 0, check6: 0, consultMessage: '' });
       setRqcRoadAddress('도로명 주소 검색');
       setRqcDtAddress('');
-      console.log(response);
       navigate('/request');
     },
-    onError: (response) => {
-      console.log(response);
-      console.log('요청보내기 실패');
-    },
+    onError: (response) => {},
   });
 
   const onSend = () => {
@@ -45,7 +41,6 @@ export default function RequestCheck() {
       navigate('/request');
     }
   }, []);
-  console.log(consultNum);
   return (
     <RqCheckContainer>
       <HeadlineNav>신청완료 후 수정이 불가능해요</HeadlineNav>

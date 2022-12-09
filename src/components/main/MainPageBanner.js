@@ -8,6 +8,9 @@ import 'swiper/css';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 export default function MainPageBanner() {
+  const onLinkto = () => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
+  };
   return (
     <BannerContainer>
       <BannerBox>
@@ -16,7 +19,12 @@ export default function MainPageBanner() {
             <BannerImg1 src={Banner1} />
           </SwiperSlide>
           <SwiperSlide className="slide">
-            <BannerImg2 src={Banner2} />
+            <BannerImg2
+              src={Banner2}
+              onClick={() => {
+                onLinkto();
+              }}
+            />
           </SwiperSlide>
         </Swiper>
       </BannerBox>
@@ -69,4 +77,3 @@ const BannerImg2 = styled.img`
   background: none;
   cursor: pointer;
 `;
-

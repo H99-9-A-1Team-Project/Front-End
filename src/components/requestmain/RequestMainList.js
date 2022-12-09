@@ -10,9 +10,7 @@ export default function RequestList() {
   const navigate = useNavigate();
   const { data } = useQuery(['requestlist'], ReadRequestList, {
     refetchOnWindowFocus: false,
-    onSuccess: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
   });
   return (
     <RqListContainer>

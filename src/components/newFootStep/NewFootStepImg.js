@@ -19,8 +19,6 @@ export default function NewFootStepImg() {
     if (count < 10) {
       await onImgCompress(e.target.files[0]);
       setCount(count + 1);
-      console.log('a', count);
-      console.log(e.target.files[0]);
     }
   };
 
@@ -32,7 +30,6 @@ export default function NewFootStepImg() {
     };
     try {
       const compressedFile = await imageCompression(file, options);
-      console.log('압축결과', compressedFile);
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
@@ -40,9 +37,7 @@ export default function NewFootStepImg() {
         setNfscPreviewImgData([...nfscPreviewImgData, base64data]);
         onHandlingDataForm(base64data);
       };
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     const onHandlingDataForm = async (dataURI) => {
       const byteString = atob(dataURI.split(',')[1]);
       const ab = new ArrayBuffer(byteString.length);
@@ -56,7 +51,6 @@ export default function NewFootStepImg() {
 
       const file = new File([blob], 'image.jpg');
       setNfscImgData([...nfscImgData, file]);
-      console.log(nfscImgData);
     };
   };
 
