@@ -245,10 +245,10 @@ function LoginComponent() {
             <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
           </PasswordContainer>
         </InputContainer>
-        <AutoLoginContainer onClick={onAutoLogin}>
+        {/* <AutoLoginContainer onClick={onAutoLogin}>
           <AutoLoginCheckImg src={checkAuto === false ? Check : Check2} />
           <AutoLoginText>자동 로그인</AutoLoginText>
-        </AutoLoginContainer>
+        </AutoLoginContainer> */}
         <BlankContainer2></BlankContainer2>
         <GoingSignUp onClick={onGoingSignUp}>회원가입 하기</GoingSignUp>
         <ButtonContainer>
@@ -428,14 +428,17 @@ const InputErrorMessageBox = styled.div`
   margin-bottom: 2px;
   display: flex;
   align-items: center;
+  background-color: transparent;
 `;
 
 const InputErrorMessageBoxPassword = styled.div`
   width: 265px;
   height: 16px;
   display: flex;
+  margin-top: 4px;
   flex-direction: column;
   justify-content: center;
+  background-color: transparent;
 `;
 
 const InputMessage = styled.div`
@@ -468,7 +471,7 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: var(--white);
   margin-right: 2px;
-  margin-top: 2px;
+  margin-top: 8px;
 `;
 const ErrorMsgPreview = styled.div`
   width: 328px;
@@ -576,3 +579,4 @@ const ButtonStyle = styled.button`
     cursor: pointer;
   }
 `;
+

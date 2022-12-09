@@ -408,23 +408,27 @@ const InputErrorMessageBox = styled.div`
   margin-bottom: 2px;
   display: flex;
   /* align-items: center; */
+  background-color: transparent;
 `;
 const InputErrorMessageValid = styled.div`
   width: 265px;
   height: 16px;
-  margin-top: 4px;
+  margin-top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  background-color: transparent;
 `;
 
 const InputErrorMessageBoxPassword = styled.div`
   width: 265px;
   height: 16px;
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: transparent;
 `;
 
 const InputMessage = styled.div`
@@ -457,7 +461,7 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: var(--white);
   margin-right: 2px;
-  margin-top: 4px;
+  margin-top: 8px;
 `;
 
 const ErrorMsgPreview = styled.div`
@@ -514,3 +518,4 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
+

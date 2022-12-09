@@ -41,7 +41,6 @@ function SignUpRealtor() {
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
 
-
   //이미지 미리보기용 state
   const [previewimage, setPreviewImage] = useState('');
 
@@ -645,23 +644,27 @@ const InputErrorMessageBox = styled.div`
   margin-top: 4px;
   margin-bottom: 2px;
   display: flex;
+  background-color: transparent;
 `;
 
 const InputErrorMessageValid = styled.div`
   width: 265px;
   height: 16px;
-  margin-top: 4px;
+  margin-top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  background-color: transparent;
 `;
 const InputErrorMessageBoxPassword = styled.div`
   width: 265px;
   height: 16px;
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: transparent;
 `;
 
 const InputMessage = styled.div`
@@ -695,7 +698,7 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: var(--white);
   margin-right: 2px;
-  margin-top: 4px;
+  margin-top: 8px;
 `;
 
 const ErrorMsgPreview = styled.div`
