@@ -215,6 +215,9 @@ const ContentBox1 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const ContentBox2 = styled.div`
@@ -225,6 +228,9 @@ const ContentBox2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const ContentBox3 = styled.div`
@@ -236,6 +242,9 @@ const ContentBox3 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const CheckBox = styled.div`

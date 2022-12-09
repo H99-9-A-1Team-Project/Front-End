@@ -276,6 +276,9 @@ const ChoiceContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--white);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const SignUpHeader = styled.div`
@@ -291,6 +294,9 @@ const SignUpHeader = styled.div`
   gap: 8px;
   background-color: var(--white);
   border-bottom: 1px solid var(--gray6);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BackpageIconBox = styled.img`

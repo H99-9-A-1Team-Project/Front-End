@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import '../../global/global.css';
 import rq1search from './source/rq1search.png';
 import { useState } from 'react';
-
 import PopupPostCode from './PopupPostCode';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { requireAddress, rqInfo, rqDetailAddress, consultNumber } from '../../store/store';
@@ -97,6 +96,9 @@ const RoadAddressBox = styled.div`
   background: none;
   cursor: pointer;
   margin-top: 32px;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const RoadAddressWrap = styled.div`
@@ -110,6 +112,12 @@ const RoadAddressWrap = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  @media (max-width: 500px) {
+    width: 92%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 const RoadAddressP = styled.div`
@@ -134,6 +142,11 @@ const SearchImg = styled.img`
   margin-left: 284px;
   margin-top: 12px;
   background: none;
+  @media (max-width: 500px) {
+    position: static;
+    margin: 0;
+    padding-right: 20px;
+  }
 `;
 
 const DetailHeadline = styled.div`
@@ -155,6 +168,9 @@ const DetailAddressBox = styled.div`
   border: 1px solid var(--gray6);
   border-radius: 8px;
   margin-left: 16px;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const DetailAddressInput = styled.input`
@@ -192,6 +208,9 @@ const NextBtn = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const PopDom = styled.div`

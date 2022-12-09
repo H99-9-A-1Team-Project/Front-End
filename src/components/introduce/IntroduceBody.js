@@ -125,6 +125,9 @@ const StContainer = styled.div`
   .swiper {
     width: 360px;
     height: 360px;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
     .information_slide_1_text_1,
     .information_slide_1_text_2 {
       font-family: var(--button-font-family);
@@ -168,6 +171,9 @@ const StContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
     img {
       width: 180px;
       height: 307px;

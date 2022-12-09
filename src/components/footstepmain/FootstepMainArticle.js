@@ -42,6 +42,11 @@ export default function FootstepMainArticle() {
   const [ToastState, setToastState] = useRecoilState(NfsToast);
   const [levelValue, setLevelValue] = useState(2);
   const [search, setSearch] = useState('');
+  const [width, setWidth] = useState(0);
+  const [width2, setWidth2] = useState(0);
+  const [viewport, setViewprot] = useState(0);
+  const [previewNum, setPreviewNum] = useState(0);
+  const [between, setBeteen] = useState(0);
 
   const { data: searchData, mutate: searchMutate } = useMutation([], SearchFstMain, {
     onSuccess: (response) => {},
@@ -50,6 +55,20 @@ export default function FootstepMainArticle() {
 
   useEffect(() => {
     searchMutate('');
+    if (window.innerWidth > 500) {
+      setPreviewNum(1);
+      setBeteen(-30);
+    }
+    if (window.innerWidth <= 500) {
+      const width = window.innerWidth - 60 + 'px';
+      const width2 = window.innerWidth - 80 + 'px';
+      const viewPort = window.innerWidth;
+      setWidth(width);
+      setWidth2(width2);
+      setViewprot(viewPort);
+      setPreviewNum(1.1);
+      setBeteen(0);
+    }
   }, []);
 
   const onSortList = () => {
@@ -363,16 +382,17 @@ export default function FootstepMainArticle() {
         <WriteBox>
           <WriteBtn
             visible={visible}
+            width={width2}
             onClick={() => {
               onNewFootStep();
             }}
           >
             <WriteImg src={WriteIcon} />
           </WriteBtn>
-          <CarouselWrap visible={visible}>
+          <CarouselWrap visible={visible} viewport={viewport}>
             <Swiper
-              slidesPerView={1}
-              spaceBetween={-30}
+              slidesPerView={previewNum}
+              spaceBetween={between}
               pagination={{
                 clickable: true,
               }}
@@ -388,14 +408,14 @@ export default function FootstepMainArticle() {
                             onContentNavigate(data.overLab, data.id);
                           }}
                         >
-                          <CarouselBox>
+                          <CarouselBox viewport={viewport}>
                             <CarouselImage src={CaroselImages} />
                             <CarouselRightBox>
                               <CarouselHeaderBox>
                                 {data.overLab === 1 ? <CarouselMarkerImg src={Marker_FootStep} /> : data.overLab === 2 ? <CarouselMarkerImg src={Marker_request} /> : data.overLab === 3 ? <CarouselMarkerImg src={Marker_All} /> : null}
                                 {data.overLab === 1 ? <CarouselHeaderP>발품기록</CarouselHeaderP> : data.overLab === 2 ? <CarouselHeaderP>상담</CarouselHeaderP> : data.overLab === 3 ? <CarouselHeaderP>발품기록 | 상담</CarouselHeaderP> : null}
                               </CarouselHeaderBox>
-                              <CarouselAddress>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
+                              <CarouselAddress viewport={viewport}>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
                               <CarouselReview>{data !== undefined && data.length !== '0' ? data.review : null}</CarouselReview>
                             </CarouselRightBox>
                           </CarouselBox>
@@ -412,14 +432,14 @@ export default function FootstepMainArticle() {
                             onContentNavigate(data.overLab, data.id);
                           }}
                         >
-                          <CarouselBox>
+                          <CarouselBox viewport={viewport}>
                             <CarouselImage src={CaroselImages} />
                             <CarouselRightBox>
                               <CarouselHeaderBox>
                                 <CarouselMarkerImg src={Marker_FootStep} />
                                 <CarouselHeaderP>발품기록</CarouselHeaderP>
                               </CarouselHeaderBox>
-                              <CarouselAddress>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
+                              <CarouselAddress viewport={viewport}>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
                               <CarouselReview>{data !== undefined && data.length !== '0' ? data.review : null}</CarouselReview>
                             </CarouselRightBox>
                           </CarouselBox>
@@ -436,14 +456,14 @@ export default function FootstepMainArticle() {
                             onContentNavigate(data.overLab, data.id);
                           }}
                         >
-                          <CarouselBox>
+                          <CarouselBox viewport={viewport}>
                             <CarouselImage src={CaroselImages} />
                             <CarouselRightBox>
                               <CarouselHeaderBox>
                                 <CarouselMarkerImg src={Marker_request} />
                                 <CarouselHeaderP>상담</CarouselHeaderP>
                               </CarouselHeaderBox>
-                              <CarouselAddress>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
+                              <CarouselAddress viewport={viewport}>{data !== undefined && data.length !== '0' ? data.title : null}</CarouselAddress>
                               <CarouselReview>{data !== undefined && data.length !== '0' ? data.review : null}</CarouselReview>
                             </CarouselRightBox>
                           </CarouselBox>
@@ -454,7 +474,7 @@ export default function FootstepMainArticle() {
                 : null}
             </Swiper>
           </CarouselWrap>
-          <LevelBar visible={visible}>
+          <LevelBar visible={visible} width={width}>
             <LevelPlus
               onClick={() => {
                 onLevelClick('+');
@@ -488,6 +508,10 @@ const LevelBar = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  @media (max-width: 500px) {
+    margin-left: ${(props) => props.width};
+    margin-bottom: ${(props) => (props.visible ? '315px' : '180px')};
+  }
 `;
 
 const LevelPlus = styled.div`
@@ -537,6 +561,9 @@ const CarouselBox = styled.div`
   margin-left: 16px;
   -webkit-user-drag: none;
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: ${(props) => props.viewport * 0.9 + 'px'};
+  }
 `;
 
 const CarouselImage = styled.img`
@@ -579,6 +606,9 @@ const CarouselAddress = styled.div`
   font-weight: var(--body_Medium-font-weight);
   line-height: var(--body_Medium-line-height);
   letter-spacing: var(--body_Medium-letter-spacing);
+  @media (max-width: 500px) {
+    width: ${(props) => props.viewport * 0.6 + 'px'};
+  }
 `;
 
 const CarouselReview = styled.div`
@@ -597,6 +627,9 @@ const FootstepMainArticleContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const MapContainer = styled.div`
@@ -605,6 +638,9 @@ const MapContainer = styled.div`
   background: white;
   z-index: 0;
   margin-top: auto;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const AddressSearchBox = styled.div`
@@ -617,6 +653,9 @@ const AddressSearchBox = styled.div`
   border: 1px solid var(--primary1-400);
   border-radius: 8px;
   box-shadow: var(--Shadow1-box-shadow);
+  @media (max-width: 500px) {
+    width: 75%;
+  }
 `;
 
 const AddressSearchInput = styled.input`
@@ -633,6 +672,11 @@ const SearchImg = styled.img`
   margin-left: 212px;
   margin-top: 13px;
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin-left: 0;
+    margin-right: 16px;
+    float: right;
+  }
 `;
 
 const ListBtn = styled.div`
@@ -653,6 +697,11 @@ const ListBtn = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin: 0;
+    right: 16px;
+    top: 24px;
+  }
 `;
 
 const SortBox = styled.div`
@@ -790,6 +839,10 @@ const WriteBtn = styled.div`
   border-radius: 8px;
   box-shadow: var(--Shadow3-box-shadow);
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin-left: ${(props) => props.width};
+    margin-bottom: ${(props) => (props.visible ? '239px' : '104px')};
+  }
 `;
 
 const WriteImg = styled.img`
@@ -806,6 +859,9 @@ const CarouselWrap = styled.div`
   margin-bottom: 110px;
   overflow: hidden;
   pointer-events: ${(props) => (props.visible ? 'auto' : 'none')};
+  @media (max-width: 500px) {
+    width: ${(props) => props.viewport + 'px'};
+  }
 `;
 
 const CarouselLi = styled.li`

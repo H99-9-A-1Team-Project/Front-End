@@ -58,27 +58,25 @@ function SignUpChoice() {
   };
 
   return (
-    <>
-      <ChoiceContainer>
-        <SignUpHeader>
-          <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
-          <SignUpTitle>회원가입</SignUpTitle>
-        </SignUpHeader>
-        <WelcomeQuestionContainer>
-          <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
-        </WelcomeQuestionContainer>
-        <ButtonContainer>
-          <ButtonStyle onClick={onNextMemberPage}>일반 사용자입니다.</ButtonStyle>
-        </ButtonContainer>
-        <ButtonContainer>
-          <ButtonStyle onClick={onNextRealtorPage}>공인중개사입니다.</ButtonStyle>
-        </ButtonContainer>
-        <BlankContainer></BlankContainer>
-        <AlreadyIdContainer>
-          <AlreadyIdBox onClick={onGoingLogIn}>이미 아이디가 있습니다</AlreadyIdBox>
-        </AlreadyIdContainer>
-      </ChoiceContainer>
-    </>
+    <ChoiceContainer>
+      <SignUpHeader>
+        <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
+        <SignUpTitle>회원가입</SignUpTitle>
+      </SignUpHeader>
+      <WelcomeQuestionContainer>
+        <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
+      </WelcomeQuestionContainer>
+      <ButtonContainer>
+        <ButtonStyle onClick={onNextMemberPage}>일반 사용자입니다.</ButtonStyle>
+      </ButtonContainer>
+      <ButtonContainer>
+        <ButtonStyle onClick={onNextRealtorPage}>공인중개사입니다.</ButtonStyle>
+      </ButtonContainer>
+      <BlankContainer></BlankContainer>
+      <AlreadyIdContainer>
+        <AlreadyIdBox onClick={onGoingLogIn}>이미 아이디가 있습니다</AlreadyIdBox>
+      </AlreadyIdContainer>
+    </ChoiceContainer>
   );
 }
 
@@ -92,6 +90,9 @@ const ChoiceContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const SignUpHeader = styled.div`
@@ -108,6 +109,9 @@ const SignUpHeader = styled.div`
   background-color: white;
   border-bottom: 1px solid var(--gray6);
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BackpageIconBox = styled.img`

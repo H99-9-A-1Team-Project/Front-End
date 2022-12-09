@@ -10,14 +10,12 @@ import CheckList from '../components/footstepdetail/CheckList';
 export default function FootStepDetail() {
   return (
     <Layout>
-      <>
-        <Header />
-        <ImageList />
-        <Address />
-        <Tab />
-        <CheckList />
-        <Basic />
-      </>
+      <Header />
+      <ImageList />
+      <Address />
+      <Tab />
+      <CheckList />
+      <Basic />
     </Layout>
   );
 }

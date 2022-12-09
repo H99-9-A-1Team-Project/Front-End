@@ -185,13 +185,14 @@ function LoginComponent() {
       onSubmitLoginData();
     }
   };
-  const onSubmitLoginData = () => {
+  const onSubmitLoginData = (e) => {
+    e.preventDefault();
     emailLogin(loginData);
   };
 
   return (
     <>
-      <ChoiceContainer>
+      <ChoiceContainer onSubmit={onSubmitLoginData}>
         <SignUpHeader onClick={onGoingHome}>
           <BackpageIconBox src={pathLeft} />
           <SignUpTitle>로그인</SignUpTitle>
@@ -259,13 +260,7 @@ function LoginComponent() {
         <BlankContainer2></BlankContainer2>
         <GoingSignUp onClick={onGoingSignUp}>회원가입 하기</GoingSignUp>
         <ButtonContainer>
-          <ButtonStyle
-            type="submit"
-            disabled={isValidLogin}
-            onClick={() => {
-              onSubmitLoginData();
-            }}
-          >
+          <ButtonStyle type="submit" disabled={isValidLogin}>
             로그인
           </ButtonStyle>
         </ButtonContainer>
@@ -276,7 +271,7 @@ function LoginComponent() {
 
 export default LoginComponent;
 
-const ChoiceContainer = styled.div`
+const ChoiceContainer = styled.form`
   width: 360px;
   height: 100%;
   display: flex;
@@ -284,6 +279,9 @@ const ChoiceContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--white);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const SignUpHeader = styled.div`
@@ -298,6 +296,10 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: var(--white);
+  border-bottom: 1px solid var(--gray6);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BackpageIconBox = styled.img`

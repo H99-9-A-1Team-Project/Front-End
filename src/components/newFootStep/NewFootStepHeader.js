@@ -86,12 +86,25 @@ const Container = styled.div`
   position: fixed;
   background-color: white;
   border-bottom: 1px solid var(--gray6);
+  @media (max-width: 500px) {
+    width: 100%;
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const HeaderBox = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
+  @media (max-width: 500px) {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const ImgPathLeft = styled.img`
@@ -107,6 +120,10 @@ const HeadlineBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    align-items: center;
+    margin-top: 20px;
+  }
 `;
 
 const HeaderHeadline = styled.p`
@@ -118,6 +135,12 @@ const HeaderHeadline = styled.p`
   line-height: var(--body_Large-line-height);
   letter-spacing: var(--body_Large-letter-spacing);
   cursor: default;
+  @media (max-width: 500px) {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const CreateBtn = styled.button`
@@ -133,4 +156,8 @@ const CreateBtn = styled.button`
   border: none;
   color: var(--primary2-400);
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin: 0;
+    margin-right: 22px;
+  }
 `;

@@ -21,6 +21,8 @@ export default function Header() {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  padding-bottom: 20px;
 `;
 
 const PathImg = styled.img`

@@ -401,6 +401,9 @@ const ChoiceContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--white);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const SignUpHeader = styled.div`
@@ -416,6 +419,9 @@ const SignUpHeader = styled.div`
   gap: 8px;
   border-bottom: 1px solid var(--gray6);
   background-color: var(--white);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BackpageIconBox = styled.img`
@@ -551,6 +557,7 @@ const InfoInput = styled.div`
   background-color: var(--white);
   border-radius: 8px;
   gap: 8px;
+  cursor: pointer;
 `;
 const InfoImage = styled.img`
   background-color: var(--white);

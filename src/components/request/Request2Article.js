@@ -206,6 +206,12 @@ const BtnBox = styled.div`
   margin-top: auto;
   margin-bottom: 32px;
   background: none;
+  @media (max-width: 500px) {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto 32px auto;
+  }
 `;
 const BackBtn = styled.button`
   width: 156px;

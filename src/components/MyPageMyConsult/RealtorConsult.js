@@ -156,6 +156,9 @@ const StMyPageBodyWrap = styled.div`
     font-weight: var(--button_Large-font-weight);
     line-height: var(--button_Large-line-height);
     letter-spacing: var(--button_Large-letter-spacing);
+    @media (max-width: 500px) {
+      width: 95%;
+    }
   }
   .consulting-container-0,
   .consulting-container-1,
@@ -167,6 +170,9 @@ const StMyPageBodyWrap = styled.div`
     background-color: var(--primary2-100);
     padding: 16px;
     border-bottom: 1px solid var(--gray6);
+    @media (max-width: 500px) {
+      width: 93%;
+    }
     .container-header {
       width: 100%;
       display: flex;

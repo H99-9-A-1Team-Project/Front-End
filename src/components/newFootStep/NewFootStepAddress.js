@@ -63,6 +63,9 @@ const Container = styled.div`
   flex-direction: column;
   height: 204px;
   margin-top: 64px;
+  @media (max-width: 500px) {
+    margin: 0;
+  }
 `;
 
 const HeadlineBox = styled.div`
@@ -101,6 +104,9 @@ const RoadAddressBox = styled.div`
   background: none;
   cursor: pointer;
   margin-top: 32px;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const RoadAddressWrap = styled.div`
@@ -117,6 +123,9 @@ const RoadAddressWrap = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const RoadAddressP = styled.div`
@@ -161,6 +170,9 @@ const DetailAddressBox = styled.div`
   border: ${({ nfsDetailEsscential }) => `${nfsDetailEsscential === false ? '1px solid var(--gray6);' : '1px solid #f0766e'}`};
   border-radius: 8px;
   margin-left: 16px;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const DetailAddressInput = styled.input`

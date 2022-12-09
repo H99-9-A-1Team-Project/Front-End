@@ -40,6 +40,14 @@ const RqHeadlineContainer = styled.div`
   margin-left: 16px;
   display: flex;
   background: none;
+  @media (max-width: 500px) {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 16px;
+    padding-left: 16px;
+    margin-left: 0;
+    justify-content: space-between;
+  }
 `;
 
 const RqHeadlineText = styled.div`

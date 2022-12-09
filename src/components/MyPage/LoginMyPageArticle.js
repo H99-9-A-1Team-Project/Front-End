@@ -6,7 +6,7 @@ import userProfile3 from './sources/userProfile3.png';
 import userProfile4 from './sources/userProfile4.png';
 import userProfile5 from './sources/userProfile5.png';
 import userProfile6 from './sources/userProfile6.png';
-import arrow from '../../global/sources/Expand_right_light.svg';
+import arrow from '../../global/sources/Expand_right_gray.svg';
 import User_cicrle from '../../global/sources/User_edit.svg';
 import userDefault from '../../global/sources/user.svg';
 import good from '../../global/sources/Smile_outlined.svg';
@@ -472,6 +472,9 @@ const Container = styled.div`
       letter-spacing: var(--button_Medium-letter-spacing);
       cursor: pointer;
       img {
+        @media (max-width: 500px) {
+          margin-right: 16px;
+        }
       }
       .box {
         background-color: white;
@@ -491,6 +494,11 @@ const Container = styled.div`
           align-items: center;
           margin-left: 4px;
         }
+      }
+      @media (max-width: 500px) {
+        box-sizing: border-box;
+        width: 100%;
+        padding-left: 16px;
       }
     }
     .info-3 {
