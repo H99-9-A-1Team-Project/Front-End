@@ -318,15 +318,6 @@ const PinImgOFF = styled.img`
   background: none;
 `;
 
-const PinImgON = styled.img`
-  width: 32px;
-  height: 32px;
-  background: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const PinP = styled.p`
   width: 44px;
   background: none;

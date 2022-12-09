@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
-import { NextMem, ChangeSignUp, itsNotOK, itsNotOK2, isLogin, toastVisible, TextToast, LoginDatas } from '../../store/store';
+import { itsNotOK, itsNotOK2, isLogin, toastVisible, TextToast, LoginDatas } from '../../store/store';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import ViewPassword from '../../global/sources/View_outlined.svg';
 import HidePassword from '../../global/sources/View_hide.svg';
@@ -12,11 +12,8 @@ import { useNavigate } from 'react-router-dom';
 function SignUpMember() {
   const navigate = useNavigate();
   const welcometext = '사용할 회원 정보를\n 입력해주세요';
-  //일반회원 이전으로 넘어가기 위한 recoilState
-  const [nextmem, setNextMem] = useRecoilState(NextMem);
-
   //로그인 유지를 위한 recoilstate
-  const [AppLogin, setAppLogin] = useRecoilState(isLogin);
+  const setAppLogin = useSetRecoilState(isLogin);
 
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
@@ -28,17 +25,14 @@ function SignUpMember() {
   //회원가입 오류 출력 state
   const [reject, setReject] = useState('');
 
-  //회원가입창의 시작과 전환을 위한 recoilstate
-  const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
-
   //이메일 주소만 (409에러 대비)
-  const [onlyemail, setOnlyEmail] = useRecoilState(LoginDatas);
+  const setOnlyEmail = useSetRecoilState(LoginDatas);
 
   // toast 띄우는 state
   const setVisible = useSetRecoilState(toastVisible);
 
   // toast 에 들어갈 문구 recoilstate
-  const [toasttext, setToastText] = useRecoilState(TextToast);
+  const setToastText = useSetRecoilState(TextToast);
 
   //데이터 전송용 initialstate
   const initialState = {
@@ -79,7 +73,7 @@ function SignUpMember() {
     const emailData = e.target.value;
     setOnlyEmail(loginData.email);
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(emailData) == true) {
+    if (exptext.test(emailData) === true) {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
@@ -96,7 +90,7 @@ function SignUpMember() {
     setLoginData({ ...loginData, nickname: Nickname });
     const emailData = loginData.email;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(emailData) == false) {
+    if (exptext.test(emailData) === false) {
       setCheckemail('잘못된 이메일 형식입니다.');
       if (emailData === '') {
         setCheckemail('이메일을 입력하세요');
@@ -121,7 +115,7 @@ function SignUpMember() {
     setLoginData({ ...loginData, [name]: value });
     const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
-    if (expword.test(passwordData) == false) {
+    if (expword.test(passwordData) === false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
       if (e.target.value === '') {

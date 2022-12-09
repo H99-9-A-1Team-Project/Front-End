@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ReadRequestList } from '../../api/apiGET';
 import Modal from '../../global/components/Modal';
 import { rqInfo, requireAddress, rqDetailAddress, consultNumber } from '../../store/store';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 export default function RequestArticle() {
   const navigate = useNavigate();

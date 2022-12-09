@@ -1,10 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { ReadConsultDetail, ReadFootStep } from '../../api/apiGET';
 import Marker_All from '../../global/sources/Pin_all.svg';
 import Marker_FootStep from '../../global/sources/Pin_Footstep.svg';
 import Marker_request from '../../global/sources/Pin_Request.svg';
@@ -138,6 +134,7 @@ const ModalBackground = styled.div`
     top: 0;
     left: 0;
     transform: translate(0, 0);
+    z-index: 15;
   }
 `;
 
@@ -156,6 +153,8 @@ const ModalWrapper = styled.div`
   @media (max-width: 500px) {
     background-color: rgba(0, 0, 0, 0);
     width: 100%;
+    z-index: 15;
+    display: flex;
   }
 `;
 const ModalInner = styled.div`
@@ -164,7 +163,6 @@ const ModalInner = styled.div`
   width: 360px;
   background-color: white;
   height: 850px;
-  overflow-y: scroll;
   bottom: 0;
   border-radius: 1rem 1rem 0 0;
   overflow-y: auto;
@@ -180,6 +178,12 @@ const ModalInner = styled.div`
   }
   ::-webkit-scrollbar-track {
     background: none; /*스크롤바 뒷 배경 색상*/
+  }
+  @media (max-width: 500px) {
+    position: static;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: auto;
   }
 `;
 

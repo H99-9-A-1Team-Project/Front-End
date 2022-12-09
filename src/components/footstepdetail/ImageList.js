@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
@@ -10,9 +10,8 @@ import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 export default function ImageList() {
-  const navigate = useNavigate();
   const { id } = useParams();
-  const [swiperRef, setSwiperRef] = useState(null);
+  const [setSwiperRef] = useState(null);
   const { data: FstImgData0 } = useQuery(['fstImgData0'], () => ReadImgFootStep0(id), {
     onSuccess: (response) => {
       return response.shift();

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { TabState } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
-import { ReadPremisesList, ReadFootStep } from '../../api/apiGET';
+import { ReadFootStep } from '../../api/apiGET';
 import { useParams } from 'react-router-dom';
 export default function Basic() {
   const { id } = useParams();

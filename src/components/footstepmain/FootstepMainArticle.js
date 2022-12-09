@@ -7,17 +7,16 @@ import searchImg from './sources/Search.png';
 import pathDown from './sources/path_down.png';
 import pathUp from './sources/path_up.png';
 import WriteIcon from '../../global/sources/Edit.svg';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { SearchFstMain } from '../../api/apiGET';
 import CaroselImages from './sources/caroselImage.png';
 import Marker_All from '../../global/sources/Pin_all.svg';
 import Marker_FootStep from '../../global/sources/Pin_Footstep.svg';
 import Marker_request from '../../global/sources/Pin_Request.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination } from 'swiper';
+import { Pagination } from 'swiper';
 import { nfsData, nfsImgData, nfsPreviewImgData, nfsrPath, nfsImgState, nfsRoadAddress, nfsDetailAddress, FstCloseModal, FullFstCloseModal, NfsToast } from '../../store/store';
 import { useSetRecoilState } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
 import BottomSheet from './BottomSheet';
 import FullBottomSheet from './FullBottomSheet';
 import { useRecoilState } from 'recoil';
@@ -25,8 +24,7 @@ import Toast from '../newFootStep/ToastNotification';
 
 export default function FootstepMainArticle() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [fstData, setFstData] = useState();
+
   const [sortName, setSortName] = useState('전체');
   const [sortState, setSortState] = useState(true);
   const setNfshData = useSetRecoilState(nfsData);
@@ -67,7 +65,7 @@ export default function FootstepMainArticle() {
       setWidth2(width2);
       setViewprot(viewPort);
       setPreviewNum(1.1);
-      setBeteen(0);
+      setBeteen(10);
     }
   }, []);
 
@@ -321,7 +319,7 @@ export default function FootstepMainArticle() {
 
         <MapContainer id="myMap" />
         <AddressSearchBox>
-          <AddressSearchInput placeholder="주소로 기록을 검색해보세요" onChange={onChangeSearch} />
+          <AddressSearchInput FbmodalOpen={FbmodalOpen} placeholder="주소로 기록을 검색해보세요" onChange={onChangeSearch} />
           <SearchImg
             src={searchImg}
             onClick={() => {
@@ -562,7 +560,7 @@ const CarouselBox = styled.div`
   -webkit-user-drag: none;
   cursor: pointer;
   @media (max-width: 500px) {
-    width: ${(props) => props.viewport * 0.9 + 'px'};
+    width: ${(props) => props.viewport * 0.85 + 'px'};
   }
 `;
 
@@ -666,6 +664,7 @@ const AddressSearchInput = styled.input`
   margin-top: 16px;
   border: none;
   outline: none;
+  pointer-events: ${(props) => (props.FbmodalOpen ? 'none' : 'auto')};
 `;
 
 const SearchImg = styled.img`

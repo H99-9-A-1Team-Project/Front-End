@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../../global/global.css';
-import PopupDom from './PopupDom';
 import PopupPostCode from './PopupPostCode';
 import nfsSearchImg from './sources/searchIcon.png';
 import { useState } from 'react';
@@ -10,7 +9,7 @@ import { nfsData, nfsRoadAddress, nfsDetailAddress, nfsRoadEssentialState, nfsDe
 
 export default function NewFootStepAddress() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [nfscRoadAddress, setNfscRoadAddress] = useRecoilState(nfsRoadAddress);
+  const nfscRoadAddress = useRecoilValue(nfsRoadAddress);
   const [nfscDetailAddress, setNfscDetailAddress] = useRecoilState(nfsDetailAddress);
   const [nfscData, setNfscData] = useRecoilState(nfsData);
   const nfsRoadEsscential = useRecoilValue(nfsRoadEssentialState);

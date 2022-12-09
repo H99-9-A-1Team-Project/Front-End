@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import MainPage from '../pages/MainPage';
 import SignUp from '../pages/SignUp';
 import MyPage from '../pages/MyPage';
@@ -24,8 +24,8 @@ import right_arrow from '../global/sources/path_right.png';
 import DeleteId from '../pages/DeleteId';
 import MyPageAdminDeleteList from '../pages/MyPageAdminDeleteList';
 import ToastMessage from '../global/components/ToastMessage';
-import { useRecoilState } from 'recoil';
-import { toastVisible, TextToast } from '../store/store';
+import { useRecoilValue } from 'recoil';
+import { TextToast } from '../store/store';
 import PublicRoute from '../components/signup/publicRoute';
 import LoginPage from '../pages/LoginPage';
 import SignUpRealtorPage from '../pages/SignUpRealtorPage';
@@ -33,9 +33,7 @@ import OnBoading from '../pages/OnBoading';
 import SignUpMemberPage from '../pages/SignUpMemberPage';
 
 export default function Router() {
-  const [visible, setVisible] = useRecoilState(toastVisible);
-  // toast 에 들어갈 문구 recoilstate
-  const [toasttext, setToastText] = useRecoilState(TextToast);
+  const toasttext = useRecoilValue(TextToast);
 
   const onLinkto = () => {
     window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');

@@ -126,7 +126,8 @@ export default function ConsultDetailComment({ id }) {
                     let formData = new FormData();
                     formData.append('file', file);
                     const imgUrl = await RequestConsultCommentImage({ formData, id });
-                    callback(imgUrl.url, '');
+                    console.log(imgUrl);
+                    callback(imgUrl.imageUrl, '');
                   };
                 },
               }}

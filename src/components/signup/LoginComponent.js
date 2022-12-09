@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { GoLogIn, isLogin, NextTor, NextMem, itsNotOK, itsNotOK2, toastVisible, TextToast, AutoLoginState } from '../../store/store';
+import { isLogin, itsNotOK, itsNotOK2, toastVisible, TextToast, AutoLoginState } from '../../store/store';
 import Title from '../../global/sources/logo.svg';
 import ViewPassword from '../../global/sources/View_outlined.svg';
 import HidePassword from '../../global/sources/View_hide.svg';
@@ -14,11 +14,6 @@ import Check2 from '../../global/sources/Check_fill.svg';
 
 function LoginComponent() {
   const navigate = useNavigate();
-  //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
-  const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
-  // const [nexttor, setNextTor] = useRecoilState(NextTor);
-  // const [nextmem, setNextMem] = useRecoilState(NextMem);
-
   //이메일 확인할 usestate
   const [checkemail, setCheckemail] = useState('');
   //비밀번호 확인할 usestate
@@ -37,9 +32,6 @@ function LoginComponent() {
 
   //자동로그인 체크박스용 state
   const [checkAuto, setCheckAuto] = useRecoilState(AutoLoginState);
-
-  //토큰용 state
-  const [accessToken, setAccessToken] = useState('');
 
   //회원가입 오류 출력 state
   const [reject, setReject] = useState('');
@@ -93,7 +85,7 @@ function LoginComponent() {
     setLoginData({ ...loginData, [name]: value });
     const emailData = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(emailData) == true) {
+    if (exptext.test(emailData) === true) {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
@@ -106,7 +98,7 @@ function LoginComponent() {
   const onblurChange = () => {
     const emailData = loginData.email;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(emailData) == false) {
+    if (exptext.test(emailData) === false) {
       setCheckemail('잘못된 이메일 형식입니다.');
       if (emailData === '') {
         setCheckemail('이메일을 입력하세요');
@@ -139,7 +131,7 @@ function LoginComponent() {
 
   const onValidLoginData = () => {
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
-    if (expword.test(loginData.password) == false) {
+    if (expword.test(loginData.password) === false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
       setIsPassword(false);
@@ -437,15 +429,7 @@ const InputErrorMessageBox = styled.div`
   display: flex;
   align-items: center;
 `;
-const InputErrorMessageValid = styled.div`
-  width: 265px;
-  height: 16px;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
+
 const InputErrorMessageBoxPassword = styled.div`
   width: 265px;
   height: 16px;
@@ -506,7 +490,7 @@ const AutoLoginContainer = styled.div`
   width: 280px;
   height: 32px;
   background-color: var(--white);
-  display: flex;
+  display: none;
   flex-direction: row;
   align-items: center;
   margin-top: -12px;

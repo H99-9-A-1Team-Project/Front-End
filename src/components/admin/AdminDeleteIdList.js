@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import styled from 'styled-components';
 import { ReadDeleteList } from '../../api/apiGET';
-import AdminBodyItem from './AdminBodyItem';
 
 export default function AdminDeleteIdList() {
   const { data } = useQuery(['deletelist'], () => ReadDeleteList(1), {

@@ -1,8 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { ReadConsultDetail, ReadFootStep } from '../../api/apiGET';
 import Marker_All from '../../global/sources/Pin_all.svg';
@@ -81,6 +79,13 @@ const ModalBackground = styled.div`
   background-color: black;
   opacity: 0.5;
   z-index: 1;
+  @media (max-width: 500px) {
+    width: 100%;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    z-index: 15;
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -92,9 +97,14 @@ const ModalWrapper = styled.div`
   bottom: 0;
   left: auto;
   z-index: 1000;
-  /* overflow:auto; */
   outline: 0;
   background-color: rgba(0, 0, 0, 0);
+  @media (max-width: 500px) {
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    z-index: 15;
+    display: flex;
+  }
 `;
 const ModalInner = styled.div`
   z-index: 2;
@@ -102,11 +112,16 @@ const ModalInner = styled.div`
   width: 360px;
   background-color: white;
   height: 242px;
-  overflow-y: scroll;
   bottom: 0;
   border-radius: 1rem 1rem 0 0;
   overflow-x: hidden;
   overflow-y: hidden;
+  @media (max-width: 500px) {
+    position: static;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: auto;
+  }
 `;
 
 const DetailBtn = styled.div`
