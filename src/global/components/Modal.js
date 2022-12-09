@@ -14,6 +14,9 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
       setModalVisible(false);
     }
   };
+  const onLinkto = () => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
+  };
   if (sessionStorage.getItem('accountstate') === '0' && page === 'profile') {
     return (
       <>
@@ -114,9 +117,10 @@ export default function Modal({ className, setModalVisible, maskClosable, closab
               className="modal_footer_button"
               onClick={() => {
                 setModalVisible(false);
+                onLinkto();
               }}
             >
-              확 인
+              설문 참여하기
             </div>
           </div>
         </ModalInner>

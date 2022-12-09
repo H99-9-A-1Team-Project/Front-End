@@ -184,9 +184,14 @@ function MainPageArticle() {
             )}
           </div>
           <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible}>
-            <div className="modal_div">상담 횟수 2회를 모두 사용하셨습니다.</div>
-            <div className="modal_div">추가 상담을 원하시면 </div>
-            <div className="modal_div">관리자에게 문의해주세요.</div>
+            <div className="modal_div">모든상담을 사용하였어요.</div>
+            <div className="modal_div_ment">등대지기를 애정해주셔서 감사합니다! </div>
+            <div className="modal_div_ment">현재 등대지기는 베타 서비스로</div>
+            <div className="modal_div_ment">2회 무료 상담 서비스를 제공하고 있습니다.</div>
+            <div className="modal_div_ment">추가 상담 서비스를 받고싶으시다면</div>
+            <div className="modal_div_ment">설문에 참여하시어 의견을 제시해주세요.</div>
+            <div className="modal_div_ment">반영하여 더 좋은 모습으로 찾아볼 수 있길</div>
+            <div className="modal_div_ment">바라겠습니다.</div>
           </Modal>
         </div>
       ) : (
@@ -223,7 +228,14 @@ const ArticleContainer = styled.div`
     font-weight: var(--headline_Medium-font-weight);
     line-height: var(--headline_Medium-line-height);
     letter-spacing: var(--headline_Medium-letter-spacing);
-    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .modal_div_ment {
+    font-family: var(--headline-font-family);
+    font-size: var(--body_Large-font-size);
+    font-weight: var(--body_Large-font-weight);
+    line-height: var(--body_Large-line-height);
+    letter-spacing: var(--body_Large-letter-spacing);
   }
   .article_body_wrap {
     width: 328px;

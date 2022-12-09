@@ -521,6 +521,7 @@ const ButtonContainer = styled.div`
   background-color: var(--white);
   display: flex;
   justify-content: center;
+  margin: 10px;
 `;
 
 const ButtonStyle = styled.button`
@@ -546,4 +547,3 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
-
