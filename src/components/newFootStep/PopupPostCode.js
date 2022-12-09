@@ -2,13 +2,13 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { nfsRoadAddress, nfsData } from '../../store/store';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
 const PopupPostCode = (props) => {
-  const [nfsPopRoadAddress, setNfsPopRoadAddress] = useRecoilState(nfsRoadAddress);
+  const setNfsPopRoadAddress = useSetRecoilState(nfsRoadAddress);
   const [popNfsInfo, setPopNfsInfo] = useRecoilState(nfsData);
   const [viewPort, setViewPort] = useState('');
   let geocoder = new kakao.maps.services.Geocoder();

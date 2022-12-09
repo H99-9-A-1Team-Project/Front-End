@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import NoneState from './sources/none_circle.png';
 import OnState from './sources/on_circle.png';

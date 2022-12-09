@@ -1,8 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { ReadConsultDetail, ReadFootStep } from '../../api/apiGET';
 import Marker_All from '../../global/sources/Pin_all.svg';

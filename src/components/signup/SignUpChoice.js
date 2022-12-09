@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
-import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp, TextToast } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { ChoiceMem, ChangeSignUp } from '../../store/store';
+import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpChoice() {
@@ -10,28 +10,13 @@ function SignUpChoice() {
   const welcometext = '반가워요!\n 어떤 목적으로\n 가입하시나요?';
 
   //회원가입창의 시작과 전환을 위한 recoilstate
-  const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
+  const setOpenSignUp = useSetRecoilState(ChangeSignUp);
 
   //로그인 페이지 열때 필요한 state, 삼항연산자용
   const [alreadysignin, setAlreadySignIn] = useState(false);
 
-  //일반회원 다음으로 넘어가기 위한 recoilState
-  const [nextmem, setNextMem] = useRecoilState(NextMem);
-
-  //공인중개사 회원 다음으로 넘어가기 위한 recoilState
-  const [nexttor, setNextTor] = useRecoilState(NextTor);
-
   //마지막 페이지에서 버튼 바꾸기 위한 recoilstate
-  const [choiceBool, setChoiceBool] = useRecoilState(ChoiceMem);
-
-  //이미 가입된 회원 로그인 창 열때 필요한 recoilstate
-  const [goinglogin, setGoingLogin] = useRecoilState(GoLogIn);
-
-  //회원가입 오류 출력 state
-  const [reject, setReject] = useState('');
-
-  // toast 에 들어갈 문구 recoilstate
-  const [toasttext, setToastText] = useState(TextToast);
+  const setChoiceBool = useSetRecoilState(ChoiceMem);
 
   // 메인페이지로 회귀
   const navigate = useNavigate();

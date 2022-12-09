@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import CompleteM from '../../global/sources/sign_in_modal_img.png';
 import ModalClose from '../../global/sources/Close.svg';
 import { CloseModal, LoginDatas } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 function InnerModal() {
   const navigate = useNavigate();
   //데이터 전송을 위한 state
-  const [loginData, setLoginData] = useRecoilState(LoginDatas);
+  const loginData = useRecoilValue(LoginDatas);
   //모달 닫기 버튼용 recoilstate
-  const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
+  const setModalOpen = useSetRecoilState(CloseModal);
   const onCloseModal = () => {
     setModalOpen(false);
     navigate('/');
@@ -183,4 +183,3 @@ const ButtonStyle = styled.div`
   align-items: center;
   background-color: var(--primary2-400);
 `;
-

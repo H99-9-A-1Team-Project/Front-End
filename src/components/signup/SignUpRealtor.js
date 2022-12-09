@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
 import Plus from '../../global/sources/Add.svg';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { NextTor, CloseModal, ChangeSignUp, itsNotOK, itsNotOK2, LoginDatas, toastVisible, TextToast } from '../../store/store';
+import { NextTor, CloseModal, itsNotOK, itsNotOK2, LoginDatas, toastVisible, TextToast } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import CompleteModal from './CompleteModal';
 import ViewPassword from '../../global/sources/View_outlined.svg';
@@ -40,8 +40,6 @@ function SignUpRealtor() {
 
   //이메일 잘못 입력 에러 출력 state
   const [errormail, setErrorMail] = useState('');
-  //비밀번호 잘못 입력 에러 출력 state
-  const [errorpassword, setErrorPassWord] = useState('');
 
   //이미지 미리보기용 state
   const [previewimage, setPreviewImage] = useState('');
@@ -49,17 +47,11 @@ function SignUpRealtor() {
   // 모달 오픈용 recoilstate
   const [modalOpen, setModalOpen] = useRecoilState(CloseModal);
 
-  //회원가입창의 시작과 전환을 위한 recoilstate
-  const [opensignup, setOpenSignUp] = useRecoilState(ChangeSignUp);
-
   // toast 띄우는 state
   const setVisible = useSetRecoilState(toastVisible);
 
   // toast 에 들어갈 문구 recoilstate
-  const [toasttext, setToastText] = useRecoilState(TextToast);
-
-  //회원가입 오류 출력 state
-  const [reject, setReject] = useState('');
+  const setToastText = useSetRecoilState(TextToast);
 
   //데이터 전송을 위한 state
   const [loginData, setLoginData] = useRecoilState(LoginDatas);
@@ -114,7 +106,7 @@ function SignUpRealtor() {
     setLoginData({ ...loginData, [name]: value });
     const Email = e.target.value;
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(Email) == true) {
+    if (exptext.test(Email) === true) {
       setCheckemail('알맞은 형식입니다 :) ');
       setIsEmail(true);
       setValid(true);
@@ -132,7 +124,7 @@ function SignUpRealtor() {
     setLoginData({ ...loginData, nickname: Nickname });
     setDoubleEmail({ ...loginData, email: Email });
     const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    if (exptext.test(Email) == false) {
+    if (exptext.test(Email) === false) {
       setCheckemail('잘못된 이메일 형식입니다.');
       if (Email === '') {
         setCheckemail('이메일을 입력하세요');
@@ -171,7 +163,7 @@ function SignUpRealtor() {
     setLoginData({ ...loginData, [name]: value });
     const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
-    if (expword.test(passwordData) == false) {
+    if (expword.test(passwordData) === false) {
       setCheckPassword('잘못된 비밀번호 형식입니다');
       setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
       if (e.target.value === '') {
