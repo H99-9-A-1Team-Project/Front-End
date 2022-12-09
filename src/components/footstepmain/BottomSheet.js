@@ -105,6 +105,8 @@ const ModalInner = styled.div`
   overflow-y: scroll;
   bottom: 0;
   border-radius: 1rem 1rem 0 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
 `;
 
 const DetailBtn = styled.div`
