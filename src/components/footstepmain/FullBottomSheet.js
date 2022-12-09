@@ -128,9 +128,6 @@ export default function FullBottomSheet({ sortName, searchData, requestData, foo
 
 const ModalBackground = styled.div`
   position: absolute;
-  top: 50%;
-  left: 49.15%;
-  transform: translate(-50%, -50%);
   width: 360px;
   height: 100%;
   background-color: black;
@@ -170,6 +167,20 @@ const ModalInner = styled.div`
   overflow-y: scroll;
   bottom: 0;
   border-radius: 1rem 1rem 0 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    /* display: none;  스크롤바가 안보이게 할수 있음(기능은 살아있음) */
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    height: 20%; /* 스크롤바의 길이 */
+    background: var(--gray5); /* 스크롤바의 색상 */
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: none; /*스크롤바 뒷 배경 색상*/
+  }
 `;
 
 const ContentContainer = styled.div`
