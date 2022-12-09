@@ -247,9 +247,9 @@ function LoginComponent() {
               <InputErrorMessageBoxPassword>
                 <InputErrorMessageBox>{isPassword === false ? <InputErrorMessage>{checkpassword === '' ? null : checkpassword}</InputErrorMessage> : <InputMessage>{checkpassword === '' ? null : checkpassword}</InputMessage>}</InputErrorMessageBox>
               </InputErrorMessageBoxPassword>
-              <InputErrorMessageBoxPassword>
+              {/* <InputErrorMessageBoxPassword>
                 <InputErrorMessageValid>{isPassword === false ? <InputErrorMessage>{checkvalid === '' ? null : checkvalid}</InputErrorMessage> : <InputMessage>{checkvalid === '' ? null : checkvalid}</InputMessage>}</InputErrorMessageValid>
-              </InputErrorMessageBoxPassword>
+              </InputErrorMessageBoxPassword> */}
             </ErrorMsgPreview>
             <PasswordViewButtonImg src={secret === false ? ViewPassword : HidePassword} onClick={onPreviewPW} />
           </PasswordContainer>
@@ -503,13 +503,14 @@ const PasswordContainer = styled.div`
 `;
 
 const AutoLoginContainer = styled.div`
-  width: 328px;
+  width: 280px;
   height: 32px;
   background-color: var(--white);
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 8px;
+  margin-top: -12px;
+  margin-right: 56px;
   gap: 4px;
   cursor: pointer;
 `;

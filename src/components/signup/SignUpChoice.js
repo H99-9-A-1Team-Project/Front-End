@@ -203,7 +203,7 @@ const AlreadyIdContainer = styled.div`
   position: relative;
 `;
 const AlreadyIdBox = styled.div`
-  width: 148px;
+  width: 160px;
   height: 20px;
   display: flex;
   align-items: center;

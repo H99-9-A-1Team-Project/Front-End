@@ -452,7 +452,7 @@ const WelcomeQuestionContainer = styled.div`
 `;
 
 const WelcomeQuestionbox = styled.div`
-  width: 183px;
+  width: 200px;
   height: 84px;
   background-color: var(--white);
   position: absolute;
