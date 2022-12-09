@@ -24,7 +24,7 @@ const StToastMessageLayout = styled.div`
   z-index: 1000;
   transform: ${(props) => (props.visible ? 'translateY(-96px)' : 'translateY(0)')};
   opacity: ${(props) => (props.visible ? '1' : '0')};
-  display: ${(props) => (props.visible ? 'flex' : 'none')};
+  /* display: ${(props) => (props.visible ? 'flex' : 'none')}; */
   transition: transform 1s;
   width: 236px;
   height: 52px;

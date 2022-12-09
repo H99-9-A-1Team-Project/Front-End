@@ -30,6 +30,7 @@ import PublicRoute from '../components/signup/publicRoute';
 import LoginPage from '../pages/LoginPage';
 import SignUpRealtorPage from '../pages/SignUpRealtorPage';
 import OnBoading from '../pages/OnBoading';
+import SignUpMemberPage from '../pages/SignUpMemberPage';
 
 export default function Router() {
   const [visible, setVisible] = useRecoilState(toastVisible);
@@ -64,6 +65,14 @@ export default function Router() {
               element={
                 <PublicRoute>
                   <SignUp />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/signup/member"
+              element={
+                <PublicRoute>
+                  <SignUpMemberPage />
                 </PublicRoute>
               }
             />
@@ -223,3 +232,4 @@ const App = styled.div`
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
 `;
+

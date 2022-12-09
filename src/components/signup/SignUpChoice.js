@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import pathLeft from '../../global/sources/Expand_left_light.svg';
 import { NextMem, NextTor, ChoiceMem, GoLogIn, ChangeSignUp, TextToast } from '../../store/store';
 import { useRecoilState } from 'recoil';
-import SignUpMember from './SignUpMember';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpChoice() {
@@ -37,7 +36,8 @@ function SignUpChoice() {
   // 메인페이지로 회귀
   const navigate = useNavigate();
   const onNextMemberPage = () => {
-    setNextMem(nextmem + 2);
+    navigate('/signup/member');
+    // setNextMem(nextmem + 2);
     setOpenSignUp(true);
     setChoiceBool(true);
 
@@ -64,39 +64,23 @@ function SignUpChoice() {
   return (
     <>
       <ChoiceContainer>
-        {opensignup === false || (nextmem === 0 && nexttor === 0 && goinglogin === 0) ? (
-          <>
-            <SignUpHeader>
-              <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
-              <SignUpTitle>회원가입</SignUpTitle>
-            </SignUpHeader>
-            <WelcomeQuestionContainer>
-              <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
-            </WelcomeQuestionContainer>
-            <ButtonContainer>
-              <ButtonStyle onClick={onNextMemberPage}>일반 사용자입니다.</ButtonStyle>
-            </ButtonContainer>
-            <ButtonContainer>
-              <ButtonStyle onClick={onNextRealtorPage}>공인중개사입니다.</ButtonStyle>
-            </ButtonContainer>
-            <BlankContainer></BlankContainer>
-            <AlreadyIdContainer>
-              <AlreadyIdBox onClick={onGoingLogIn}>이미 아이디가 있습니다</AlreadyIdBox>
-            </AlreadyIdContainer>
-          </>
-        ) : (
-          <>
-            <>
-              {choiceBool === true ? (
-                <>
-                  <ChoiceContainer>
-                    <SignUpMember />
-                  </ChoiceContainer>
-                </>
-              ) : null}
-            </>
-          </>
-        )}
+        <SignUpHeader>
+          <BackpageIconBox src={pathLeft} onClick={onGoingMainPage} />
+          <SignUpTitle>회원가입</SignUpTitle>
+        </SignUpHeader>
+        <WelcomeQuestionContainer>
+          <WelcomeQuestionbox>{welcometext}</WelcomeQuestionbox>
+        </WelcomeQuestionContainer>
+        <ButtonContainer>
+          <ButtonStyle onClick={onNextMemberPage}>일반 사용자입니다.</ButtonStyle>
+        </ButtonContainer>
+        <ButtonContainer>
+          <ButtonStyle onClick={onNextRealtorPage}>공인중개사입니다.</ButtonStyle>
+        </ButtonContainer>
+        <BlankContainer></BlankContainer>
+        <AlreadyIdContainer>
+          <AlreadyIdBox onClick={onGoingLogIn}>이미 아이디가 있습니다</AlreadyIdBox>
+        </AlreadyIdContainer>
       </ChoiceContainer>
     </>
   );
@@ -126,6 +110,7 @@ const SignUpHeader = styled.div`
   /* padding: 20px 16px; */
   gap: 8px;
   background-color: white;
+  border-bottom: 1px solid var(--gray6);
   cursor: pointer;
 `;
 

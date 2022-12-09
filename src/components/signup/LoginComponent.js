@@ -217,7 +217,7 @@ function LoginComponent() {
                   onBlur={onblurChange}
                   index="1"
                   style={{
-                    border: isEmail === false ? '1px solid #d14343 ' : '1px solid var(--gray6);',
+                    border: isEmail === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
                   }}
                 ></InputText>
               </InputTextBox>
@@ -237,7 +237,7 @@ function LoginComponent() {
                 index="2"
                 onKeyDown={(e) => onActiveEnter(e)}
                 style={{
-                  border: isPassword === false ? '1px solid #d14343 ' : '1px solid var(--gray6);',
+                  border: isPassword === false ? '1px solid #d14343 ' : '1px solid var(--gray6)',
                 }}
               ></InputText>
             </InputTextBox>
@@ -487,7 +487,7 @@ const PasswordViewButtonImg = styled.img`
   margin-top: 2px;
 `;
 const ErrorMsgPreview = styled.div`
-  width: 304px;
+  width: 328px;
   height: 24px;
   background-color: transparent;
   display: flex;
@@ -496,7 +496,7 @@ const ErrorMsgPreview = styled.div`
 `;
 
 const PasswordContainer = styled.div`
-  width: 304px;
+  width: 328px;
   height: 40px;
   display: flex;
   flex-direction: row;
