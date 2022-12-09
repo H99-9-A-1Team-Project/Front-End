@@ -10,6 +10,8 @@ import { FreeMode, Pagination } from 'swiper';
 import './carousel.css';
 
 export default function NewFootStepImg() {
+  const [perView, setPerview] = useState(0);
+  const [between, setBetween] = useState(0);
   const nfsImgEssential = useRecoilValue(nfsImgEssentialState);
   const [nfscPreviewImgData, setNfscPreviewImgData] = useRecoilState(nfsPreviewImgData);
   const [nfscImgData, setNfscImgData] = useRecoilState(nfsImgData);
@@ -53,7 +55,16 @@ export default function NewFootStepImg() {
       setNfscImgData([...nfscImgData, file]);
     };
   };
-
+  useEffect(() => {
+    if (window.innerWidth > 500) {
+      setPerview(2);
+      setBetween(-40);
+    }
+    if (window.innerWidth <= 500) {
+      setPerview(3.2);
+      setBetween(10);
+    }
+  }, []);
   return (
     <Container>
       <HeadlineBox>
@@ -67,8 +78,8 @@ export default function NewFootStepImg() {
       <ImgBox>
         <CarouselWrap>
           <Swiper
-            slidesPerView={2}
-            spaceBetween={-40}
+            slidesPerView={perView}
+            spaceBetween={between}
             freeMode={true}
             pagination={{
               clickable: true,
@@ -189,6 +200,9 @@ const CarouselWrap = styled.div`
   margin-bottom: 32px;
   overflow: hidden;
   z-index: 0;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const CarouselLi = styled.li`
@@ -197,6 +211,10 @@ const CarouselLi = styled.li`
   list-style: none;
   user-select: none;
   padding-right: 20px;
+  @media (max-width: 500px) {
+    width: 92%;
+    padding-right: 0px;
+  }
 `;
 
 const CreateCarosulItem = styled.img`

@@ -132,6 +132,10 @@ const StMyPageBodyWrap = styled.div`
     background-color: var(--primary2-100);
     padding: 16px;
     border-bottom: 1px solid var(--gray6);
+    @media (max-width: 500px) {
+      width: 100%;
+      box-sizing: border-box;
+    }
     .container-header {
       width: 100%;
       display: flex;

@@ -223,6 +223,10 @@ const TabBarContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: auto;
+  @media (max-width: 500px) {
+    width: 100%;
+    justify-content: space-around;
+  }
 `;
 
 const HomeContainer = styled.div`

@@ -185,13 +185,14 @@ function LoginComponent() {
       onSubmitLoginData();
     }
   };
-  const onSubmitLoginData = () => {
+  const onSubmitLoginData = (e) => {
+    e.preventDefault();
     emailLogin(loginData);
   };
 
   return (
     <>
-      <ChoiceContainer>
+      <ChoiceContainer onSubmit={onSubmitLoginData}>
         <SignUpHeader onClick={onGoingHome}>
           <BackpageIconBox src={pathLeft} />
           <SignUpTitle>로그인</SignUpTitle>
@@ -259,13 +260,7 @@ function LoginComponent() {
         <BlankContainer2></BlankContainer2>
         <GoingSignUp onClick={onGoingSignUp}>회원가입 하기</GoingSignUp>
         <ButtonContainer>
-          <ButtonStyle
-            type="submit"
-            disabled={isValidLogin}
-            onClick={() => {
-              onSubmitLoginData();
-            }}
-          >
+          <ButtonStyle type="submit" disabled={isValidLogin}>
             로그인
           </ButtonStyle>
         </ButtonContainer>
@@ -276,7 +271,7 @@ function LoginComponent() {
 
 export default LoginComponent;
 
-const ChoiceContainer = styled.div`
+const ChoiceContainer = styled.form`
   width: 360px;
   height: 100%;
   display: flex;

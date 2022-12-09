@@ -2,14 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Path from './source/rqhPath.png';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { rqInfo, requireAddress, rqDetailAddress } from '../../store/store';
 
 export default function RequestHeader() {
   const navigate = useNavigate();
-  const setRqhInfo = useSetRecoilState(rqInfo);
-  const setRqhAddress = useSetRecoilState(requireAddress);
-  const setRqhDetailAddress = useSetRecoilState(rqDetailAddress);
   const onBack = () => {
     navigate('/request');
   };
@@ -37,6 +32,9 @@ const HeaderContainer = styled.div`
   height: 64px;
   background: none;
   display: flex;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const HeaderPath = styled.img`

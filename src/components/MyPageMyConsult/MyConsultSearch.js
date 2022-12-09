@@ -109,6 +109,9 @@ const StMyConsultSearchLayout = styled.div`
   display: flex;
   justify-content: center;
   margin: 24px auto 8px auto;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .search {
     display: flex;
     flex-direction: row;
@@ -117,6 +120,12 @@ const StMyConsultSearchLayout = styled.div`
     height: 45px;
     border-radius: 8px;
     overflow: hidden;
+    @media (max-width: 500px) {
+      box-sizing: border-box;
+      margin-left: 16px;
+      margin-right: 16px;
+      width: 100%;
+    }
     input {
       border-radius: 2px;
       border: none;

@@ -348,6 +348,9 @@ const ContentBox1 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const ContentBox2 = styled.div`
@@ -358,6 +361,9 @@ const ContentBox2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const CheckBox = styled.div`
@@ -438,6 +444,9 @@ const MemoInputBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const MemoInput = styled.input`
@@ -469,4 +478,7 @@ const ImgStateLabel2 = styled.label`
   height: 24px;
   display: block;
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin-right: 8px;
+  }
 `;

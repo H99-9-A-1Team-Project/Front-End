@@ -240,6 +240,9 @@ const DetailAddressBox = styled.div`
   border: 1px solid var(--gray6);
   border-radius: 4px;
   background: none;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const DetailAddress = styled.div`
@@ -322,6 +325,9 @@ const CommentBox = styled.div`
   background: none;
   border: 1px solid var(--gray6);
   border-radius: 8px;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const CommentArea = styled.div`
@@ -337,10 +343,20 @@ const CommentArea = styled.div`
   cursor: default;
   margin-top: 16px;
   margin-left: 12px;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const BtnBox = styled.div`
   background: none;
+  margin-top: auto;
+  @media (max-width: 500px) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const SendBtn = styled.button`
@@ -359,4 +375,8 @@ const SendBtn = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  @media (max-width: 500px) {
+    margin: 0;
+    margin-bottom: 32px;
+  }
 `;

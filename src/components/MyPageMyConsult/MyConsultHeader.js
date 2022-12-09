@@ -22,6 +22,9 @@ const MyConsultHeaderLayout = styled.div`
   height: 64px;
   background-color: white;
   border-bottom: 1px solid var(--gray6);
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   .div1 {
     width: 100%;
     height: 100%;

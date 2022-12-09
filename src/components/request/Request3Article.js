@@ -78,6 +78,9 @@ const CommentBox = styled.div`
   background: none;
   border: 1px solid var(--gray6);
   border-radius: 8px;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const CommentArea = styled.textarea`
@@ -95,6 +98,12 @@ const BtnBox = styled.div`
   margin-left: 16px;
   margin-top: auto;
   background: none;
+  @media (max-width: 500px) {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0;
+  }
 `;
 const BackBtn = styled.button`
   width: 156px;

@@ -62,6 +62,9 @@ const InputBox = styled.div`
   height: 45.8px;
   border: 1px solid #edf0f3;
   border-radius: 8px;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const InputBox2 = styled.div`
@@ -71,6 +74,9 @@ const InputBox2 = styled.div`
   height: 45.5px;
   border: 1px solid #edf0f3;
   border-radius: 8px;
+  @media (max-width: 500px) {
+    width: 92%;
+  }
 `;
 
 const DataInput = styled.input`

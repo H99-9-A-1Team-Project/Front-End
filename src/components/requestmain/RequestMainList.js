@@ -22,8 +22,10 @@ export default function RequestList() {
               if (item.answerState === 'WAIT') {
                 return (
                   <ListContent key={item.id} onClick={() => navigate(`/myconsultdetail/${item.id}`)}>
-                    <MarkerImg src={RqLt_Marker} />
-                    <ContentText>{item.title}</ContentText>
+                    <div className="inner_box">
+                      <MarkerImg src={RqLt_Marker} />
+                      <ContentText>{item.title}</ContentText>
+                    </div>
                     <div className="answer-icon-0">대기중</div>
                   </ListContent>
                 );
@@ -58,7 +60,8 @@ export default function RequestList() {
 
 const RqListContainer = styled.div`
   width: 100%;
-  height: 328px;
+  min-height: 328px;
+  max-height: fit-content;
   display: flex;
   background-color: white;
   .answer-icon-0,
@@ -94,22 +97,35 @@ const RqListContainer = styled.div`
 
 const LastRequestContainer = styled.div`
   width: 335px;
-  height: 183px;
+  min-height: 183px;
+  max-height: fit-content;
   margin-top: 24px;
   margin-left: 12.5px;
   border: 1px solid var(--gray6);
   background: none;
   border-radius: 8px;
+  @media (max-width: 500px) {
+    width: 90%;
+    margin: 24px auto 0 auto;
+    padding-bottom: 0;
+  }
 `;
 
 const ListBox = styled.div`
   width: 303px;
-  height: 149px;
+  min-height: 149px;
+  max-height: fit-content;
   margin-top: 17px;
   margin-left: 16px;
   display: flex;
   flex-direction: column;
   background: none;
+  @media (max-width: 500px) {
+    box-sizing: border-box;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+  }
   .empty {
     width: 300px;
     height: 100px;
@@ -141,10 +157,21 @@ const ListContent = styled.div`
   height: 40px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin-top: 16px;
+  padding-bottom: 16px;
   background: none;
   cursor: pointer;
   border-bottom: 1px solid var(--gray6);
+  @media (max-width: 500px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .inner_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const MarkerImg = styled.img`

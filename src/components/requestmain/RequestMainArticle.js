@@ -90,14 +90,9 @@ export default function RequestArticle() {
       </HelpBox>
 
       <Modal visible={modalVisible} closable={true} maskClosable={true} setModalVisible={setModalVisible}>
-        <div className="modal_div">모든상담을 사용하였어요.</div>
-        <div className="modal_div_ment">등대지기를 애정해주셔서 감사합니다! </div>
-        <div className="modal_div_ment">현재 등대지기는 베타 서비스로</div>
-        <div className="modal_div_ment">2회 무료 상담 서비스를 제공하고 있습니다.</div>
-        <div className="modal_div_ment">추가 상담 서비스를 받고싶으시다면</div>
-        <div className="modal_div_ment">설문에 참여하시어 의견을 제시해주세요.</div>
-        <div className="modal_div_ment">반영하여 더 좋은 모습으로 찾아볼 수 있길</div>
-        <div className="modal_div_ment">바라겠습니다.</div>
+        <div className="modal_div">상담 횟수 2회를 모두 사용하셨습니다.</div>
+        <div className="modal_div">추가 상담을 원하시면 </div>
+        <div className="modal_div">관리자에게 문의해주세요.</div>
       </Modal>
     </RqArticleContainer>
   );
@@ -109,20 +104,14 @@ const RqArticleContainer = styled.div`
   width: 100%;
   height: 324px;
   background-color: var(--primary2-100);
+
   .modal_div {
     font-family: var(--headline-font-family);
     font-size: var(--headline_Medium-font-size);
     font-weight: var(--headline_Medium-font-weight);
     line-height: var(--headline_Medium-line-height);
     letter-spacing: var(--headline_Medium-letter-spacing);
-    margin-bottom: 20px;
-  }
-  .modal_div_ment {
-    font-family: var(--headline-font-family);
-    font-size: var(--body_Large-font-size);
-    font-weight: var(--body_Large-font-weight);
-    line-height: var(--body_Large-line-height);
-    letter-spacing: var(--body_Large-letter-spacing);
+    margin-top: 20px;
   }
 `;
 
@@ -146,6 +135,11 @@ const InfoContainer = styled.div`
   margin-left: 17px;
   border-radius: 8px;
   background-color: white;
+  @media (max-width: 500px) {
+    position: static;
+    margin: 24px auto;
+    height: 200px;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -262,6 +256,9 @@ const RequestBtn = styled.button`
   margin-top: 32px;
   margin-left: 24px;
   cursor: pointer;
+  @media (max-width: 500px) {
+    position: static;
+  }
 `;
 
 const RequestBtnPath = styled.img`
@@ -278,6 +275,13 @@ const HelpBox = styled.div`
   background: none;
   margin-top: 208px;
   margin-left: 214px;
+  @media (max-width: 500px) {
+    margin: 0;
+    width: 100%;
+    align-items: flex-end;
+    box-sizing: border-box;
+    padding-right: 16px;
+  }
   cursor: pointer;
   div {
     box-sizing: border-box;
@@ -294,6 +298,11 @@ const HelpBox = styled.div`
     height: 80px;
     right: 52px;
     bottom: 5px;
+    @media (max-width: 500px) {
+      position: static;
+      right: 0;
+      bottom: 0;
+    }
   }
 `;
 

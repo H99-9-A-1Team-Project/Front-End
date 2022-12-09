@@ -37,6 +37,9 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const Headline = styled.div`

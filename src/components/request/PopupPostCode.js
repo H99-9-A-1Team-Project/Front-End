@@ -3,11 +3,13 @@ import DaumPostcode from 'react-daum-postcode';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { requireAddress, rqInfo } from '../../store/store';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const PopupPostCode = (props) => {
   const [requPopAddress, setRequPopAddress] = useRecoilState(requireAddress);
   const [popRq1Info, setPopRq1Info] = useRecoilState(rqInfo);
-
+  const [viewPort, setViewPort] = useState('');
   const handlePostCode = (data) => {
     let address = '';
     if (data.userSelectedType === 'J') {
@@ -19,11 +21,19 @@ const PopupPostCode = (props) => {
     setPopRq1Info({ ...popRq1Info, title: requPopAddress });
     props.onClose();
   };
-
+  useEffect(() => {
+    if (window.innerWidth > 500) {
+      setViewPort('340px');
+    }
+    if (window.innerWidth <= 500) {
+      const width = window.innerWidth * 0.93;
+      setViewPort(`${width}px`);
+    }
+  }, []);
   const postCodeStyle = {
     display: 'flex',
     position: 'absolute',
-    width: '340px',
+    width: `${viewPort}`,
     height: '400px',
     left: '0px',
     padding: '7px',
@@ -54,6 +64,8 @@ const Container = styled.div`
   background: none;
   right: -336px;
   bottom: -500px;
+  @media (max-width: 500px) {
+  }
 `;
 
 const CloseBtn = styled.button`
@@ -66,4 +78,7 @@ const CloseBtn = styled.button`
   position: relative;
   cursor: pointer;
   background: none;
+  @media (max-width: 500px) {
+    left: 0;
+  }
 `;

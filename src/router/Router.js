@@ -86,7 +86,6 @@ export default function Router() {
               }
             />
             <Route path="request" element={<Request />} />
-            <Route path="mypage" element={<MyPage />} />
             <Route path="request1" element={<Request1 />} />
             <Route path="request2" element={<Request2 />} />
             <Route path="request3" element={<Request3 />} />
@@ -231,5 +230,7 @@ const App = styled.div`
   background-color: white;
   box-shadow: var(--Shadow3-box-shadow);
   z-index: 1;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
-
