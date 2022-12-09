@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import NoneState from './sources/none_circle.png';
 import OnState from './sources/on_circle.png';
 import NoneImg from './sources/none_img.png';
-import { ReactComponent as OnState2 } from '../../global/sources/Radio_check.svg';
-import { ReactComponent as NoneImg2 } from '../../global/sources/Radio_uncheck.svg';
 import OnImg from './sources/on_img.png';
 import imageCompression from 'browser-image-compression';
 import { useRecoilState, useRecoilValue } from 'recoil';

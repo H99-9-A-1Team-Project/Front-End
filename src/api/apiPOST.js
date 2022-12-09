@@ -32,6 +32,7 @@ export async function SendRequest(datas) {
 
 export async function SendNfsc(datas) {
   const data = await api.post('v1/premises', datas);
+  return data;
 }
 
 // 상담 답변 작성하기(이미지)
@@ -57,4 +58,3 @@ export async function DeleteUser(arg) {
   const res = await api.post('v1/user', arg);
   return res;
 }
-

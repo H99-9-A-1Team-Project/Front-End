@@ -16,7 +16,6 @@ import Modal from '../../global/components/Modal';
 
 function MainPageArticle() {
   const navigate = useNavigate();
-
   const setRecoilConsultNum = useSetRecoilState(consultNumber);
 
   const [info, setInfo] = useState(false);

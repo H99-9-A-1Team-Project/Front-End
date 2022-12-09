@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper';
+import { Pagination } from 'swiper';
 import slideImg1 from './sources/slide1.png';
 import slideImg2 from './sources/Slide2.png';
 

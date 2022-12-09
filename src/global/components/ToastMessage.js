@@ -11,6 +11,7 @@ export default function ToastMessage({ text }) {
       setTimeout(() => setVisible(false), 3000);
     }
   }, [visible]);
+  useEffect(() => {});
   return (
     <StToastMessageLayout visible={visible}>
       <div className="children">{text}</div>
@@ -19,7 +20,8 @@ export default function ToastMessage({ text }) {
 }
 const StToastMessageLayout = styled.div`
   position: relative;
-  left: 62px;
+  margin-left: auto;
+  margin-right: auto;
   bottom: 52px;
   z-index: 1000;
   transform: ${(props) => (props.visible ? 'translateY(-96px)' : 'translateY(0)')};
@@ -30,6 +32,7 @@ const StToastMessageLayout = styled.div`
   border-radius: 8px;
   background-color: rgba(37, 40, 43, 0.6);
   pointer-events: none;
+
   .children {
     width: 236px;
     height: 52px;

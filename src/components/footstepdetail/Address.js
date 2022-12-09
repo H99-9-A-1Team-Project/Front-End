@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MarkerImg from './sources/carouselmarker.png';
 import { useQuery } from '@tanstack/react-query';
-import { ReadPremisesList, ReadFootStep } from '../../api/apiGET';
+import { ReadFootStep } from '../../api/apiGET';
 import { useParams } from 'react-router-dom';
 export default function Address() {
   const { id } = useParams();

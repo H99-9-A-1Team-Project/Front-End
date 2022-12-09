@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { TabState } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
-import { ReadFootStep, ReadPremisesList } from '../../api/apiGET';
+import { ReadFootStep } from '../../api/apiGET';
 import path_down from './sources/path_down.png';
 import path_up from './sources/path_up.png';
 import Check_On from './sources/Check_On.png';
