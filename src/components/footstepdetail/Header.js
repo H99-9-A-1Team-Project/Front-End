@@ -10,7 +10,7 @@ export default function Header() {
       <PathImg
         src={leftPath}
         onClick={() => {
-          navigate(-1);
+          navigate('/footstepmain');
         }}
       />
       <Headline>발품기록</Headline>
