@@ -509,7 +509,7 @@ const AutoLoginContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: -16px;
+  margin-top: -12px;
   margin-right: 50px;
   gap: 4px;
   cursor: pointer;
