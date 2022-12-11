@@ -6,7 +6,7 @@ import rq1search from './source/rq1search.png';
 import { useState } from 'react';
 import PopupPostCode from './PopupPostCode';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { requireAddress, rqInfo, rqDetailAddress, consultNumber } from '../../store/store';
+import { requireAddress, rqInfo, rqDetailAddress, consultNumber, isLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Request1Article() {
@@ -18,6 +18,12 @@ export default function Request1Article() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [btnState, setBtnState] = useState(0);
   let geocoder = new kakao.maps.services.Geocoder();
+  const LoginState = useRecoilValue(isLogin);
+  useEffect(() => {
+    if (LoginState === false) {
+      navigate('/mypage');
+    }
+  });
   useEffect(() => {
     if (requAddress === '도로명 주소 검색' || rq1DetailAddress === '') {
       setBtnState(0);
