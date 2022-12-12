@@ -450,6 +450,7 @@ const ConsultDetailCommentLayout2 = styled.div`
       font-weight: var(--button_Large-font-weight);
       line-height: var(--button_Large-line-height);
       letter-spacing: var(--button_Large-letter-spacing);
+      cursor: pointer;
     }
   }
 `;
