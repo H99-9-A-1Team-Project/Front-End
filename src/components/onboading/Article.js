@@ -47,8 +47,8 @@ const ImgSlide = styled.div`
   margin-top: auto;
   @media (max-width: 500px) {
     width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    height: auto;
+    margin-left: 90px;
   }
 `;
 
@@ -68,6 +68,7 @@ const SlideImg = styled.img`
   width: 360px;
   height: 480px;
   @media (max-width: 500px) {
-    width: 90%;
+    width: 80%;
+    height: auto;
   }
 `;
