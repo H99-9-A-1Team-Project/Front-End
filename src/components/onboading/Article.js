@@ -48,7 +48,8 @@ const ImgSlide = styled.div`
   @media (max-width: 500px) {
     width: 80%;
     height: auto;
-    margin-left: 90px;
+    margin-left: 80px;
+    padding: 0px;
   }
 `;
 
