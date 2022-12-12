@@ -49,7 +49,7 @@ const ImgSlide = styled.div`
     width: 80%;
     height: auto;
     margin-left: 80px;
-    margin-top: 48px;
+    margin-top: auto;
     padding: 0px;
   }
 `;
