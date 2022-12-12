@@ -31,6 +31,7 @@ import LoginPage from '../pages/LoginPage';
 import SignUpRealtorPage from '../pages/SignUpRealtorPage';
 import OnBoading from '../pages/OnBoading';
 import SignUpMemberPage from '../pages/SignUpMemberPage';
+import NotFound from '../pages/NotFound';
 
 export default function Router() {
   const toasttext = useRecoilValue(TextToast);
@@ -102,6 +103,8 @@ export default function Router() {
             <Route path="/introduce" element={<IntroducePage />} />
             <Route path="/deleteid" element={<DeleteId />} />
             <Route path="/onboading" element={<OnBoading />} />
+            <Route path="/onboading" element={<OnBoading />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
           <MainPageSideBar />
           <ToastMessage text={toasttext} />
