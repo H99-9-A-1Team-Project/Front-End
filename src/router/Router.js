@@ -178,7 +178,7 @@ export default function Router() {
                 정규재
               </div>
             </div>
-            <div>BE {'\u00A0'}</div>
+            <div>UI/UX {'\u00A0'}</div>
             <div className="right_container_text_1">
               <div
                 className="link_tag"
