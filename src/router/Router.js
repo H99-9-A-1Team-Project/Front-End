@@ -39,6 +39,10 @@ export default function Router() {
   const onLinkto = () => {
     window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
   };
+
+  const onFooterLinkto = () => {
+    window.open('https://brunch.co.kr/@shg8234');
+  };
   return (
     <>
       <Container>
@@ -122,7 +126,14 @@ export default function Router() {
           <div className="right_container_text">
             <div className="right_container_text_1">FE 조병민 김성욱 김하나</div>
             <div className="right_container_text_2">BE 장경원 유은정 정규재</div>
-            <div className="right_container_text_1">UI/UX 손하영</div>
+            <div
+              className="right_container_text_1"
+              onClick={() => {
+                onFooterLinkto();
+              }}
+            >
+              UI/UX 손하영
+            </div>
           </div>
         </div>
       </Container>
@@ -215,7 +226,7 @@ const Container = styled.div`
       .right_container_text_1,
       .right_container_text_2 {
         margin-right: 16px;
-        cursor: default;
+        cursor: pointer;
       }
     }
   }
