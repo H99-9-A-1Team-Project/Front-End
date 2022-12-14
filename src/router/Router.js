@@ -36,8 +36,8 @@ import NotFound from '../pages/NotFound';
 export default function Router() {
   const toasttext = useRecoilValue(TextToast);
 
-  const onLinkto = () => {
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
+  const onLinkto = (arg) => {
+    window.open(arg);
   };
 
   const onFooterLinkto = () => {
@@ -117,22 +117,78 @@ export default function Router() {
           <div
             className="right_container_button"
             onClick={() => {
-              onLinkto();
+              onLinkto('https://docs.google.com/forms/d/e/1FAIpQLScBo334v9MmxoFzl_xJ74m51UTAuU_rVoAfheLlNXFZK_iCJA/viewform');
             }}
           >
             베타 서비스 설문 참여하기
             <img src={right_arrow} alt="" />
           </div>
           <div className="right_container_text">
-            <div className="right_container_text_1">FE 조병민 김성욱 김하나</div>
-            <div className="right_container_text_2">BE 장경원 유은정 정규재</div>
-            <div
-              className="right_container_text_1"
-              onClick={() => {
-                onFooterLinkto();
-              }}
-            >
-              UI/UX 손하영
+
+            <div className="right_container_text_1">
+              <div>FE</div>
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://github.com/merrybmc');
+                }}
+              >
+                조병민
+              </div>
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://github.com/ksu930');
+                }}
+              >
+                김성욱
+              </div>
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://github.com/superrookie8');
+                }}
+              >
+                김하나
+              </div>
+            </div>
+            <div className="right_container_text_2">
+              <div>BE</div>
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://github.com/Whylano');
+                }}
+              >
+                장경원
+              </div>
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://github.com/warmth424');
+                }}
+              >
+                유은정
+              </div>
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://github.com/kyujae-Jung');
+                }}
+              >
+                정규재
+              </div>
+            </div>
+            <div className="right_container_text_1">
+              <div
+                className="link_tag"
+                onClick={() => {
+                  onLinkto('https://brunch.co.kr/@shg8234');
+                }}
+              >
+                손하영
+              </div>
+
             </div>
           </div>
         </div>
@@ -225,10 +281,17 @@ const Container = styled.div`
       cursor: default;
       .right_container_text_1,
       .right_container_text_2 {
+        display: flex;
+        flex-direction: row;
         margin-right: 16px;
-        cursor: pointer;
+        gap: 4px;
+        cursor: default;
+
       }
     }
+  }
+  .link_tag {
+    cursor: pointer;
   }
 `;
 
