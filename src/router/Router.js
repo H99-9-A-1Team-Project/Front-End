@@ -124,7 +124,6 @@ export default function Router() {
             <img src={right_arrow} alt="" />
           </div>
           <div className="right_container_text">
-
             <div className="right_container_text_1">
               <div>FE</div>
               <div
@@ -179,6 +178,7 @@ export default function Router() {
                 정규재
               </div>
             </div>
+            <div>BE {'\u00A0'}</div>
             <div className="right_container_text_1">
               <div
                 className="link_tag"
@@ -188,7 +188,6 @@ export default function Router() {
               >
                 손하영
               </div>
-
             </div>
           </div>
         </div>
@@ -286,7 +285,6 @@ const Container = styled.div`
         margin-right: 16px;
         gap: 4px;
         cursor: default;
-
       }
     }
   }
