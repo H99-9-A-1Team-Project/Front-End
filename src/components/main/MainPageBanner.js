@@ -50,6 +50,8 @@ const BannerBox = styled.div`
     box-sizing: border-box;
     padding: 0 16px 0 16px;
     width: 100%;
+    height: auto;
+    margin-bottom: 40px;
   }
   .images {
     width: 328px;
@@ -77,6 +79,7 @@ const BannerImg1 = styled.img`
   cursor: pointer;
   @media (max-width: 500px) {
     width: 100%;
+    height: auto;
   }
 `;
 
@@ -87,5 +90,6 @@ const BannerImg2 = styled.img`
   cursor: pointer;
   @media (max-width: 500px) {
     width: 100%;
+    height: auto;
   }
 `;

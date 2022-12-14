@@ -113,12 +113,39 @@ function SignUpMember() {
   const onChangePassword = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
+    setPsValid(true);
     const passwordData = e.target.value;
     const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
-    if (expword.test(passwordData) === false) {
-      setCheckPassword('잘못된 비밀번호 형식입니다');
+    if (expword.test(passwordData) === true) {
+      setCheckPassword('알맞은 형식입니다 :)');
+      setCheckValid('');
+      setIsPassword(true);
+      setPsValid(true);
+    } else if (e.target.value === '') {
+      setCheckPassword('비밀번호를 입력하세요');
+      setIsPassword(false);
+      setPsValid(false);
+      setCheckValid('');
+    } else if (e.target.value !== '') {
+      setCheckPassword('');
+      setIsPassword(true);
+      setPsValid(true);
       setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
-      if (e.target.value === '') {
+    }
+  };
+
+  const onSignUpData = () => {
+    memberSignUp(loginData);
+  };
+
+  const onPasswordValid = () => {
+    const expword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$^&*-]).{8,}$/;
+    if (expword.test(loginData.password) === false) {
+      setCheckPassword('잘못된 비밀번호 형식입니다');
+      setTimeout(setCheckPassword, 1000);
+      setCheckValid('8-30자리 영대・소문자, 숫자, 특수문자 조합');
+
+      if (loginData.password === '') {
         setCheckPassword('빈칸을 채워주세요');
       }
       setIsPassword(false);
@@ -128,6 +155,7 @@ function SignUpMember() {
       setCheckValid('');
       setIsPassword(true);
       setPsValid(true);
+      onSignUpData();
     }
   };
 
@@ -184,7 +212,8 @@ function SignUpMember() {
 
   //회원가입 데이터 전송
   const onSubmitSignUpData = (e) => {
-    memberSignUp(loginData);
+    // memberSignUp(loginData);
+    onPasswordValid();
   };
   return (
     <>
@@ -408,23 +437,27 @@ const InputErrorMessageBox = styled.div`
   margin-bottom: 2px;
   display: flex;
   /* align-items: center; */
+  background-color: transparent;
 `;
 const InputErrorMessageValid = styled.div`
   width: 265px;
   height: 16px;
-  margin-top: 4px;
+  margin-top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  background-color: transparent;
 `;
 
 const InputErrorMessageBoxPassword = styled.div`
   width: 265px;
   height: 16px;
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: transparent;
 `;
 
 const InputMessage = styled.div`
@@ -457,7 +490,7 @@ const PasswordViewButtonImg = styled.img`
   height: 24px;
   background-color: var(--white);
   margin-right: 2px;
-  margin-top: 4px;
+  margin-top: 8px;
 `;
 
 const ErrorMsgPreview = styled.div`
@@ -514,3 +547,4 @@ const ButtonStyle = styled.button`
     color: var(--white);
   }
 `;
+

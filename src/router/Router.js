@@ -39,6 +39,10 @@ export default function Router() {
   const onLinkto = (arg) => {
     window.open(arg);
   };
+
+  const onFooterLinkto = () => {
+    window.open('https://brunch.co.kr/@shg8234');
+  };
   return (
     <>
       <Container>
@@ -120,6 +124,7 @@ export default function Router() {
             <img src={right_arrow} alt="" />
           </div>
           <div className="right_container_text">
+
             <div className="right_container_text_1">
               <div>FE</div>
               <div
@@ -183,6 +188,7 @@ export default function Router() {
               >
                 손하영
               </div>
+
             </div>
           </div>
         </div>
@@ -280,6 +286,7 @@ const Container = styled.div`
         margin-right: 16px;
         gap: 4px;
         cursor: default;
+
       }
     }
   }
