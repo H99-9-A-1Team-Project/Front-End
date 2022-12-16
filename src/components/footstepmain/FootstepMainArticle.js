@@ -47,7 +47,9 @@ export default function FootstepMainArticle() {
   const [between, setBeteen] = useState(0);
 
   const { data: searchData, mutate: searchMutate } = useMutation([], SearchFstMain, {
-    onSuccess: (response) => {},
+    onSuccess: (response) => {
+      console.log(response);
+    },
     onError: (response) => {},
   });
 
@@ -407,7 +409,7 @@ export default function FootstepMainArticle() {
                           }}
                         >
                           <CarouselBox viewport={viewport}>
-                            <CarouselImage src={CaroselImages} />
+                            <CarouselImage src={data.thumbnail} />
                             <CarouselRightBox>
                               <CarouselHeaderBox>
                                 {data.overLab === 1 ? <CarouselMarkerImg src={Marker_FootStep} /> : data.overLab === 2 ? <CarouselMarkerImg src={Marker_request} /> : data.overLab === 3 ? <CarouselMarkerImg src={Marker_All} /> : null}
