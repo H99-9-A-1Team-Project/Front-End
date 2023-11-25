@@ -33,17 +33,6 @@ SA : https://docs.google.com/spreadsheets/d/1JBQ1iAl9BINJq8oehd-nAWLhO557RTj0O0C
 
 ---
 
-## 📜목차     
-[1. 전체 프로젝트 개발기간 | Project Period](#-전체-프로젝트-개발기간--project-period)    
-[2. 아키텍쳐](#아키텍쳐)    
-[3. 기술정보](#기술정보)    
-[4. 기술적 의사결정](#기술적-의사결정)    
-[5. 주요 기능](#주요-기능)    
-[6. 트러블슈팅](#트러블슈팅)    
-[7. 팀원 소개](#팀원-소개)   
-
----
-
 ## :calendar: 전체 프로젝트 개발기간 | Project Period   
 
 :pushpin: 2022. 11.04 ~ 2022. 12.15    
